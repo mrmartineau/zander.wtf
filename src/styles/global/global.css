@@ -1,0 +1,37 @@
+:root {
+  color-scheme: light dark;
+  background-color: var(--bg);
+  font-size: var(--step-0);
+  line-height: 1.7;
+  color: var(--colour-text);
+}
+
+:root.dark {
+  color-scheme: dark;
+}
+
+.flow > * + * {
+  margin-block-start: var(--flow-space, 1em);
+}
+
+:is(h1, h2, h3, blockquote) {
+  --flow-space: 1.5em;
+}
+
+:is(h1, h2, h3) + * {
+  --flow-space: 0.5em;
+}
+
+.icon {
+  opacity: 0.6;
+}
+
+a {
+  transition: all 250ms ease-in-out;
+  text-decoration: none;
+}
+
+.zm-icon {
+  --icon-size: 1rem;
+  font-size: var(--icon-size);
+}

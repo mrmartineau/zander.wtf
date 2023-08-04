@@ -1,0 +1,16 @@
+.zm-enjoy {
+  ul {
+    padding: 0;
+    display: flex;
+    gap: var(--space-s);
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  li {
+    border: 1px solid;
+    border-radius: 50px;
+    flex-shrink: 0;
+    padding: var(--space-3xs) var(--space-s);
+  }
+}

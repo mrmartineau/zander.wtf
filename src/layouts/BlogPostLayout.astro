@@ -1,0 +1,31 @@
+---
+import type { CollectionEntry } from 'astro:content'
+import BaseLayout from './BaseLayout.astro'
+import PageHeader from '../components/PageHeader.astro'
+
+type Props = CollectionEntry<'blog'>['data']
+const { title, date, subtitle } = Astro.props
+---
+
+<BaseLayout title={title} subtitle={subtitle}>
+  <article class="zm-theFuckingContainer">
+    <PageHeader title={title} subtitle={subtitle} date={date} />
+
+    <div class="flow">
+      <slot />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  h1 {
+    font-size: var(--step-6);
+    font-variation-settings: 'wght' 900, 'wdth' 125, 'ital' 0;
+    line-height: 1;
+    margin-bottom: var(--space-s);
+  }
+
+  article .flow {
+    max-width: 65ch;
+  }
+</style>

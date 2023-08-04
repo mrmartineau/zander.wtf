@@ -1,50 +1,100 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import BlockAbout from '../components/BlockAbout.astro'
+import BlockBlog from '../components/BlockBlog.astro'
+import BlockLinks from '../components/BlockLinks.astro'
+import { SITE_TITLE } from '../consts'
+import BaseLayout from '../layouts/BaseLayout.astro'
 ---
 
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header title={SITE_TITLE} />
-		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This
-				template serves as a lightweight, minimally-styled starting point for anyone looking to build
-				a personal website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/pages/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to <a href="https://docs.astro.build/"
-					>read the docs
-				</a> or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out <a
-					href="https://github.com/Charca/astro-blog-template"
-					>astro-blog-template
-				</a> by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
-		</main>
-		<Footer />
-	</body>
-</html>
+<BaseLayout title={SITE_TITLE}>
+  <div class="zm-theFuckingContainer">
+    <h1 class="zm-intro">Hi! I’m <span>Zander</span>, I make websites</h1>
+
+    <div class="zm-block-grid">
+      <BlockAbout />
+      <BlockBlog />
+      <BlockLinks />
+      <!-- {%
+			include "components/block-movies.njk" %} {% include
+			"components/block-enjoy.njk" %} -->
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .zm-intro {
+    --avatarSize: min(10vw, 180px);
+    font-variation-settings: 'wght' 900, 'wdth' 75, 'ital' 0;
+    font-size: var(--step-6);
+    line-height: 0.9;
+    color: var(--colour-text);
+    margin-bottom: var(--space-l);
+    padding-top: var(--avatarSize);
+
+    span {
+      font-variation-settings: 'wght' 900, 'wdth' 125, 'ital' 0;
+      color: var(--colour-accent);
+      position: relative;
+      white-space: pre;
+
+      &::before,
+      &::after {
+        content: '';
+        background-position: center center;
+        background-size: cover;
+        transition: all 150ms ease-in-out;
+        transform: rotate(7deg);
+        position: absolute;
+        right: 0;
+        bottom: 100%;
+        width: var(--avatarSize);
+        /* border-radius: 50%; */
+        aspect-ratio: 1 / 1;
+        max-width: 180px;
+        /* Parallelogram */
+        clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%);
+        /* Heptagon */
+        /* clip-path: polygon(
+        50% 0%,
+        90% 20%,
+        100% 60%,
+        75% 100%,
+        25% 100%,
+        0% 60%,
+        10% 20%
+      ); */
+        /* Nonagan */
+        /* clip-path: polygon(
+        50% 0%,
+        83% 12%,
+        100% 43%,
+        94% 78%,
+        68% 100%,
+        32% 100%,
+        6% 78%,
+        0% 43%,
+        17% 12%
+      ); */
+      }
+
+      &::before {
+        background-image: url(/images/avatars/zm-avatar-4.jpg);
+      }
+      &::after {
+        background-image: url(/images/avatars/zm-avatar-1.jpg);
+        opacity: 0;
+      }
+      &:hover::before,
+      &:hover::after {
+        transform: rotate(12deg) scale(0.9);
+      }
+      &:hover::after {
+        opacity: 1;
+      }
+    }
+
+    @media screen and (min-width: 500px) {
+      font-size: var(--step-8);
+    }
+  }
+</style>

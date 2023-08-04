@@ -1,0 +1,55 @@
+---
+import type { BookmarkType } from '../fetching/links'
+
+interface Props {
+  type: BookmarkType
+}
+const { type } = Astro.props
+
+let icon = 'link-simple-horizontal'
+let label = 'Link'
+switch (type) {
+  case 'article':
+    icon = 'newspaper-clipping'
+    label = 'Article'
+    break
+  case 'video':
+    icon = 'video-camera'
+    label = 'Video'
+    break
+  case 'audio':
+    icon = 'headphones'
+    label = 'Audio'
+    break
+  case 'image':
+    icon = 'image'
+    label = 'Image'
+    break
+  case 'recipe':
+    icon = 'hamburger'
+    label = 'Recipe'
+    break
+  case 'document':
+    icon = 'files'
+    label = 'Document'
+    break
+  case 'product':
+    icon = 'barbell'
+    label = 'Product'
+    break
+  case 'game':
+    icon = 'game-controller'
+    label = 'Game'
+    break
+  case 'note':
+    icon = 'notepad'
+    label = 'Note'
+    break
+  case 'event':
+    icon = 'calendar'
+    label = 'Event'
+    break
+}
+---
+
+<i class={`ph-duotone ph-${icon} zm-icon`} aria-label={label}></i>

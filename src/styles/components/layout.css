@@ -1,0 +1,21 @@
+.zm-theFuckingContainer {
+  margin: 0 var(--space-m-l) var(--space-m-l);
+
+  @media screen and (min-width: 800px) {
+    margin: 0 10vw var(--space-m-l);
+  }
+}
+
+.zm-fullContainer {
+  padding: 0 var(--space-m-l);
+}
+
+.zm-contentContainer {
+  max-width: 65ch;
+  margin: 0 var(--space-m-l) var(--space-m-l);
+}
+
+.horizontalName {
+  color: var(--colour-text);
+  display: block;
+}

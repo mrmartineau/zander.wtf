@@ -1,0 +1,9 @@
+.zm-music-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.zm-music-item {
+  border-radius: 50%;
+}

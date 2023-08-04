@@ -1,0 +1,15 @@
+---
+title: Hire me
+date: 2023-09-02
+layout: ../layouts/MarkdownLayout.astro
+---
+
+I am a front-end specialist (but am comfortable across the entire stack) with over 15 years of experience across a range of business sectors; recently I worked in the financial, music and health sectors.
+
+I am passionate about user interface design, user experience and development, and I enjoy both the minutiae of UI design in Sketch, Figma etc and deploying designs at scale using design systems and component libraries.
+
+I believe technology is only a tool, and building great products requires a broad application of technologies that no one developer can master. That said, my core expertise is in the broader JavaScript ecosystem.
+
+I am proficient in web application design and engineering using React, Next.js, GraphQL, TypeScript, web standards and various other frameworks, libraries and tools (see more in the Highlights section below).
+
+I care about the impact I can have in your company, and the positive impact we’ll have together for the benefit of our users. Accessibility, inclusivity and performance are at the heart of what I do; what we create has to work for the greatest number of users.

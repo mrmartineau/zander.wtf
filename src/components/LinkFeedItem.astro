@@ -1,0 +1,69 @@
+---
+import type { Bookmark } from '../fetching/links'
+import Favicon from './Favicon.astro'
+import LinkType from './LinkType.astro'
+import ShortUrl from './ShortUrl.astro'
+
+type Props = Bookmark & {
+  isFeed?: boolean
+}
+
+const { url, type, tags, title, description, isFeed = false } = Astro.props
+---
+
+<div class:list={['zm-links-item', { 'zm-links-item--feed': isFeed }]}>
+  <a class="zm-links-item-link" href={url}>
+    {title}
+  </a>
+  {
+    isFeed && description ? (
+      <div class="zm-links-item-description">{description}</div>
+    ) : null
+  }
+  <div class="zm-links-item-tags flex gap-2 items-center">
+    {
+      url ? (
+        <>
+          <Favicon url={url} />
+          <ShortUrl url={url} />
+        </>
+      ) : null
+    }
+    {type ? <LinkType type={type} /> : null}
+
+    {
+      tags?.length
+        ? tags.map((tag) => {
+            if (tag !== 'zm:link') {
+              return <div class="zm-links-item-tag">#{tag}</div>
+            }
+          })
+        : null
+    }
+  </div>
+</div>
+
+<style>
+  .zm-links-item--feed {
+    --block-radius: 2rem;
+    --block-padding: var(--space-m-l);
+    border-radius: var(--block-radius);
+    background-color: var(--bg-block);
+    padding: var(--block-padding);
+
+    .zm-links-item-link {
+      font-size: var(--step-0);
+      line-height: 1.2;
+    }
+  }
+
+  .zm-links-item-description {
+    font-size: var(--step--1);
+    opacity: 0.6;
+  }
+
+  .zm-links-item-tags {
+    opacity: 0.7;
+    font-size: var(--step--2);
+  }
+</style>

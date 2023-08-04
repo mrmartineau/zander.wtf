@@ -1,0 +1,75 @@
+:root {
+  /* Colours */
+  --colour-yellow: #ffd200;
+  --colour-pink: hsl(334, 86%, 48%);
+  --colour-accent: var(--colour-reallyFuckingBright);
+  --notQuiteSoFuckingDarkSaturation: 25%;
+  --notQuiteSoFuckingDarkLightness: 15%;
+  --colour-blueNotQuiteSoFuckingDark: hsl(
+    214,
+    var(--notQuiteSoFuckingDarkSaturation),
+    var(--notQuiteSoFuckingDarkLightness)
+  );
+  --colour-tealNotQuiteSoFuckingDark: hsl(
+    193,
+    var(--notQuiteSoFuckingDarkSaturation),
+    var(--notQuiteSoFuckingDarkLightness)
+  );
+  --colour-purpleNotQuiteSoFuckingDark: hsl(
+    255,
+    var(--notQuiteSoFuckingDarkSaturation),
+    var(--notQuiteSoFuckingDarkLightness)
+  );
+  --colour-reallyFuckingDark: hsl(214 14% 10%);
+  --colour-notQuiteSoFuckingDark: hsl(214 14% 15%);
+  --colour-reallyFuckingBright: hsl(214 14% 100%);
+  --colour-notQuiteSoFuckingBright: hsl(214 14% 85%);
+  --bg: var(--colour-yellow);
+  --bg-nav-active: var(--bg-main);
+  --bg-block: hsl(49deg 100% 88% / 60%);
+  --colour-text: var(--colour-notQuiteSoFuckingDark);
+  --colour-text-inverse: var(--colour-notQuiteSoFuckingBright);
+  --bg-note-hover: var(--bg);
+  --border: #ddd;
+  --bg-code: var(--bg);
+  --bg-code-highlight: #f1f1f1;
+  --hr: #ddd;
+
+  /* Sizes */
+  --sidebar-width: 250px;
+
+  /* Fonts */
+  --font-hubot: Hubot Sans, system-ui, sans-serif;
+  --font-mona: Mona Sans, system-ui, sans-serif;
+  --font-sans: Hubot Sans, system-ui, sans-serif;
+  --font-mono: Comic Code, JetBrains Mono, SF Mono, Menlo, Monaco, Courier New,
+    monospace;
+  --font-headings: var(--font-mona);
+  --font-body: var(--font-hubot);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: var(--colour-reallyFuckingDark);
+    --bg-block: var(--colour-notQuiteSoFuckingDark);
+    --bg-code-highlight: #444;
+    --bg-nav-active: var(--bg-main);
+    --bg-note-hover: var(--bg);
+    --border: theme(colors.zinc.500);
+    --colour-text: var(--colour-reallyFuckingBright);
+    --colour-text-inverse: var(--colour-notQuiteSoFuckingDark);
+    --colour-accent: var(--colour-yellow);
+    --hr: #ddd;
+  }
+}
+
+.dark {
+  --bg: var(--colour-reallyFuckingDark);
+  --bg-code-highlight: #444;
+  --bg-nav-active: var(--bg-main);
+  --bg-note-hover: var(--bg);
+  --border: theme(colors.zinc.500);
+  --colour-text: var(--colour-reallyFuckingBright);
+  --colour-text-inverse: var(--colour-notQuiteSoFuckingDark);
+  --colour-accent: var(--colour-yellow);
+}

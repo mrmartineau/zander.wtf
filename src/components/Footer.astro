@@ -1,13 +1,33 @@
 ---
+import { SITE_FOOTER_ITEMS } from '../consts'
+
 const today = new Date()
 ---
 
 <footer>
-  &copy; {today.getFullYear()} Zander Martineau. All rights reserved.
+  &copy; {today.getFullYear()} Zander Martineau • 🏌️‍♂️ • 🚵‍♂️ • 🍖🔥 • 🥁 • 🧗
+  <nav class="flex align-center gap-xs justify-center">
+    {
+      SITE_FOOTER_ITEMS.map((item) => {
+        return (
+          <a href={item.url} rel={item.rel}>
+            {item.text}
+          </a>
+        )
+      })
+    }
+  </nav>
+
+  <div>This site is under construction.</div>
 </footer>
+
 <style>
   footer {
-    padding: 25px;
+    padding: var(--space-l);
     text-align: center;
+  }
+
+  div {
+    font-weight: bold;
   }
 </style>

@@ -1,0 +1,40 @@
+.zm-movies {
+  overflow: hidden;
+}
+.zm-movies-list {
+  position: relative;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+.zm-movie-item {
+  display: block;
+
+  &:hover {
+    z-index: 2;
+  }
+}
+.zm-movie-item--1 {
+  position: relative;
+  z-index: 1;
+  transform: scale(0.9);
+}
+.zm-movie-item--2 {
+  position: absolute;
+  transform: translateX(-70%) scale(0.7) rotate(-10deg);
+}
+.zm-movie-item--3 {
+  position: absolute;
+  transform: translateX(70%) scale(0.7) rotate(10deg);
+}
+
+.zm-movie-info {
+  position: absolute;
+  margin-top: 0.3rem;
+  top: 100%;
+  left: 0;
+  right: 0;
+}
+.zm-movie-image {
+  border-radius: 0.5rem;
+}

@@ -1,25 +1,51 @@
 ---
-import HeaderLink from './HeaderLink.astro';
-import { SITE_TITLE } from '../consts';
+import { SITE_NAV_ITEMS } from '../consts'
+import BigName from './BigName.astro'
+
+const pathname = new URL(Astro.request.url).pathname
 ---
 
 <header>
-	<h2>
-		{SITE_TITLE}
-	</h2>
-	<nav>
-		<HeaderLink href="/">Home</HeaderLink>
-		<HeaderLink href="/blog">Blog</HeaderLink>
-		<HeaderLink href="/about">About</HeaderLink>
-		<HeaderLink href="https://twitter.com/astrodotbuild" target="_blank">Twitter</HeaderLink>
-		<HeaderLink href="https://github.com/withastro/astro" target="_blank">GitHub</HeaderLink>
-	</nav>
+  <BigName />
+  <nav>
+    {
+      SITE_NAV_ITEMS.map((item) => {
+        return (
+          <a href={item.url} class={pathname === item.url ? 'active' : ''}>
+            {item.text}
+          </a>
+        )
+      })
+    }
+  </nav>
 </header>
+
 <style>
-	header {
-		margin: 0em 0 2em;
-	}
-	h2 {
-		margin: 0.5em 0;
-	}
+  header {
+    margin-bottom: 7vh;
+    margin-bottom: 7dvh;
+  }
+
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-top: 2vh;
+    margin-top: 2dvh;
+  }
+  a {
+    font-variation-settings: 'wght' 800, 'wdth' 125, 'ital' 0;
+    font-size: var(--step-1);
+    text-transform: uppercase;
+    padding: 0.1em 1em;
+    letter-spacing: 0.1em;
+    leading-trim: both;
+    text-edge: cap alphabetic;
+
+    &:hover,
+    &.active {
+      color: var(--colour-accent);
+      /* background-color: var(--colour-text); */
+    }
+  }
 </style>
