@@ -6,13 +6,22 @@ const today = new Date()
 ---
 
 <footer>
-  &copy; {today.getFullYear()} Zander Martineau
+  &copy; {today.getFullYear()} Zander Martineau • <a
+    href={`https://github.com/mrmartineau/zander.wtf/commit/${__COMMIT_HASH__}`}
+    class="commit-hash">#{__COMMIT_HASH__}</a
+  >
   <nav class="flex align-center gap-xs justify-center">
     {
       SITE_FOOTER_ITEMS.map((item) => {
         return (
           <a href={item.url} rel={item.rel}>
+            {item.icon ? (
+              <>
+                <i class={`ph-duotone ${item.icon}`} />{' '}
+              </>
+            ) : null}
             {item.text}
+            {item.external ? <i class="ph-duotone ph-arrow-up-right" /> : null}
           </a>
         )
       })
@@ -32,5 +41,9 @@ const today = new Date()
 
   div {
     font-weight: bold;
+  }
+
+  .commit-hash {
+    font-family: var(--font-mono);
   }
 </style>
