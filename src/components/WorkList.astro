@@ -14,7 +14,7 @@ const workList = limit ? JOBS.previous.slice(0, limit) : JOBS.previous
   <div class="zm-about-item">
     <span>Current</span>
     <div>
-      <a href="{ work.jobs.current.url | url }" class="flex gap-2">
+      <a href={JOBS.current.url} class="flex gap-2">
         {JOBS.current.name}
       </a>
       {

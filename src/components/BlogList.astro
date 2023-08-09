@@ -12,7 +12,7 @@ const { posts } = Astro.props
   {
     posts.map((post) => (
       <div class="zm-blog-item">
-        <a href={`/blog/${post.slug}/`}>{post.data.title}</a>
+        <a href={`/blog/${post.slug}`}>{post.data.title}</a>
         <div>
           <FormattedDate date={post.data.date} />
         </div>
