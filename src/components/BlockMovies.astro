@@ -1,0 +1,80 @@
+---
+import Block from './Block.astro'
+import { fetchMovies } from '../fetching/movies'
+
+const movies = await fetchMovies()
+---
+
+<Block class="zm-movies" title="🍿 Recently watched">
+  <div class="zm-movies-list">
+    {
+      movies.map((item, index) => {
+        if (item?.film?.image !== undefined) {
+          return (
+            <a class={`zm-movie-item zm-movie-item--${index}`} href={item.uri}>
+              <img
+                src={item?.film.image.large}
+                alt={item?.film.title}
+                class="zm-movie-image"
+              />
+              {item?.rating ? (
+                <div class="zm-movie-info">
+                  <div>{item.rating.text}</div>
+                </div>
+              ) : null}
+            </a>
+          )
+        }
+
+        return null
+      })
+    }
+  </div>
+  <a
+    href="https://letterboxd.com/mrmartineau/films/diary/"
+    class="zm-block-link">View all →</a
+  >
+</Block>
+
+<style>
+  .zm-movies {
+    overflow: hidden;
+  }
+  .zm-movies-list {
+    position: relative;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+  }
+  .zm-movie-item {
+    display: block;
+
+    &:hover {
+      z-index: 2;
+    }
+  }
+  .zm-movie-item--0 {
+    position: relative;
+    z-index: 1;
+    transform: scale(0.9);
+  }
+  .zm-movie-item--1 {
+    position: absolute;
+    transform: translateX(-70%) scale(0.7) rotate(-10deg);
+  }
+  .zm-movie-item--2 {
+    position: absolute;
+    transform: translateX(70%) scale(0.7) rotate(10deg);
+  }
+
+  .zm-movie-info {
+    position: absolute;
+    margin-top: 0.3rem;
+    top: 100%;
+    left: 0;
+    right: 0;
+  }
+  .zm-movie-image {
+    border-radius: 0.5rem;
+  }
+</style>

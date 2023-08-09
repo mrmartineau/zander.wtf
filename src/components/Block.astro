@@ -1,8 +1,8 @@
 ---
-const { title, subtitle } = Astro.props
+const { title, subtitle, class: className } = Astro.props
 ---
 
-<div class="zm-block">
+<div class:list={['zm-block', className]}>
   <header>
     <h3 class="zm-block-title">{title}</h3>
     <p class="zm-block-subtitle">
@@ -21,29 +21,26 @@ const { title, subtitle } = Astro.props
     --block-colour: var(--colour-text);
     color: var(--block-colour);
     border-radius: var(--block-radius);
-    /* border: 1px solid var(--block-bg); */
     background-color: var(--block-bg);
     padding: var(--block-padding);
 
-    header {
-      margin-block-end: var(--space-s);
+    a {
+      --colour: var(--colour-text-bright);
+      --colour-decoration: transparent;
     }
+  }
+
+  header {
+    margin-block-end: var(--space-s);
   }
 
   .zm-block-title {
     font-variation-settings: 'wght' 500;
     font-size: var(--step-1);
+    color: var(--colour-text-bright);
   }
 
   .zm-block-subtitle {
     margin-block-start: var(--space-3xs);
-    opacity: 0.6;
-  }
-
-  .zm-block-link {
-    font-variation-settings: 'wght' 500;
-    font-size: var(--step--1);
-    margin-top: var(--space-s);
-    display: block;
   }
 </style>

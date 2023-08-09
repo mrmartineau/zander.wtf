@@ -1,0 +1,71 @@
+---
+import { JOBS } from '../consts'
+
+type Props = {
+  limit?: number
+  showDetail?: boolean
+}
+const { limit, showDetail } = Astro.props
+
+const workList = limit ? JOBS.previous.slice(0, limit) : JOBS.previous
+---
+
+<div class="zm-about-items">
+  <div class="zm-about-item">
+    <span>Current</span>
+    <div>
+      <a href="{ work.jobs.current.url | url }" class="flex gap-2">
+        {JOBS.current.name}
+      </a>
+      {
+        JOBS.current.description ? (
+          <div class="zm-about-description">{JOBS.current.description}</div>
+        ) : null
+      }
+    </div>
+  </div>
+  <div class="zm-about-item">
+    <span>Previous</span>
+    <div>
+      {
+        workList.map((job, index) => {
+          return (
+            <>
+              <a href={job.url}>{job.name}</a>
+              {index < JOBS.previous.length - 1 ? <>·</> : null}
+            </>
+          )
+        })
+      }
+    </div>
+  </div>
+</div>
+
+<style>
+  /* .zm-about {
+    --block-bg: var(--colour-tealNotQuiteSoFuckingDark);
+  } */
+
+  .zm-about-items {
+    display: flex;
+    gap: var(--space-xs);
+    flex-direction: column;
+  }
+
+  .zm-about-item {
+    display: flex;
+    column-gap: var(--space-2xs);
+    row-gap: var(--space-3xs);
+
+    span {
+      flex-shrink: 0;
+      width: 5rem;
+      font-feature-settings: 'calt' 1, 'liga' 1, 'rlig' 1, 'rvrn' 1, 'kern' 1,
+        'rclt' 1, 'tnum' 1;
+    }
+  }
+
+  .zm-about-description {
+    font-size: var(--step--2);
+  }
+</style>

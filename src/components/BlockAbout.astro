@@ -1,72 +1,12 @@
 ---
-import { ABOUT_ME, JOBS } from '../consts'
+import { ABOUT_ME } from '../consts'
 import Block from './Block.astro'
+import WorkList from './WorkList.astro'
 ---
 
 <Block class="zm-about" title="About me" subtitle={ABOUT_ME.bio}>
-  <div class="zm-about-items">
-    <div class="zm-about-item">
-      <span>Current</span>
-      <div>
-        <a href="{ work.jobs.current.url | url }" class="flex gap-2">
-          {JOBS.current.name}
-        </a>
-        {
-          JOBS.current.description ? (
-            <div class="zm-about-description">{JOBS.current.description}</div>
-          ) : null
-        }
-      </div>
-    </div>
-    <div class="zm-about-item">
-      <span>Previous</span>
-      <div>
-        {
-          JOBS.previous.map((job, index) => {
-            return (
-              <>
-                <a href={job.url}>{job.name}</a>
-                {index < JOBS.previous.length - 1 ? <>·</> : null}
-              </>
-            )
-          })
-        }
-      </div>
-    </div>
-  </div>
-  <a href={ABOUT_ME.cv} class="zm-block-link">View my CV →</a>
+  <WorkList />
+
+  <a href="/hire-me" class="zm-block-link">Hire me →</a>
+  <a href={ABOUT_ME.cv} class="zm-block-link">View my full CV →</a>
 </Block>
-
-<style>
-  .zm-about {
-    --block-bg: var(--colour-tealNotQuiteSoFuckingDark);
-  }
-
-  .zm-about-items {
-    display: flex;
-    gap: var(--space-xs);
-    flex-direction: column;
-  }
-
-  .zm-about-item {
-    /* span {
-      margin-right: var(--space-2xs);
-    } */
-    display: flex;
-    column-gap: var(--space-2xs);
-    row-gap: var(--space-3xs);
-
-    span {
-      flex-shrink: 0;
-      width: 5rem;
-      opacity: 0.7;
-      font-feature-settings: 'calt' 1, 'liga' 1, 'rlig' 1, 'rvrn' 1, 'kern' 1,
-        'rclt' 1, 'tnum' 1;
-    }
-  }
-
-  .zm-about-description {
-    opacity: 0.7;
-    font-size: var(--step--2);
-  }
-</style>

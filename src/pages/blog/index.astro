@@ -2,7 +2,6 @@
 import { getCollection } from 'astro:content'
 import BaseLayout from '../../layouts/BaseLayout.astro'
 import BlogList from '../../components/BlogList.astro'
-import PageTitle from '../../components/PageTitle.astro'
 import PageHeader from '../../components/PageHeader.astro'
 
 const posts = (await getCollection('blog')).sort(

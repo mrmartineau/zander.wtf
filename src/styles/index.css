@@ -8,18 +8,11 @@
 
 @import 'tailwindcss/components';
 
-@import 'components/block-enjoy.css';
-@import 'components/block-grid.css';
-@import 'components/block-links.css';
-@import 'components/block-movies.css';
 @import 'components/block-music.css';
 @import 'components/block-tvshows.css';
-@import 'components/block.css';
 @import 'components/code.css';
 @import 'components/copy.css';
-@import 'components/forms.css';
 @import 'components/layout.css';
-@import 'components/main.css';
 @import 'components/prism.css';
 
 @import 'utilities/hidden.css';

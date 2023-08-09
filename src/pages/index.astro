@@ -1,7 +1,10 @@
 ---
 import BlockAbout from '../components/BlockAbout.astro'
 import BlockBlog from '../components/BlockBlog.astro'
+import BlockHobbies from '../components/BlockHobbies.astro'
 import BlockLinks from '../components/BlockLinks.astro'
+import BlockMovies from '../components/BlockMovies.astro'
+import BlockProjects from '../components/BlockProjects.astro'
 import { SITE_TITLE } from '../consts'
 import BaseLayout from '../layouts/BaseLayout.astro'
 ---
@@ -14,6 +17,9 @@ import BaseLayout from '../layouts/BaseLayout.astro'
       <BlockAbout />
       <BlockBlog />
       <BlockLinks />
+      <BlockProjects />
+      <BlockMovies />
+      <BlockHobbies />
       <!-- {%
 			include "components/block-movies.njk" %} {% include
 			"components/block-enjoy.njk" %} -->
@@ -24,10 +30,11 @@ import BaseLayout from '../layouts/BaseLayout.astro'
 <style>
   .zm-intro {
     --avatarSize: min(10vw, 180px);
+    font-family: var(--font-mona);
     font-variation-settings: 'wght' 900, 'wdth' 75, 'ital' 0;
     font-size: var(--step-6);
     line-height: 0.9;
-    color: var(--colour-text);
+    color: var(--colour-text-bright);
     margin-bottom: var(--space-l);
     padding-top: var(--avatarSize);
 
@@ -96,5 +103,19 @@ import BaseLayout from '../layouts/BaseLayout.astro'
     @media screen and (min-width: 500px) {
       font-size: var(--step-8);
     }
+  }
+
+  .zm-block-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--space-l);
+
+    @media screen and (min-width: 700px) {
+      grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    }
+
+    /* & + & {
+    margin-top: var(--space-m-l);
+  } */
   }
 </style>

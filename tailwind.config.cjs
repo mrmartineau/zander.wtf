@@ -22,11 +22,11 @@ module.exports = {
         DEFAULT: {
           css: {
             fontSize: 'var(--step-0)',
-            a: {
-              '&:hover': {
-                color: 'var(--colour-accent)',
-              },
-            },
+            // a: {
+            //   '&:hover': {
+            //     color: 'var(--colour-accent)',
+            //   },
+            // },
           },
         },
       },

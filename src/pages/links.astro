@@ -10,18 +10,16 @@ const links = await fetchLinks()
   title="Links"
   subtitle="The top links from my Otter bookmarking app"
 >
-  <div class="zm-theFuckingContainer">
-    <div class="zm-links-feed">
-      {
-        links.map((item) => {
-          if (!item?.title) {
-            return null
-          }
+  <div class="zm-links-feed">
+    {
+      links.map((item) => {
+        if (!item?.title) {
+          return null
+        }
 
-          return <LinkFeedItem {...item} isFeed={true} />
-        })
-      }
-    </div>
+        return <LinkFeedItem {...item} isFeed={true} />
+      })
+    }
   </div>
 </PageLayout>
 

@@ -94,7 +94,7 @@ In [programming](https://en.wikipedia.org/wiki/Computer_programming), the **rule
 
 ### Heisenbug
 
-In [computer programming](https://en.wikipedia.org/wiki/Computer_programming) jargon, a **heisenbug** is a[software bug](https://en.wikipedia.org/wiki/Software_bug) that seems to disappear or alter its behaviour when one attempts to study it. [[1]](https://en.wikipedia.org/wiki/Heisenbug#cite_note-jarhei-1)The term is a [pun](https://en.wikipedia.org/wiki/Pun) on the name of [Werner Heisenberg](https://en.wikipedia.org/wiki/Werner_Heisenberg), the [physicist](https://en.wikipedia.org/wiki/Physicist) who first asserted the [observer effect](<https://en.wikipedia.org/wiki/Observer_effect_(physics)>) of [quantum mechanics](https://en.wikipedia.org/wiki/Quantum_mechanics), which states that the act of observing a system inevitably alters its state.
+In [computer programming](https://en.wikipedia.org/wiki/Computer_programming) jargon, a **heisenbug** is a [software bug](https://en.wikipedia.org/wiki/Software_bug) that seems to disappear or alter its behaviour when one attempts to study it. [[1]](https://en.wikipedia.org/wiki/Heisenbug#cite_note-jarhei-1) The term is a [pun](https://en.wikipedia.org/wiki/Pun) on the name of [Werner Heisenberg](https://en.wikipedia.org/wiki/Werner_Heisenberg), the [physicist](https://en.wikipedia.org/wiki/Physicist) who first asserted the [observer effect](<https://en.wikipedia.org/wiki/Observer_effect_(physics)>) of [quantum mechanics](https://en.wikipedia.org/wiki/Quantum_mechanics), which states that the act of observing a system inevitably alters its state.
 
 [Wikipedia link](https://en.wikipedia.org/wiki/Heisenbug)
 

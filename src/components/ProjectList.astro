@@ -1,0 +1,64 @@
+---
+import { SIDE_PROJECTS } from '../consts'
+
+type Props = {
+  limit?: number
+  showSubitems?: boolean
+}
+const { limit, showSubitems = true } = Astro.props
+
+const projectList = limit ? SIDE_PROJECTS.slice(0, limit) : SIDE_PROJECTS
+---
+
+<div class="zm-project-items">
+  {
+    projectList.map(({ name, description, link, tech, subitems }) => (
+      <div class="zm-project-item">
+        <div class="name">{link ? <a href={link}>{name}</a> : name}</div>
+
+        <div class="description">{description}</div>
+
+        {tech ? <div class="tech">{tech}</div> : null}
+        {subitems?.length && showSubitems ? (
+          <ul>
+            {subitems.map((subitem) => {
+              return (
+                <li>
+                  <a href={subitem.link}>{subitem.name}</a>
+                  <div>{subitem.description}</div>
+                </li>
+              )
+            })}
+          </ul>
+        ) : null}
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  .zm-project-items {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+  .name {
+    color: var(--colour-text-bright);
+    font-size: var(--step-0);
+  }
+  .description {
+    font-size: var(--step--1);
+  }
+  .tech {
+    font-size: var(--step--1);
+  }
+
+  .tag {
+    font-size: var(--step--2);
+    font-variation-settings: 'wght' 400, 'wdth' 100, 'ital' 0;
+    text-transform: uppercase;
+    padding: var(--space-3xs) var(--space-3xs);
+    background-color: var(--tag);
+    border-radius: var(--space-4xs);
+  }
+</style>

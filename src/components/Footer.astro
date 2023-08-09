@@ -1,11 +1,12 @@
 ---
 import { SITE_FOOTER_ITEMS } from '../consts'
+import BigName from './BigName.astro'
 
 const today = new Date()
 ---
 
 <footer>
-  &copy; {today.getFullYear()} Zander Martineau • 🏌️‍♂️ • 🚵‍♂️ • 🍖🔥 • 🥁 • 🧗
+  &copy; {today.getFullYear()} Zander Martineau
   <nav class="flex align-center gap-xs justify-center">
     {
       SITE_FOOTER_ITEMS.map((item) => {
@@ -18,12 +19,14 @@ const today = new Date()
     }
   </nav>
 
-  <div>This site is under construction.</div>
+  <p>🚧 This site is under construction. 🚧</p>
 </footer>
+
+<BigName orientation="top" class="mt-l" />
 
 <style>
   footer {
-    padding: var(--space-l);
+    padding: var(--space-l) var(--space-l) 0;
     text-align: center;
   }
 

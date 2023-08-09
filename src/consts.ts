@@ -1,41 +1,30 @@
-// Place any global data in this file.
-// You can import this data from anywhere in your site by using the `import` keyword.
-
 export const SITE_TITLE = 'My personal website.'
 export const SITE_DESCRIPTION = 'Welcome to my website!'
-
-export const SITE_META = {
-  title: 'Code Notes',
-  showTitleInSidebar: false,
-  description: 'TILs, snippets—my digital code garden 🌱. By Zander Martineau',
-  lang: 'en',
-  siteUrl: 'https://zander.wtf',
-}
-
-export const SITE_FEED = {
-  // used in feed.xml.njk
-  subtitle: 'TILs, snippets—my digital code garden 🌱. By Zander Martineau',
-  filename: 'atom.xml',
-  path: '/atom.xml',
-  id: 'https://zander.wtf/',
-}
 
 export const SITE_NAV_ITEMS = [
   {
     text: 'Home',
     url: '/',
+    path: '',
   },
   {
     text: 'Blog',
     url: '/blog',
+    path: 'blog',
   },
+  // {
+  //   text: 'Projects',
+  //   url: '/projects',
+  // },
   {
     text: 'Links',
     url: '/links',
+    path: 'links',
   },
   {
     text: 'Hire me',
     url: '/hire-me',
+    path: 'hire-me',
   },
 ]
 
@@ -137,60 +126,108 @@ export const JOBS = {
   ],
 }
 
-export const sideProjects = [
+export type Project = {
+  name: string
+  description: string
+  link?: string
+  status: 'active' | 'archived' | 'inactive' | 'ongoing'
+  tech?: string
+  published?: 'private' | 'public'
+  subitems?: { name: string; description?: string; link?: string }[]
+}
+
+export const SIDE_PROJECTS: Project[] = [
   {
     name: 'Journal',
-    description: 'Personal bookmarking app',
+    description: 'Journalling app',
+    link: 'https://github.com/mrmartineau/journal',
     status: 'active',
+    tech: 'SvelteKit, TypeScript, A.I. powered text improvements',
   },
   {
     name: 'Otter',
     description: 'Personal bookmarking app',
+    link: 'https://github.com/mrmartineau/Otter',
     status: 'active',
+    published: 'private',
+    tech: 'React, Next.js, TypeScript, Postgres and authentication (powered by Supabase), Tailwind',
   },
   {
     name: 'Raycast extensions',
-    description: 'A collection of Raycast extensions',
-    status: 'active',
+    description:
+      'A collection of Raycast extensions for personal and public use. Some are published to the Raycast store.',
+    link: 'https://github.com/mrmartineau/raycast-extensions',
+    status: 'ongoing',
+    subitems: [
+      {
+        name: 'Search npm Packages',
+        description: 'Search and favouriting for npm packages',
+        link: 'https://www.raycast.com/mrmartineau/search-npm',
+      },
+      {
+        name: 'GitHub Stars',
+        description: 'Display and filter your recent GitHub stars',
+        link: 'https://www.raycast.com/mrmartineau/search-github-stars',
+      },
+      {
+        name: 'Otter',
+        description:
+          'View, search and add for my Otter bookmarking project. Not published to the store yet.',
+        link: 'https://github.com/mrmartineau/raycast-extensions/tree/main/otter',
+      },
+      {
+        name: 'Code Notes Search',
+        description:
+          'Search my code notes with Algolia Not published to the store yet.',
+        link: 'https://github.com/mrmartineau/raycast-extensions/tree/main/code-notes-search',
+      },
+    ],
   },
   {
     name: 'Code Notes',
     description: 'TILs, snippets—my digital code garden 🌱',
-    repo: 'https://github.com/mrmartineau/notes.zander.wtf',
+    link: 'https://github.com/mrmartineau/notes.zander.wtf',
+    status: 'active',
+    tech: 'Eleventy, Nunjucks, TypeScript, PostCSS, Algolia search',
+  },
+  {
+    name: 'Rigel VS Code theme',
+    description: 'Port of Rigel theme for VS Code',
+    link: 'https://github.com/mrmartineau/rigel-vscode',
     status: 'active',
   },
   {
     name: 'Code Notes (Gatsby Theme)',
     description: 'Gatsby theme for your digital garden (archived)',
-    repo: 'https://github.com/mrmartineau/gatsby-theme-code-notes',
+    link: 'https://github.com/mrmartineau/gatsby-theme-code-notes',
     status: 'archived',
+    tech: 'Gatsby, MDX, TypeScript, Theme UI',
   },
   {
     name: 'Design System Utils',
     description:
       'Design System Utils is a micro framework that standardises your design-system and provide helpful utilities to access its information. It can be used with styled-components, emotion, glamorous or any other CSS-in-JS framework.',
-    repo: 'https://github.com/mrmartineau/design-system-utils',
+    link: 'https://github.com/mrmartineau/design-system-utils',
     status: 'inactive',
   },
   {
     name: 'prismic-reactjs-custom',
     description:
       'This is an opinionated fork of prismic-reactjs that allows you to use custom React components instead of standard HTML tags.',
-    repo: 'https://github.com/mrmartineau/prismic-reactjs-custom',
+    link: 'https://github.com/mrmartineau/prismic-reactjs-custom',
     status: 'inactive',
   },
   {
     name: 'Kickoff',
     description:
-      'Kickoff is a lightweight, flexible and robust Sass-based front-end framework that is a great starting point for any web site. Developed for projects at TMW, but it grew way beyond internal projects into something that many other companies and developers use on projects of all sizes.      ',
-    repo: 'https://trykickoff.com',
+      'Kickoff is a lightweight, flexible and robust Sass-based front-end framework that is a great starting point for any web site. Developed for projects at TMW, but it grew way beyond internal projects into something that many other companies and developers use on projects of all sizes.',
+    link: 'https://trykickoff.com',
     status: 'inactive',
   },
   {
     name: 'trak.js',
-    description:
-      'Kickoff is a lightweight, flexible and robust Sass-based front-end framework that is a great starting point for any web site. Developed for projects at TMW, but it grew way beyond internal projects into something that many other companies and developers use on projects of all sizes.      ',
-    repo: 'https://trykickoff.com',
+    description: 'Universal analytics event tracking API wrapper',
+    link: 'https://github.com/mrmartineau/trak.js',
     status: 'inactive',
   },
 ]

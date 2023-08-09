@@ -10,18 +10,6 @@
   color-scheme: dark;
 }
 
-.flow > * + * {
-  margin-block-start: var(--flow-space, 1em);
-}
-
-:is(h1, h2, h3, blockquote) {
-  --flow-space: 1.5em;
-}
-
-:is(h1, h2, h3) + * {
-  --flow-space: 0.5em;
-}
-
 .icon {
   opacity: 0.6;
 }

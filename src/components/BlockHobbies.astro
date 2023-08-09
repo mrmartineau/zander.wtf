@@ -1,0 +1,33 @@
+---
+import Block from './Block.astro'
+---
+
+<Block title="A few things I enjoy">
+  <ul class="hobbies">
+    <li>🏌️‍♂️ Golf</li>
+    <li>🚵‍♂️ Mountain biking</li>
+    <li>💖 Salted Caramel</li>
+    <li>🍕 Making Pizza</li>
+    <li>🍖🔥 BBQ</li>
+    <li>🥁 Drums</li>
+    <li>🍿 Movies</li>
+  </ul>
+</Block>
+
+<style>
+  .hobbies {
+    padding: 0;
+    display: flex;
+    gap: var(--space-s);
+    align-items: center;
+    flex-wrap: wrap;
+    color: var(--colour-text-bright);
+  }
+
+  li {
+    border: 1px solid;
+    border-radius: 50px;
+    flex-shrink: 0;
+    padding: var(--space-3xs) var(--space-s);
+  }
+</style>
