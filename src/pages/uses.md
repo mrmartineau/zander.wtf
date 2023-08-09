@@ -297,7 +297,7 @@ A copy of my `settings.json` can be found [here](https://gist.github.com/mrmarti
 
 #### [Raycast](https://raycast.com/)
 
-I use it in nearly every aspect of my work. I use it for searching the net with its custom web searches (e.g. npm, JIRA, bundlephobia, MDN and many more); searching npm with the [npm extension](https://www.raycast.com/mrmartineau/search-npm) (that I created) workflow and loads more. It truly is a massive productivity booster.
+I use it in nearly every aspect of my work. I use it for searching the web with its custom web searches (e.g. npm, JIRA, bundlephobia, MDN and many more); searching npm with the [npm extension](https://www.raycast.com/mrmartineau/search-npm) (that I created) workflow and loads more. It truly is a massive productivity booster.
 
 FYI I also created the [GitHub Stars extension](https://www.raycast.com/mrmartineau/search-github-stars).
 
@@ -338,8 +338,8 @@ A cloud-based private DNS service that gives you full control over what is allow
 - [iStat Menus](https://bjango.com/mac/istatmenus/): Monitor and display pretty much everything in my Mac's menubar
 - [Shottr](https://shottr.cc) - Shottr is a small, fast, human-sized screenshot app built for those who care about pixels. It was crafted with Swift, optimized for M1, and is completely free at the moment.
 - [AudioSwitcher](https://apps.apple.com/gb/app/audioswitcher/id561712678) - AudioSwitcher is a menu bar that allows you to switch quickly between all available input and output devices.
-- [Rocket Typist](https://witt-software.com/rockettypist/) - Text snippets
-- [Mumu X](https://getmumu.com) - AI driven emoji picker
+- [Mumu X](https://getmumu.com) - AI driven emoji picker. Even though Raycast has a brilliant emoji picker, I use this one when I'm not sure what emoji I want to use.
+- [Vivid](https://www.getvivid.app/) - Double brightness system-wide
 
 This page is featured on [uses.tech](https://uses.tech/). If you're reading this and want to see others like it, head on over there to find out more.
 
