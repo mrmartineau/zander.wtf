@@ -30,11 +30,6 @@ export const SITE_NAV_ITEMS = [
 
 export const SITE_FOOTER_ITEMS = [
   {
-    text: 'Notes ↗',
-    url: 'https://notes.zander.wtf',
-    external: true,
-  },
-  {
     text: 'Colophon',
     url: '/colophon',
   },
@@ -43,21 +38,30 @@ export const SITE_FOOTER_ITEMS = [
     url: '/uses',
   },
   {
+    text: 'Code Notes',
+    url: 'https://notes.zander.wtf',
+    external: true,
+  },
+  {
     text: 'GitHub',
     url: 'https://github.com/mrmartineau',
+    external: true,
   },
   {
     text: 'Mastodon',
     url: 'https://toot.cafe/@zander',
     rel: 'me',
+    external: true,
   },
   {
     text: 'CV',
     url: 'https://read.cv/mrmartineau',
+    external: true,
   },
   {
     text: 'RSS',
     url: '/atom.xml',
+    icon: 'ph-rss-simple',
   },
 ]
 
@@ -139,14 +143,15 @@ export type Project = {
 export const SIDE_PROJECTS: Project[] = [
   {
     name: 'Journal',
-    description: 'Journalling app',
+    description:
+      'Personal journalling app built to help me start writing more. Open source.',
     link: 'https://github.com/mrmartineau/journal',
     status: 'active',
-    tech: 'SvelteKit, TypeScript, A.I. powered text improvements',
+    tech: 'SvelteKit, TypeScript, A.I. powered text improvements, Postgres and authentication (powered by Supabase)',
   },
   {
     name: 'Otter',
-    description: 'Personal bookmarking app',
+    description: 'Personal bookmarking app. Not open source yet.',
     link: 'https://github.com/mrmartineau/Otter',
     status: 'active',
     published: 'private',
