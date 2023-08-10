@@ -3,26 +3,16 @@ import { SITE_NAV_ITEMS } from '../consts'
 import BigName from './BigName.astro'
 
 const pathname = new URL(Astro.request.url).pathname
-console.log(`🚀 ~ pathname:`, pathname)
 const currentPath = pathname.slice(1) // remove the first "/"
-console.log(`🚀 ~ currentPath:`, currentPath)
 ---
 
 <header>
   <BigName />
   <nav>
+    <a href="/" class:list={[{ active: pathname === '/' }]}>Home</a>
     {
       SITE_NAV_ITEMS.map((item) => {
-        const isHome = item.url === '/' && pathname === '/'
-        const isNotHome = !isHome
-        const isActive =
-          isHome || (isNotHome && currentPath.startsWith(item.path))
-        console.log(`🚀 ~ SITE_NAV_ITEMS.map ~ isActive:`, {
-          isHome,
-          isNotHome,
-          isActive,
-          path: item.path,
-        })
+        const isActive = currentPath.startsWith(item.path)
         return (
           <a href={item.url} class:list={[{ active: isActive }]}>
             {item.text}
@@ -52,7 +42,7 @@ console.log(`🚀 ~ currentPath:`, currentPath)
   a {
     position: relative;
     font-variation-settings: 'wght' 800, 'wdth' 125, 'ital' 0;
-    font-size: var(--step-1);
+    font-size: var(--step--1);
     text-transform: uppercase;
     padding: 0 0.5ex;
     letter-spacing: 0.1em;
@@ -82,6 +72,12 @@ console.log(`🚀 ~ currentPath:`, currentPath)
 
     &.active::before {
       opacity: 1;
+    }
+  }
+
+  @media (min-width: 35em) {
+    a {
+      font-size: var(--step-1);
     }
   }
 </style>
