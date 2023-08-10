@@ -1,0 +1,30 @@
+<div class="zm-links zm-block">
+  <header>
+    <h3 class="zm-block-title">Links</h3>
+    <p class="zm-block-subtitle">Recent bookmarks</p>
+  </header>
+
+  <div class="zm-links flex flex-col gap-2">
+    {% for like in collections.links %} {% if loop.index < 5 %}
+    <div class="zm-links-item">
+      <a class="zm-links-item-link" href="{{ like.url | url }}">
+        {{ like.title }}
+      </a>
+      <!-- {% if like.description %}
+      <div class="zm-links-item-description flex gap-3 items-center">
+        {{ like.description }}
+      </div>
+      {% endif %} -->
+      {% if like.tags.length %}
+      <div class="zm-links-item-tags flex gap-2 items-center">
+        {% favicon like.url %} {% shortUrl like.url %} {% linkType like.type %}
+        {% for tag in like.tags %}{%if tag != 'zm:link'%}
+        <div>#{{ tag }}</div>
+        {% endif %}{% endfor %}
+      </div>
+      {% endif %}
+    </div>
+    {% endif %} {% endfor %}
+  </div>
+  <a href="{{ '/links' | url }}" class="zm-block-link">View all →</a>
+</div>

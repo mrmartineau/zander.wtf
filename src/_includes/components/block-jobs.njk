@@ -1,0 +1,25 @@
+<div class="zm-block zm-jobs">
+  <header>
+    <h3 class="zm-block-title">About me</h3>
+    <p class="zm-block-subtitle">
+      {{ work.bio }}
+    </p>
+  </header>
+
+  <div class="zm-job-items flex flex-col gap-4">
+    <div class="zm-job-item flex gap-4 items-center">
+      <span>Current</span>
+      <a href="{{ work.jobs.current.url | url }}" class="flex gap-2">
+        {{ work.jobs.current.name }}
+      </a>
+    </div>
+    <div class="flex gap-x-2 gap-y-1 flex-wrap">
+      <span>Previous</span>
+      {% for item in work.jobs.previous %}
+      <a href="{{ item.url | url }}" class="flex gap-2 items-center">
+        {{ item.name }} </a
+      >{% if not loop.last %}·{% endif %}{% endfor %}
+    </div>
+  </div>
+  <a href="https://read.cv/mrmartineau" class="zm-block-link">View my CV →</a>
+</div>

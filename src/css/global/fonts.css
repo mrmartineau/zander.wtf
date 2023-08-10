@@ -1,0 +1,23 @@
+@font-face {
+  font-family: 'Mona Sans';
+  src: url('/public/fonts/Mona-Sans.woff2') format('woff2 supports variations'),
+    url('/public/fonts/Mona-Sans.woff2') format('woff2-variations');
+  font-weight: 200 900;
+  font-stretch: 75% 125%;
+  font-feature-settings: 'calt' 1, 'liga' 1, 'rlig' 1, 'rvrn' 1, 'kern' 1,
+    'rclt' 1;
+}
+
+@font-face {
+  font-family: 'Hubot Sans';
+  src: url('/public/fonts/Hubot-Sans.woff2') format('woff2 supports variations'),
+    url('/public/fonts/Hubot-Sans.woff2') format('woff2-variations');
+  font-weight: 200 900;
+  font-stretch: 75% 125%;
+  font-feature-settings: 'calt' 1, 'liga' 1, 'rlig' 1, 'rvrn' 1, 'kern' 1,
+    'rclt' 1;
+}
+
+html {
+  font-family: Mona Sans, system-ui, sans-serif;
+}

@@ -1,0 +1,32 @@
+.zm-block {
+  --block-radius: 2rem;
+  --block-bg: var(--bg-block);
+  --block-padding: var(--space-m-l);
+  --block-colour: var(--colour-text);
+  color: var(--block-colour);
+  border-radius: var(--block-radius);
+  /* border: 1px solid var(--block-bg); */
+  background-color: var(--block-bg);
+  padding: var(--block-padding);
+
+  header {
+    margin-block-end: var(--space-s);
+  }
+}
+
+.zm-block-title {
+  font-variation-settings: 'wght' 500;
+  font-size: var(--step-1);
+}
+
+.zm-block-subtitle {
+  margin-block-start: var(--space-3xs);
+  opacity: 0.6;
+}
+
+.zm-block-link {
+  font-variation-settings: 'wght' 500;
+  font-size: var(--step--1);
+  margin-top: var(--space-s);
+  display: block;
+}

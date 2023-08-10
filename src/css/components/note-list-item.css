@@ -1,0 +1,28 @@
+@layer components {
+  .noteListItem {
+    @apply block md:flex justify-between rounded items-center gap-3;
+    transition: all 200ms ease-in-out;
+    overflow: hidden;
+    padding: var(--space-3xs) var(--space-xs);
+  }
+  .noteListItem:hover {
+    background-color: var(--bg-note-hover);
+    color: currentColor;
+  }
+  .noteListItem-title {
+    font-size: var(--step-0);
+    font-weight: bold;
+    padding: var(--space-4xs) 0;
+    flex-shrink: 0;
+    /* min-width: 260px; */
+  }
+
+  .noteListItem-tags {
+    @apply flex items-center gap-1 truncate;
+  }
+  .noteListItem-date {
+    @apply truncate;
+    font-size: var(--step--2);
+    opacity: 0.7;
+  }
+}

@@ -1,0 +1,12 @@
+.zm-jobs {
+  --block-bg: var(--colour-tealNotQuiteSoFuckingDark);
+}
+
+.zm-job-items {
+  span {
+    /* min-width: 130px; */
+    opacity: 0.7;
+    font-feature-settings: 'calt' 1, 'liga' 1, 'rlig' 1, 'rvrn' 1, 'kern' 1,
+      'rclt' 1, 'tnum' 1;
+  }
+}

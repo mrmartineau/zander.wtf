@@ -1,0 +1,24 @@
+---
+layout: layouts/base.njk
+eleventyImport:
+  collections: ['words']
+---
+
+<section class="zm-contentContainer">
+  <header>
+    <div class="mb-6">
+      <h1 class="zm-articleTitle">Blog</h1>
+    </div>
+  </header>
+
+  <div class="prose prose-zinc dark:prose-invert">
+    <div class="zm-blog-items flex flex-col gap-2">
+      {% for item in collections.words | reverse %} {% if loop.index < 7 %}
+      <div class="zm-blog-item">
+        <a href="{{ item.url | url }}">{{ item.data.title }}</a>
+        <div>{{ item.date | readableDate }}</div>
+      </div>
+      {% endif %} {% endfor %}
+    </div>
+  </div>
+</section>

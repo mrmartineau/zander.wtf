@@ -1,0 +1,12 @@
+<header class="masthead">
+  {% include "components/big-name.njk" %}
+  <nav class="nav">
+    {% for item in site.nav.header %}
+    <a
+      href="{{ item.url | url }}"
+      class="{{ 'active' if item.url === page.url }}"
+      >{{ item.text }}</a
+    >
+    {% endfor %}
+  </nav>
+</header>

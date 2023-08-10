@@ -1,0 +1,19 @@
+{% for like in collections.links %}
+<div class="zm-links-item zm-links-item--feed">
+  <a class="zm-links-item-link" href="{{ like.url | url }}">
+    <i class="ph-bold ph-heart" style="color: hotpink"></i> {{ like.title }}
+  </a>
+  {% if like.description %}
+  <div class="zm-links-item-description">
+    {{ like.description }}
+  </div>
+  {% endif %} {% if like.tags.length %}
+  <div class="zm-links-item-tags flex gap-2 items-center">
+    <div>{{ like.type }}</div>
+    {% for tag in like.tags %}{%if tag != 'zm:link'%}
+    <div>#{{ tag }}</div>
+    {% endif %}{% endfor %}
+  </div>
+  {% endif %}
+</div>
+{% endfor %}

@@ -1,0 +1,30 @@
+.masthead {
+  margin-bottom: 7vh;
+  margin-bottom: 7dvh;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin-top: 2vh;
+  margin-top: 2dvh;
+
+  a {
+    font-variation-settings: 'wght' 800, 'wdth' 125, 'ital' 0;
+    font-size: var(--step-1);
+    text-transform: uppercase;
+    padding: 0.1em 1em;
+    letter-spacing: 0.1em;
+    leading-trim: both;
+    text-edge: cap alphabetic;
+
+    /* &:hover {
+    } */
+    &:hover,
+    &.active {
+      color: var(--colour-accent);
+      /* background-color: var(--colour-text); */
+    }
+  }
+}

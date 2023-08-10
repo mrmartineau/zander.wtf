@@ -1,9 +1,0 @@
----
-interface Props {
-  url: string
-}
-const { url } = Astro.props
-const domain = new URL(url).host.replace('www.', '')
----
-
-{domain}

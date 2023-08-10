@@ -1,0 +1,24 @@
+---
+title: Blog
+layout: layouts/base.njk
+permalink: /blog
+---
+
+<section class="zm-theFuckingContainer">
+  <header>
+    <div class="mb-6">
+      <h1 class="zm-articleTitle">Blog</h1>
+    </div>
+  </header>
+
+  <div>
+    <div class="zm-blog-items flex flex-col gap-2">
+      {% for item in collections.words | reverse %}
+      <div class="zm-blog-item">
+        <a href="{{ item.url | url }}">{{ item.data.title }}</a>
+        <div>{{ item.date | readableDate }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>

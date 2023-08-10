@@ -1,0 +1,58 @@
+@layer components {
+  .cn-sidebar {
+    box-sizing: border-box;
+    margin: 0;
+    min-width: 0;
+  }
+
+  .cn-logo {
+    margin-bottom: var(--space-xs);
+
+    a {
+      font-weight: 800;
+      text-decoration: none;
+    }
+  }
+
+  .cn-siteDescription {
+    line-height: 1.2;
+  }
+
+  .cn-sidebar-contentWrapper {
+    @apply flex flex-col gap-3 justify-between;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: fixed;
+    width: var(--sidebar-width);
+    height: 100vh;
+
+    @media screen and (min-width: 768px) {
+      position: sticky;
+      top: 0;
+    }
+  }
+
+  .cn-sidebar-wrapper {
+    padding: var(--space-s) var(--space-s);
+  }
+
+  .cn-sidebar-link {
+    @apply flex items-center;
+    padding: var(--space-3xs) var(--space-s);
+    font-size: var(--step--1);
+    gap: var(--space-2xs);
+
+    .tagDot {
+      @apply w-2.5 h-2.5;
+    }
+
+    &:hover {
+      background-color: var(--bg-nav-active);
+      color: currentColor;
+    }
+
+    &.active {
+      background-color: var(--bg-nav-active);
+    }
+  }
+}

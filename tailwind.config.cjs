@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./src/**/*.{html,js,jsx,ts,tsx,md,mdx,njk,twig,vue,astro}'],
+  content: ['./src/**/*.{html,js,jsx,ts,tsx,md,mdx,njk,twig,vue}'],
   theme: {
     fontSize: {
       xs: ['var(--step--2)', { lineHeight: '1rem' }],
@@ -22,26 +22,13 @@ module.exports = {
         DEFAULT: {
           css: {
             fontSize: 'var(--step-0)',
-            // a: {
-            //   '&:hover': {
-            //     color: 'var(--colour-accent)',
-            //   },
-            // },
+            a: {
+              '&:hover': {
+                color: 'var(--colour-accent)',
+              },
+            },
           },
         },
-      },
-
-      spacing: {
-        '4xs': 'var(--space-4xs)',
-        '3xs': 'var(--space-3xs)',
-        '2xs': 'var(--space-2xs)',
-        xs: 'var(--space-xs)',
-        s: 'var(--space-s)',
-        m: 'var(--space-m)',
-        l: 'var(--space-l)',
-        xl: 'var(--space-xl)',
-        '2xl': 'var(--space-2xl)',
-        '3xl': 'var(--space-3xl)',
       },
     },
   },

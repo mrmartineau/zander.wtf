@@ -1,0 +1,37 @@
+.zm-links {
+  --block-bg: var(--colour-blueNotQuiteSoFuckingDark);
+}
+
+.zm-links--feed {
+  display: grid;
+  gap: var(--space-l);
+  grid-template-columns: repeat(auto-fill, minmax(min(500px, 100%), 1fr));
+}
+
+.zm-links-item--block {
+}
+
+.zm-links-item--feed {
+  --block-radius: 2rem;
+  --block-padding: var(--space-m-l);
+  border-radius: var(--block-radius);
+  background-color: var(--bg-block);
+  padding: var(--block-padding);
+
+  .zm-links-item-link {
+    font-size: var(--step-0);
+    line-height: 1.2;
+  }
+  .zm-links-item-description {
+    font-size: var(--step--1);
+  }
+}
+
+.zm-links-item-description {
+  opacity: 0.6;
+}
+
+.zm-links-item-tags {
+  opacity: 0.7;
+  font-size: var(--step--2);
+}

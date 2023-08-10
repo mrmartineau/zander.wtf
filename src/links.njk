@@ -1,0 +1,40 @@
+---
+title: Links
+layout: layouts/base.njk
+permalink: /links
+---
+
+<header class="zm-theFuckingContainer">
+  <div class="mb-6">
+    <h1 class="zm-articleTitle">Links</h1>
+  </div>
+</header>
+
+<div class="zm-fullContainer">
+  <div class="zm-links zm-links--feed">
+    {% for like in collections.links %}
+    <div class="zm-links-item zm-links-item--feed">
+      <a class="zm-links-item-link" href="{{ like.url | url }}">
+        {{ like.title }}
+      </a>
+      {% if like.description %}
+      <div class="zm-links-item-description flex gap-3 items-center">
+        {{ like.description }}
+      </div>
+      {% endif %}
+      <div class="flex gap-2 items-center">
+        {% favicon like.url %}
+        <a href="{{ like.url | url }}">{% shortUrl like.url %}</a>
+      </div>
+      {% if like.tags.length %}
+      <div class="zm-links-item-tags flex gap-2 items-center">
+        {% linkType like.type %} {% for tag in like.tags %}{%if tag !=
+        'zm:link'%}
+        <div>#{{ tag }}</div>
+        {% endif %}{% endfor %}
+      </div>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+</div>

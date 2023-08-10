@@ -1,0 +1,63 @@
+ul,
+ol {
+  padding-inline-start: 1em;
+}
+
+blockquote {
+  padding-inline-start: 1em;
+  border-inline-start: 0.3em solid;
+  font-style: italic;
+  font-size: var(--step-1);
+}
+
+h1 {
+  font-size: var(--step-4);
+}
+
+h2 {
+  font-size: var(--step-3);
+}
+
+h3 {
+  font-size: var(--step-2);
+}
+
+h1,
+h2,
+h3 {
+  font-variation-settings: 'wght' 900, 'wdth' 125, 'ital' 0;
+  line-height: 1.1;
+  text-wrap: balance;
+}
+
+article > * {
+  max-width: 65ch;
+}
+
+blockquote {
+  max-width: 50ch;
+}
+
+h1 {
+  max-width: 20ch;
+}
+
+h2,
+h3 {
+  max-width: 28ch;
+}
+
+.lede {
+  font-size: var(--size-step-1);
+  font-style: italic;
+  max-width: 50ch;
+  text-wrap: balance;
+}
+
+.lede + * {
+  --flow-space: 2em;
+}
+
+hr {
+  border-top-color: var(--hr);
+}
