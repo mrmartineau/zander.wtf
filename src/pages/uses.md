@@ -38,9 +38,11 @@ I alternate between the [Logitech MX Master 3](http://amzn.eu/iGzdIg0) and the [
 
 [VS Code Insiders](https://code.visualstudio.com/) with the [Rosé Pine Moon](https://github.com/rose-pine/vscode#readme) colour theme and [Comic Code](https://tosche.net/fonts/comic-code) font. As much as I hate Comic Sans, I happen to LOVE Comic Code for coding.. who knew.
 
+A copy of my `settings.json` can be found [here](https://gist.github.com/mrmartineau/ea3b428124bc1e31cd46dfa55469d781) and a full list of my installed extensions can be found [here](https://gist.github.com/mrmartineau/28ef03c53275ea468e470532d6d20449).
+
 #### Extensions
 
-##### Surround
+One of my most used extensions is [Surround](https://marketplace.visualstudio.com/items?itemName=yatki.vscode-surround), a simple yet powerful extension to add wrapper templates around your code blocks. It has many built-in templates and you can add your own. I've added a few of my own templates to the settings below.
 
 <details>
   <summary>Surround settings</summary>
@@ -286,8 +288,6 @@ I alternate between the [Logitech MX Master 3](http://amzn.eu/iGzdIg0) and the [
 ```
 
 </details>
-
-A copy of my `settings.json` can be found [here](https://gist.github.com/mrmartineau/ea3b428124bc1e31cd46dfa55469d781) and a full list of my installed extensions can be found [here](https://gist.github.com/mrmartineau/28ef03c53275ea468e470532d6d20449).
 
 ### Browser
 
