@@ -10,22 +10,22 @@ const { limit, showDetail } = Astro.props
 const workList = limit ? JOBS.previous.slice(0, limit) : JOBS.previous
 ---
 
-<div class="zm-about-items">
-  <div class="zm-about-item">
-    <span>Current</span>
+<div class="zm-work-items">
+  <div class="zm-work-item">
+    <span class="zm-work-item-label">Current</span>
     <div>
-      <a href={JOBS.current.url} class="flex gap-2">
+      <a href={JOBS.current.url}>
         {JOBS.current.name}
       </a>
       {
         JOBS.current.description ? (
-          <div class="zm-about-description">{JOBS.current.description}</div>
+          <div class="zm-work-description">{JOBS.current.description}</div>
         ) : null
       }
     </div>
   </div>
-  <div class="zm-about-item">
-    <span>Previous</span>
+  <div class="zm-work-item">
+    <span class="zm-work-item-label">Previous</span>
     <div>
       {
         workList.map((job, index) => {
@@ -42,30 +42,29 @@ const workList = limit ? JOBS.previous.slice(0, limit) : JOBS.previous
 </div>
 
 <style>
-  /* .zm-about {
-    --block-bg: var(--colour-tealNotQuiteSoFuckingDark);
-  } */
-
-  .zm-about-items {
+  .zm-work-items {
+    container: work-item / inline-size;
     display: flex;
-    gap: var(--space-xs);
     flex-direction: column;
+    gap: var(--space-xs);
   }
 
-  .zm-about-item {
-    display: flex;
-    column-gap: var(--space-2xs);
-    row-gap: var(--space-3xs);
+  .zm-work-item-label {
+    flex-shrink: 0;
+    width: 5rem;
+    font-feature-settings: 'calt' 1, 'liga' 1, 'rlig' 1, 'rvrn' 1, 'kern' 1,
+      'rclt' 1, 'tnum' 1;
+  }
 
-    span {
-      flex-shrink: 0;
-      width: 5rem;
-      font-feature-settings: 'calt' 1, 'liga' 1, 'rlig' 1, 'rvrn' 1, 'kern' 1,
-        'rclt' 1, 'tnum' 1;
+  @container work-item (min-width: 340px) {
+    .zm-work-item {
+      display: flex;
+      column-gap: var(--space-2xs);
+      row-gap: var(--space-3xs);
     }
   }
 
-  .zm-about-description {
+  .zm-work-description {
     font-size: var(--step--2);
   }
 </style>
