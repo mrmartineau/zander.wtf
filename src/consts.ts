@@ -3,11 +3,6 @@ export const SITE_DESCRIPTION = 'Welcome to my website!'
 
 export const SITE_NAV_ITEMS = [
   {
-    text: 'Home',
-    url: '/',
-    path: '',
-  },
-  {
     text: 'Blog',
     url: '/blog',
     path: 'blog',
@@ -96,18 +91,45 @@ export const JOBS = {
       description: '',
       type: 'contract',
       url: 'https://digitalfutures.com',
+      projects: [
+        {
+          name: '',
+          description: '',
+        },
+      ],
     },
     {
       name: 'Heights',
       description: '',
       type: 'contract',
       url: 'https://www.yourheights.com',
+      projects: [
+        {
+          name: '',
+          description: '',
+        },
+      ],
     },
     {
       name: 'Curve',
       description: '',
       type: 'contract',
       url: 'https://curve.com',
+      projects: [
+        {
+          name: 'Samsung Pay Card integration',
+          description:
+            'The web-based onboarding flow for Samsung Pay Card and the Curve app',
+        },
+        {
+          name: `Curve's design-system (private)`,
+          description: 'A React component library',
+        },
+        {
+          name: 'New version of curve.com',
+          description: 'Built with Gatsby',
+        },
+      ],
     },
     {
       name: 'FairFX',
@@ -120,12 +142,25 @@ export const JOBS = {
       description: '',
       type: 'employed',
       url: 'https://nimbletank.com',
+      projects: [
+        {
+          name: 'The Royal Mint',
+          description: 'Digital wallet app for The Royal Mint',
+        },
+      ],
     },
     {
       name: 'TMW Unlimited',
       description: '',
       type: 'employed',
       url: 'https://tmwunlimited.com',
+      projects: [
+        {
+          name: 'Barilla.com',
+          description: 'Barilla.com website redevelopment',
+          link: 'https://www.barilla.com',
+        },
+      ],
     },
   ],
 }
