@@ -10,7 +10,7 @@ const today = new Date()
     href={`https://github.com/mrmartineau/zander.wtf/commit/${__COMMIT_HASH__}`}
     class="commit-hash">#{__COMMIT_HASH__}</a
   >
-  <nav class="flex align-center gap-xs justify-center">
+  <nav>
     {
       SITE_FOOTER_ITEMS.map((item) => {
         return (
@@ -33,10 +33,22 @@ const today = new Date()
 
 <BigName orientation="top" class="mt-l" />
 
-<style>
+<style lang="postcss">
   footer {
-    padding: var(--space-l) var(--space-l) 0;
+    padding: var(--space-l) var(--space-xs) 0;
     text-align: center;
+  }
+
+  nav {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    column-gap: var(--space-xs);
+    justify-content: center;
+
+    a {
+      flex-shrink: 0;
+    }
   }
 
   div {
