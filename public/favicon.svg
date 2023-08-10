@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 128 128">
     <path fill-rule="evenodd" clip-rule="evenodd" d="M29.25 25.25H99.25L62.15 82.2125L99.25 102.75H29.25L66.35 45.7875L29.25 25.25Z" />
     <style>
-        path { fill: #000; }
+        path { fill: #21262c; }
         @media (prefers-color-scheme: dark) {
             path { fill: #FFF; }
         }
