@@ -5,21 +5,14 @@ export const SITE_NAV_ITEMS = [
   {
     text: 'Blog',
     url: '/blog',
-    path: 'blog',
   },
-  // {
-  //   text: 'Projects',
-  //   url: '/projects',
-  // },
   {
     text: 'Links',
     url: '/links',
-    path: 'links',
   },
   {
-    text: 'Hire me',
-    url: '/hire-me',
-    path: 'hire-me',
+    text: 'About',
+    url: '/about',
   },
 ]
 

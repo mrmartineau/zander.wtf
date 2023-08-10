@@ -12,7 +12,8 @@ const currentPath = pathname.slice(1) // remove the first "/"
     <a href="/" class:list={[{ active: pathname === '/' }]}>Home</a>
     {
       SITE_NAV_ITEMS.map((item) => {
-        const isActive = currentPath.startsWith(item.path)
+        const itemPath = item.url.slice(1)
+        const isActive = currentPath.startsWith(itemPath)
         return (
           <a href={item.url} class:list={[{ active: isActive }]}>
             {item.text}
