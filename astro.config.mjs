@@ -5,7 +5,6 @@ import { execSync } from 'node:child_process'
 
 import prefetch from '@astrojs/prefetch'
 const commitHash = execSync('git rev-parse --short HEAD').toString()
-console.log(`🚀 ~ commitHash:`, commitHash)
 
 // https://astro.build/config
 export default defineConfig({
@@ -15,5 +14,8 @@ export default defineConfig({
     define: {
       __COMMIT_HASH__: JSON.stringify(commitHash),
     },
+  },
+  experimental: {
+    viewTransitions: true,
   },
 })
