@@ -315,9 +315,9 @@ I moved to Notion a while back and haven't looked back. It has most of what I wa
 
 #### [iTerm2](https://www.iterm2.com/) with [Fish Shell](https://fishshell.com/)
 
-See my config [here](https://github.com/mrmartineau/fish/blob/master/config.fish). I also use the excellent [TIDE](https://github.com/IlanCosman/tide) prompt to improve my shell.
+To improve my shell, I use the excellent [TIDE](https://github.com/IlanCosman/tide) prompt and [Fig](https://fig.io) which adds IDE-style autocomplete to my terminal. I also use a few other CLI apps to make the experience better:
 
-I also use [Fig](https://fig.io) which adds IDE-style autocomplete to my terminal.
+- [ni](https://github.com/antfu/ni) by [Anthony Fu](https://antfu.me) is great for installing npm packages and running npm scripts. I bounce from project to project a lot and they often use different package managers. This tool makes it easy to install packages and run scripts without having to remember which package manager to use.
 
 #### [Tower](https://www.git-tower.com/mac)
 

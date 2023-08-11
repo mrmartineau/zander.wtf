@@ -11,6 +11,8 @@ Astro is great because, like 11ty, it's a static site generator, but `.astro` co
 
 Type is set in **Mona Sans** and **Hubot Sans** from [GitHub](https://github.com/mona-sans).
 
-Spacing and type sizes use the custom properties defined by [Utopia.fyi](https://utopia.fyi). If you haven't used Utopia before, I highly recommend it. Here's my [Utopia config](https://github.com/mrmartineau/zander.wtf/blob/main/src/styles/global/utopia.css) for this site.
+For styling I use PostCSS with Astro's component
+
+Spacing and type sizes use the custom properties defined by [Utopia.fyi](https://utopia.fyi). If you haven't used Utopia before, I highly recommend it. My Utopia config for this site can be found [here](https://github.com/mrmartineau/zander.wtf/blob/main/src/styles/global/utopia.css).
 
 n.b. The code for the 11ty version is on the [`eleventy-version`](https://github.com/mrmartineau/zander.wtf/tree/eleventy-version) branch on the [zander.wtf](https://github.com/mrmartineau/zander.wtf/) repo.
