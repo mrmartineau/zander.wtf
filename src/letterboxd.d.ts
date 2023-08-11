@@ -1,7 +1,7 @@
 declare module 'letterboxd' {
   export interface Entry {
     type: string
-    date: Date
+    date: DateInfo
     film?: Film
     rating?: Rating
     review?: string
@@ -15,7 +15,7 @@ declare module 'letterboxd' {
     totalFilms?: number
   }
 
-  export interface Date {
+  export interface DateInfo {
     published: number
     watched?: number
   }
