@@ -1,5 +1,5 @@
-export const SITE_TITLE = 'My personal website.'
-export const SITE_DESCRIPTION = 'Welcome to my website!'
+export const SITE_TITLE = `Hi! I'm Zander, I make websites`
+export const SITE_DESCRIPTION = `Zander Martineau's personal site`
 
 export const SITE_NAV_ITEMS = [
   {
@@ -64,14 +64,14 @@ export const JOBS = {
     description:
       'Multiple projects: Cryptocurrency exchange (Tradeblock), Investment banking app (Commerzbank), Legacy React app rebrand (Cappitech), Clearwater Analytics',
     type: 'contract',
-    url: 'https://www.fathomlondon.com/',
+    url: 'https://www.fathomlondon.com',
   },
   previous: [
     {
       name: 'Utopia Music',
       description: 'Rostr 2.0',
       type: 'contract',
-      url: 'https://utopiamusic.com/',
+      url: 'https://utopiamusic.com',
     },
     {
       name: 'Babylon Health',
@@ -217,7 +217,7 @@ export const SIDE_PROJECTS: Project[] = [
     ],
   },
   {
-    name: 'Code Notes',
+    name: 'Code Notes v2',
     description: 'TILs, snippets—my digital code garden 🌱',
     link: 'https://github.com/mrmartineau/notes.zander.wtf',
     status: 'active',
@@ -254,7 +254,7 @@ export const SIDE_PROJECTS: Project[] = [
     name: 'Kickoff',
     description:
       'Kickoff is a lightweight, flexible and robust Sass-based front-end framework that is a great starting point for any web site. Developed for projects at TMW, but it grew way beyond internal projects into something that many other companies and developers use on projects of all sizes.',
-    link: 'https://trykickoff.com',
+    link: 'https://github.com/TryKickoff/kickoff',
     status: 'inactive',
   },
   {
