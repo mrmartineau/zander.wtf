@@ -14,10 +14,14 @@
     "@astrojs/prefetch": "^0.3.0",
     "@astrojs/rss": "^2.4.3",
     "@astrojs/sitemap": "^1.4.0",
+    "@types/markdown-it": "^13.0.0",
+    "@types/sanitize-html": "^2.9.0",
     "astro": "^2.8.3",
     "axios": "^1.4.0",
     "letterboxd": "^3.1.0",
-    "proper-url-join": "^2.1.1"
+    "markdown-it": "^13.0.1",
+    "proper-url-join": "^2.1.1",
+    "sanitize-html": "^2.11.0"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.9",

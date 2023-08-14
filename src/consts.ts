@@ -18,6 +18,11 @@ export const SITE_NAV_ITEMS = [
 
 export const SITE_FOOTER_ITEMS = [
   {
+    text: 'Feeds',
+    url: '/feeds',
+    icon: 'ph-rss-simple',
+  },
+  {
     text: 'Colophon',
     url: '/colophon',
   },
@@ -45,11 +50,6 @@ export const SITE_FOOTER_ITEMS = [
     text: 'CV',
     url: 'https://read.cv/mrmartineau',
     external: true,
-  },
-  {
-    text: 'RSS',
-    url: '/atom.xml',
-    icon: 'ph-rss-simple',
   },
 ]
 
