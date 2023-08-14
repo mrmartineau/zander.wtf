@@ -301,7 +301,7 @@ I use it in nearly every aspect of my work. I use it for searching the web with 
 
 FYI I also created the [GitHub Stars extension](https://www.raycast.com/mrmartineau/search-github-stars).
 
-#### [1Password](https://1password.com/) 🔒
+#### [1Password](https://1password.com/)
 
 I never need to worry about passwords anymore. It integrates with my browser (via their extension) and it copies one-time passwords to the clipboard automatically. It's also great on the iPhone; since iOS 12 was released, the integration with the OS is massively improved.
 
@@ -315,9 +315,9 @@ I moved to Notion a while back and haven't looked back. It has most of what I wa
 
 #### [iTerm2](https://www.iterm2.com/) with [Fish Shell](https://fishshell.com/)
 
-To improve my shell, I use the excellent [TIDE](https://github.com/IlanCosman/tide) prompt and [Fig](https://fig.io) which adds IDE-style autocomplete to my terminal. I also use a few other CLI apps to make the experience better:
+To improve my shell, I use the excellent [TIDE](https://github.com/IlanCosman/tide) prompt and [Fig](https://fig.io) which adds IDE-style autocomplete to my terminal.
 
-- [ni](https://github.com/antfu/ni) by [Anthony Fu](https://antfu.me) is great for installing npm packages and running npm scripts. I bounce from project to project a lot and they often use different package managers. This tool makes it easy to install packages and run scripts without having to remember which package manager to use.
+I also use a few other CLI apps to make the experience better, in particular, [ni](https://github.com/antfu/ni) by [Anthony Fu](https://antfu.me). It is great for installing npm packages and running npm scripts. I bounce from project to project a lot and they often use different package managers. This tool makes it easy to install packages and run scripts without having to remember which package manager to use.
 
 #### [Tower](https://www.git-tower.com/mac)
 
@@ -332,14 +332,13 @@ A cloud-based private DNS service that gives you full control over what is allow
 - [Things](https://culturedcode.com/things/): The best Mac/iPhone-based task list/productivity app I know.
 - [Superkey](https://superkey.app/): "Keyboard superpower on macOS". I use this mainly for its "hyperkey" functionality (where caps lock is converted to a "hyper key", with all these four modifiers combined: `⌃⌥⌘⇧`)
 - [Rectangle Pro](https://rectangleapp.com/): Window snapping and positioning
+- [Vivid](https://www.getvivid.app/) - Double brightness system-wide
 - [Dash](https://kapeli.com/dash): Dash is an API Documentation Browser and Code Snippet Manager. Devdocs.io or the [Devdocs app](https://devdocs.egoist.rocks/) are free alternatives.
 - [NordVPN](https://nordvpn.com/): The best personal VPN service in my opinion. Great apps for Mac and iPhone.
 - [Bartender](https://www.macbartender.com/): Hide some of those pesky menubar items.
-- [iStat Menus](https://bjango.com/mac/istatmenus/): Monitor and display pretty much everything in my Mac's menubar
 - [Shottr](https://shottr.cc) - Shottr is a small, fast, human-sized screenshot app built for those who care about pixels. It was crafted with Swift, optimized for M1, and is completely free at the moment.
 - [AudioSwitcher](https://apps.apple.com/gb/app/audioswitcher/id561712678) - AudioSwitcher is a menu bar that allows you to switch quickly between all available input and output devices.
 - [Mumu X](https://getmumu.com) - AI driven emoji picker. Even though Raycast has a brilliant emoji picker, I use this one when I'm not sure what emoji I want to use.
-- [Vivid](https://www.getvivid.app/) - Double brightness system-wide
 
 This page is featured on [uses.tech](https://uses.tech/). If you're reading this and want to see others like it, head on over there to find out more.
 

@@ -11,8 +11,13 @@ Astro is great because, like 11ty, it's a static site generator, but `.astro` co
 
 Type is set in **Mona Sans** and **Hubot Sans** from [GitHub](https://github.com/mona-sans).
 
-For styling I use PostCSS with Astro's component
+For CSS processing, I use [PostCSS](https://postcss.org/) with Tailwind and Autoprefixer. Tailwind is used sparingly when I need to add a utility class to an element without adding a specific classname.
 
-Spacing and type sizes use the custom properties defined by [Utopia.fyi](https://utopia.fyi). If you haven't used Utopia before, I highly recommend it. My Utopia config for this site can be found [here](https://github.com/mrmartineau/zander.wtf/blob/main/src/styles/global/utopia.css).
+Spacing and type sizes use the custom properties defined by [Utopia.fyi](https://utopia.fyi) and they are added to Tailwind's config ([see here](https://github.com/mrmartineau/zander.wtf/blob/main/tailwind.config.cjs)). If you haven't used Utopia before, I highly recommend it. My Utopia config for this site can be found [here](https://github.com/mrmartineau/zander.wtf/blob/main/src/styles/global/utopia.css), and I use it like so:
+
+```css
+font-size: var(--step-1);
+margin-block-end: var(--space-s);
+```
 
 n.b. The code for the 11ty version is on the [`eleventy-version`](https://github.com/mrmartineau/zander.wtf/tree/eleventy-version) branch on the [zander.wtf](https://github.com/mrmartineau/zander.wtf/) repo.
