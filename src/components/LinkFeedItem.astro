@@ -20,7 +20,7 @@ const { url, type, tags, title, description, isFeed = false } = Astro.props
       <div class="zm-links-item-description">{description}</div>
     ) : null
   }
-  <div class="zm-links-item-tags flex gap-2 items-center">
+  <div class="zm-links-item-tags">
     {
       url ? (
         <>
@@ -33,7 +33,9 @@ const { url, type, tags, title, description, isFeed = false } = Astro.props
     {
       tags?.length
         ? tags.map((tag) => {
-            if (tag !== 'zm:link') {
+            if (
+              !['IFTTT', 'TwitterLike', 'instapaper', 'zm:link'].includes(tag)
+            ) {
               return <div class="zm-links-item-tag">#{tag}</div>
             }
           })
@@ -61,6 +63,10 @@ const { url, type, tags, title, description, isFeed = false } = Astro.props
   }
 
   .zm-links-item-tags {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: var(--space-2xs);
+    align-items: center;
     opacity: 0.7;
     font-size: var(--step--2);
   }

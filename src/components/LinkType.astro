@@ -52,5 +52,15 @@ switch (type) {
 }
 ---
 
-<i class={`ph-duotone ph-${icon} zm-icon`} aria-label={label}></i>
-{label}
+<span>
+  <i class={`ph-duotone ph-${icon} zm-icon`} aria-label={label}></i>
+  {label}
+</span>
+
+<style>
+  span {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3xs);
+  }
+</style>
