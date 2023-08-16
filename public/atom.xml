@@ -1,18 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
-    <channel>
-        <title>
-            <![CDATA[Zander Martineau's Blog]]>
-        </title>
-        <description>
-            <![CDATA[Zander Martineau's personal site]]>
-        </description>
-        <link>https://zander.wtf</link>
-        <lastBuildDate>Sun, 08 Jan 2023 21:20:40 GMT</lastBuildDate>
-        <redirect>
-          <newLocation>
-            https://zander.wtf/blog.rss.xml
-          </newLocation>
-        </redirect>
-    </channel>
-</rss>
+<redirect>
+  <newLocation>https://zander.wtf/blog.rss.xml</newLocation>
+</redirect>
