@@ -11,7 +11,7 @@ interface Props {
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 
-const { title, description, image = '/placeholder-social.jpg' } = Astro.props
+const { title, description, image = '/opengraph.jpg' } = Astro.props
 ---
 
 <!-- Global Metadata -->
@@ -31,20 +31,11 @@ const { title, description, image = '/placeholder-social.jpg' } = Astro.props
 <meta name="geo.region" content="GB" />
 <meta name="geo.placename" content="London" />
 
-<link
-  rel="alternate"
-  href="/atom.xml"
-  type="application/atom+xml"
-  title="RSS Feed"
-/>
-
 <link rel="me" href="https://github.com/mrmartineau" type="text/html" />
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />
 <meta property="og:url" content={Astro.url} />
-<meta property="og:title" content={title} />
-<meta property="og:description" content={description} />
 <meta property="og:image" content={new URL(image, Astro.url)} />
 
 <link
@@ -65,4 +56,17 @@ const { title, description, image = '/placeholder-social.jpg' } = Astro.props
   rel="stylesheet"
   type="text/css"
   href="https://unpkg.com/@phosphor-icons/web@2.0.3/src/duotone/style.css"
+/>
+
+<link
+  rel="alternate"
+  href="https://zander.wtf/blog.rss.xml"
+  type="application/rss+xml"
+  title="Zander's Blog RSS Feed"
+/>
+<link
+  rel="alternate"
+  href="https://zander.wtf/links.rss.xml"
+  type="application/rss+xml"
+  title="Zander's Link RSS Feed"
 />
