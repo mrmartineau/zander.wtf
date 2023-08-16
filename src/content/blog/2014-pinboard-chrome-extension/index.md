@@ -7,7 +7,7 @@ date: 2014-08-01
 
 I love [Pinboard](http://pinboard.in), in fact I think I may be a little obsessed with this simple bookmarking service, however, I think its design could do with an update. I created a Chrome extension that cleans up the UI, improves the visual hierarchy & generally makes the site a little more pleasant to use than it already was.
 
-![](./pinboard-1.png)
+![](~/assets/pinboard-chrome-extension/pinboard-1.png)
 
 #### Improvements:
 
@@ -17,7 +17,7 @@ I love [Pinboard](http://pinboard.in), in fact I think I may be a little obsesse
 - The colour scheme was muted slightly and the header
 - Stars are larger and clearer
 
-![](./pinboard-2.png)
+![](~/assets/pinboard-chrome-extension/pinboard-2.png)
 
 Re-styling the site was not without challenges though, the markup hardly has any classes or IDs, this meant that it was quite difficult to target certain elements when I needed to. Pinboard "just works" <sup>TM</sup>. It is a simple app that does one thing very well & having investigated the code I can see and appreciate the reasons behind the reluctance to update because if it ain't broke...
 

@@ -16,25 +16,21 @@ I created [**Code Notes**](https://github.com/mrmartineau/gatsby-theme-code-note
 
 GitHub hosts [my notes](https://github.com/mrmartineau/notes.zander.wtf) which means the notes are versioned using Git so others can fork my notes or I can revert if needed.
 
-![Screengrab of a notes listing view](../../projects/code-notes/list.png)
+![Screengrab of a notes listing view](~/assets/code-notes-release/list.png)
 
 All notes are written in MDX or markdown. MDX is an extension of markdown that enables you to write `JSX` or `HTML` within the notes and they will render. This means the notes can be interactive, so you can show a code snippet and a preview right next to each other 🚀. `iframe`s can also be added so gists, Codepens or even Figma designs can be included in your notes.
 
 Notes are fully searchable too 🔍, including all code snippets. I integrated [Flexsearch](https://github.com/nextapps-de/flexsearch) and made a few optimisations to improve the search speed — I'll write a blog post about that soon.
 
-<img
-  src="./search.gif"
-  width="400"
-  alt="Screencast showing how the search works"
-/>
+![Screencast showing how the search works](~/assets/code-notes-release/search.gif)
 
 The design of this theme is intentionally simple to allow for the notes to be as legible as possible. There are multiple themes: light and dark of course.
 
-![Screengrab of what a note looks like with the dark theme activated](../../projects/code-notes/note-dark.png)
+![Screengrab of what a note looks like with the dark theme activated](~/assets/code-notes-release/note-dark.png)
 
 Notes also look great on mobile:
 
-![Screengrab of the Code Notes theme on a small viewport](../../projects/code-notes/skinny-nav.png)
+![Screengrab of the Code Notes theme on a small viewport](~/assets/code-notes-release/skinny-nav.png)
 
 ## How do you make your own notes site?
 

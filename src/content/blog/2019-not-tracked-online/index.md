@@ -9,13 +9,13 @@ So, you don't want to be tracked online 🙅 by advertisers & analytics scripts 
 
 ➡️ Visit [github.com/StevenBlack/hosts](https://github.com/StevenBlack/hosts#list-of-all-hosts-file-variants) and find the "hosts" recipe that you'd like. The "Unified hosts = (adware + malware)" should be sufficient, but you can also find ones that block porn and/or gambling content.
 
-![](./steven-black-hosts.jpeg)
+![](~/assets/not-tracked-online/steven-black-hosts.jpeg)
 
 A screenshot of the table of block recipes provided by the StevenBlack repo
 
 If you're on a Mac, download Gas Mask (free) from [clockwise.ee](https://clockwise.ee). If you're on Windows, you can try Unified Hosts AutoUpdate from [github.com/ScriptTiger/Unified-Hosts-AutoUpdate](https://github.com/ScriptTiger/Unified-Hosts-AutoUpdate). Both will allow you to select one of the hosts lists (mentioned above) and have it auto-update at regular intervals.
 
-![](./gas-mask.png)
+![](~/assets/not-tracked-online/gas-mask.png)
 
 Screenshot of the Gas Mask app
 
@@ -33,7 +33,7 @@ Find out about Pi-hole at [pi-hole.net](https://pi-hole.net)
 
 And if you don't want to setup a Pi-hole, give [nextdns.io](https://nextdns.io) a try. I've been using it for a couple of months now and love it.
 
-![](nextdns.jpeg)
+![](~/assets/not-tracked-online/nextdns.jpeg)
 
 A screenshot of the intro from the NextDNS website
 

@@ -1,6 +1,6 @@
 ---
 slug: customise-sublime-text-2
-title: 'Customise Sublime Text 2'
+title: Customise Sublime Text 2
 subtitle: "Tips for customising the only text editor you'll ever need."
 date: 2011-08-23
 ---
@@ -35,7 +35,7 @@ Note: please check the [Package Control website](http://wbond.net/sublime_packag
 
 Bring up the Sublime prompt by pressing `super+shift+p` — super = Cmd (on Mac) or Windows (on PC) — start typing the word package & you should get a list of all the commands relating to installing, removing & managing packages. (Cheers Will)
 
-![](./234.png)
+![](~/assets/customise-sublime-text-2/234.png)
 
 Navigate to the `Package Control:Install Package` item & hit enter, then browse the list & select the ones you want. After you paste the provided command into the console, you need to restart Sublime Text to finish the installation. Once Package Control is installed, future package installations are instantaneous.
 

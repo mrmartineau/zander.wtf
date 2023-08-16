@@ -11,7 +11,7 @@ This post is a deep-dive into a small part of my [Code Notes](https://github.com
 
 I wanted to provide a table of contents for each note, which like many you've seen before on documentation sites, provides a helpful way to navigate large notes. See a screengrab of how they look here:
 
-![](toc.png)
+![](~/assets/gatsby-table-of-contents/toc.png)
 
 Gatsby provides access to the very useful `tableOfContents` GraphQL query when using markdown or mdx. A simplified example query for a single note looks like this:
 
@@ -94,7 +94,7 @@ The next two components render a list of contents items (`ContentsList`) and an 
 const ContentsList = ({ items }) => {
   return (
     <ul>
-      {items.map(item => {
+      {items.map((item) => {
         return <ContentsItem key={`${item.url}-item`} item={item} />
       })}
     </ul>

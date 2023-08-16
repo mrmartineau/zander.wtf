@@ -15,7 +15,7 @@ In collaboration with our Design and UX team, we created a component library bui
 
 Consistency is key for customer experience; without it, customers will not be able to reliably infer meaning from the user interface elements that they use and interact with. It was clear that a design system, which includes a React component library, was needed to ensure our apps and websites had that required consistency. Enter 🗻**_Fuji_**.
 
-![](./mt-fuji.jpg)
+![](~/assets/design-systems-at-fairfx/mt-fuji.jpg)
 
 [By manucosen at Unsplash.com](https://unsplash.com/photos/n--CMLApjfI)
 
@@ -27,7 +27,7 @@ Why is it called 🗻 Fuji? It’s a tenuous link to our core business: providin
 
 Massive re-usability is achieved because we use React and its component architecture, but also because of how we style our components. We use [styled-components](https://www.styled-components.com/), the most popular CSS-in-JS library at the moment.
 
-![](./storybook.jpg)
+![](~/assets/design-systems-at-fairfx/storybook.jpg)
 
 Developer workflow is a breeze 💨 because we leverage [Storybook](https://storybooks.js.org/), an isolated development environment for our components. It allows us to develop each component individually, outside of any application that we might be working on, and also provide multiple examples for the component to be rendered.
 
@@ -39,7 +39,7 @@ All 🗻 Fuji’s components have some degree of tests to ensure that they do wh
 
 [ChromaticQA](https://www.chromaticqa.com/) handles our visual regression testing, it works_almost_all the time and is another useful tool to help ensure no regressions make it to production. It is great because it uses Storybook’s stories as the basis for each test.
 
-![](./chromatic.jpg)
+![](~/assets/design-systems-at-fairfx/chromatic.jpg)
 
 As with all client-side code at FairFX, 🗻 Fuji uses [Typescript](https://www.typescriptlang.org/), which enables us to trust the code, and provide a more robust output with fewer bugs 🐜 being shipped to end-users 💪.
 

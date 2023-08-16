@@ -1,7 +1,7 @@
 ---
 slug: pure-css-icons
-title: 'Pure CSS Icons'
-subtitle: 'An experiment at creating shapes with CSS'
+title: Pure CSS Icons
+subtitle: An experiment at creating shapes with CSS
 date: 2010-04-18
 ---
 
@@ -25,53 +25,53 @@ I'm sure its obvious but just to be clear, these icons will not work very well i
 
 My first idea was simply an RSS icon, it seemed easy enough and indeed it was. I created a two variations, one with the traditional orange background and one without.
 
-![RSS](./211.png)
+![RSS](~/assets/pure-css-icons/211.png)
 
 ### Heart
 
 Made with just two spans rotated at opposite angles.
 
-![Heart](./210.png)
+![Heart](~/assets/pure-css-icons/210.png)
 
 ### iPhone
 
 With a big dose of inspiration from the brilliant [Helveticons](http://helveticons.ch) icon set, I created this iPhone icon. Three `span`s within one container `div`.
 
-![iPhone](./209.png)
+![iPhone](~/assets/pure-css-icons/209.png)
 
 ### Microphone
 
 Easily the most interesting icon to code, this icon uses a few more elements than any of the others.
 
-![Heart](./208.png)
+![Heart](~/assets/pure-css-icons/208.png)
 
 ### Block
 
 A simple `div` with a rotated span within.
 
-![Block](./207.png)
+![Block](~/assets/pure-css-icons/207.png)
 
 ### Triangle
 
 One `div` that make uses borders to create the illusion of a triangle.
 
-![Triangle](./206.png)
+![Triangle](~/assets/pure-css-icons/206.png)
 
 ### Disc, Target & Mini Target
 
-![Triangle](./205.png)
+![Triangle](~/assets/pure-css-icons/205.png)
 
 ### Can & upright can
 
 Variations on the disc and target icons; I found it quite interesting to see what happens when you changes the dimensions of their containers. If it was wider, I think the Can could be used quite effectively as a button.
 
-![Cans](./204.png)
+![Cans](~/assets/pure-css-icons/204.png)
 
 ### Eye
 
 Without a doubt, my favourite of all the icons, it only uses one container and a `span` within. I had initially tried to use one span for the larger circle shap, two spans for each of the points and another for the 'pupil' of the eye. I quickly realised that this was not needed and instead created a box with two very rounded corners, then I rotated it 45 degrees and inserted the inner span for the pupil. Neat huh?
 
-![Eye](./203.png)
+![Eye](~/assets/pure-css-icons/203.png)
 
 I do intend on exploring this idea further, but I would love to know what everyone's thoughts and suggestions are; can these be impoved or created using less code..?
 

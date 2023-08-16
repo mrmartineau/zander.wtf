@@ -43,7 +43,7 @@ I created a [Gatsby theme](https://github.com/mrmartineau/gatsby-theme-code-note
 
 After the [initial commit](https://github.com/mrmartineau/gatsby-theme-code-notes/commit/96004bce717cb9e5fbde3723306be20a38a2c262) on 9th Feb, this project has been something of an obsession for me. It scratched an itch I had for what I needed as a second brain (as people like to call them these days) for my code-related notes. My [launch blog post](/blog/code-notes-release) goes into more detail about this.
 
-![Code Notes screenshot](../../projects/code-notes/note.png)
+![Code Notes screenshot](~/assets/site-redesign-2020/note.png)
 
 The theme was well received and continues to be maintained and iterated on and [notes.zander.wtf](https://notes.zander.wtf) is where my notes reside. I tend to it like a garden and find myself referring to it constantly. Of course, the notes are only for my benefit, but there's some good stuff there so I recommend you check it out if you have a similar need.
 
@@ -59,7 +59,7 @@ Before this iteration, I did not use analytics because I am a big privacy advoca
 
 As you can see from the image below, I don’t get much traffic to the site, but when I released Code Notes, the [launch blog post](/blog/code-notes-release) garnered quite a few views.
 
-![](2020-blog-stats.jpg)
+![](~/assets/2020-review/2020-blog-stats.jpg)
 
 ### Unnamed, unfinished project
 
@@ -75,7 +75,7 @@ With the help of [Scriptable](https://scriptable.app), I created a few different
 
 I made a couple for YouTube channel admins, like my brother for his new cooking channel, [A Good Chew](https://www.youtube.com/channel/UCaeTwbBs3tezU9MUi25z5MQ); another for showing your GitHub repo stars; and lastly one to show your Instapaper unread items. Find the repo for all of them [here](https://github.com/mrmartineau/scriptable-widgets).
 
-![Examples of the Scriptable widgets I created](widgets.jpg)
+![Examples of the Scriptable widgets I created](~/assets/2020-review/widgets.jpg)
 
 I love that with no iOS dev knowledge I can create things that live on my phone’s home screen using a language that I use every day: JavaScript.
 

@@ -19,7 +19,7 @@ The Kickoff generator runs a Grunt task immediately after it has finished compil
 
 ```js
 // Now you can bind to the dependencies installed event
-this.on('dependenciesInstalled', function() {
+this.on('dependenciesInstalled', function () {
   if (this.jsLibs === 'jquery') {
     this.spawnCommand('grunt', ['jquery'])
   }
@@ -51,7 +51,7 @@ Then [use it](https://github.com/tmwagency/generator-kickoff/blob/master/app/ind
 console.log(chalk.bold.yellow('message'))
 ```
 
-![Chalk colours in the Kickoff Yeoman generator](http://tech.tmw.co.uk/img/blog/yeoman-tips/chalk.png)
+![Chalk colours in the Kickoff Yeoman generator](~/assets/yeoman-generator-development-tips/chalk.png)
 
 If you would like to know more about different prompt/question styles, see the [Inquirer.js docs](https://github.com/SBoudrias/Inquirer.js). Kickoff's can be found [here](https://github.com/tmwagency/generator-kickoff/blob/3982752d18f4b83870ed9e7b38c4d9c39e41efa6/app/index.js#L38-L80).
 

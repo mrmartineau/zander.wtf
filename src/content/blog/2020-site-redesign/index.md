@@ -12,7 +12,7 @@ My previous site (which can still be found at [2019.zander.wtf](https://2019.zan
 
 I used Gatsby extensively at [Curve](https://curve.com) (both the existing and upcoming Curve.com websites use it) and I recently created a Gatsby theme to manage my code-related notes, imaginatively named ["Code Notes"](https://github.com/mrmartineau/gatsby-theme-code-notes), so I have a good deal of experience with it.
 
-<img src="../../projects/code-notes/note.png" style={{ width: '50%' }} />
+![](~/assets/site-redesign-2020/note.png)
 
 ## Process
 
@@ -26,15 +26,15 @@ I saw a few that had big, bold Grotesk style fonts and knew I needed a piece of 
 
 I love **[Mackenzie Child's](https://www.mackenziechild.me/)** style and really like his faux interface elements that he uses on his website. I wanted to do something similar but in the end, I opted against it but did take some inspiration from some smaller details that he has.
 
-![](MackenzieChild.jpg)
+![](~/assets/site-redesign-2020/MackenzieChild.jpg)
 
 The design for **[Center](http://hello.center.design/)** provided a super bold and in-your-face approach that I toyed with for a while. Again I ultimately opted against it because I had done a bit of that in previous designs. I did however, try the same typeface that they used in my designs ([Ginto Nord](https://abcdinamo.com/typefaces/ginto) if you're interested), but it wasn't to be.
 
-![](./Center.jpg)
+![](~/assets/site-redesign-2020/Center.jpg)
 
 **[Matthieu Teyssandier](http://matthieuteyssandier.com/)** ended up providing not only the typeface (Monument Extended), but also a large piece of inspiration for how I wanted my projects to be listed. I tried many other options of course, but the simplicity and boldness of having only the name of the project really spoke to me. I added the date to the listing and kept a similar variant of what I used before to disclose each project's detailed info using `<details>`/`<summary>` elements.
 
-![](./MatthieuTeyssandier.jpg)
+![](~/assets/site-redesign-2020/MatthieuTeyssandier.jpg)
 
 Both Center and Matthieu's designs sealed it for me that I needed a bold Grotesk, but I needed to find the right one that suited me.
 
@@ -42,47 +42,37 @@ Both Center and Matthieu's designs sealed it for me that I needed a bold Grotesk
 
 Having seen Monument Extended on Matthieu's site, I wanted to see what other fonts the Pangram Pangram Foundry had. As well as [Monument Extended](https://pangrampangram.com/products/monument-extended), I found [Right Grotesk](https://pangrampangram.com/products/right-grotesk) which had a little more character than Monument. It had more pronounced ink-traps, but I opted not to use it because I preferred Monument.
 
-![](./right-grotesk.jpg)
+![](~/assets/site-redesign-2020/right-grotesk.jpg)
 
-![](./monument-extended.jpg)
+![](~/assets/site-redesign-2020/monument-extended.jpg)
 
 I looked for typefaces on other people's websites but used sites like [Font Review Journal](https://fontreviewjournal.com/) and [Typewolf](https://www.typewolf.com) to see if I could find any other typefaces I could use.
 
 [Space Grotesk](https://fonts.floriankarsten.com/space-grotesk) also looked great but it did not have a bold enough weight for my needs.
 
-![](./space-grotesk.jpg)
+![](~/assets/site-redesign-2020/space-grotesk.jpg)
 
 [Hanson Bold](https://hansonmethod.com/hansonbold) by Hanson Method is similar to Monument, I can't remember the site where I first saw it, but it was the font I chose for the majority of the design process.
 
-![](./hanson-bold.jpg)
+![](~/assets/site-redesign-2020/hanson-bold.jpg)
 
 I always liked the typeface that Figma uses, it has very pronounced inktraps so I hunted it down and found that it was called [Whyte Inktrap](https://abcdinamo.com/typefaces/whyte). This did have a heavy and black weights but I felt that they did not look great when used in the way that I wanted.
 
-![](./whyte-inktrap.jpg)
+![](~/assets/site-redesign-2020/whyte-inktrap.jpg)
 
 As I mentioned above, [Ginto Nord](https://abcdinamo.com/typefaces/ginto) Bold from the Center website is lovely.
 
-![](./ginto-nord.jpg)
+![](~/assets/site-redesign-2020/ginto-nord.jpg)
 
 My previous site used [IA Writer Duospace](https://github.com/iaolo/iA-Fonts), which I never realised was based on [IBM Plex Mono](https://www.ibm.com/plex/). I decided to switch from Duospace to using Plex Mono instead.
 
-![](./ibm-plex-mono.jpg)
+![](~/assets/site-redesign-2020/ibm-plex-mono.jpg)
 
 In the end, I chose **Monument Extended Ultrabold** and **IBM Plex Mono**.
 
 ### Design
 
-I use Figma for any and all design work these days, it has changed the way I collaborate with a design team. I went through many iterations testing out different typographic pairings, colour schemes and layout ideas before starting to code it all out.
-
-In the Figma embed below, you can see multiple variants of the home page, and like my previous iteration, everything was supposed to stay on the one page. Only during development did I decide to split each section out into separate pages. What I designed was definitely not complete, but it gave me enough to go on when I started coding.
-
-<iframe
-  style="border: 1px solid rgba(0, 0, 0, 0.1);"
-  width="99%"
-  height="450"
-  src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FU2j8AAsSfaCjWUkB7bgPMuII%2Fzander.wtf%3Fnode-id%3D61%253A22&chrome=DOCUMENTATION"
-  allowfullscreen
-></iframe>
+I use Figma for all design work these days, it has changed the way I collaborate with design teams. I went through many iterations testing out different typographic pairings, colour schemes and layout ideas before starting to code it all out.
 
 ### Development
 
