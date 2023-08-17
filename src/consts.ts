@@ -54,7 +54,7 @@ export const SITE_FOOTER_ITEMS = [
 ]
 
 export const ABOUT_ME = {
-  bio: 'I am a contract front-end specialist / product engineer with over 15 years of experience across a range of business sectors.',
+  bio: 'I am a contract front-end specialist / product engineer with over 15 years of experience.',
   cv: 'https://read.cv/mrmartineau',
 }
 
