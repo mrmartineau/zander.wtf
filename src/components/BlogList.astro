@@ -10,11 +10,16 @@ const { posts } = Astro.props
 
 <div class="zm-blog-items">
   {
-    posts.map((post) => (
+    posts.map(({ slug, data }) => (
       <div class="zm-blog-item">
-        <a href={`/blog/${post.slug}`}>{post.data.title}</a>
-        <div>
-          <FormattedDate date={post.data.date} />
+        <div class="info">
+          <a href={`/blog/${slug}`} class="title">
+            {data.title}
+          </a>
+          {data?.subtitle ? <div class="subtitle">{data.subtitle}</div> : null}
+        </div>
+        <div class="date">
+          <FormattedDate date={data.date} />
         </div>
       </div>
     ))
@@ -29,25 +34,35 @@ const { posts } = Astro.props
     gap: var(--space-xs);
   }
 
-  .zm-blog-item {
-    div {
-      opacity: 0.7;
-      font-feature-settings: 'calt' 1, 'liga' 1, 'rlig' 1, 'rvrn' 1, 'kern' 1,
-        'rclt' 1, 'tnum' 1;
-      font-size: var(--step--2);
-    }
+  .title {
+    line-height: 1.2;
+    display: block;
+    margin-block-end: var(--space-3xs);
   }
 
-  @container blog-item (min-width: 340px) {
+  .subtitle {
+    opacity: 0.7;
+    font-size: var(--step--1);
+    line-height: 1.2;
+  }
+
+  .date {
+    opacity: 0.7;
+    font-feature-settings: 'calt' 1, 'liga' 1, 'rlig' 1, 'rvrn' 1, 'kern' 1,
+      'rclt' 1, 'tnum' 1;
+    font-size: var(--step--2);
+  }
+
+  @container blog-item (min-width: 400px) {
     .zm-blog-item {
       display: flex;
       gap: var(--space-xs);
 
-      a {
+      .info {
         order: 2;
       }
 
-      div {
+      .date {
         min-width: 130px;
         order: 1;
         font-size: unset;

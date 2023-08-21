@@ -54,7 +54,7 @@ export const SITE_FOOTER_ITEMS = [
 ]
 
 export const ABOUT_ME = {
-  bio: 'I am a contract front-end specialist / product engineer with over 15 years of experience.',
+  bio: 'I am a contract product engineer (front-end specialist) with over 15 years of experience.',
   cv: 'https://read.cv/mrmartineau',
 }
 
@@ -162,6 +162,7 @@ export type Project = {
   name: string
   description: string
   link?: string
+  repo?: string
   status: 'active' | 'archived' | 'inactive' | 'ongoing'
   tech?: string
   published?: 'private' | 'public'
@@ -219,7 +220,8 @@ export const SIDE_PROJECTS: Project[] = [
   {
     name: 'Code Notes v2',
     description: 'TILs, snippets—my digital code garden 🌱',
-    link: 'https://github.com/mrmartineau/notes.zander.wtf',
+    link: 'https://notes.zander.wtf',
+    repo: 'https://github.com/mrmartineau/notes.zander.wtf',
     status: 'active',
     tech: 'Eleventy, Nunjucks, TypeScript, PostCSS, Algolia search',
   },

@@ -12,13 +12,20 @@ const projectList = limit ? SIDE_PROJECTS.slice(0, limit) : SIDE_PROJECTS
 
 <div class="zm-project-items">
   {
-    projectList.map(({ name, description, link, tech, subitems }) => (
+    projectList.map(({ name, description, link, tech, subitems, repo }) => (
       <div class="zm-project-item">
         <div class="name">{link ? <a href={link}>{name}</a> : name}</div>
 
         <div class="description">{description}</div>
 
         {tech ? <div class="tech">{tech}</div> : null}
+
+        {repo ? (
+          <div class="repo">
+            <a href={repo}>Repo</a>
+          </div>
+        ) : null}
+
         {subitems?.length && showSubitems ? (
           <ul>
             {subitems.map((subitem) => {
@@ -49,7 +56,8 @@ const projectList = limit ? SIDE_PROJECTS.slice(0, limit) : SIDE_PROJECTS
   .description {
     font-size: var(--step--1);
   }
-  .tech {
+  .tech,
+  .repo {
     font-size: var(--step--2);
   }
 
