@@ -51,22 +51,23 @@ const { posts } = Astro.props
     font-feature-settings: 'calt' 1, 'liga' 1, 'rlig' 1, 'rvrn' 1, 'kern' 1,
       'rclt' 1, 'tnum' 1;
     font-size: var(--step--2);
+    line-height: 1.2;
   }
 
   @container blog-item (min-width: 400px) {
     .zm-blog-item {
       display: flex;
       gap: var(--space-xs);
+    }
 
-      .info {
-        order: 2;
-      }
+    .info {
+      order: 2;
+    }
 
-      .date {
-        min-width: 130px;
-        order: 1;
-        font-size: unset;
-      }
+    .date {
+      min-width: 130px;
+      order: 1;
+      font-size: unset;
     }
   }
 </style>
