@@ -171,6 +171,13 @@ export type Project = {
 
 export const SIDE_PROJECTS: Project[] = [
   {
+    name: 'zander.wtf',
+    description: 'This very website. Open source.',
+    link: 'https://github.com/mrmartineau/zander.wtf',
+    status: 'active',
+    tech: 'Astro, TypeScript, PostCSS, Tailwind',
+  },
+  {
     name: 'Journal',
     description:
       'Personal journalling app built to help me start writing more. Open source.',
