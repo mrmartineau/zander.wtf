@@ -5,7 +5,7 @@ import LinkFeedItem from './LinkFeedItem.astro'
 const links = await fetchLinks(6)
 ---
 
-<Block title="Links" subtitle="Recent bookmarks">
+<Block title="Links" subtitle="Hand-picked hyperlinks">
   <div class="zm-links flex flex-col gap-2">
     {
       links.map((item) => {
