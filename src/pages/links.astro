@@ -1,7 +1,7 @@
 ---
-import LinkFeedItem from '../components/LinkFeedItem.astro'
+import LinkFeedItem from '~/components/LinkFeedItem.astro'
 import { fetchLinks } from '../fetching/links'
-import PageLayout from '../layouts/PageLayout.astro'
+import PageLayout from '~/layouts/PageLayout.astro'
 
 const links = await fetchLinks()
 ---
