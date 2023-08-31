@@ -1,14 +1,28 @@
-pre {
+pre.astro-code,
+code {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+}
+
+pre.astro-code {
   padding: var(--space-s);
   margin-bottom: var(--space-l);
   overflow-x: auto;
   position: relative;
-  font-family: var(--font-mono);
   overflow-x: auto;
-  background-color: var(--bg) !important;
+  background-color: var(--bg-code-highlight) !important;
+  border-radius: 0.5rem;
+  max-width: 80ch;
 
   &[data-language] {
     padding-top: var(--space-m);
+  }
+
+  code {
+    &::before,
+    &::after {
+      content: '';
+    }
   }
 }
 
@@ -30,15 +44,3 @@ pre[data-language]::before {
 pre code a {
   text-decoration: none;
 }
-
-/*@media (prefers-color-scheme: light) {
-  .shiki.dark-plus {
-    display: none;
-  }
-}
-@media (prefers-color-scheme: dark) {
-  .shiki.light-plus {
-    display: none;
-  }
-}
-*/

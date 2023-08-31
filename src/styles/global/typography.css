@@ -91,9 +91,9 @@ article {
     }
   }
 
-  p code {
+  code {
     color: var(--colour-text-bright);
-    font-weight: bold;
+    font-family: var(--font-mono);
     &::before,
     &::after {
       content: '`';

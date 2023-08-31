@@ -42,7 +42,7 @@
   /* Dark */
   --bg: var(--colour-reallyFuckingDark);
   --bg-block: var(--colour-notQuiteSoFuckingDark);
-  --bg-code-highlight: #444;
+  --bg-code-highlight: var(--colour-notQuiteSoFuckingDark);
   --bg-nav-active: var(--bg-main);
   --border: theme(colors.zinc.500);
   --colour-text-parts: var(--colour-reallyFuckingBright);
@@ -61,7 +61,8 @@
   --font-hubot: Hubot Sans, system-ui, sans-serif;
   --font-mona: Mona Sans, system-ui, sans-serif;
   --font-sans: Hubot Sans, system-ui, sans-serif;
-  --font-mono: JetBrains Mono, SF Mono, Menlo, Monaco, Courier New, monospace;
+  --font-mono: Comic Code, JetBrains Mono, SF Mono, Menlo, Monaco, Courier New,
+    monospace;
   --font-headings: var(--font-mona);
   --font-body: var(--font-mona);
 }
