@@ -7,16 +7,19 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "check": "astro check"
   },
   "dependencies": {
-    "@astrojs/mdx": "^0.19.7",
-    "@astrojs/prefetch": "^0.3.0",
-    "@astrojs/rss": "^2.4.3",
-    "@astrojs/sitemap": "^1.4.0",
+    "@astrojs/check": "^0.2.0",
+    "@astrojs/mdx": "^1.0.0",
+    "@astrojs/prefetch": "^0.4.0",
+    "@astrojs/rss": "^3.0.0",
+    "@astrojs/sitemap": "^3.0.0",
+    "@spotify/web-api-ts-sdk": "^1.1.0",
     "@types/markdown-it": "^13.0.0",
     "@types/sanitize-html": "^2.9.0",
-    "astro": "^2.8.3",
+    "astro": "^3.0.3",
     "axios": "^1.4.0",
     "letterboxd": "^3.1.0",
     "markdown-it": "^13.0.1",
@@ -31,6 +34,7 @@
     "postcss-import": "^15.1.0",
     "postcss-import-ext-glob": "^2.1.1",
     "postcss-nested": "^6.0.1",
-    "tailwindcss": "^3.3.3"
+    "tailwindcss": "^3.3.3",
+    "typescript": "^5.2.2"
   }
 }

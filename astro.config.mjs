@@ -1,4 +1,4 @@
-import { defineConfig, sharpImageService } from 'astro/config'
+import { defineConfig } from 'astro/config'
 import mdx from '@astrojs/mdx'
 import sitemap from '@astrojs/sitemap'
 import { execSync } from 'node:child_process'
@@ -14,12 +14,5 @@ export default defineConfig({
     define: {
       __COMMIT_HASH__: JSON.stringify(commitHash),
     },
-  },
-  experimental: {
-    viewTransitions: true,
-    assets: true,
-  },
-  image: {
-    service: sharpImageService(),
   },
 })

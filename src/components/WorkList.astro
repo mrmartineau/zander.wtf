@@ -5,7 +5,7 @@ type Props = {
   limit?: number
   showDetail?: boolean
 }
-const { limit, showDetail } = Astro.props
+const { limit } = Astro.props
 
 const workList = limit ? JOBS.previous.slice(0, limit) : JOBS.previous
 ---
