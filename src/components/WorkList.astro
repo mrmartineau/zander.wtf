@@ -32,7 +32,7 @@ const workList = limit ? JOBS.previous.slice(0, limit) : JOBS.previous
           return (
             <>
               <a href={job.url}>{job.name}</a>
-              {index < JOBS.previous.length - 1 ? <>·</> : null}
+              {index < JOBS.previous.length - 1 ? <> · </> : null}
             </>
           )
         })

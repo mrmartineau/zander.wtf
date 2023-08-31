@@ -19,3 +19,7 @@
   color: var(--colour-text);
   display: block;
 }
+
+.zm-movies {
+  overflow: hidden;
+}
