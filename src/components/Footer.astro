@@ -1,11 +1,14 @@
 ---
 import { SITE_FOOTER_ITEMS } from '../consts'
 import BigName from './BigName.astro'
+import Status from '~/components/Status.astro'
 
 const today = new Date()
 ---
 
 <footer>
+
+  <Status />
   &copy; {today.getFullYear()} Zander Martineau • <a
     href={`https://github.com/mrmartineau/zander.wtf/commit/${__COMMIT_HASH__}`}
     class="commit-hash">#{__COMMIT_HASH__}</a

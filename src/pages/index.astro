@@ -6,6 +6,7 @@ import BlockLinks from '~/components/BlockLinks.astro'
 import BlockMovies from '~/components/BlockMovies.astro'
 import BlockProjects from '~/components/BlockProjects.astro'
 import { SITE_TITLE } from '../consts'
+import Status from '~/components/Status.astro'
 import BaseLayout from '~/layouts/BaseLayout.astro'
 ---
 
@@ -13,6 +14,7 @@ import BaseLayout from '~/layouts/BaseLayout.astro'
   <div class="zm-theFuckingContainer">
     <h1 class="zm-intro">Hi! I’m <span>Zander</span>, I make websites</h1>
 
+    <Status />
     <div class="zm-block-grid">
       <BlockAbout />
       <BlockBlog />
@@ -52,13 +54,13 @@ import BaseLayout from '~/layouts/BaseLayout.astro'
         right: 0;
         bottom: 100%;
         width: var(--avatarSize);
-        border-radius: 50%;
+        /* border-radius: 50%; */
         aspect-ratio: 1 / 1;
         max-width: 180px;
         /* Parallelogram */
-        clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%);
+        /* clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%); */
         /* Heptagon */
-        /* clip-path: polygon(
+        clip-path: polygon(
           50% 0%,
           90% 20%,
           100% 60%,
@@ -66,7 +68,7 @@ import BaseLayout from '~/layouts/BaseLayout.astro'
           25% 100%,
           0% 60%,
           10% 20%
-        ); */
+        );
         /* Nonagan */
         /* clip-path: polygon(
           50% 0%,

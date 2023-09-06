@@ -1,5 +1,6 @@
 export const SITE_TITLE = `Hi! I'm Zander, I make websites`
 export const SITE_DESCRIPTION = `Zander Martineau's personal site`
+export const SHOW_STATUS = true
 
 export const SITE_NAV_ITEMS = [
   {
@@ -56,6 +57,8 @@ export const SITE_FOOTER_ITEMS = [
 export const ABOUT_ME = {
   bio: 'I am a contract product engineer (front-end specialist) with over 15 years of experience.',
   cv: 'https://read.cv/mrmartineau',
+  email:
+    'mailto:hi+enquiry@zander.wtf?subject=Contract%20enquiry&body=Hi%20Zander%2C%0A%0AI%20would%20like%20to%20work%20with%20you...',
 }
 
 export const JOBS = {
