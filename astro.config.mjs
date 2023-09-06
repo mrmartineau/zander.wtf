@@ -2,8 +2,8 @@ import { defineConfig } from 'astro/config'
 import mdx from '@astrojs/mdx'
 import sitemap from '@astrojs/sitemap'
 import { execSync } from 'node:child_process'
-
 import prefetch from '@astrojs/prefetch'
+import vercel from '@astrojs/vercel/static'
 const commitHash = execSync('git rev-parse --short HEAD').toString()
 
 // https://astro.build/config
@@ -28,4 +28,9 @@ export default defineConfig({
       __COMMIT_HASH__: JSON.stringify(commitHash),
     },
   },
+  output: 'static',
+  adapter: vercel({
+    analytics: true,
+    imageService: true,
+  }),
 })
