@@ -12,9 +12,23 @@ import BaseLayout from '~/layouts/BaseLayout.astro';
 
 <BaseLayout title={SITE_TITLE}>
   <div class="zm-theFuckingContainer">
-    <h1 class="zm-intro">Hi! I’m <span>Zander</span>, I make websites</h1>
+    <!-- prettier-ignore -->
+    <h1 class="zm-intro">
+      Hi! I’m <span>Zander<img
+          src="/images/avatars/zm-avatar-4.jpg"
+          class="avatar-normal"
+          loading="lazy"
+        /><img
+          src="/images/avatars/zm-avatar-1.jpg"
+          class="avatar-hover"
+          loading="lazy"
+        /></span>, I make websites
+    </h1>
+
+
 
     <Status />
+
     <div class="zm-block-grid">
       <BlockAbout />
       <BlockBlog />
@@ -48,25 +62,22 @@ import BaseLayout from '~/layouts/BaseLayout.astro';
       color: var(--colour-accent);
       position: relative;
       white-space: pre;
+      cursor: help;
 
-      &::before,
-      &::after {
-        content: '';
-        background-position: center center;
-        background-size: cover;
+      img {
         transition: all 150ms ease-in-out;
         transform: rotate(7deg);
         position: absolute;
         right: 0;
         bottom: 100%;
         width: var(--avatarSize);
-        /* border-radius: 50%; */
+        border-radius: 50%;
         aspect-ratio: 1 / 1;
         max-width: 180px;
         /* Parallelogram */
         /* clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%); */
         /* Heptagon */
-        clip-path: polygon(
+        /* clip-path: polygon(
           50% 0%,
           90% 20%,
           100% 60%,
@@ -74,7 +85,7 @@ import BaseLayout from '~/layouts/BaseLayout.astro';
           25% 100%,
           0% 60%,
           10% 20%
-        );
+        ); */
         /* Nonagan */
         /* clip-path: polygon(
           50% 0%,
@@ -88,20 +99,17 @@ import BaseLayout from '~/layouts/BaseLayout.astro';
           17% 12%
         ); */
       }
-
-      &::before {
-        background-image: url(/images/avatars/zm-avatar-4.jpg);
-      }
-      &::after {
-        background-image: url(/images/avatars/zm-avatar-1.jpg);
+      .avatar-hover {
         opacity: 0;
       }
-      &:hover::before,
-      &:hover::after {
+      &:hover img {
         transform: rotate(12deg) scale(0.9);
       }
-      &:hover::after {
+      &:hover .avatar-hover {
         opacity: 1;
+      }
+      &:hover .avatar-normal {
+        opacity: 0;
       }
     }
 
