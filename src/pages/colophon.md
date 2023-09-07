@@ -9,7 +9,7 @@ The **2023** version of my digital abode is built with [Astro](https://astro.bui
 
 Astro is great because, like 11ty, it's a static site generator, but `.astro` components use JSX syntax, which I'm very familiar with – I write React apps for a living so it was a natural fit. The component and data fetching model was extremely easy to pick up and I was able to rebuild the site in a few days.
 
-Type is set in **Mona Sans** and **Hubot Sans** from [GitHub](https://github.com/mona-sans).
+Type is set in **Mona Sans** from [GitHub](https://github.com/mona-sans).
 
 For CSS processing, I use [PostCSS](https://postcss.org/) with Tailwind and Autoprefixer. Tailwind is used sparingly when I need to add a utility class to an element without adding a specific classname.
 

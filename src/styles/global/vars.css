@@ -58,9 +58,7 @@
   --sidebar-width: 250px;
 
   /* Fonts */
-  --font-hubot: Hubot Sans, system-ui, sans-serif;
   --font-mona: Mona Sans, system-ui, sans-serif;
-  --font-sans: Hubot Sans, system-ui, sans-serif;
   --font-mono: Comic Code, JetBrains Mono, SF Mono, Menlo, Monaco, Courier New,
     monospace;
   --font-headings: var(--font-mona);
