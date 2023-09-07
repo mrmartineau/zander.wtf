@@ -16,6 +16,7 @@ const movies = await fetchMovies()
                 src={item?.film.image.large}
                 alt={item?.film.title}
                 class="zm-movie-image"
+                loading="lazy"
               />
               {item?.rating ? (
                 <div class="zm-movie-info">
