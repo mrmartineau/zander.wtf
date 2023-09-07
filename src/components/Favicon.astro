@@ -1,9 +1,9 @@
 ---
 interface Props {
-  url: string
+  url: string;
 }
-const { url } = Astro.props
-const domain = new URL(url).host.replace('www.', '')
+const { url } = Astro.props;
+const domain = new URL(url).host.replace('www.', '');
 ---
 
 <img

@@ -1,18 +1,19 @@
 ---
-import { SITE_FOOTER_ITEMS } from '../consts'
-import BigName from './BigName.astro'
-import Status from '~/components/Status.astro'
+import { SITE_FOOTER_ITEMS } from '../consts';
+import BigName from './BigName.astro';
+import Status from '~/components/Status.astro';
 
-const today = new Date()
+const today = new Date();
 ---
 
 <footer>
-
   <Status />
-  &copy; {today.getFullYear()} Zander Martineau • <a
+   &copy; {today.getFullYear()} Zander Martineau • <a
     href={`https://github.com/mrmartineau/zander.wtf/commit/${__COMMIT_HASH__}`}
-    class="commit-hash">#{__COMMIT_HASH__}</a
+    class="commit-hash"
   >
+    #{__COMMIT_HASH__}
+  </a>
   <nav>
     {
       SITE_FOOTER_ITEMS.map((item) => {
@@ -26,7 +27,7 @@ const today = new Date()
             {item.text}
             {item.external ? <i class="ph-duotone ph-arrow-up-right" /> : null}
           </a>
-        )
+        );
       })
     }
   </nav>

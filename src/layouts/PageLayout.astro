@@ -1,12 +1,12 @@
 ---
-import BaseLayout from './BaseLayout.astro'
-import PageHeader from '~/components/PageHeader.astro'
+import BaseLayout from './BaseLayout.astro';
+import PageHeader from '~/components/PageHeader.astro';
 
 type Props = {
-  title: string
-  subtitle?: string
-}
-const { title, subtitle } = Astro.props
+  title: string;
+  subtitle?: string;
+};
+const { title, subtitle } = Astro.props;
 ---
 
 <BaseLayout title={title} subtitle={subtitle}>

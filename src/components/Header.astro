@@ -1,9 +1,9 @@
 ---
-import { SITE_NAV_ITEMS } from '../consts'
-import BigName from './BigName.astro'
+import { SITE_NAV_ITEMS } from '../consts';
+import BigName from './BigName.astro';
 
-const pathname = new URL(Astro.request.url).pathname
-const currentPath = pathname.slice(1) // remove the first "/"
+const pathname = new URL(Astro.request.url).pathname;
+const currentPath = pathname.slice(1); // remove the first "/"
 ---
 
 <header>
@@ -12,13 +12,13 @@ const currentPath = pathname.slice(1) // remove the first "/"
     <a href="/" class:list={[{ active: pathname === '/' }]}>Home</a>
     {
       SITE_NAV_ITEMS.map((item) => {
-        const itemPath = item.url.slice(1)
-        const isActive = currentPath.startsWith(itemPath)
+        const itemPath = item.url.slice(1);
+        const isActive = currentPath.startsWith(itemPath);
         return (
           <a href={item.url} class:list={[{ active: isActive }]}>
             {item.text}
           </a>
-        )
+        );
       })
     }
   </nav>
@@ -42,7 +42,10 @@ const currentPath = pathname.slice(1) // remove the first "/"
   }
   a {
     position: relative;
-    font-variation-settings: 'wght' 800, 'wdth' 125, 'ital' 0;
+    font-variation-settings:
+      'wght' 800,
+      'wdth' 125,
+      'ital' 0;
     font-size: var(--step--1);
     text-transform: uppercase;
     padding: 0 0.5ex;

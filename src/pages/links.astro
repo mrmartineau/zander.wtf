@@ -1,9 +1,9 @@
 ---
-import LinkFeedItem from '~/components/LinkFeedItem.astro'
-import { fetchLinks } from '../fetching/links'
-import PageLayout from '~/layouts/PageLayout.astro'
+import LinkFeedItem from '~/components/LinkFeedItem.astro';
+import { fetchLinks } from '../fetching/links';
+import PageLayout from '~/layouts/PageLayout.astro';
 
-const links = await fetchLinks()
+const links = await fetchLinks();
 ---
 
 <PageLayout
@@ -14,10 +14,10 @@ const links = await fetchLinks()
     {
       links.map((item) => {
         if (!item?.title) {
-          return null
+          return null;
         }
 
-        return <LinkFeedItem {...item} isFeed={true} />
+        return <LinkFeedItem {...item} isFeed={true} />;
       })
     }
   </div>

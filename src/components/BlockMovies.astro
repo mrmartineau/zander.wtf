@@ -1,8 +1,8 @@
 ---
-import Block from './Block.astro'
-import { fetchMovies } from '../fetching/movies'
+import Block from './Block.astro';
+import { fetchMovies } from '../fetching/movies';
 
-const movies = await fetchMovies()
+const movies = await fetchMovies();
 ---
 
 <Block class="zm-movies" title="🍿 Recently watched">
@@ -24,21 +24,22 @@ const movies = await fetchMovies()
                 </div>
               ) : null}
             </a>
-          )
+          );
         }
 
-        return null
+        return null;
       })
     }
   </div>
   <a
     href="https://letterboxd.com/mrmartineau/films/diary/"
-    class="zm-block-link">View all →</a
+    class="zm-block-link"
   >
+    View all →
+  </a>
 </Block>
 
 <style>
-
   .zm-movies-list {
     position: relative;
     text-align: center;

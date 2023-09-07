@@ -1,5 +1,5 @@
 ---
-const { class: className } = Astro.props
+const { class: className } = Astro.props;
 ---
 
 <h1 class={className}><slot /></h1>
@@ -8,7 +8,10 @@ const { class: className } = Astro.props
   h1 {
     font-family: var(--font-mona);
     font-size: var(--step-8);
-    font-variation-settings: 'wght' 900, 'wdth' 75, 'ital' 0;
+    font-variation-settings:
+      'wght' 900,
+      'wdth' 75,
+      'ital' 0;
     line-height: 1;
     text-transform: uppercase;
     /* color: var(--colour-accent); */

@@ -1,13 +1,13 @@
 ---
-import { SIDE_PROJECTS } from '../consts'
+import { SIDE_PROJECTS } from '../consts';
 
 type Props = {
-  limit?: number
-  showSubitems?: boolean
-}
-const { limit, showSubitems = true } = Astro.props
+  limit?: number;
+  showSubitems?: boolean;
+};
+const { limit, showSubitems = true } = Astro.props;
 
-const projectList = limit ? SIDE_PROJECTS.slice(0, limit) : SIDE_PROJECTS
+const projectList = limit ? SIDE_PROJECTS.slice(0, limit) : SIDE_PROJECTS;
 ---
 
 <div class="zm-project-items">
@@ -34,7 +34,7 @@ const projectList = limit ? SIDE_PROJECTS.slice(0, limit) : SIDE_PROJECTS
                   <a href={subitem.link}>{subitem.name}</a>
                   <div>{subitem.description}</div>
                 </li>
-              )
+              );
             })}
           </ul>
         ) : null}
@@ -64,7 +64,10 @@ const projectList = limit ? SIDE_PROJECTS.slice(0, limit) : SIDE_PROJECTS
 
   .tag {
     font-size: var(--step--2);
-    font-variation-settings: 'wght' 400, 'wdth' 100, 'ital' 0;
+    font-variation-settings:
+      'wght' 400,
+      'wdth' 100,
+      'ital' 0;
     text-transform: uppercase;
     padding: var(--space-3xs) var(--space-3xs);
     background-color: var(--tag);

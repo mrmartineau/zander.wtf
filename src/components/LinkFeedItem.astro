@@ -1,14 +1,14 @@
 ---
-import type { Bookmark } from '../fetching/links'
-import Favicon from './Favicon.astro'
-import LinkType from './LinkType.astro'
-import ShortUrl from './ShortUrl.astro'
+import type { Bookmark } from '../fetching/links';
+import Favicon from './Favicon.astro';
+import LinkType from './LinkType.astro';
+import ShortUrl from './ShortUrl.astro';
 
 type Props = Bookmark & {
-  isFeed?: boolean
-}
+  isFeed?: boolean;
+};
 
-const { url, type, tags, title, description, isFeed = false } = Astro.props
+const { url, type, tags, title, description, isFeed = false } = Astro.props;
 ---
 
 <div class:list={['zm-links-item', { 'zm-links-item--feed': isFeed }]}>
@@ -36,7 +36,7 @@ const { url, type, tags, title, description, isFeed = false } = Astro.props
             if (
               !['IFTTT', 'TwitterLike', 'instapaper', 'zm:link'].includes(tag)
             ) {
-              return <div class="zm-links-item-tag">#{tag}</div>
+              return <div class="zm-links-item-tag">#{tag}</div>;
             }
           })
         : null

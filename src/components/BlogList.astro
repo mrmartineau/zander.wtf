@@ -1,11 +1,11 @@
 ---
-import type { CollectionEntry } from 'astro:content'
-import FormattedDate from './FormattedDate.astro'
+import type { CollectionEntry } from 'astro:content';
+import FormattedDate from './FormattedDate.astro';
 
 type Props = {
-  posts: CollectionEntry<'blog'>[]
-}
-const { posts } = Astro.props
+  posts: CollectionEntry<'blog'>[];
+};
+const { posts } = Astro.props;
 ---
 
 <div class="zm-blog-items">
@@ -48,8 +48,14 @@ const { posts } = Astro.props
 
   .date {
     opacity: 0.7;
-    font-feature-settings: 'calt' 1, 'liga' 1, 'rlig' 1, 'rvrn' 1, 'kern' 1,
-      'rclt' 1, 'tnum' 1;
+    font-feature-settings:
+      'calt' 1,
+      'liga' 1,
+      'rlig' 1,
+      'rvrn' 1,
+      'kern' 1,
+      'rclt' 1,
+      'tnum' 1;
     font-size: var(--step--2);
     line-height: 1.2;
   }

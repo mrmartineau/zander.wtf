@@ -1,8 +1,8 @@
 ---
-import { fetchLinks } from '../fetching/links'
-import Block from './Block.astro'
-import LinkFeedItem from './LinkFeedItem.astro'
-const links = await fetchLinks(6)
+import { fetchLinks } from '../fetching/links';
+import Block from './Block.astro';
+import LinkFeedItem from './LinkFeedItem.astro';
+const links = await fetchLinks(6);
 ---
 
 <Block title="Links" subtitle="Hand-picked hyperlinks">
@@ -10,10 +10,10 @@ const links = await fetchLinks(6)
     {
       links.map((item) => {
         if (!item?.title) {
-          return null
+          return null;
         }
 
-        return <LinkFeedItem {...item} isFeed={false} />
+        return <LinkFeedItem {...item} isFeed={false} />;
       })
     }
   </div>

@@ -1,13 +1,13 @@
 ---
-import BlockAbout from '~/components/BlockAbout.astro'
-import BlockBlog from '~/components/BlockBlog.astro'
-import BlockHobbies from '~/components/BlockHobbies.astro'
-import BlockLinks from '~/components/BlockLinks.astro'
-import BlockMovies from '~/components/BlockMovies.astro'
-import BlockProjects from '~/components/BlockProjects.astro'
-import { SITE_TITLE } from '../consts'
-import Status from '~/components/Status.astro'
-import BaseLayout from '~/layouts/BaseLayout.astro'
+import BlockAbout from '~/components/BlockAbout.astro';
+import BlockBlog from '~/components/BlockBlog.astro';
+import BlockHobbies from '~/components/BlockHobbies.astro';
+import BlockLinks from '~/components/BlockLinks.astro';
+import BlockMovies from '~/components/BlockMovies.astro';
+import BlockProjects from '~/components/BlockProjects.astro';
+import { SITE_TITLE } from '../consts';
+import Status from '~/components/Status.astro';
+import BaseLayout from '~/layouts/BaseLayout.astro';
 ---
 
 <BaseLayout title={SITE_TITLE}>
@@ -30,7 +30,10 @@ import BaseLayout from '~/layouts/BaseLayout.astro'
   .zm-intro {
     --avatarSize: min(10vw, 180px);
     font-family: var(--font-mona);
-    font-variation-settings: 'wght' 900, 'wdth' 75, 'ital' 0;
+    font-variation-settings:
+      'wght' 900,
+      'wdth' 75,
+      'ital' 0;
     font-size: var(--step-6);
     line-height: 0.9;
     color: var(--colour-text-bright);
@@ -38,7 +41,10 @@ import BaseLayout from '~/layouts/BaseLayout.astro'
     padding-top: var(--avatarSize);
 
     span {
-      font-variation-settings: 'wght' 900, 'wdth' 125, 'ital' 0;
+      font-variation-settings:
+        'wght' 900,
+        'wdth' 125,
+        'ital' 0;
       color: var(--colour-accent);
       position: relative;
       white-space: pre;

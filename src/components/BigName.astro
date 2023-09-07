@@ -1,17 +1,17 @@
 ---
 type Props = {
-  orientation?: 'vertical' | 'horizontal' | 'top' | 'bottom'
-  class?: string
-}
+  orientation?: 'vertical' | 'horizontal' | 'top' | 'bottom';
+  class?: string;
+};
 
-const { orientation, class: className } = Astro.props
+const { orientation, class: className } = Astro.props;
 
 const horizontalViewbox =
   orientation === 'horizontal'
     ? '0 0 2212 592'
     : orientation === 'top'
     ? '0 0 2212 296'
-    : '0 296 2212 296'
+    : '0 296 2212 296';
 ---
 
 <div class={className}>

@@ -1,13 +1,13 @@
 ---
-import { JOBS } from '../consts'
+import { JOBS } from '../consts';
 
 type Props = {
-  limit?: number
-  showDetail?: boolean
-}
-const { limit } = Astro.props
+  limit?: number;
+  showDetail?: boolean;
+};
+const { limit } = Astro.props;
 
-const workList = limit ? JOBS.previous.slice(0, limit) : JOBS.previous
+const workList = limit ? JOBS.previous.slice(0, limit) : JOBS.previous;
 ---
 
 <div class="zm-work-items">
@@ -34,7 +34,7 @@ const workList = limit ? JOBS.previous.slice(0, limit) : JOBS.previous
               <a href={job.url}>{job.name}</a>
               {index < JOBS.previous.length - 1 ? <> · </> : null}
             </>
-          )
+          );
         })
       }
     </div>
@@ -52,8 +52,14 @@ const workList = limit ? JOBS.previous.slice(0, limit) : JOBS.previous
   .zm-work-item-label {
     flex-shrink: 0;
     width: 5rem;
-    font-feature-settings: 'calt' 1, 'liga' 1, 'rlig' 1, 'rvrn' 1, 'kern' 1,
-      'rclt' 1, 'tnum' 1;
+    font-feature-settings:
+      'calt' 1,
+      'liga' 1,
+      'rlig' 1,
+      'rvrn' 1,
+      'kern' 1,
+      'rclt' 1,
+      'tnum' 1;
   }
 
   @container work-item (min-width: 340px) {

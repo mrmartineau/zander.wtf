@@ -9,7 +9,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "check": "astro check",
-    "format": "npx prettier --write . -l"
+    "format": "npx prettier --write src \"**/*.astro\" -l"
   },
   "dependencies": {
     "@astrojs/check": "^0.2.0",
