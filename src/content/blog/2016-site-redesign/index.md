@@ -27,7 +27,13 @@ I also adjusted my font stack to include Apple's new San Francisco font which is
 
 ```css
 body {
-  font-family: Colfax, -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family:
+    Colfax,
+    -apple-system,
+    'Helvetica Neue',
+    Helvetica,
+    Arial,
+    sans-serif;
 }
 ```
 
@@ -63,10 +69,21 @@ a:not([class]) {
     transparent 85.5%
   );
   text-decoration: none;
-  text-shadow: 0 0.03em #f5f5f5, 0 -0.03em #f5f5f5, 0.06em 0 #f5f5f5, 0 -0.06em
-      #f5f5f5, 0.03em 0 #f5f5f5, -0.03em 0 #f5f5f5, 0.06em 0 #f5f5f5, -0.06em 0
-      #f5f5f5, 0.09em 0 #f5f5f5, -0.09em 0 #f5f5f5, 0.12em 0 #f5f5f5, -0.12em 0
-      #f5f5f5, 0.15em 0 #f5f5f5, -0.15em 0 #f5f5f5;
+  text-shadow:
+    0 0.03em #f5f5f5,
+    0 -0.03em #f5f5f5,
+    0.06em 0 #f5f5f5,
+    0 -0.06em #f5f5f5,
+    0.03em 0 #f5f5f5,
+    -0.03em 0 #f5f5f5,
+    0.06em 0 #f5f5f5,
+    -0.06em 0 #f5f5f5,
+    0.09em 0 #f5f5f5,
+    -0.09em 0 #f5f5f5,
+    0.12em 0 #f5f5f5,
+    -0.12em 0 #f5f5f5,
+    0.15em 0 #f5f5f5,
+    -0.15em 0 #f5f5f5;
 }
 ```
 
@@ -82,9 +99,21 @@ I also created a Sass mixin so I could reuse it:
     transparent 85.5%
   );
   text-decoration: none;
-  text-shadow: 0 0.03em $bg, 0 -0.03em $bg, 0.06em 0 $bg, 0 -0.06em $bg,
-    0.03em 0 $bg, -0.03em 0 $bg, 0.06em 0 $bg, -0.06em 0 $bg, 0.09em 0 $bg, -0.09em
-      0 $bg, 0.12em 0 $bg, -0.12em 0 $bg, 0.15em 0 $bg, -0.15em 0 $bg;
+  text-shadow:
+    0 0.03em $bg,
+    0 -0.03em $bg,
+    0.06em 0 $bg,
+    0 -0.06em $bg,
+    0.03em 0 $bg,
+    -0.03em 0 $bg,
+    0.06em 0 $bg,
+    -0.06em 0 $bg,
+    0.09em 0 $bg,
+    -0.09em 0 $bg,
+    0.12em 0 $bg,
+    -0.12em 0 $bg,
+    0.15em 0 $bg,
+    -0.15em 0 $bg;
 }
 
 // Usage

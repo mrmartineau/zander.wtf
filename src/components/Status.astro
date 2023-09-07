@@ -2,12 +2,17 @@
 import { SHOW_STATUS, ABOUT_ME } from 'src/consts';
 ---
 
-{SHOW_STATUS ? (
-  <a href={ABOUT_ME.email}>
-    <div>Want to work with me?</div>
-    I'm available for contract work Q4 2023 — <span>Get in touch <i class="ph-duotone ph-paper-plane-right"></i></span>
-  </a>
-) : null}
+{
+  SHOW_STATUS ? (
+    <a href={ABOUT_ME.email}>
+      <div>Want to work with me?</div>
+      I'm available for contract work Q4 2023 —{' '}
+      <span>
+        Get in touch <i class="ph-duotone ph-paper-plane-right" />
+      </span>
+    </a>
+  ) : null
+}
 
 <style>
   a {
@@ -20,12 +25,18 @@ import { SHOW_STATUS, ABOUT_ME } from 'src/consts';
     color: var(--bg);
     text-align: center;
     max-width: fit-content;
-    display:block;
-    font-variation-settings: 'wght' 400, 'wdth' 110, 'ital' 0;
+    display: block;
+    font-variation-settings:
+      'wght' 400,
+      'wdth' 110,
+      'ital' 0;
   }
 
   a:hover {
-    font-variation-settings: 'wght' 700, 'wdth' 125, 'ital' 0;
+    font-variation-settings:
+      'wght' 700,
+      'wdth' 125,
+      'ital' 0;
   }
 
   span {

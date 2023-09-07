@@ -16,8 +16,8 @@ All you need to create a simple micro-service is a package called [_micro_](http
 
 ```js
 module.exports = (req, res) => {
-  res.end('Hello world')
-}
+  res.end('Hello world');
+};
 ```
 
 Obviously the above is completely useless, but let me show how easy it is to consume almost any API, at least any API that didn't need authentication, using micro.
@@ -63,20 +63,20 @@ And it can return a specific comic if passed the correct comic ID ([https://xkcd
 All the micro-service needs to do is to pass-through any requests to the original API and set a few headers to allow for cross-origin requests so that they can be used in AJAX calls on the client-side, like so:
 
 ```js
-const axios = require('axios')
-const { send } = require('micro')
-const microCors = require('micro-cors')
-const cors = microCors({ allowMethods: ['GET'] })
-const DOMAIN = 'https://xkcd.com/'
+const axios = require('axios');
+const { send } = require('micro');
+const microCors = require('micro-cors');
+const cors = microCors({ allowMethods: ['GET'] });
+const DOMAIN = 'https://xkcd.com/';
 
-const handler = async function(req, res) {
-  const params = req.url
-  const path = `${DOMAIN}${params}`
-  const response = await axios(path)
-  send(res, 200, response.data)
-}
+const handler = async function (req, res) {
+  const params = req.url;
+  const path = `${DOMAIN}${params}`;
+  const response = await axios(path);
+  send(res, 200, response.data);
+};
 
-module.exports = cors(handler)
+module.exports = cors(handler);
 ```
 
 That's 14 lines of code!

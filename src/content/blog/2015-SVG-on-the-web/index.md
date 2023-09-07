@@ -16,11 +16,11 @@ The `.psd` files I receive often have many vectors that need extracting so I gra
 After the SVG is exported to my project, I usually have a Grunt process that watches a specific directory for changes, then runs an [Imagemin](https://github.com/gruntjs/grunt-contrib-imagemin) task then [Grunticon](https://github.com/filamentgroup/grunticon). I use the [SVGO](https://github.com/imagemin/imagemin-svgo) optimiser for Imagemin to optimise and compress and I use these specific options:
 
 ```js
-;[
+[
   { removeViewBox: false },
   { removeUselessStrokeAndFill: false },
   { removeTitle: true },
-]
+];
 ```
 
 You can find a full list of all the SVGO options [here](https://github.com/svg/svgo#what-it-can-do), but if you don’t use Grunt, there’s plugins for [gulp](https://github.com/ben-eb/gulp-svgmin), [a GUI](https://github.com/svg/svgo-gui), and a [handy webapp](https://jakearchibald.github.io/svgomg/).

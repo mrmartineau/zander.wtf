@@ -13,7 +13,7 @@ Many of these clips have been lifted from the brilliant [HTML5 Boilerplate](http
 A vanilla page.
 
 ```html
-<!DOCTYPE html>
+<!doctype html>
 <!--[if lt IE 7]> <html lang="en" class="no-js ie6"> <![endif]-->
 <!--[if IE 7]>    <html lang="en" class="no-js ie7"> <![endif]-->
 <!--[if IE 8]>    <html lang="en" class="no-js ie8"> <![endif]-->
@@ -23,7 +23,7 @@ A vanilla page.
   <!--<![endif]-->
   <head>
     <meta charset="utf-8" />
-    <!--[if IE]> <![endif]-->
+    <!--[if IE]><![endif]-->
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <title></title>
     <meta name="description" content="" />
@@ -64,7 +64,7 @@ A vanilla page.
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
     <script>
       !window.jQuery &&
-        document.write('<script src="js/jquery-1.4.2.min.js"><\/script>')
+        document.write('<script src="js/jquery-1.4.2.min.js"><\/script>');
     </script>
     <script src="js/plugins.js?v=1"></script>
     <script src="js/script.js?v=1"></script>
@@ -77,7 +77,7 @@ A vanilla page.
 Taken almost completely from the HTML5 Boilerplate, but with added coda bookmark comments
 
 ```html
-<!DOCTYPE html>
+<!doctype html>
 <!--[if lt IE 7]> <html lang="en" class="no-js ie6"> <![endif]-->
 <!--[if IE 7]>    <html lang="en" class="no-js ie7"> <![endif]-->
 <!--[if IE 8]>    <html lang="en" class="no-js ie8"> <![endif]-->
@@ -87,7 +87,7 @@ Taken almost completely from the HTML5 Boilerplate, but with added coda bookmark
   <!--<![endif]-->
   <head>
     <meta charset="utf-8" />
-    <!--[if IE]> <![endif]-->
+    <!--[if IE]><![endif]-->
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <title></title>
     <meta name="description" content="" />
@@ -144,7 +144,7 @@ Taken almost completely from the HTML5 Boilerplate, but with added coda bookmark
       <h1>Title</h1>
       <h2>Subheading</h2>
       <p>
-        <time class="dtstart" datetime="1992-01-12"> January 12th, 1992</time>
+        <time class="dtstart" datetime="1992-01-12">January 12th, 1992</time>
       </p>
     </hgroup>
   </header>
@@ -298,7 +298,7 @@ Contains most of the various new input types
 ### Time - _time&#x21E5;_
 
 ```html
-<time datetime="1992-01-12"> January 12th, 1992</time>
+<time datetime="1992-01-12">January 12th, 1992</time>
 ```
 
 ### Time (simple)
@@ -513,7 +513,7 @@ button {
 <!--[if lt IE 7]>
   <script src="js/dd_belatedpng.js?"></script>
   <script>
-    DD_belatedPNG.fix('img, .png_bg') //fix any <img> or .png_bg background-images
+    DD_belatedPNG.fix('img, .png_bg'); //fix any <img> or .png_bg background-images
   </script>
 <![endif]-->
 ```
@@ -523,16 +523,16 @@ button {
 ```html
 <!-- Asynchronous Google Analytics: mathiasbynens.be/notes/async-analytics-snippet -->
 <script>
-  var _gaq = [['_setAccount', 'UA-XXXXX-X'], ['_trackPageview']]
-  ;(function(d, t) {
+  var _gaq = [['_setAccount', 'UA-XXXXX-X'], ['_trackPageview']];
+  (function (d, t) {
     var g = d.createElement(t),
-      s = d.getElementsByTagName(t)[0]
-    g.async = true
+      s = d.getElementsByTagName(t)[0];
+    g.async = true;
     g.src =
       ('https:' == location.protocol ? 'https://ssl' : 'http://www') +
-      '.google-analytics.com/ga.js'
-    s.parentNode.insertBefore(g, s)
-  })(document, 'script')
+      '.google-analytics.com/ga.js';
+    s.parentNode.insertBefore(g, s);
+  })(document, 'script');
 </script>
 ```
 

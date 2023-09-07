@@ -21,10 +21,10 @@ The Kickoff generator runs a Grunt task immediately after it has finished compil
 // Now you can bind to the dependencies installed event
 this.on('dependenciesInstalled', function () {
   if (this.jsLibs === 'jquery') {
-    this.spawnCommand('grunt', ['jquery'])
+    this.spawnCommand('grunt', ['jquery']);
   }
-  this.spawnCommand('grunt', ['serve'])
-})
+  this.spawnCommand('grunt', ['serve']);
+});
 ```
 
 See this in our actual [index.js](https://github.com/tmwagency/generator-kickoff/blob/c2aab72ad4a15186b646505817152732a8c9f4b2/app/index.js#L24)
@@ -42,13 +42,13 @@ npm install --save chalk
 Then [require it](https://github.com/tmwagency/generator-kickoff/blob/master/app/index.js#L5):
 
 ```js
-var chalk = require('chalk')
+var chalk = require('chalk');
 ```
 
 Then [use it](https://github.com/tmwagency/generator-kickoff/blob/master/app/index.js#L35):
 
 ```js
-console.log(chalk.bold.yellow('message'))
+console.log(chalk.bold.yellow('message'));
 ```
 
 ![Chalk colours in the Kickoff Yeoman generator](~/assets/yeoman-generator-development-tips/chalk.png)

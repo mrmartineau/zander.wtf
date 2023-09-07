@@ -1,8 +1,8 @@
-import rss from '@astrojs/rss'
-import { fetchLinks } from '../fetching/links'
+import rss from '@astrojs/rss';
+import { fetchLinks } from '../fetching/links';
 
 export async function get(context) {
-  const links = await fetchLinks(50)
+  const links = await fetchLinks(50);
 
   return rss({
     title: `Zander's Link Feed`,
@@ -11,7 +11,7 @@ export async function get(context) {
     site: `${context.site}/links`,
     items: links.map((item) => {
       if (!item?.title) {
-        return null
+        return null;
       }
 
       return {
@@ -20,8 +20,8 @@ export async function get(context) {
         link: item.url,
         pubDate: new Date(item.created_at),
         categories: item.tags,
-      }
+      };
     }),
     stylesheet: '/links.rss.xsl',
-  })
+  });
 }

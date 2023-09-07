@@ -26,7 +26,7 @@ export const pageQuery = graphql`
       tableOfContents
     }
   }
-`
+`;
 ```
 
 With that, my page component now has access to the `tableOfContents` data, no matter how deep the heading levels go. Using [gatsby-plugin-mdx](https://www.gatsbyjs.org/packages/gatsby-plugin-mdx/) we are able to query the depth of the headings too, like so: `tableOfContents(maxDepth: 3)`. This would only return `h1-h3` headings. Below you can see some example headings taken from my article on [Kickoff's custom grids](/blog/how-to-create-custom-grids-with-kickoff/).
@@ -81,11 +81,11 @@ To achieve this, I created three separate components, and for the purposes of th
 ```jsx
 export const Contents = ({ tableOfContents }) => {
   if (!tableOfContents.items) {
-    return null
+    return null;
   }
 
-  return <ContentsList items={tableOfContents.items} />
-}
+  return <ContentsList items={tableOfContents.items} />;
+};
 ```
 
 The next two components render a list of contents items (`ContentsList`) and an individual content item (`ContentsItem`).
@@ -95,11 +95,11 @@ const ContentsList = ({ items }) => {
   return (
     <ul>
       {items.map((item) => {
-        return <ContentsItem key={`${item.url}-item`} item={item} />
+        return <ContentsItem key={`${item.url}-item`} item={item} />;
       })}
     </ul>
-  )
-}
+  );
+};
 
 const ContentsItem = ({ item }) => (
   <li>
@@ -113,7 +113,7 @@ const ContentsItem = ({ item }) => (
       <ContentsList key={`${item.url}-list`} items={item.items} />
     ) : null}
   </li>
-)
+);
 ```
 
 The components above are fairly simple, but the important part is where the `ContentsList` is conditionally rendered based on if there are any child `items` data for a given item. No guarding is necessary in the `ContentsList` component because it would never render based on the other guards in place.
@@ -130,7 +130,7 @@ On reflection the `Contents` component could be removed if you conditionally ren
 
 ```jsx
 {
-  tableOfContents.items && <ContentsList items={tableOfContents.items} />
+  tableOfContents.items && <ContentsList items={tableOfContents.items} />;
 }
 ```
 

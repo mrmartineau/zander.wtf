@@ -1,6 +1,6 @@
-export const SITE_TITLE = `Hi! I'm Zander, I make websites`
-export const SITE_DESCRIPTION = `Zander Martineau's personal site`
-export const SHOW_STATUS = true
+export const SITE_TITLE = `Hi! I'm Zander, I make websites`;
+export const SITE_DESCRIPTION = `Zander Martineau's personal site`;
+export const SHOW_STATUS = true;
 
 export const SITE_NAV_ITEMS = [
   {
@@ -15,7 +15,7 @@ export const SITE_NAV_ITEMS = [
     text: 'About',
     url: '/about',
   },
-]
+];
 
 export const SITE_FOOTER_ITEMS = [
   {
@@ -52,14 +52,14 @@ export const SITE_FOOTER_ITEMS = [
     url: 'https://read.cv/mrmartineau',
     external: true,
   },
-]
+];
 
 export const ABOUT_ME = {
   bio: `I'm a contractor with 15+ years of experience helping companies get products to market, rewriting apps, creating POCs and more. I specialize in front-end but also work full-stack.`,
   cv: 'https://read.cv/mrmartineau',
   email:
     'mailto:hi+enquiry@zander.wtf?subject=Contract%20enquiry&body=Hi%20Zander%2C%0A%0AI%20would%20like%20to%20work%20with%20you...',
-}
+};
 
 export const JOBS = {
   current: {
@@ -159,18 +159,18 @@ export const JOBS = {
       ],
     },
   ],
-}
+};
 
 export type Project = {
-  name: string
-  description: string
-  link?: string
-  repo?: string
-  status: 'active' | 'archived' | 'inactive' | 'ongoing'
-  tech?: string
-  published?: 'private' | 'public'
-  subitems?: { name: string; description?: string; link?: string }[]
-}
+  name: string;
+  description: string;
+  link?: string;
+  repo?: string;
+  status: 'active' | 'archived' | 'inactive' | 'ongoing';
+  tech?: string;
+  published?: 'private' | 'public';
+  subitems?: { name: string; description?: string; link?: string }[];
+};
 
 export const SIDE_PROJECTS: Project[] = [
   {
@@ -274,4 +274,4 @@ export const SIDE_PROJECTS: Project[] = [
     link: 'https://github.com/mrmartineau/trak.js',
     status: 'inactive',
   },
-]
+];

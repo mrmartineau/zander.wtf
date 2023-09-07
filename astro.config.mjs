@@ -1,10 +1,10 @@
-import { defineConfig } from 'astro/config'
-import mdx from '@astrojs/mdx'
-import sitemap from '@astrojs/sitemap'
-import { execSync } from 'node:child_process'
-import prefetch from '@astrojs/prefetch'
-import vercel from '@astrojs/vercel/static'
-const commitHash = execSync('git rev-parse --short HEAD').toString()
+import { defineConfig } from 'astro/config';
+import mdx from '@astrojs/mdx';
+import sitemap from '@astrojs/sitemap';
+import { execSync } from 'node:child_process';
+import prefetch from '@astrojs/prefetch';
+import vercel from '@astrojs/vercel/static';
+const commitHash = execSync('git rev-parse --short HEAD').toString();
 
 // https://astro.build/config
 export default defineConfig({
@@ -33,4 +33,4 @@ export default defineConfig({
     analytics: true,
     imageService: true,
   }),
-})
+});

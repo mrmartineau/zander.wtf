@@ -136,7 +136,7 @@ const designTokens = {
       headings: 'bold', // instead of browser default, bold
     },
   },
-}
+};
 ```
 
 ### Initialise the design system framework
@@ -158,14 +158,14 @@ Here is a very simple component using [styled-components](https://styled-compone
 
 ```js
 // Example using styled-components
-import styled from 'styled-component'
-import tokens from './tokens'
+import styled from 'styled-component';
+import tokens from './tokens';
 
 export const Box = styled.div`
   font-family: ${tokens.get('type.fontFamilyBase')};
   background-color: ${tokens.brand('primary')};
   margin: ${tokens.space(2)} 0;
-`
+`;
 ```
 
 ### Options
@@ -193,7 +193,7 @@ The `tokens.get()` function can be used as a general purpose method to get any v
 
 ```js
 // with the system setup, as above
-tokens.get('lineHeight.headings') // 1.1
+tokens.get('lineHeight.headings'); // 1.1
 ```
 
 You could get by just using this method, but I created a few other shortcut/helper methods to make getting values a lot more easy. Read on..
@@ -269,8 +269,8 @@ The `tokens.color()` function gets values from the `colorPalette` object. It ass
 
 ```js
 // Get values like this:
-tokens.color('bright') // #F9FAFB - the `base` key is the default, so it is not needed
-tokens.color('bright', 'dark')
+tokens.color('bright'); // #F9FAFB - the `base` key is the default, so it is not needed
+tokens.color('bright', 'dark');
 ```
 
 #### Get brand palette values
@@ -279,9 +279,9 @@ The `tokens.brand()` function gets values from the `colors.brand` object. This i
 
 ```js
 // Get brand values like this:
-tokens.brand('orange')
-tokens.brand('pink')
-tokens.brand('primary.blue') // it is possible to nest this object as much as you like
+tokens.brand('orange');
+tokens.brand('pink');
+tokens.brand('primary.blue'); // it is possible to nest this object as much as you like
 ```
 
 ### Get responsive breakpoint values
@@ -289,7 +289,7 @@ tokens.brand('primary.blue') // it is possible to nest this object as much as yo
 The `tokens.bp()` method is a short-hand for the `tokens.get()` method. It can be used to get a breakpoint from the `breakpoints` object.
 
 ```js
-tokens.bp('m')
+tokens.bp('m');
 ```
 
 ### Get z-index values
@@ -297,7 +297,7 @@ tokens.bp('m')
 The `tokens.z()` method is a short-hand for the `tokens.get()` method. It can be used to get a breakpoint from the `zIndex` object.
 
 ```js
-tokens.z('low')
+tokens.z('low');
 ```
 
 ### Get spacing values
@@ -310,9 +310,9 @@ The `tokens.spacing()` method returns a value from your `spacing.scale` definiti
 #### Array example:
 
 ```js
-scale: [0, 8, 16, 24, 32, 40]
+scale: [0, 8, 16, 24, 32, 40];
 
-tokens.spacing(2) // '16px'
+tokens.spacing(2); // '16px'
 // Note: `tokens.space(2)` can also be used
 ```
 

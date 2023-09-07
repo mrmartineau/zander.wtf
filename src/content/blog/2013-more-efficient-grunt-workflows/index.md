@@ -13,19 +13,19 @@ If you use a bunch of Grunt tasks for your project you'll know that it is a pain
 
 ```js
 // Use this:
-require('load-grunt-tasks')(grunt)
+require('load-grunt-tasks')(grunt);
 
 // Instead of this:
-grunt.loadNpmTasks('grunt-shell')
-grunt.loadNpmTasks('grunt-sass')
-grunt.loadNpmTasks('grunt-recess')
-grunt.loadNpmTasks('grunt-sizediff')
-grunt.loadNpmTasks('grunt-svgmin')
-grunt.loadNpmTasks('grunt-styl')
-grunt.loadNpmTasks('grunt-php')
-grunt.loadNpmTasks('grunt-eslint')
-grunt.loadNpmTasks('grunt-concurrent')
-grunt.loadNpmTasks('grunt-bower-requirejs')
+grunt.loadNpmTasks('grunt-shell');
+grunt.loadNpmTasks('grunt-sass');
+grunt.loadNpmTasks('grunt-recess');
+grunt.loadNpmTasks('grunt-sizediff');
+grunt.loadNpmTasks('grunt-svgmin');
+grunt.loadNpmTasks('grunt-styl');
+grunt.loadNpmTasks('grunt-php');
+grunt.loadNpmTasks('grunt-eslint');
+grunt.loadNpmTasks('grunt-concurrent');
+grunt.loadNpmTasks('grunt-bower-requirejs');
 ```
 
 See how it's done in Kickoff's [Gruntfile](https://github.com/tmwagency/kickoff/blob/master/Gruntfile.js#L226)
@@ -56,18 +56,18 @@ var jsFileList = [
   'js/helpers/helpers.js',
   'js/helpers/console.js',
   'js/script.js',
-]
+];
 
 /**
  * Specify your output directory
  */
-var distDir = 'js/dist/'
+var distDir = 'js/dist/';
 
 /**
  * Specify the name of your compiled JS file
  * which will be placed in the directory you define above
  */
-var jsFile = 'app.min.js'
+var jsFile = 'app.min.js';
 
 /**
  * Project configuration
@@ -107,7 +107,7 @@ grunt.initConfig({
       dest: distDir + jsFile,
     },
   },
-})
+});
 ```
 
 ## Create local server and watch for changes
@@ -115,7 +115,7 @@ grunt.initConfig({
 [Grunt connect](https://github.com/iammerrick/grunt-connect) is extremely useful for creating a local server, but having it running means that you can't run `grunt watch` at the same time. To overcome this problem, register a new Grunt task called `serve` that runs grunt watch and grunt connect. See below:
 
 ```js
-grunt.registerTask('serve', ['connect', 'watch'])
+grunt.registerTask('serve', ['connect', 'watch']);
 ```
 
 Use `grunt serve` to run the task; see how this was used in Kickoff's [Gruntfile](https://github.com/tmwagency/kickoff/blob/master/Gruntfile.js#L263) and in particular lines [171-184](https://github.com/tmwagency/kickoff/blob/master/Gruntfile.js#L171-L184).

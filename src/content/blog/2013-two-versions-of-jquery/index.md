@@ -14,14 +14,14 @@ To solve this problem, we are going to use **conditonal comments**; and if you'r
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
   <script>
     window.jQuery ||
-      document.write('<script src="/js/libs/jquery.min.js"><\/script>')
+      document.write('<script src="/js/libs/jquery.min.js"><\/script>');
   </script>
 <![endif]-->
 <!--[if gt IE 8]><!-->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2jquery.min.js"></script>
 <script>
   window.jQuery ||
-    document.write('<script src="/js/libs/jquery.2.min.js"><\/script>')
+    document.write('<script src="/js/libs/jquery.2.min.js"><\/script>');
 </script>
 <!--<![endif]-->
 ```

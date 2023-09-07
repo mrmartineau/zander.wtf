@@ -91,16 +91,16 @@ I also spent a lot of time resurrecting some of my much older blog posts. My pre
 The "Likes" page makes use the [Pinboard](https://pinboard.in) API and [Vercel's](https://vercel.com) Serverless Functions. The serverless function is needed because CORS is not enabled on Pinboard's API. You can see the source code below if you're interested.
 
 ```ts
-import { NowRequest, NowResponse } from '@now/node'
-import axios from 'axios'
+import { NowRequest, NowResponse } from '@now/node';
+import axios from 'axios';
 
 export default async (req: NowRequest, res: NowResponse) => {
-  const requestPath = `https://feeds.pinboard.in/json/u:MrMartineau/t:${req.query.tag}/?count=10`
-  const { data } = await axios(requestPath)
-  res.setHeader('Content-Type', 'application/json')
-  res.statusCode = 200
-  res.end(JSON.stringify(data))
-}
+  const requestPath = `https://feeds.pinboard.in/json/u:MrMartineau/t:${req.query.tag}/?count=10`;
+  const { data } = await axios(requestPath);
+  res.setHeader('Content-Type', 'application/json');
+  res.statusCode = 200;
+  res.end(JSON.stringify(data));
+};
 ```
 
 To fetch the data from the serverless function, I used the excellent [SWR](https://swr.now.sh/) library which I hadn't used before. I wanted to try it on various projects so it was great to give it a go, if only for this very simple use-case. I hadn't realised that the feed would update itself while the user was viewing the page, that the view would automatically update; I can definitely see myself using that in future projects.

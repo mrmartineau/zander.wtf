@@ -11,10 +11,10 @@ I recently read the A List Apart article, Testing Content by Angela Colter I tho
 Simply include jQuery & the Lettering.js plugin in your page & then add this jQuery script:
 
 ```js
-$(document).ready(function() {
-  $('p').lettering('words')
-  $('p span:nth-child(5n+5)').css({ visibility: 'hidden' })
-})
+$(document).ready(function () {
+  $('p').lettering('words');
+  $('p span:nth-child(5n+5)').css({ visibility: 'hidden' });
+});
 ```
 
 Below you can see an embedded version of my findings:

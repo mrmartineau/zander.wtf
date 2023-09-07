@@ -107,13 +107,9 @@ Kickoff namespaces some CSS classes in the framework to help developers know wha
 Usage should be fairly straightforward, just add the relevant class to your html element:
 
 ```html
-<div class="u-showAboveSingleCol">
-  Show this above $bp-single-col
-</div>
+<div class="u-showAboveSingleCol">Show this above $bp-single-col</div>
 
-<div class="u-showBelowMid">
-  Show this below $bp-mid
-</div>
+<div class="u-showBelowMid">Show this below $bp-mid</div>
 ```
 
 ### #tipsForKickoff

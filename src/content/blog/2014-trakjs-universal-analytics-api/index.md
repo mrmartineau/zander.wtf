@@ -46,7 +46,7 @@ trak.event({
   category: 'engagement',
   action: 'signpost',
   label: 'page.href',
-})
+});
 
 trak.event({
   category: 'engagement',
@@ -55,7 +55,7 @@ trak.event({
   value: 10,
   nonInteraction: true,
   eventName: 'This is a Google Tag Manager event name',
-})
+});
 ```
 
 ## API Reference
@@ -85,8 +85,8 @@ If any property is left `undefined`, the browser's default value will be used in
 ```html
 <!-- page.href wildcard -->
 <a href="#" data-trak='{"category":"Rating","action":"page.href","label":"Up"}'>
-  link</a
->
+  link
+</a>
 
 <!-- page.title wildcard -->
 <a
