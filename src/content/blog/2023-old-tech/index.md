@@ -1,6 +1,6 @@
 ---
 slug: old-tech
-title: Resurrecting old tech for my son
+title: Resurrecting old music tech for my son
 subtitle: The journey to give my son access to music he loves in a “slow”, non-screen way
 date: 2023-09-07
 ---
