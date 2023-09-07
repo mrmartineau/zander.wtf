@@ -31,7 +31,7 @@ After the mixtape had been in use for a while, I remembered I had an old iPod sh
 
 Installing `yt-dlp` isn’t hard on a Mac if you have Homebrew (`brew install yt-dlp`) but there are many other installation instructions on its [GitHub repo](https://github.com/yt-dlp/yt-dlp).
 
-Now all I had to do was to find the right YouTube video, copy its ID from the url and run the below script:
+Now all I had to do was to find the right YouTube video, copy their ID from the url and run the script below:
 
 ```bash
 # yt-dlp {youtube id} -x --audio-format=mp3
