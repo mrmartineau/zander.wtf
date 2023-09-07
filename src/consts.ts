@@ -65,7 +65,7 @@ export const JOBS = {
   current: {
     name: 'Fathom',
     description:
-      'Multiple projects: Cryptocurrency exchange (Tradeblock), Investment banking app (Commerzbank), Legacy React app rebrand (Cappitech), Clearwater Analytics',
+      'Multiple projects: Cryptocurrency exchange (Tradeblock), Investment banking app (Commerzbank), Legacy React app rebrand (Cappitech), Financial insights app (Clearwater Analytics)',
     type: 'contract',
     url: 'https://www.fathomlondon.com',
   },
