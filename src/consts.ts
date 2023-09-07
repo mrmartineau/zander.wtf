@@ -55,7 +55,7 @@ export const SITE_FOOTER_ITEMS = [
 ]
 
 export const ABOUT_ME = {
-  bio: `I'm a contractor with over 15 years of experience and I’ve worked with a wide range of companies to help them get products to market; rewrite entire apps; create proof-of-concepts and much more. I’m a front-end specialist but am very happy working full-stack too.`,
+  bio: `I'm a contractor with 15+ years of experience helping companies get products to market, rewriting apps, creating POCs and more. I specialize in front-end but also work full-stack.`,
   cv: 'https://read.cv/mrmartineau',
   email:
     'mailto:hi+enquiry@zander.wtf?subject=Contract%20enquiry&body=Hi%20Zander%2C%0A%0AI%20would%20like%20to%20work%20with%20you...',
@@ -182,8 +182,7 @@ export const SIDE_PROJECTS: Project[] = [
   },
   {
     name: 'Journal',
-    description:
-      'Personal journalling app built to help me start writing more. Open source.',
+    description: 'Personal journalling app. Open source.',
     link: 'https://github.com/mrmartineau/journal',
     status: 'active',
     tech: 'SvelteKit, TypeScript, A.I. powered text improvements, Postgres and authentication (powered by Supabase)',
