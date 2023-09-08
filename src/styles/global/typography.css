@@ -54,17 +54,21 @@ h4 {
   scroll-margin-top: 1em;
 }
 
+.flow > * {
+  max-width: 65ch;
+}
+
 .flow > * + * {
   margin-block-start: var(--flow-space, 1em);
 }
 
 :is(h1, h2, h3, blockquote) {
-  --flow-space: 1.5em;
+  --flow-space: var(--space-xl);
   color: var(--colour-text-bright);
 }
 
 :is(h1, h2, h3) + * {
-  --flow-space: 0.5em;
+  --flow-space: var(--space-xs);
 }
 
 a {
@@ -105,6 +109,19 @@ article {
       content: '`';
     }
   }
+
+  iframe {
+    aspect-ratio: 16 / 9;
+    height: auto;
+    width: 100%;
+  }
+
+  img,
+  iframe,
+  video {
+    border-radius: 0.5em;
+    border: 3px solid;
+  }
 }
 
 .zm-block-link {
@@ -116,10 +133,6 @@ article {
   & + & {
     margin-inline-start: var(--space-s);
   }
-}
-
-.flow > * {
-  max-width: 65ch;
 }
 
 blockquote {
@@ -136,14 +149,14 @@ h3 {
 }
 
 .lede {
-  font-size: var(--size-step-1);
+  font-size: var(--step-1);
   font-style: italic;
   max-width: 50ch;
   text-wrap: balance;
 }
 
 .lede + * {
-  --flow-space: 2em;
+  --flow-space: var(---space-m);
 }
 
 hr {

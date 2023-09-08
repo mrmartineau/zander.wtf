@@ -38,6 +38,7 @@
   --bg-code-highlight: #f1f1f1;
   --hr: #ddd;
   --body-opacity: 0.75;
+  --flow-space: var(--space-m);
 
   /* Dark */
   --bg: var(--colour-reallyFuckingDark);
