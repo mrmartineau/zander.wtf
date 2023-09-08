@@ -52,8 +52,9 @@ import BaseLayout from '~/layouts/BaseLayout.astro';
     font-size: var(--step-6);
     line-height: 0.9;
     color: var(--colour-text-bright);
-    margin-bottom: var(--space-l);
+    margin-block-end: var(--space-l);
     padding-top: var(--avatarSize);
+    text-align: center;
 
     span {
       font-variation-settings:
@@ -123,6 +124,7 @@ import BaseLayout from '~/layouts/BaseLayout.astro';
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: var(--space-l);
+    margin-block-start: var(--space-l);
 
     @media screen and (min-width: 700px) {
       grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));

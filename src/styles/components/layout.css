@@ -1,9 +1,13 @@
 .zm-theFuckingContainer {
-  margin: 0 var(--space-m-l) var(--space-m-l);
+  margin: 0 auto var(--space-m-l);
+  max-width: 1480px;
+  width: 95%;
+}
 
-  @media screen and (min-width: 800px) {
-    margin: 0 10vw var(--space-m-l);
-  }
+.zm-theFuckingContentContainer {
+  margin: 0 auto var(--space-m-l);
+  max-width: 1000px;
+  width: 95%;
 }
 
 .zm-fullContainer {
