@@ -60,7 +60,7 @@ const { posts } = Astro.props;
     line-height: 1.2;
   }
 
-  @container blog-item (min-width: 400px) {
+  @container blog-item (min-width: 480px) {
     .zm-blog-item {
       display: flex;
       gap: var(--space-xs);
@@ -71,7 +71,7 @@ const { posts } = Astro.props;
     }
 
     .date {
-      min-width: 130px;
+      min-width: 170px;
       order: 1;
       font-size: unset;
     }
