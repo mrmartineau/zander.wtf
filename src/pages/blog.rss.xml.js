@@ -19,6 +19,7 @@ export async function get(context) {
       link: `/blog/${post.slug}/`,
       pubDate: post.data.date,
       content: sanitizeHtml(parser.render(post.body)),
+      author: 'Zander Martineau',
     })),
     stylesheet: '/blog.rss.xsl',
   });
