@@ -1,11 +1,11 @@
 ---
 slug: old-tech
 title: Restoring old music tech
-subtitle: The journey to give my son access to music he loves in a non-screen, offline way
+subtitle: The journey to give my son access to music he loves in a offscreen, offline way
 date: 2023-09-07
 ---
 
-My son recently turned 6, and like most kids, he loves music TV shows and movies. In addition to the TV in his playroom, he uses my iPad or phone to watch and listen to content. However, I wanted to provide him with access to music in a non-screen or offline way.
+My son recently turned 6, and like most kids, he loves music TV shows and movies. In addition to the TV in his playroom, he uses my iPad or phone to watch and listen to content. However, I wanted to provide him with access to music in a offscreen or offline way.
 
 Since he was born, we've maintained a Spotify playlist of his favourite tracks, most of which come from movie soundtracks. His capacity to listen to certain tracks on repeat for hours on end is impressive. While "Sunflower" (from Spider-Man: Into the Spider-Verse soundtrack - a movie he adores) is a decent song, there's only so much repetition we can take.
 
