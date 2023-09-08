@@ -1,14 +1,18 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<rss version="2.0">
-<channel>
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
   <title>Zander's old blog feed</title>
-  <link>https://zander.wtf</link>
-  <description>Longer thoughts and ramblings from Zander Martineau</description>
-  <item>
+  <link href="https://zander.wtf"/>
+  <updated>2023-09-08T10:00:02Z</updated>
+  <author>
+    <name>Zander Martineau</name>
+  </author>
+  <id>urn:uuid:60a76c80-d399-11d9-b93C-0003939e0af6</id>
+
+  <entry>
     <title>Attention - the url for this feed has changed</title>
-    <link>https://zander.wtf/feeds</link>
-    <description>The feed url for my blog has changed, please use https://zander.wtf/blog.rss.xml instead or visit https://zander.wtf/feeds to find my other feeds.</description>
-    <pubDate>Fri, 8 Sep 2023 00:00:00 GMT</pubDate>
-  </item>
-</channel>
-</rss>
+    <link href="https://zander.wtf/feeds"/>
+    <id>urn:uuid:1225c695-cfb8-4ebb-aaaa-80da344efa6a</id>
+    <updated>2023-09-08T10:00:02Z</updated>
+    <summary>The feed url for my blog has changed, please use https://zander.wtf/blog.rss.xml instead or visit https://zander.wtf/feeds to find my other feeds.</summary>
+  </entry>
+</feed>
