@@ -20,7 +20,7 @@ const { url, type, tags, title, description, isFeed = false } = Astro.props;
       <div class="zm-links-item-description">{description}</div>
     ) : null
   }
-  <div class="zm-links-item-tags">
+  <div class="zm-links-item-meta">
     {
       url ? (
         <>
@@ -51,23 +51,21 @@ const { url, type, tags, title, description, isFeed = false } = Astro.props;
     border-radius: var(--block-radius);
     background-color: var(--bg-block);
     padding: var(--block-padding);
-
-    .zm-links-item-link {
-      font-size: var(--step-0);
-      line-height: 1.2;
-    }
+  }
+  .zm-links-item-link {
+    line-height: 1.2;
   }
 
   .zm-links-item-description {
     font-size: var(--step--1);
   }
 
-  .zm-links-item-tags {
+  .zm-links-item-meta {
     display: flex;
     flex-wrap: wrap;
     column-gap: var(--space-2xs);
     align-items: center;
     opacity: 0.7;
-    font-size: var(--step--2);
+    font-size: var(--step--1);
   }
 </style>
