@@ -23,3 +23,8 @@ a {
   --icon-size: 1rem;
   font-size: var(--icon-size);
 }
+
+::selection {
+  background-color: var(--colour-accent);
+  color: var(--bg);
+}
