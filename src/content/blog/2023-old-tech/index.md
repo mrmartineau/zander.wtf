@@ -1,6 +1,6 @@
 ---
 slug: old-tech
-title: Restoring old music tech
+title: Reviving old music gadgets for my son
 subtitle: The journey to give my son access to music he loves in a offscreen, offline way
 date: 2023-09-07
 modified: 2023-09-08T21:31:22
