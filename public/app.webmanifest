@@ -1,0 +1,20 @@
+{
+  "name": "zander.wtf",
+  "short_name": "zander.wtf",
+  "scope": "/",
+  "id": "/",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#21262c",
+  "theme_color": "#21262c",
+  "description": "Zander Martineau's personal website.",
+  "logo": "images/favicon/icon@1x.png",
+  "icons": [
+    {
+      "src": "images/favicon/icon@1x.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
