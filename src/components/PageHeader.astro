@@ -1,13 +1,29 @@
 ---
 import FormattedDate from './FormattedDate.astro';
 import PageSubtitle from './PageSubtitle.astro';
+import SectionTitle from './SectionTitle.astro';
 import PageTitle from './PageTitle.astro';
 
-const { title, subtitle, date } = Astro.props;
+type Props = {
+  title: string;
+  subtitle?: string;
+  date?: Date;
+  class?: string;
+  isSection?: boolean;
+};
+
+const { title, subtitle, date, isSection = false } = Astro.props;
 ---
 
 <header>
-  <PageTitle>{title}</PageTitle>
+  {
+    isSection ? (
+      <SectionTitle>{title}</SectionTitle>
+    ) : (
+      <PageTitle>{title}</PageTitle>
+    )
+  }
+
   {subtitle ? <PageSubtitle>{subtitle}</PageSubtitle> : null}
   {
     date ? (

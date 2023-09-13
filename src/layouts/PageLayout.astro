@@ -11,8 +11,7 @@ const { title, subtitle } = Astro.props;
 
 <BaseLayout title={title} subtitle={subtitle}>
   <section class="zm-theFuckingContainer">
-    <PageHeader title={title} subtitle={subtitle} />
-
+    <PageHeader title={title} subtitle={subtitle} isSection={true} />
     <slot />
   </section>
 </BaseLayout>

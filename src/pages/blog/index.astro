@@ -1,18 +1,13 @@
 ---
 import { getCollection } from 'astro:content';
-import BaseLayout from '~/layouts/BaseLayout.astro';
 import BlogList from '~/components/BlogList.astro';
-import PageHeader from '~/components/PageHeader.astro';
+import PageLayout from '~/layouts/PageLayout.astro';
 
 const posts = (await getCollection('blog')).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
 );
 ---
 
-<BaseLayout title="Blog">
-  <section class="zm-theFuckingContainer">
-    <PageHeader title="Blog" />
-
-    <BlogList posts={posts} />
-  </section>
-</BaseLayout>
+<PageLayout title="Blog">
+  <BlogList posts={posts} />
+</PageLayout>
