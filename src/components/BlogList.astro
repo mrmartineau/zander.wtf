@@ -13,12 +13,16 @@ const { posts } = Astro.props;
     posts.map(({ slug, data }) => (
       <div class="zm-blog-item">
         <div class="info">
-          <a href={`/blog/${slug}`} class="title">
+          <a href={`/blog/${slug}`} class="title" transition:persist>
             {data.title}
           </a>
-          {data?.subtitle ? <div class="subtitle">{data.subtitle}</div> : null}
+          {data?.subtitle ? (
+            <div class="subtitle" transition:persist>
+              {data.subtitle}
+            </div>
+          ) : null}
         </div>
-        <div class="date">
+        <div class="date" transition:persist>
           <FormattedDate date={data.date} />
         </div>
       </div>

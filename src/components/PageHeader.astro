@@ -20,16 +20,16 @@ const { title, subtitle, date, isSection = false } = Astro.props;
     isSection ? (
       <SectionTitle>{title}</SectionTitle>
     ) : (
-      <PageTitle>{title}</PageTitle>
+      <PageTitle transition:persist>{title}</PageTitle>
     )
   }
 
-  {subtitle ? <PageSubtitle>{subtitle}</PageSubtitle> : null}
+  {subtitle ? <PageSubtitle transition:persist>{subtitle}</PageSubtitle> : null}
   {
     date ? (
       <div class="zm-articleMetadata mt-6 mb-6 flex flex-col gap-2">
         <div class="flex items-center gap-x-5 gap-y-2 flex-wrap">
-          <div class="flex items-center gap-2">
+          <div class="flex items-center gap-2" transition:persist>
             <FormattedDate date={date} />
           </div>
         </div>
