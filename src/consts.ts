@@ -169,7 +169,7 @@ export type Project = {
   status: 'active' | 'archived' | 'inactive' | 'ongoing';
   tech?: string;
   published?: 'private' | 'public';
-  subitems?: { name: string; description?: string; link?: string }[];
+  subitems?: Project[];
 };
 
 export const SIDE_PROJECTS: Project[] = [
@@ -206,23 +206,27 @@ export const SIDE_PROJECTS: Project[] = [
         name: 'Search npm Packages',
         description: 'Search and favouriting for npm packages',
         link: 'https://www.raycast.com/mrmartineau/search-npm',
+        status: 'active',
       },
       {
         name: 'GitHub Stars',
         description: 'Display and filter your recent GitHub stars',
         link: 'https://www.raycast.com/mrmartineau/search-github-stars',
+        status: 'active',
       },
       {
         name: 'Otter',
         description:
           'View, search and add for my Otter bookmarking project. Not published to the store yet.',
         link: 'https://github.com/mrmartineau/raycast-extensions/tree/main/otter',
+        status: 'active',
       },
       {
         name: 'Code Notes Search',
         description:
           'Search my code notes with Algolia Not published to the store yet.',
         link: 'https://github.com/mrmartineau/raycast-extensions/tree/main/code-notes-search',
+        status: 'active',
       },
     ],
   },

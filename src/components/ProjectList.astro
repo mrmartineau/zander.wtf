@@ -31,8 +31,10 @@ const projectList = limit ? SIDE_PROJECTS.slice(0, limit) : SIDE_PROJECTS;
             {subitems.map((subitem) => {
               return (
                 <li>
-                  <a href={subitem.link}>{subitem.name}</a>
-                  <div>{subitem.description}</div>
+                  <div class="name">
+                    <a href={subitem.link}>{subitem.name}</a>
+                  </div>
+                  <div class="description">{subitem.description}</div>
                 </li>
               );
             })}
