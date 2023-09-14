@@ -6,7 +6,7 @@ const links = await fetchLinks(6);
 ---
 
 <Block title="Links" subtitle="Hand-picked hyperlinks">
-  <div class="zm-links flex flex-col gap-2">
+  <div class="zm-links flex flex-col gap-xs">
     {
       links.map((item) => {
         if (!item?.title) {
