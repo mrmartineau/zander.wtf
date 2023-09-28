@@ -174,6 +174,13 @@ export type Project = {
 
 export const SIDE_PROJECTS: Project[] = [
   {
+    name: 'cloudflare-worker-scraper',
+    description: `Page Metadata Scraper with Cloudflare workers. It uses a Cloudflare's HTMLRewriter to scrape the page for metadata and returns it as JSON.`,
+    link: 'https://github.com/mrmartineau/cloudflare-worker-scraper',
+    status: 'active',
+    tech: 'TypeScript, Cloudflare workers',
+  },
+  {
     name: 'zander.wtf',
     description: 'This very website. Open source.',
     link: 'https://github.com/mrmartineau/zander.wtf',
