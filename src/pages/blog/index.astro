@@ -8,6 +8,9 @@ const posts = (await getCollection('blog')).sort(
 );
 ---
 
-<PageLayout title="Blog">
+<PageLayout
+  title="Blog"
+  subtitle="Thoughts and ramblings. Mostly related to web development"
+>
   <BlogList posts={posts} />
 </PageLayout>

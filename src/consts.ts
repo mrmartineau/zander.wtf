@@ -1,5 +1,5 @@
 export const SITE_TITLE = `Hi! I'm Zander, I make websites`;
-export const SITE_DESCRIPTION = `Zander Martineau's personal site`;
+export const SITE_DESCRIPTION = `Zander Martineau's personal site. I'm a contractor with 15+ years of experience helping companies get products to market, rewriting apps, creating POCs and more. I specialize in front-end but also work full-stack.`;
 export const SHOW_STATUS = true;
 
 export const SITE_NAV_ITEMS = [

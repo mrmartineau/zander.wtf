@@ -5,12 +5,12 @@ import BlockHobbies from '~/components/BlockHobbies.astro';
 import BlockLinks from '~/components/BlockLinks.astro';
 import BlockMovies from '~/components/BlockMovies.astro';
 import BlockProjects from '~/components/BlockProjects.astro';
-import { SITE_TITLE } from '../consts';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 import Status from '~/components/Status.astro';
 import BaseLayout from '~/layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title={SITE_TITLE}>
+<BaseLayout title={SITE_TITLE} subtitle={SITE_DESCRIPTION}>
   <div class="zm-theFuckingContainer">
     <!-- prettier-ignore -->
     <h1 class="zm-intro">
