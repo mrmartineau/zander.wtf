@@ -34,7 +34,7 @@ const { url, type, tags, title, description, isFeed = false } = Astro.props;
       tags?.length
         ? tags.map((tag) => {
             if (
-              !['IFTTT', 'TwitterLike', 'instapaper', 'zm:link'].includes(tag)
+              !['IFTTT', 'TwitterLike', 'instapaper', 'public'].includes(tag)
             ) {
               return <div class="zm-links-item-tag">#{tag}</div>;
             }

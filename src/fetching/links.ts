@@ -38,7 +38,7 @@ export type BookmarkType =
   | 'file';
 
 export const fetchLinks = async (limit = 150): Promise<Bookmark[]> => {
-  const linksPath = urlJoin('https://otter.zander.wtf/api/tag/zm:link', {
+  const linksPath = urlJoin('https://otter.zander.wtf/api/tag/public', {
     query: {
       limit,
     },
