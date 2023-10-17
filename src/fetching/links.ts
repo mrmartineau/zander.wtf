@@ -38,9 +38,11 @@ export type BookmarkType =
   | 'file';
 
 export const fetchLinks = async (limit = 150): Promise<Bookmark[]> => {
-  const linksPath = urlJoin('https://otter.zander.wtf/api/tag/public', {
+  const linksPath = urlJoin('https://otter.zander.wtf/api/bookmarks', {
     query: {
       limit,
+      tag: 'public',
+      user: process.env.SUPABASE_USER_ID || '',
     },
   });
   const linksData = await axios.get(linksPath, {
