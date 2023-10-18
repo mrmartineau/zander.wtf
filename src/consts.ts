@@ -61,15 +61,34 @@ export const ABOUT_ME = {
     'mailto:hi+enquiry@zander.wtf?subject=Contract%20enquiry&body=Hi%20Zander%2C%0A%0AI%20would%20like%20to%20work%20with%20you...',
 };
 
-export const JOBS = {
-  current: {
-    name: 'Fathom',
-    description:
-      'Multiple projects: Cryptocurrency exchange (Tradeblock), Investment banking app (Commerzbank), Legacy React app rebrand (Cappitech), Financial insights app (Clearwater Analytics)',
-    type: 'contract',
-    url: 'https://www.fathomlondon.com',
-  },
+interface Jobs {
+  current?: {
+    url: string;
+    name: string;
+    description?: string;
+  };
+  previous: {
+    url: string;
+    name: string;
+    description?: string;
+    type: 'contract' | 'employed';
+    projects?: {
+      name: string;
+      description: string;
+      link?: string;
+    }[];
+  }[];
+}
+export const JOBS: Jobs = {
+  current: undefined,
   previous: [
+    {
+      name: 'Fathom',
+      description:
+        'Multiple projects: Cryptocurrency exchange (Tradeblock), Investment banking app (Commerzbank), Legacy React app rebrand (Cappitech), Financial insights app (Clearwater Analytics)',
+      type: 'contract',
+      url: 'https://www.fathomlondon.com',
+    },
     {
       name: 'Utopia Music',
       description: 'Rostr 2.0',
@@ -157,6 +176,12 @@ export const JOBS = {
           link: 'https://www.barilla.com',
         },
       ],
+    },
+    {
+      name: 'Neverbland',
+      description: '',
+      type: 'employed',
+      url: 'https://neverbland.com',
     },
   ],
 };
