@@ -199,6 +199,13 @@ export type Project = {
 
 export const SIDE_PROJECTS: Project[] = [
   {
+    name: 'Otter',
+    description: 'Personal bookmarking app. Open source.',
+    link: 'https://github.com/mrmartineau/Otter',
+    status: 'active',
+    tech: 'React, Next.js, TypeScript, Postgres and authentication (powered by Supabase), Tailwind',
+  },
+  {
     name: 'cloudflare-worker-scraper',
     description: `Page Metadata Scraper with Cloudflare workers. It uses a Cloudflare's HTMLRewriter to scrape the page for metadata and returns it as JSON.`,
     link: 'https://github.com/mrmartineau/cloudflare-worker-scraper',
@@ -218,14 +225,6 @@ export const SIDE_PROJECTS: Project[] = [
     link: 'https://github.com/mrmartineau/journal',
     status: 'active',
     tech: 'SvelteKit, TypeScript, A.I. powered text improvements, Postgres and authentication (powered by Supabase)',
-  },
-  {
-    name: 'Otter',
-    description: 'Personal bookmarking app. Not open source yet.',
-    link: 'https://github.com/mrmartineau/Otter',
-    status: 'active',
-    published: 'private',
-    tech: 'React, Next.js, TypeScript, Postgres and authentication (powered by Supabase), Tailwind',
   },
   {
     name: 'Raycast extensions',
