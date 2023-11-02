@@ -9,6 +9,7 @@ const blog = defineCollection({
     date: z.date(),
     modified: z.date().optional(),
     opengraphImage: z.string().optional(),
+    tags: z.array(z.string()).optional(),
   }),
 });
 

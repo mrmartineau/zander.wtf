@@ -17,7 +17,7 @@ const { Content } = await post.render();
 
 <BlogPostLayout {...post.data}>
   <Content />
-  <footer>
+  <footer class="mt-12 clear-left">
     <span class="mono">&gt;</span> comment on{' '}
     <a
       href={`https://elk.zone/intent/post?text=Reading%20%40zander%40toot.cafe%27s%20https%3A//zander.wtf/blog/${post.slug}%0A%0AI%20think...`}
@@ -33,7 +33,6 @@ const { Content } = await post.render();
 
 <style lang="postcss">
   .mono {
-      font-family: var(--font-mono);
-      ;
-    }
+    font-family: var(--font-mono);
+  }
 </style>

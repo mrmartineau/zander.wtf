@@ -10,9 +10,10 @@ type Props = {
   date?: Date;
   class?: string;
   isSection?: boolean;
+  tags?: string[];
 };
 
-const { title, subtitle, date, isSection = false } = Astro.props;
+const { title, subtitle, date, isSection = false, tags } = Astro.props;
 ---
 
 <header>
@@ -26,9 +27,20 @@ const { title, subtitle, date, isSection = false } = Astro.props;
 
   {subtitle ? <PageSubtitle transition:persist>{subtitle}</PageSubtitle> : null}
   {
-    date ? (
-      <div class="zm-articleMetadata my-m flex items-center gap-x-m gap-y-xs flex-wrap">
-        <FormattedDate date={date} />
+    date || tags?.length ? (
+      <div class="zm-articleMetadata my-m flex items-center gap-x-m gap-y-xs flex-wrap text-sm">
+        {date ? (
+          <div>
+            Posted: <FormattedDate date={date} />
+          </div>
+        ) : null}
+        {tags?.length ? (
+          <div class="flex gap-x-xs gap-y-xs">
+            {tags.map((item) => {
+              return <span>#{item}</span>;
+            })}
+          </div>
+        ) : null}
       </div>
     ) : null
   }

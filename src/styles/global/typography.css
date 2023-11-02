@@ -12,7 +12,6 @@ blockquote {
   padding-inline-start: 1em;
   border-inline-start: 0.3em solid;
   font-style: italic;
-  font-size: var(--step-1);
 }
 
 h1 {
@@ -123,6 +122,10 @@ article {
     border-radius: 0.5em;
     border: 3px solid;
   }
+
+  hr {
+    margin-inline: var(--space-l);
+  }
 }
 
 .zm-block-link {
@@ -133,10 +136,6 @@ article {
   & + & {
     margin-inline-start: var(--space-s);
   }
-}
-
-blockquote {
-  max-width: 50ch;
 }
 
 .lede {
@@ -154,6 +153,7 @@ hr {
   border-top-color: var(--hr);
 }
 
-p {
+p,
+blockquote {
   color: var(--colour-body);
 }
