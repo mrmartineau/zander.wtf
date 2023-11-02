@@ -163,9 +163,12 @@ export const Button = ({
   ...rest
 }: Props) => {
   return (
-    <div className={cn(buttonVariants({ variant, size, className }))} {...rest}>
+    <button
+      className={cn(buttonVariants({ variant, size, className }))}
+      {...rest}
+    >
       {children}
-    </div>
+    </button>
   );
 };
 ```
