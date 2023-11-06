@@ -200,10 +200,11 @@ export type Project = {
 export const SIDE_PROJECTS: Project[] = [
   {
     name: 'Otter',
-    description: 'Personal bookmarking app. Open source.',
-    link: 'https://github.com/mrmartineau/Otter',
+    description: 'Self-hosted personal bookmarking app. Open source.',
+    repo: 'https://github.com/mrmartineau/Otter',
+    link: '/blog/otter-v2',
     status: 'active',
-    tech: 'React, Next.js, TypeScript, Postgres and authentication (powered by Supabase), Tailwind',
+    tech: 'React, Next.js, TypeScript, PostgreSQL and authentication (powered by Supabase), Tailwind',
   },
   {
     name: 'cloudflare-worker-scraper',
@@ -224,7 +225,7 @@ export const SIDE_PROJECTS: Project[] = [
     description: 'Personal journalling app. Open source.',
     link: 'https://github.com/mrmartineau/journal',
     status: 'active',
-    tech: 'SvelteKit, TypeScript, A.I. powered text improvements, Postgres and authentication (powered by Supabase)',
+    tech: 'SvelteKit, TypeScript, A.I. powered text improvements, PostgreSQL and authentication (powered by Supabase)',
   },
   {
     name: 'Raycast extensions',

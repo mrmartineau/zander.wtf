@@ -10,6 +10,14 @@ const links = await fetchLinks();
   title="Links"
   subtitle="Hand-picked hyperlinks, all stored in my Otter bookmarking app"
 >
+  <div>
+    Otter is a self-hosted personal bookmarking app, find out more about it <a
+      href="/blog/otter-v2"
+    >
+      here
+    </a>
+  </div>
+
   <div class="zm-links-feed">
     {
       links.map((item) => {
@@ -25,6 +33,7 @@ const links = await fetchLinks();
 
 <style>
   .zm-links-feed {
+    margin-block-start: var(--space-m);
     display: grid;
     gap: var(--space-l);
     grid-template-columns: repeat(auto-fill, minmax(min(400px, 100%), 1fr));
