@@ -33,7 +33,7 @@ The other Cloudflare worker I created was to backup my Mastodon toots and favour
 
 I used to use [Pipedream](https://pipedream.com/) to do the same thing for my Tweets, but since Elon fucked with the platform and restricted the APIs, those backups have been frozen in time with the last backed-up tweet dated February 17th 2023.
 
-<img src="https://github.com/mrmartineau/Otter/blob/main/app/apple-icon.png?raw=true" alt="Otter logo" class="max-w-[50%] mx-auto no-border"/>
+<img src="https://github.com/mrmartineau/Otter/blob/main/public/otter-logo-bg-rounded@1x.png?raw=true" alt="Otter logo" class="max-w-[50%] mx-auto no-border"/>
 
 Otter has used the emoji Otter 🦦 for its logo since the early days, but always wanted to design a custom logo. In my previous Otter post, I shared how AI was used to help generate ideas for the logo. With the release of DALL·E 3, I tried again and found some good sources of inspiration which I then converted to a custom logo in Figma.
 
