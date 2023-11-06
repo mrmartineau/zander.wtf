@@ -121,6 +121,10 @@ article {
   video {
     border-radius: 0.5em;
     border: 3px solid;
+
+    &.no-border {
+      border: none;
+    }
   }
 
   hr {
