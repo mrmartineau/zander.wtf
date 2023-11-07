@@ -12,7 +12,7 @@ Over the past few years, I've worked with React apps utilising various CSS-in-JS
 
 While I didn't always opt for CSS-in-JS, I frequently chose it for its ubiquity — everyone was using it, and I was aboard the hype train 🚂. I knew there was an performance overhead when compared to vanilla CSS however, I was oblivious to how detrimental its impact on performance was until I read Sam Magura's article, ["Why We're Breaking Up with CSS-in-JS"](https://dev.to/srmagura/why-were-breaking-up-wiht-css-in-js-4g9b). This piece prompted me to search for a new standard in styling React apps. I believe I've found it, not in a single tool, but in a harmonious blend of various utilities.
 
-TLDR; these are the tools I use to style React apps:
+TL;DR these are the tools I use to style React apps:
 
 - [PostCSS](https://postcss.org/) (or Sass)
 - [Tailwind](https://tailwindcss.com/)
