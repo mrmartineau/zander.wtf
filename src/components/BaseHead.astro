@@ -34,9 +34,9 @@ const { title, description, image = '/opengraph.jpg' } = Astro.props;
 <link rel="me" href="https://github.com/mrmartineau" type="text/html" />
 
 <!-- Open Graph / Facebook -->
-<meta property="og:type" content="website" />
-<meta property="og:url" content={Astro.url} />
-<meta property="og:image" content={new URL(image, Astro.url)} />
+<meta name="og:type" content="website" />
+<meta name="og:url" content={Astro.url} />
+<meta name="og:image" content={new URL(image, Astro.url)} />
 
 <link
   rel="preload"
