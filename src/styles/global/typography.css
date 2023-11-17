@@ -97,7 +97,7 @@ article {
 
     &:hover {
       --colour-decoration: var(--colour-accent);
-      --colour: currentColor;
+      --colour: var(--colour-text-bright);
     }
   }
 
