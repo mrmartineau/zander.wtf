@@ -16,10 +16,7 @@ const worklog = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
-    subtitle: z.string().optional(),
     date: z.date(),
-    modified: z.date().optional(),
-    tags: z.array(z.string()).optional(),
   }),
 });
 
