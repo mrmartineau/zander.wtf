@@ -35,7 +35,7 @@ const { title, subtitle, date, isSection = false, tags } = Astro.props;
           </div>
         ) : null}
         {tags?.length ? (
-          <div class="flex gap-x-xs gap-y-xs">
+          <div class="flex gap-x-xs gap-y-3xs flex-wrap">
             {tags.map((item) => {
               return <span>#{item}</span>;
             })}
