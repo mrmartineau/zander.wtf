@@ -1,0 +1,67 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import FormattedDate from './FormattedDate.astro';
+
+type Props = CollectionEntry<'worklog'>;
+const log = Astro.props;
+const { slug, data } = log;
+const { Content } = await log.render();
+---
+
+<div class="zm-worklog-item" id={`#${slug}`}>
+  <article class="info flow">
+    <a href={`#${slug}`} class="title" transition:persist>
+      {data.title}
+    </a>
+    <Content />
+  </article>
+  <div class="date" transition:persist>
+    <FormattedDate date={data.date} />
+  </div>
+</div>
+
+<style>
+  .title {
+    line-height: 1.2;
+    display: block;
+    margin-block-end: var(--space-3xs);
+  }
+
+  .subtitle {
+    opacity: 0.7;
+    font-size: var(--step--1);
+    line-height: 1.2;
+  }
+
+  .date {
+    opacity: 0.7;
+    font-feature-settings:
+      'calt' 1,
+      'liga' 1,
+      'rlig' 1,
+      'rvrn' 1,
+      'kern' 1,
+      'rclt' 1,
+      'tnum' 1;
+    font-size: var(--step--1);
+  }
+
+  @container worklog-item (min-width: 480px) {
+    .zm-worklog-item {
+      display: flex;
+      gap: var(--space-xs);
+    }
+
+    .info {
+      order: 2;
+    }
+
+    .date {
+      min-width: 9rem;
+      order: 1;
+      font-size: unset;
+      line-height: 1.2;
+      flex-shrink: 0;
+    }
+  }
+</style>

@@ -28,6 +28,10 @@ export const SITE_FOOTER_ITEMS = [
     url: '/colophon',
   },
   {
+    text: 'Worklog',
+    url: '/worklog',
+  },
+  {
     text: 'Uses',
     url: '/uses',
   },

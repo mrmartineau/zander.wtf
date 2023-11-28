@@ -1,0 +1,22 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import WorkLogItem from './WorkLogItem.astro';
+
+type Props = {
+  logs: CollectionEntry<'worklog'>[];
+};
+const { logs } = Astro.props;
+---
+
+<div class="zm-worklog-items flow">
+  {logs.map((item) => <WorkLogItem {...item} />)}
+</div>
+
+<style>
+  .zm-worklog-items {
+    container: worklog-item / inline-size;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+</style>

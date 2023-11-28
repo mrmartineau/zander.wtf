@@ -7,5 +7,6 @@ You can use a feed reader (also known as an RSS reader) to stay up to date with 
 
 - [Blog](/blog.rss.xml)
 - [Links](/links.rss.xml)
+- [Worklog](/worklog.rss.xml)
 - [Code Notes](https://notes.zander.wtf/feed.xml)
 - [Letterboxd Movie Diary](https://letterboxd.com/mrmartineau/rss/)

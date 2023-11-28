@@ -1,0 +1,13 @@
+---
+import { getCollection } from 'astro:content';
+import WorkLogList from '~/components/WorkLogList.astro';
+import PageLayout from '~/layouts/PageLayout.astro';
+
+const logs = (await getCollection('worklog')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+---
+
+<PageLayout title="Worklog" subtitle="The changelog.md of my work life.">
+  <WorkLogList logs={logs} />
+</PageLayout>
