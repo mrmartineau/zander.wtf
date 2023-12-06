@@ -21,6 +21,7 @@ export const GET = async ({ props }: Props) => {
 
   const title = post.data.title ?? '';
   const subtitle = post.data.subtitle ?? '';
+  const date = post.data.date ?? '';
 
   // Astro doesn't support .tsx endpoints so using React-element objects
   const html = {
@@ -58,6 +59,22 @@ export const GET = async ({ props }: Props) => {
                     fontWeight: 300,
                   },
                   children: subtitle,
+                },
+              },
+              {
+                type: 'div',
+                props: {
+                  style: {
+                    fontSize: '25px',
+                    fontFamily: 'Mona Sans',
+                    lineHeight: '1.4',
+                    fontWeight: 300,
+                  },
+                  children: date.toLocaleDateString('en-gb', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                  }),
                 },
               },
             ],
