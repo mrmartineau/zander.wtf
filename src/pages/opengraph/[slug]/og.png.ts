@@ -70,11 +70,13 @@ export const GET = async ({ props }: Props) => {
                     lineHeight: '1.4',
                     fontWeight: 300,
                   },
-                  children: date.toLocaleDateString('en-gb', {
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric',
-                  }),
+                  children:
+                    date &&
+                    date.toLocaleDateString('en-gb', {
+                      year: 'numeric',
+                      month: 'short',
+                      day: 'numeric',
+                    }),
                 },
               },
             ],
