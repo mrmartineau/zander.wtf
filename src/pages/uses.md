@@ -4,6 +4,7 @@ subtitle: An overview of my hardware and software setup
 date: 2019-02-11
 modified: 2022-12-05
 layout: ../layouts/MarkdownLayout.astro
+slug: uses
 ---
 
 I work almost exclusively from my home office and I like to use good quality products that make my working life more comfortable.

@@ -2,13 +2,16 @@
 import LinkFeedItem from '~/components/LinkFeedItem.astro';
 import { fetchLinks } from '../fetching/links';
 import PageLayout from '~/layouts/PageLayout.astro';
+import { SITE_METADATA } from 'src/consts';
 
 const links = await fetchLinks();
+const slug = 'links';
 ---
 
 <PageLayout
-  title="Links"
-  subtitle="Hand-picked hyperlinks, all stored in my Otter bookmarking app"
+  title={SITE_METADATA[slug].title}
+  subtitle={SITE_METADATA[slug].subtitle}
+  slug={slug}
 >
   <div>
     Otter is a self-hosted personal bookmarking app, find out more about it <a

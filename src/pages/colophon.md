@@ -3,6 +3,7 @@ title: Colophon
 subtitle: What's up with this site?
 date: 2023-09-02
 layout: ../layouts/MarkdownLayout.astro
+slug: colophon
 ---
 
 The **2023** version of my digital abode is built with [Astro](https://astro.build). I had originally I started making it with [Eleventy](https://www.11ty.dev/) (11ty) as I had used 11ty successfully for version 2 of my [Code Notes](https://notes.zander.wtf) project and loved its simplicity and speed, but whilst building the 11ty site I became more and more interested in Astro. After trying out the Astro blog example I decided to rebuild the site with it - even though I still hadn't released the 11ty version 😬.

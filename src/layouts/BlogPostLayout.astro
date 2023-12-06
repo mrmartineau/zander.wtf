@@ -3,11 +3,12 @@ import type { CollectionEntry } from 'astro:content';
 import BaseLayout from './BaseLayout.astro';
 import PageHeader from '~/components/PageHeader.astro';
 
-type Props = CollectionEntry<'blog'>['data'];
-const { title, date, subtitle, tags } = Astro.props;
+type Props = CollectionEntry<'blog'>;
+const { data, slug } = Astro.props;
+const { title, date, subtitle, tags } = data;
 ---
 
-<BaseLayout title={title} subtitle={subtitle}>
+<BaseLayout title={title} subtitle={subtitle} slug={slug}>
   <article class="zm-theFuckingContentContainer">
     <PageHeader title={title} subtitle={subtitle} date={date} tags={tags} />
 

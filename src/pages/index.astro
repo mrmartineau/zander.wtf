@@ -5,12 +5,17 @@ import BlockHobbies from '~/components/BlockHobbies.astro';
 import BlockLinks from '~/components/BlockLinks.astro';
 import BlockMovies from '~/components/BlockMovies.astro';
 import BlockProjects from '~/components/BlockProjects.astro';
-import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import { SITE_METADATA } from '../consts';
 import Status from '~/components/Status.astro';
 import BaseLayout from '~/layouts/BaseLayout.astro';
+const slug = 'home';
 ---
 
-<BaseLayout title={SITE_TITLE} subtitle={SITE_DESCRIPTION}>
+<BaseLayout
+  title={SITE_METADATA[slug].title}
+  subtitle={SITE_METADATA[slug].subtitle}
+  slug={slug}
+>
   <div class="zm-theFuckingContainer">
     <!-- prettier-ignore -->
     <h1 class="zm-intro">

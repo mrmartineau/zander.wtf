@@ -1,13 +1,19 @@
 ---
 import { getCollection } from 'astro:content';
+import { SITE_METADATA } from 'src/consts';
 import WorkLogList from '~/components/WorkLogList.astro';
 import PageLayout from '~/layouts/PageLayout.astro';
 
 const logs = (await getCollection('worklog')).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
 );
+const slug = 'worklog';
 ---
 
-<PageLayout title="Worklog" subtitle="The changelog.md of my work life.">
+<PageLayout
+  title={SITE_METADATA[slug].title}
+  subtitle={SITE_METADATA[slug].subtitle}
+  slug={slug}
+>
   <WorkLogList logs={logs} />
 </PageLayout>

@@ -7,11 +7,12 @@ interface Props {
   title: string;
   description?: string;
   image?: string;
+  slug?: string;
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
-const { title, description, image = '/opengraph.jpg' } = Astro.props;
+const { title, description, image = '/opengraph.jpg', slug } = Astro.props;
 ---
 
 <!-- Global Metadata -->
@@ -33,10 +34,15 @@ const { title, description, image = '/opengraph.jpg' } = Astro.props;
 
 <link rel="me" href="https://github.com/mrmartineau" type="text/html" />
 
-<!-- Open Graph / Facebook -->
+<!-- Open Graph -->
 <meta name="og:type" content="website" />
 <meta name="og:url" content={Astro.url} />
-<meta name="og:image" content={new URL(image, Astro.url)} />
+<meta
+  name="og:image"
+  content={slug
+    ? new URL(`/opengraph/${slug}/og.png`, Astro.url)
+    : new URL(image, Astro.url)}
+/>
 
 <link
   rel="preload"

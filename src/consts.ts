@@ -1,6 +1,45 @@
 export const SITE_TITLE = `Hi! I'm Zander, I make websites`;
-export const SITE_DESCRIPTION = `Zander Martineau's personal site. I'm a contractor with 15+ years of experience helping companies get products to market, rewriting apps, creating POCs and more. I specialize in front-end but also work full-stack.`;
 export const SHOW_STATUS = true;
+
+export const SITE_METADATA: Record<
+  string,
+  { title: string; subtitle?: string; ogTitle?: string }
+> = {
+  home: {
+    title: `Hi! I'm Zander, I make websites`,
+    subtitle: `Zander Martineau's personal site. I'm a contractor with 15+ years of experience helping companies get products to market, rewriting apps, creating POCs and more. I specialize in front-end but also work full-stack.`,
+  },
+  blog: {
+    title: 'Blog',
+    ogTitle: 'My blog',
+    subtitle:
+      'Thoughts, ramblings and ideas. Mostly related to web development',
+  },
+  about: {
+    title: 'About',
+    subtitle: 'My name is Zander, I live in London, UK',
+  },
+  colophon: {
+    title: 'Colophon',
+    subtitle: `What's up with this site?`,
+  },
+  feeds: {
+    title: 'Feeds',
+    subtitle: 'RSS',
+  },
+  links: {
+    title: 'Links',
+    subtitle: `Hand-picked hyperlinks, all stored in my Otter bookmarking app`,
+  },
+  uses: {
+    title: 'My setup',
+    subtitle: `An overview of my hardware and software setup`,
+  },
+  worklog: {
+    title: 'Worklog',
+    subtitle: `The changelog.md of my work life.`,
+  },
+};
 
 export const SITE_NAV_ITEMS = [
   {
