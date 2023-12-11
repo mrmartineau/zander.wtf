@@ -41,7 +41,7 @@ export const fetchLinks = async (limit = 150): Promise<Bookmark[]> => {
   const linksPath = urlJoin('https://otter.zander.wtf/api/bookmarks', {
     query: {
       limit,
-      tag: 'public',
+      public: 'true',
       user: process.env.SUPABASE_USER_ID || '',
     },
   });
@@ -50,5 +50,6 @@ export const fetchLinks = async (limit = 150): Promise<Bookmark[]> => {
       Authorization: `Bearer ${import.meta.env.OTTER_API_KEY}`,
     },
   });
+  console.log(`🚀 ~ fetchLinks ~ linksData:`, linksData);
   return linksData.data.data;
 };
