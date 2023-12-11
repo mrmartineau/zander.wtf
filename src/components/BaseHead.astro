@@ -13,6 +13,8 @@ interface Props {
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
 const { title, description, image = '/opengraph.jpg', slug } = Astro.props;
+
+const theTitle = slug === 'home' ? title : `${title} | Zander Martineau`;
 ---
 
 <!-- Global Metadata -->
@@ -25,8 +27,8 @@ const { title, description, image = '/opengraph.jpg', slug } = Astro.props;
 <link rel="canonical" href={canonicalURL} />
 
 <!-- Primary Meta Tags -->
-<title>{title}</title>
-<meta name="title" content={title} />
+<title>{theTitle}</title>
+<meta name="title" content={theTitle} />
 <meta name="description" content={description} />
 <link rel="author" href="Zander Martineau" />
 <meta name="geo.region" content="GB" />
