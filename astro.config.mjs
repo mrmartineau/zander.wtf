@@ -2,7 +2,6 @@ import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import { execSync } from 'node:child_process';
-import prefetch from '@astrojs/prefetch';
 import vercel from '@astrojs/vercel/static';
 const commitHash = execSync('git rev-parse --short HEAD').toString();
 
@@ -10,6 +9,9 @@ const commitHash = execSync('git rev-parse --short HEAD').toString();
 export default defineConfig({
   site: 'https://zander.wtf',
   integrations: [mdx(), sitemap(), prefetch()],
+  prefetch: {
+    prefetchAll: true,
+  },
   markdown: {
     shikiConfig: {
       // Choose from Shiki's built-in themes (or add your own)
