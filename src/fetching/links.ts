@@ -50,6 +50,5 @@ export const fetchLinks = async (limit = 150): Promise<Bookmark[]> => {
       Authorization: `Bearer ${import.meta.env.OTTER_API_KEY}`,
     },
   });
-  console.log(`🚀 ~ fetchLinks ~ linksData:`, linksData);
   return linksData.data.data;
 };
