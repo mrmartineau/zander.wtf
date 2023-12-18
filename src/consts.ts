@@ -1,5 +1,5 @@
 export const SITE_TITLE = `Hi! I'm Zander, I make websites`;
-export const SHOW_STATUS = true;
+export const SHOW_STATUS = false;
 
 export const SITE_METADATA: Record<
   string,
