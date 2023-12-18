@@ -4,14 +4,12 @@ interface Props {
 }
 
 const { date } = Astro.props;
+const dateString = date.toLocaleDateString(navigator.language || 'en-GB', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+});
+const timestamp = date.toISOString();
 ---
 
-<time datetime={date.toISOString()}>
-  {
-    date.toLocaleDateString('en-us', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-    })
-  }
-</time>
+<time datetime={timestamp}>{dateString}</time>
