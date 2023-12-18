@@ -8,7 +8,7 @@ const commitHash = execSync('git rev-parse --short HEAD').toString();
 // https://astro.build/config
 export default defineConfig({
   site: 'https://zander.wtf',
-  integrations: [mdx(), sitemap(), prefetch()],
+  integrations: [mdx(), sitemap()],
   prefetch: {
     prefetchAll: true,
   },
