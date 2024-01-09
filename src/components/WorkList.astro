@@ -11,70 +11,68 @@ const workList = limit ? JOBS.previous.slice(0, limit) : JOBS.previous;
 ---
 
 <div class="zm-work-items">
-  <div class="zm-work-item">
-    {
-      JOBS.current?.name ? (
-        <>
-          <span class="zm-work-item-label">Current</span>
-          <div>
-            <a href={JOBS.current.url}>{JOBS.current.name}</a>
-            {JOBS.current?.description ? (
-              <div class="zm-work-description">{JOBS.current.description}</div>
-            ) : null}
-          </div>
-        </>
-      ) : null
-    }
-    {
-      JOBS.previous?.length ? (
-        <div class="zm-work-item">
-          <span class="zm-work-item-label">Previous</span>
-          <div>
-            {workList.map((job, index) => {
-              return (
-                <>
-                  <a href={job.url}>{job.name}</a>
-                  {index < JOBS.previous.length - 1 ? <> · </> : null}
-                </>
-              );
-            })}
-          </div>
+  {
+    JOBS.current?.name ? (
+      <div class="zm-work-item">
+        <span class="zm-work-item-label">Current</span>
+        <div>
+          <a href={JOBS.current.url}>{JOBS.current.name}</a>
+          {JOBS.current?.description ? (
+            <div class="zm-work-description">{JOBS.current.description}</div>
+          ) : null}
         </div>
-      ) : null
-    }
-  </div>
-
-  <style>
-    .zm-work-items {
-      container: work-item / inline-size;
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-xs);
-    }
-
-    .zm-work-item-label {
-      width: 9rem;
-      flex-shrink: 0;
-      font-feature-settings:
-        'calt' 1,
-        'liga' 1,
-        'rlig' 1,
-        'rvrn' 1,
-        'kern' 1,
-        'rclt' 1,
-        'tnum' 1;
-    }
-
-    @container work-item (min-width: 480px) {
-      .zm-work-item {
-        display: flex;
-        column-gap: var(--space-2xs);
-        row-gap: var(--space-3xs);
-      }
-    }
-
-    .zm-work-description {
-      font-size: var(--step--2);
-    }
-  </style>
+      </div>
+    ) : null
+  }
+  {
+    JOBS.previous?.length ? (
+      <div class="zm-work-item">
+        <span class="zm-work-item-label">Previous</span>
+        <div>
+          {workList.map((job, index) => {
+            return (
+              <>
+                <a href={job.url}>{job.name}</a>
+                {index < JOBS.previous.length - 1 ? <> · </> : null}
+              </>
+            );
+          })}
+        </div>
+      </div>
+    ) : null
+  }
 </div>
+
+<style>
+  .zm-work-items {
+    container: work-item / inline-size;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .zm-work-item-label {
+    width: 9rem;
+    flex-shrink: 0;
+    font-feature-settings:
+      'calt' 1,
+      'liga' 1,
+      'rlig' 1,
+      'rvrn' 1,
+      'kern' 1,
+      'rclt' 1,
+      'tnum' 1;
+  }
+
+  @container work-item (min-width: 480px) {
+    .zm-work-item {
+      display: flex;
+      column-gap: var(--space-2xs);
+      row-gap: var(--space-3xs);
+    }
+  }
+
+  .zm-work-description {
+    font-size: var(--step--1);
+  }
+</style>
