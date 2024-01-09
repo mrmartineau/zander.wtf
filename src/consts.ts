@@ -104,26 +104,29 @@ export const ABOUT_ME = {
     'mailto:hi+enquiry@zander.wtf?subject=Contract%20enquiry&body=Hi%20Zander%2C%0A%0AI%20would%20like%20to%20work%20with%20you...',
 };
 
-interface Jobs {
-  current?: {
-    url: string;
+type Job = {
+  url: string;
+  name: string;
+  description?: string;
+  type: 'contract' | 'employed';
+  projects?: {
     name: string;
-    description?: string;
-  };
-  previous: {
-    url: string;
-    name: string;
-    description?: string;
-    type: 'contract' | 'employed';
-    projects?: {
-      name: string;
-      description: string;
-      link?: string;
-    }[];
+    description: string;
+    link?: string;
   }[];
+};
+
+interface Jobs {
+  current?: Job;
+  previous: Job[];
 }
 export const JOBS: Jobs = {
-  current: undefined,
+  current: {
+    name: 'Dare',
+    url: 'https://dare.global',
+    // description: `Building internal apps`,
+    type: 'contract',
+  },
   previous: [
     {
       name: 'Fathom',
