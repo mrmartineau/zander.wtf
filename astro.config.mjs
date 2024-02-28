@@ -2,7 +2,7 @@ import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import { execSync } from 'node:child_process';
-import vercel from '@astrojs/vercel/static';
+import cloudflare from '@astrojs/cloudflare';
 const commitHash = execSync('git rev-parse --short HEAD').toString();
 
 // https://astro.build/config
@@ -31,8 +31,5 @@ export default defineConfig({
     },
   },
   output: 'static',
-  adapter: vercel({
-    analytics: true,
-    imageService: true,
-  }),
+  adapter: cloudflare(),
 });
