@@ -5,7 +5,6 @@ env:
   OTTER_API_KEY: ${{ secrets.OTTER_API_KEY }}
 
 on:
-  push:
   schedule:
     - cron: '0 0/12 * * *' # every 12 hours
 jobs:
