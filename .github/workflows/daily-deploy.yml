@@ -1,5 +1,8 @@
 name: Twice daily deployment
 
+env:
+  SUPABASE_USER_ID: ${{ secrets.SUPABASE_USER_ID }}
+
 on:
   push:
   schedule:
