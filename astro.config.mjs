@@ -2,7 +2,7 @@ import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import { execSync } from 'node:child_process';
-import cloudflare from '@astrojs/cloudflare';
+// import cloudflare from '@astrojs/cloudflare';
 const commitHash = execSync('git rev-parse --short HEAD').toString();
 
 // https://astro.build/config
@@ -31,5 +31,8 @@ export default defineConfig({
     },
   },
   output: 'static',
-  adapter: cloudflare(),
+  // Uncomment to enable Cloudflare adapter
+  // adapter: cloudflare({
+  //   imageService: 'cloudflare',
+  // }),
 });
