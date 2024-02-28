@@ -2,6 +2,7 @@ name: Twice daily deployment
 
 env:
   SUPABASE_USER_ID: ${{ secrets.SUPABASE_USER_ID }}
+  OTTER_API_KEY: ${{ secrets.OTTER_API_KEY }}
 
 on:
   push:
