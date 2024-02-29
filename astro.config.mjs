@@ -32,6 +32,7 @@ export default defineConfig({
   },
   output: 'server',
   adapter: cloudflare({
+    mode: 'directory',
     imageService: 'noop',
     wasmModuleImports: true,
     platform: 'node',

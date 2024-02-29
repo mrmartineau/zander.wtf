@@ -1,9 +1,9 @@
-export const prerender = false;
+export const prerender = true;
 
 import rss from '@astrojs/rss';
 import { fetchLinks } from '../fetching/links';
 
-export async function get(context) {
+export const GET = async (context) => {
   const links = await fetchLinks(50);
 
   return rss({
@@ -17,13 +17,13 @@ export async function get(context) {
       }
 
       return {
-        title: item?.title,
+        title: item.title,
         description: item?.description ?? '',
-        link: item.url,
+        link: item.url ?? '',
         pubDate: new Date(item.created_at),
-        categories: item.tags,
+        categories: item.tags ?? [],
       };
     }),
     stylesheet: '/links.rss.xsl',
   });
-}
+};

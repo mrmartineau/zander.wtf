@@ -1,4 +1,4 @@
-export const prerender = false;
+export const prerender = true;
 
 import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
@@ -6,7 +6,7 @@ import sanitizeHtml from 'sanitize-html';
 import MarkdownIt from 'markdown-it';
 const parser = new MarkdownIt();
 
-export async function get(context) {
+export const GET = async (context) => {
   const posts = (await getCollection('worklog')).sort(
     (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
   );
@@ -25,4 +25,4 @@ export async function get(context) {
     })),
     stylesheet: '/worklog.rss.xsl',
   });
-}
+};
