@@ -1,3 +1,5 @@
+export const prerender = true;
+
 import { getCollection, type CollectionEntry } from 'astro:content';
 import fs from 'fs';
 import path from 'path';

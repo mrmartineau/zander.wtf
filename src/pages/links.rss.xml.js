@@ -1,3 +1,5 @@
+export const prerender = false;
+
 import rss from '@astrojs/rss';
 import { fetchLinks } from '../fetching/links';
 
