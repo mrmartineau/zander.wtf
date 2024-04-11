@@ -1,16 +1,11 @@
 ---
-import BaseLayout from './BaseLayout.astro';
-import PageHeader from '~/components/PageHeader.astro';
+import ContentLayout from './ContentLayout.astro';
 
 const { title, subtitle, slug } = Astro.props.frontmatter;
 ---
 
-<BaseLayout title={title} subtitle={subtitle} slug={slug}>
-  <article class="zm-theFuckingContentContainer">
-    <PageHeader title={title} subtitle={subtitle} />
-
-    <div class="flow">
-      <slot />
-    </div>
+<ContentLayout title={title} subtitle={subtitle} slug={slug}>
+  <article class="flow">
+    <slot />
   </article>
-</BaseLayout>
+</ContentLayout>

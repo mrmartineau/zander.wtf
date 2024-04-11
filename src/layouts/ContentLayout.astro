@@ -1,0 +1,14 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+
+const { title, subtitle, slug } = Astro.props;
+---
+
+<BaseLayout title={title} subtitle={subtitle} slug={slug}>
+  <div class="zm-theFuckingContentContainer">
+    <PageHeader title={title} subtitle={subtitle} />
+
+    <slot />
+  </div>
+</BaseLayout>

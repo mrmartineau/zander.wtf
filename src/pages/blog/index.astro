@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 import { SITE_METADATA } from 'src/consts';
 import BlogList from '~/components/BlogList.astro';
-import PageLayout from '~/layouts/PageLayout.astro';
+import ContentLayout from '~/layouts/ContentLayout.astro';
 
 const posts = (await getCollection('blog')).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
@@ -10,10 +10,10 @@ const posts = (await getCollection('blog')).sort(
 const slug = 'blog';
 ---
 
-<PageLayout
+<ContentLayout
   title={SITE_METADATA[slug].title}
   subtitle={SITE_METADATA[slug].subtitle}
   slug={slug}
 >
   <BlogList posts={posts} />
-</PageLayout>
+</ContentLayout>
