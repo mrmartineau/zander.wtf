@@ -98,7 +98,7 @@ export const SITE_FOOTER_ITEMS = [
 ];
 
 export const ABOUT_ME = {
-  bio: `I'm a contractor with 15+ years of experience helping companies get products to market, rewriting apps, creating POCs and more. I specialize in front-end but also work full-stack.`,
+  bio: `I am a front-end web developer with over 15 years experience helping companies get products to market, rewriting apps, creating POCs and more.`,
   cv: 'https://read.cv/mrmartineau',
   email:
     'mailto:hi+enquiry@zander.wtf?subject=Contract%20enquiry&body=Hi%20Zander%2C%0A%0AI%20would%20like%20to%20work%20with%20you...',
@@ -124,8 +124,8 @@ export const JOBS: Jobs = {
   current: {
     name: 'Dare',
     url: 'https://dare.global',
-    // description: `Building internal apps`,
-    type: 'contract',
+    description: `Staff Software Engineer`,
+    type: 'employed',
   },
   previous: [
     {

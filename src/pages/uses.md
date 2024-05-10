@@ -23,7 +23,7 @@ I work almost exclusively from my home office and I like to use good quality pro
 
 ### Keyboard
 
-[Keychron Q1 version 2](https://keychron.in/product/keychron-q1-qmk-custom-mechanical-keyboard/) Keyboard. I bought the barebones ISO version and some Gateron Oil King switches from [Mech Mods](https://www.mechmods.co.uk/). What's not to love.
+[Keychron Q1 version 2](https://keychron.in/product/keychron-q1-qmk-custom-mechanical-keyboard/) Keyboard. I bought the barebones ISO version and some Gateron Oil King switches and PBTFans Resonance keycaps from [Mech Mods](https://www.mechmods.co.uk/). What's not to love.
 
 ### Mouse
 
