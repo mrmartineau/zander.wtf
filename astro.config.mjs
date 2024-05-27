@@ -29,16 +29,22 @@ export default defineConfig({
     define: {
       __COMMIT_HASH__: JSON.stringify(commitHash),
     },
-  },
-  output: 'server',
-  adapter: cloudflare({
-    mode: 'directory',
-    imageService: 'noop',
-    wasmModuleImports: true,
-    platform: 'node',
-    runtime: {
-      mode: 'local',
-      type: 'pages',
+    ssr: {
+      external: [
+        'node:buffer', 'node:fs', 'node:path', 'stream', 'http', 'https','url', 'zlib', 'punycode'],
     },
-  }),
+  },
+  // output: 'hybrid',
+  // adapter: cloudflare({
+  //   imageService: 'noop',
+  //   wasmModuleImports: true,
+  //   platform: 'node',
+  //   platformProxy: {
+  //     enabled: true
+  //   },
+  //   runtime: {
+  //     mode: 'local',
+  //     type: 'pages',
+  //   },
+  // }),
 });

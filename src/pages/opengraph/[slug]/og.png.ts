@@ -1,8 +1,6 @@
-export const prerender = true;
-
 import { getCollection, type CollectionEntry } from 'astro:content';
-import fs from 'fs';
-import path from 'path';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { ImageResponse } from '@vercel/og';
 import { SITE_METADATA } from 'src/consts';
 
@@ -14,11 +12,11 @@ interface Props {
 export const GET = async ({ props }: Props) => {
   const { post } = props;
 
-  const MonaSansBoldItalic = fs.readFileSync(
-    path.resolve('./public/fonts/MonaSansExpanded-ExtraBoldItalic.ttf'),
+  const MonaSansBoldItalic = readFileSync(
+    resolve('./public/fonts/MonaSansExpanded-ExtraBoldItalic.ttf'),
   );
-  const MonaSansLight = fs.readFileSync(
-    path.resolve('./public/fonts/MonaSansExpanded-Light.ttf'),
+  const MonaSansLight = readFileSync(
+    resolve('./public/fonts/MonaSansExpanded-Light.ttf'),
   );
 
   const title = post.data.title ?? '';

@@ -42,7 +42,7 @@ export const fetchLinks = async (limit = 150): Promise<Bookmark[]> => {
     query: {
       limit,
       public: 'true',
-      user: process.env.SUPABASE_USER_ID || '',
+      user: import.meta.env.SUPABASE_USER_ID || '',
     },
   });
   const linksData = await axios.get(linksPath, {
