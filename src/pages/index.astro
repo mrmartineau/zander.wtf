@@ -17,7 +17,7 @@ const slug = 'home';
   subtitle={SITE_METADATA[slug].subtitle}
   slug={slug}
 >
-  <div class="zm-theFuckingContainer">
+  <div class="zm-mainContainer">
     <!-- prettier-ignore -->
     <h1 class="zm-intro">
       Hi! I’m <span>Zander<img
@@ -41,7 +41,6 @@ const slug = 'home';
       <BlockBlog />
       <BlockProjects />
       <BlockLinks />
-      <BlockMovies />
     </div>
   </div>
 </BaseLayout>
@@ -129,12 +128,13 @@ const slug = 'home';
 
   .zm-block-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-template-columns: 1fr;
     gap: var(--space-l);
     margin-block-start: var(--space-l);
 
-    @media screen and (min-width: 700px) {
-      grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    @media screen and (min-width: 950px) {
+      gap: var(--space-2xl);
+      grid-template-columns: 1fr 1fr;
     }
   }
 </style>

@@ -1,10 +1,10 @@
-.zm-theFuckingContainer {
+.zm-mainContainer {
   margin: 0 auto var(--space-m-l);
   max-width: 1700px;
   width: 95%;
 }
 
-.zm-theFuckingContentContainer {
+.zm-contentContainer {
   margin: 0 auto var(--space-m-l);
   max-width: 1000px;
   width: 95%;
@@ -12,11 +12,6 @@
 
 .zm-fullContainer {
   padding: 0 var(--space-m-l);
-}
-
-.zm-contentContainer {
-  max-width: 65ch;
-  margin: 0 var(--space-m-l) var(--space-m-l);
 }
 
 .horizontalName {

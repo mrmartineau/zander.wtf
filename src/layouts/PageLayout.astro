@@ -12,7 +12,7 @@ const { title, subtitle, image, slug } = Astro.props;
 ---
 
 <BaseLayout title={title} subtitle={subtitle} image={image} slug={slug}>
-  <section class="zm-theFuckingContainer">
+  <section class="zm-mainContainer">
     <PageHeader title={title} subtitle={subtitle} isSection={true} />
     <slot />
   </section>

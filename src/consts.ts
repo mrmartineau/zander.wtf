@@ -29,7 +29,7 @@ export const SITE_METADATA: Record<
   },
   links: {
     title: 'Links',
-    subtitle: `Hand-picked hyperlinks, all stored in my Otter bookmarking app`,
+    subtitle: `Hand-picked hyperlinks, all saved in my Otter bookmarking app`,
   },
   uses: {
     title: 'My setup',
@@ -38,6 +38,10 @@ export const SITE_METADATA: Record<
   worklog: {
     title: 'Worklog',
     subtitle: `The changelog.md of my work life.`,
+  },
+  now: {
+    title: 'Now',
+    subtitle: `What I'm up to now`,
   },
 };
 
@@ -69,6 +73,10 @@ export const SITE_FOOTER_ITEMS = [
   {
     text: 'Worklog',
     url: '/worklog',
+  },
+  {
+    text: 'Now',
+    url: '/now',
   },
   {
     text: 'Uses',

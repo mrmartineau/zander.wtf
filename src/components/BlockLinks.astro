@@ -5,7 +5,7 @@ import LinkFeedItem from './LinkFeedItem.astro';
 const links = await fetchLinks(4);
 ---
 
-<Block title="Links" subtitle="Hand-picked hyperlinks">
+<Block title="Links" subtitle="Hand-picked hyperlinks, all saved in my Otter bookmarking app">
   <div class="zm-links flex flex-col gap-xs">
     {
       links.map((item) => {
