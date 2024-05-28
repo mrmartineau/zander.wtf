@@ -2,7 +2,6 @@ import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import { execSync } from 'node:child_process';
-import cloudflare from '@astrojs/cloudflare';
 const commitHash = execSync('git rev-parse --short HEAD').toString();
 
 // https://astro.build/config
@@ -29,22 +28,6 @@ export default defineConfig({
     define: {
       __COMMIT_HASH__: JSON.stringify(commitHash),
     },
-    ssr: {
-      external: [
-        'node:buffer', 'node:fs', 'node:path', 'stream', 'http', 'https','url', 'zlib', 'punycode'],
-    },
   },
-  // output: 'hybrid',
-  // adapter: cloudflare({
-  //   imageService: 'noop',
-  //   wasmModuleImports: true,
-  //   platform: 'node',
-  //   platformProxy: {
-  //     enabled: true
-  //   },
-  //   runtime: {
-  //     mode: 'local',
-  //     type: 'pages',
-  //   },
-  // }),
+  output: 'static',
 });

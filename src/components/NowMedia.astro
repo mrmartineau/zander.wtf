@@ -1,0 +1,58 @@
+---
+import type { NowMediaItem } from 'src/types';
+
+
+interface Props {
+  title: string;
+  description?: string;
+  items: Array<NowMediaItem>;
+}
+
+const { title, items } = Astro.props;
+---
+
+<div class="my-l">
+  <h2>{title}</h2>
+  <div class="nowItems mt-s">
+    {
+      items.map((item) => (
+        <a  href={item.link} class="relative">
+          <img src={item.image} alt={item.title} />
+          {item?.rating ? (<div class="rating">
+            {item.rating}
+          </div>) : null}
+          <span class="hidden">
+            <h3>{item.title}</h3>
+            {item?.description ? <p>{item.description}</p> : null}
+          </span>
+        </a>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .nowItems {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--space-s);
+  }
+
+  a {
+    display: block;
+  }
+
+  img {
+    border-radius: 0.5rem;
+    width: 100%;
+  }
+
+  .rating {
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+    left: 5px;
+    text-align: center;
+    text-shadow: 0 0 4px #000;
+  }
+</style>
