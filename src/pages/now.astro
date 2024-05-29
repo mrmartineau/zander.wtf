@@ -22,13 +22,16 @@ const transformedMusicAlbums = transformMusicToNow(music.topAlbums);
   subtitle={SITE_METADATA[slug].subtitle}
   slug={slug}
 >
-  <p>
-    This is a <a href="https://nownownow.com/about">now</a> page, and if you have
-    your own site, you should make one, too.
-  </p>
-
-  <NowMedia title="Movies" items={transformedMovies} />
-  <NowMedia title="Top albums" items={transformedMusicAlbums} />
-  <NowMedia title="Top artists" items={transformedMusicArtists} />
-  <NowMedia title="TV Shows" items={transformedShows} />
+  <div class="flow">
+    <p>
+      This is a <a href="https://nownownow.com/about">now</a> page, and if you have
+      your own site, you should make one, too.
+    </p>
+    <h2>Watching</h2>
+    <NowMedia title="Movies" items={transformedMovies} />
+    <NowMedia title="TV Shows" items={transformedShows} />
+    <h2>Listening</h2>
+    <NowMedia title="Top albums" items={transformedMusicAlbums} />
+    <NowMedia title="Top artists" items={transformedMusicArtists} />
+  </div>
 </PageLayout>

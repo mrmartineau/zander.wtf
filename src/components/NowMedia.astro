@@ -12,7 +12,7 @@ const { title, items } = Astro.props;
 ---
 
 <div class="my-l">
-  <h2>{title}</h2>
+  <h3>{title}</h3>
   <div class="nowItems mt-s">
     {
       items.map((item) => (
@@ -22,7 +22,7 @@ const { title, items } = Astro.props;
             {item.rating}
           </div>) : null}
           <span class="hidden">
-            <h3>{item.title}</h3>
+            <h4>{item.title}</h4>
             {item?.description ? <p>{item.description}</p> : null}
           </span>
         </a>

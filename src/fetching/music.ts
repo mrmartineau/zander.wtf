@@ -1,3 +1,4 @@
+import { SpotifyApi } from '@spotify/web-api-ts-sdk';
 import axios from 'axios';
 import urlJoin from 'proper-url-join';
 import type { NowMediaItem } from 'src/types';
@@ -5,6 +6,8 @@ import type { NowMediaItem } from 'src/types';
 export interface Env {
   LASTFM_API_KEY: string;
 }
+
+// const sdk = SpotifyApi.withClientCredentials(import.meta.env.SPOTIFY_CLIENT_ID, import.meta.env.SPOTIFY_CLIENT_SECRET, ["user-top-read"]);
 
 export const fetchMusic = async (limit = 5) => {
   const topArtistsPath = urlJoin('https://ws.audioscrobbler.com/2.0/', {
@@ -17,6 +20,14 @@ export const fetchMusic = async (limit = 5) => {
       period: '1month',
     },
   });
+  // const topArtistsPath = urlJoin('https://api.spotify.com/v1/me/top/artists', {
+  //   query: {
+  //     time_range: 'short_term',
+  //     user: 'martineau',
+  //     limit,
+  //   },
+  // });
+
   const topAlbumsPath = urlJoin('https://ws.audioscrobbler.com/2.0/', {
     query: {
       method: 'user.gettopalbums',
@@ -36,6 +47,22 @@ export const fetchMusic = async (limit = 5) => {
     topAlbums = await axios.get(topAlbumsPath);
   } catch (err) {
     console.log(`🚀 ~ fetchMusic ~ err:`, err)
+  }
+  let artistImages
+  try {
+    for await (const artist of topArtists?.data?.topartists.artist) {
+      const artistInfo = await axios.get(urlJoin('https://ws.audioscrobbler.com/2.0/', {
+        query: {
+          method: 'artist.getinfo',
+          api_key: import.meta.env.LASTFM_API_KEY as string,
+          format: 'json',
+          artist: artist.name
+        },
+      }))
+      console.log(`🚀 ~ forawait ~ artistInfo:`, JSON.stringify(artistInfo.data.artist.image))
+    }
+  } catch (error) {
+
   }
 
   return {
