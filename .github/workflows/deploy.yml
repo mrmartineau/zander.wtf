@@ -5,6 +5,8 @@ env:
   OTTER_API_KEY: ${{ secrets.OTTER_API_KEY }}
   LASTFM_API_KEY: ${{ secrets.LASTFM_API_KEY }}
   NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+  SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
+  SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
 
 on:
   schedule:

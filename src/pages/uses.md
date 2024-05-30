@@ -51,6 +51,19 @@ One of my most used extensions is [Surround](https://marketplace.visualstudio.co
 ```json
 {
   "surround.custom": {
+    "promise": {
+      "description": "Promise<...>",
+      "disabled": false,
+      "label": "Promise<...>",
+      "languageIds": [
+        "javascript",
+        "javascriptreact",
+        "typescript",
+        "typescriptreact",
+        "astro"
+      ],
+      "snippet": "Promise<$TM_SELECTED_TEXT>"
+    },
     "console-log": {
       "description": "console.log( ... )",
       "disabled": false,
@@ -100,6 +113,19 @@ One of my most used extensions is [Surround](https://marketplace.visualstudio.co
         "astro"
       ],
       "snippet": "${$TM_SELECTED_TEXT}"
+    },
+    "es6StringSubstitionBackticks": {
+      "description": "`${...}`",
+      "disabled": false,
+      "label": "es6StringSubstitionBackticks",
+      "languageIds": [
+        "javascript",
+        "javascriptreact",
+        "typescript",
+        "typescriptreact",
+        "astro"
+      ],
+      "snippet": "`${$TM_SELECTED_TEXT}$0`"
     },
     "function": {
       "description": "$( ... )",
@@ -283,6 +309,13 @@ One of my most used extensions is [Surround](https://marketplace.visualstudio.co
         "typescriptreact"
       ],
       "snippet": "${rem($TM_SELECTED_TEXT)}"
+    },
+    "css-var": {
+      "description": "var($)",
+      "disabled": false,
+      "label": "var",
+      "languageIds": ["css", "postcss", "javascriptreact", "typescriptreact"],
+      "snippet": "var($TM_SELECTED_TEXT)"
     }
   }
 }

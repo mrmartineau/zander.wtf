@@ -38,8 +38,6 @@ export type BookmarkType =
   | 'file';
 
 export const fetchLinks = async (limit = 150): Promise<Bookmark[]> => {
-  console.log(`🚀 ~ fetchLinks ~ OTTER_API_KEY:`, import.meta.env.OTTER_API_KEY)
-  console.log(`🚀 ~ fetchLinks ~ SUPABASE_USER_ID:`, import.meta.env.SUPABASE_USER_ID)
   const linksPath = urlJoin('https://otter.zander.wtf/api/bookmarks', {
     query: {
       limit,
@@ -47,7 +45,6 @@ export const fetchLinks = async (limit = 150): Promise<Bookmark[]> => {
       user: import.meta.env.SUPABASE_USER_ID || '',
     },
   });
-  console.log(`🚀 ~ fetchLinks ~ linksPath:`, linksPath)
   const linksData = await axios.get(linksPath, {
     headers: {
       Authorization: `Bearer ${import.meta.env.OTTER_API_KEY}`,
