@@ -13,8 +13,8 @@ const shows = await fetchShows();
 
 const transformedShows = transformShowsToNow(shows);
 const transformedMovies = transformMoviesToNow(movies);
-const transformedMusicArtists = transformMusicToNow(music.topArtists);
-const transformedMusicAlbums = transformMusicToNow(music.topAlbums);
+const transformedMusicArtists = await transformMusicToNow(music.topArtists, 'artist');
+const transformedMusicAlbums = await transformMusicToNow(music.topAlbums, 'album');
 ---
 
 <PageLayout
@@ -31,7 +31,7 @@ const transformedMusicAlbums = transformMusicToNow(music.topAlbums);
     <NowMedia title="Movies" items={transformedMovies} />
     <NowMedia title="TV Shows" items={transformedShows} />
     <h2>Listening</h2>
-    <NowMedia title="Top albums" items={transformedMusicAlbums} />
-    <NowMedia title="Top artists" items={transformedMusicArtists} />
+    <NowMedia title="Top albums" items={transformedMusicAlbums} showInfo />
+    <NowMedia title="Top artists" items={transformedMusicArtists} showInfo s/>
   </div>
 </PageLayout>

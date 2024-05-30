@@ -7,7 +7,7 @@ export interface Env {
   LASTFM_API_KEY: string;
 }
 
-// const sdk = SpotifyApi.withClientCredentials(import.meta.env.SPOTIFY_CLIENT_ID, import.meta.env.SPOTIFY_CLIENT_SECRET, ["user-top-read"]);
+const sdk = SpotifyApi.withClientCredentials(import.meta.env.SPOTIFY_CLIENT_ID, import.meta.env.SPOTIFY_CLIENT_SECRET, ["user-top-read"]);
 
 export const fetchMusic = async (limit = 5) => {
   const topArtistsPath = urlJoin('https://ws.audioscrobbler.com/2.0/', {
@@ -20,13 +20,6 @@ export const fetchMusic = async (limit = 5) => {
       period: '1month',
     },
   });
-  // const topArtistsPath = urlJoin('https://api.spotify.com/v1/me/top/artists', {
-  //   query: {
-  //     time_range: 'short_term',
-  //     user: 'martineau',
-  //     limit,
-  //   },
-  // });
 
   const topAlbumsPath = urlJoin('https://ws.audioscrobbler.com/2.0/', {
     query: {
@@ -48,22 +41,6 @@ export const fetchMusic = async (limit = 5) => {
   } catch (err) {
     console.log(`🚀 ~ fetchMusic ~ err:`, err)
   }
-  let artistImages
-  try {
-    for await (const artist of topArtists?.data?.topartists.artist) {
-      const artistInfo = await axios.get(urlJoin('https://ws.audioscrobbler.com/2.0/', {
-        query: {
-          method: 'artist.getinfo',
-          api_key: import.meta.env.LASTFM_API_KEY as string,
-          format: 'json',
-          artist: artist.name
-        },
-      }))
-      console.log(`🚀 ~ forawait ~ artistInfo:`, JSON.stringify(artistInfo.data.artist.image))
-    }
-  } catch (error) {
-
-  }
 
   return {
     // @ts-expect-error
@@ -73,19 +50,25 @@ export const fetchMusic = async (limit = 5) => {
   };
 };
 
-export const transformMusicToNow = (items: unknown[]): NowMediaItem[] => {
+export const transformMusicToNow = async (items: unknown[], type: 'artist' | 'album'): Promise<NowMediaItem[]> => {
   const transformedItems: NowMediaItem[] = []
-  for (const item of items) {
-      const image = item?.image[item?.image?.length - 1]['#text']
-      console.log(`🚀 ~ transformMusicToNow ~ image:`, image)
-      if (image) {
-        transformedItems.push({
-          title: item?.name,
-          description: item?.artist?.name,
-          link: item?.url,
-          image,
-        });
-      }
+  for await (const item of items) {
+    // @ts-expect-error
+    const name = item?.name ?? ''
+    const theArtist = await sdk.search(name, [type], 'GB', 1);
+    // @ts-expect-error
+    const image = theArtist.artists?.items[0].images.length > 0 ? theArtist.artists?.items[0].images[0].url : item?.image[item?.image?.length - 1]['#text'];
+
+    if (image) {
+      transformedItems.push({
+        title: name,
+        // @ts-expect-error
+        description: item?.artist?.name,
+        // @ts-expect-error
+        link: item?.url,
+        image,
+      });
     }
-    return transformedItems
+  }
+  return transformedItems
 }

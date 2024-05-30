@@ -6,26 +6,33 @@ interface Props {
   title: string;
   description?: string;
   items: Array<NowMediaItem>;
+  showInfo?: boolean
 }
 
-const { title, items } = Astro.props;
+const { title, items, showInfo } = Astro.props;
 ---
 
 <div class="my-l">
   <h3>{title}</h3>
   <div class="nowItems mt-s">
     {
-      items.map((item) => (
-        <a  href={item.link} class="relative">
-          <img src={item.image} alt={item.title} />
-          {item?.rating ? (<div class="rating">
-            {item.rating}
-          </div>) : null}
-          <span class="hidden">
-            <h4>{item.title}</h4>
-            {item?.description ? <p>{item.description}</p> : null}
-          </span>
-        </a>
+      items?.map((item) => (
+        <div>
+          <a href={item.link}>
+            <img src={item.image} alt={item.title} />
+            {item?.rating ? (
+              <div class="rating">
+                {item.rating}
+              </div>
+            ) : null}
+          </a>
+          {showInfo ? (
+            <a href={item.link} class="meta">
+              {item.title}
+              {item?.description ? <>{' – '} {item.description}</> : null}
+            </a>
+          ) : null}
+        </div>
       ))
     }
   </div>
@@ -38,9 +45,21 @@ const { title, items } = Astro.props;
     gap: var(--space-s);
   }
 
-  a {
+  a.image {
     display: block;
+    position: relative;
+    overflow: hidden;
   }
+
+  .meta {
+    font-size: var(--step--3);
+    line-height: 1.1;
+
+    @media screen and (min-width: 600px) {
+      font-size: var(--step--1);
+    }
+  }
+
 
   img {
     border-radius: 0.5rem;
@@ -49,10 +68,15 @@ const { title, items } = Astro.props;
 
   .rating {
     position: absolute;
-    right: 5px;
-    bottom: 5px;
-    left: 5px;
+    right: var(--space-3xs);
+    bottom: var(--space-3xs);
+    left: var(--space-3xs);
     text-align: center;
     text-shadow: 0 0 4px #000;
+    font-size: var(--step--3);
+
+    @media screen and (min-width: 600px) {
+      font-size: var(--step--1);
+    }
   }
 </style>
