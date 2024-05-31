@@ -18,7 +18,7 @@ const { title, items, showInfo } = Astro.props;
     {
       items?.map((item) => (
         <div>
-          <a href={item.link}>
+          <a href={item.link} class="image">
             <img src={item.image} alt={item.title} />
             {item?.rating ? (
               <div class="rating">
