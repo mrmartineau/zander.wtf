@@ -14,27 +14,29 @@ const { title, items, showInfo } = Astro.props;
 
 <div class="my-l">
   <h3>{title}</h3>
-  <div class="nowItems mt-s">
-    {
-      items?.map((item) => (
-        <div>
-          <a href={item.link} class="image">
-            <img src={item.image} alt={item.title} />
-            {item?.rating ? (
-              <div class="rating">
-                {item.rating}
-              </div>
-            ) : null}
-          </a>
-          {showInfo ? (
-            <a href={item.link} class="meta">
-              {item.title}
-              {item?.description ? <>{' – '} {item.description}</> : null}
+  <div class="overflow-x-auto">
+    <div class="nowItems mt-s">
+      {
+        items?.map((item) => (
+          <div>
+            <a href={item.link} class="image">
+              <img src={item.image} alt={item.title} />
+              {item?.rating ? (
+                <div class="rating">
+                  {item.rating}
+                </div>
+              ) : null}
             </a>
-          ) : null}
-        </div>
-      ))
-    }
+            {showInfo ? (
+              <a href={item.link} class="meta">
+                {item.title}
+                {item?.description ? <>{' – '} {item.description}</> : null}
+              </a>
+            ) : null}
+          </div>
+        ))
+      }
+    </div>
   </div>
 </div>
 
@@ -43,6 +45,7 @@ const { title, items, showInfo } = Astro.props;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: var(--space-s);
+    min-width: 800px;
   }
 
   a.image {
@@ -53,7 +56,8 @@ const { title, items, showInfo } = Astro.props;
 
   .meta {
     font-size: var(--step--3);
-    line-height: 1.1;
+    line-height: 1 !important;
+    margin-top: var(--space-m);
 
     @media screen and (min-width: 600px) {
       font-size: var(--step--1);
