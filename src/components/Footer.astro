@@ -6,57 +6,42 @@ import Status from '~/components/Status.astro';
 const today = new Date();
 ---
 
-<footer>
+<footer class="zm-contentContainer">
   <Status />
-   &copy; {today.getFullYear()} Zander Martineau • <a
-    href={`https://github.com/mrmartineau/zander.wtf/commit/${__COMMIT_HASH__}`}
-    class="commit-hash"
-  >
-    #{__COMMIT_HASH__}
-  </a>
-  <nav>
-    {
-      SITE_FOOTER_ITEMS.map((item) => {
-        return (
-          <a href={item.url} rel={item.rel}>
-            {item.icon ? (
-              <>
-                <i class={`ph-duotone ${item.icon}`} />{' '}
-              </>
-            ) : null}
-            {item.text}
-            {item.external ? <i class="ph-duotone ph-arrow-up-right" /> : null}
-          </a>
-        );
-      })
-    }
-  </nav>
-
-  <p>🚧 This site is always under construction. 🚧</p>
+  <div class="grid gap-l">
+    <nav class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2xs">
+      {
+        SITE_FOOTER_ITEMS.map((item) => {
+          return (
+            <a href={item.url} rel={item.rel}>
+              {item.icon ? (
+                <>
+                  <i class={`ph-duotone ${item.icon}`} />{' '}
+                </>
+              ) : null}
+              {item.text}
+              {item.external ? <i class="ph-duotone ph-arrow-up-right" /> : null}
+            </a>
+          );
+        })
+      }
+    </nav>
+    <div>
+      <p>
+        &copy; {today.getFullYear()} Zander Martineau • <a
+          href={`https://github.com/mrmartineau/zander.wtf/commit/${__COMMIT_HASH__}`}
+          class="commit-hash"
+        >#{__COMMIT_HASH__}</a> • This site is always under construction. 🚧
+      </p>
+    </div>
+  </div>
 </footer>
 
 <BigName orientation="top" class="mt-l" />
 
 <style lang="postcss">
   footer {
-    padding: var(--space-l) var(--space-xs) 0;
-    text-align: center;
-  }
-
-  nav {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    column-gap: var(--space-xs);
-    justify-content: center;
-
-    a {
-      flex-shrink: 0;
-    }
-  }
-
-  div {
-    font-weight: bold;
+    padding: var(--space-xl) 0;
   }
 
   .commit-hash {

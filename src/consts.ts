@@ -64,7 +64,7 @@ export const SITE_FOOTER_ITEMS = [
   {
     text: 'Feeds',
     url: '/feeds',
-    icon: 'ph-rss-simple',
+    // icon: 'ph-rss-simple',
   },
   {
     text: 'Colophon',
@@ -99,7 +99,7 @@ export const SITE_FOOTER_ITEMS = [
     external: true,
   },
   {
-    text: 'CV',
+    text: 'CV/Resumé',
     url: 'https://read.cv/mrmartineau',
     external: true,
   },
