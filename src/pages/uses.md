@@ -37,7 +37,7 @@ I alternate between the [Logitech MX Master 3](http://amzn.eu/iGzdIg0) and the [
 
 ### IDE
 
-[VS Code Insiders](https://code.visualstudio.com/) with the [Rosé Pine Moon](https://github.com/rose-pine/vscode#readme) colour theme and [Comic Code](https://tosche.net/fonts/comic-code) font. As much as I hate Comic Sans, I happen to LOVE Comic Code for coding.. who knew.
+[VS Code](https://code.visualstudio.com/) with the [Rosé Pine Moon](https://github.com/rose-pine/vscode#readme) colour theme and either [Comic Code](https://tosche.net/fonts/comic-code) font (as much as I hate Comic Sans, I happen to LOVE Comic Code for coding.. who knew!), [Recursive Mono](https://www.recursive.design/) and more lately [Berkeley Mono](https://berkeleygraphics.com/typefaces/berkeley-mono/).
 
 A copy of my `settings.json` can be found [here](https://gist.github.com/mrmartineau/ea3b428124bc1e31cd46dfa55469d781) and a full list of my installed extensions can be found [here](https://gist.github.com/mrmartineau/28ef03c53275ea468e470532d6d20449).
 
@@ -210,21 +210,36 @@ One of my most used extensions is [Surround](https://marketplace.visualstudio.co
       "description": "useMemo",
       "disabled": false,
       "label": "useMemo",
-      "languageIds": ["javascriptreact", "typescriptreact"],
+      "languageIds": [
+        "javascriptreact",
+        "javascript",
+        "typescriptreact",
+        "typescript"
+      ],
       "snippet": "useMemo(() => $TM_SELECTED_TEXT, [])"
     },
     "reactUseCallback": {
       "description": "useCallback",
       "disabled": false,
       "label": "useCallback",
-      "languageIds": ["javascriptreact", "typescriptreact"],
+      "languageIds": [
+        "javascriptreact",
+        "javascript",
+        "typescriptreact",
+        "typescript"
+      ],
       "snippet": "useCallback(() => $TM_SELECTED_TEXT, [])"
     },
     "reactForwardRef": {
       "description": "forwardRef",
       "disabled": false,
       "label": "forwardRef",
-      "languageIds": ["javascriptreact", "typescriptreact"],
+      "languageIds": [
+        "javascriptreact",
+        "javascript",
+        "typescriptreact",
+        "typescript"
+      ],
       "snippet": "forwardRef<$1>($TM_SELECTED_TEXT)"
     },
     "stringify": {
@@ -296,7 +311,7 @@ One of my most used extensions is [Surround](https://marketplace.visualstudio.co
       "disabled": false,
       "label": "TS Generic",
       "languageIds": ["typescript", "typescriptreact", "astro"],
-      "snippet": "$1<$TM_SELECTED_TEXT, $0>"
+      "snippet": "$1<$TM_SELECTED_TEXT$0>"
     },
     "rem-polished": {
       "description": "${rem($)}",
@@ -316,6 +331,13 @@ One of my most used extensions is [Surround](https://marketplace.visualstudio.co
       "label": "var",
       "languageIds": ["css", "postcss", "javascriptreact", "typescriptreact"],
       "snippet": "var($TM_SELECTED_TEXT)"
+    },
+    "consoletime": {
+      "description": "console.time($)",
+      "disabled": false,
+      "label": "console.time",
+      "languageIds": ["css", "postcss", "javascriptreact", "typescriptreact"],
+      "snippet": "console.time($0)\n$TM_SELECTED_TEXT\nconsole.timeEnd()"
     }
   }
 }
@@ -372,7 +394,6 @@ A cloud-based private DNS service that gives you full control over what is allow
 - [Bartender](https://www.macbartender.com/): Hide some of those pesky menubar items.
 - [Shottr](https://shottr.cc) - Shottr is a small, fast, human-sized screenshot app built for those who care about pixels. It was crafted with Swift, optimized for M1, and is completely free at the moment.
 - [AudioSwitcher](https://apps.apple.com/gb/app/audioswitcher/id561712678) - AudioSwitcher is a menu bar that allows you to switch quickly between all available input and output devices.
-- [Mumu X](https://getmumu.com) - AI driven emoji picker. Even though Raycast has a brilliant emoji picker, I use this one when I'm not sure what emoji I want to use.
 
 This page is featured on [uses.tech](https://uses.tech/). If you're reading this and want to see others like it, head on over there to find out more.
 
