@@ -5,6 +5,7 @@ import { SITE_METADATA } from 'src/consts';
 import { fetchMovies, transformMoviesToNow } from 'src/fetching/movies';
 import { fetchMusic, transformMusicToNow } from 'src/fetching/music';
 import { fetchShows, transformShowsToNow } from 'src/fetching/tv';
+import type { NowMediaItem } from 'src/types';
 const slug = 'now';
 
 const movies = await fetchMovies(5);
@@ -15,6 +16,37 @@ const transformedShows = transformShowsToNow(shows);
 const transformedMovies = transformMoviesToNow(movies);
 const transformedMusicArtists = await transformMusicToNow(music.topArtists, 'artist');
 const transformedMusicAlbums = await transformMusicToNow(music.topAlbums, 'album');
+
+const podcasts: NowMediaItem[] = [
+  {
+    title: 'Hard Fork',
+    link: 'https://www.nytimes.com/column/hard-fork',
+    description: 'A weekly newsletter about the tech industry.',
+    image: 'https://static01.nyt.com/images/2022/09/28/podcasts/hard-fork-album-art/hard-fork-album-art-square320-v2.png',
+  },
+  {
+    title: 'Darknet Diaries',
+    link: 'https://darknetdiaries.com/',
+    description: 'True stories from the dark side of the internet.',
+    image: 'https://is2-ssl.mzstatic.com/image/thumb/Music113/v4/3c/1d/6b/3c1d6bb8-246f-6895-112c-a2ecc3f5f547/source/1200x1200bb.png',
+  },
+  {
+    title: 'The Rewatchables',
+    link: 'https://www.theringer.com/the-rewatchables',
+    description: 'A podcast about movies you can watch over and over again.',
+    image: 'https://i.scdn.co/image/ab6765630000ba8ad2b134a6361264eae20a9388',
+  },
+  {
+    title: 'The Ride Companion',
+    link: 'https://theridecompanion.co.uk/',
+    image: `https://i.scdn.co/image/ab6765630000ba8ad5e5193fa039b4c90ae57c57`,
+  },
+  {
+    title: 'The Rick Shields Golf Show',
+    link: 'https://www.rickshiels.com/podcast/',
+    image: 'https://is4-ssl.mzstatic.com/image/thumb/Podcasts115/v4/64/f9/3e/64f93e84-7f3f-17f5-32a5-18471b5c8e4a/mza_16223866303298787783.jpg/1200x1200bb.jpg'
+  }
+]
 ---
 
 <PageLayout
@@ -32,6 +64,7 @@ const transformedMusicAlbums = await transformMusicToNow(music.topAlbums, 'album
     <NowMedia title="TV Shows" items={transformedShows} />
     <h2>Listening</h2>
     <NowMedia title="Top albums" items={transformedMusicAlbums} showInfo />
-    <NowMedia title="Top artists" items={transformedMusicArtists} showInfo s/>
+    <NowMedia title="Top artists" items={transformedMusicArtists} showInfo />
+    <NowMedia title="Podcasts" items={podcasts} showInfo />
   </div>
 </PageLayout>
