@@ -1,5 +1,4 @@
 ---
-import { fade } from 'astro:transitions';
 import type { Bookmark } from '../fetching/links';
 import Favicon from './Favicon.astro';
 import LinkType from './LinkType.astro';
@@ -13,10 +12,10 @@ const { url, type, tags, title, description, isFeed = false, image } = Astro.pro
 ---
 
 <div class:list={['zm-links-item', { 'zm-links-item--feed': isFeed }]}>
+  {isFeed && image ? <img src={image} alt={title} class="zm-links-item-image rounded" /> : null}
   <a class="zm-links-item-link" href={url}>
     {title}
   </a>
-  {false ? <img src={image} alt={title} /> : null}
   {
     isFeed && description ? (
       <div class="zm-links-item-description line-clamp-3">{description}</div>
@@ -54,6 +53,13 @@ const { url, type, tags, title, description, isFeed = false, image } = Astro.pro
     background-color: var(--bg-block);
     padding: var(--block-padding);
   }
+
+  .zm-links-item-image {
+    border-radius: calc(var(--block-radius) - 1rem);
+    margin-left: calc(var(--block-padding) * - 1rem);
+    margin-block-end: var(--space-2xs);
+  }
+
   .zm-links-item-link {
     line-height: 1.2;
   }
