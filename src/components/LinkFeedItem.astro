@@ -12,7 +12,9 @@ const { url, type, tags, title, description, isFeed = false, image } = Astro.pro
 ---
 
 <div class:list={['zm-links-item', { 'zm-links-item--feed': isFeed }]}>
-  {isFeed && image ? <img src={image} alt={title} class="zm-links-item-image rounded" /> : null}
+  {isFeed && image ? <div class="zm-links-item-image">
+    <img src={image} alt={title} />
+  </div> : null}
   <a class="zm-links-item-link" href={url}>
     {title}
   </a>
@@ -55,9 +57,17 @@ const { url, type, tags, title, description, isFeed = false, image } = Astro.pro
   }
 
   .zm-links-item-image {
-    border-radius: calc(var(--block-radius) - 1rem);
     margin-left: calc(var(--block-padding) * - 1rem);
     margin-block-end: var(--space-2xs);
+    aspect-ratio: 16 / 8;
+    overflow: hidden;
+    border-radius: calc(var(--block-radius) - 1rem);
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   }
 
   .zm-links-item-link {
