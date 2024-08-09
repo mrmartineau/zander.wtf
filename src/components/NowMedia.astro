@@ -18,7 +18,7 @@ const { title, items, showInfo } = Astro.props;
     <div class="nowItems mt-s">
       {
         items?.map((item) => (
-          <div>
+          <div class="nowItem">
             <a href={item.link} class="image">
               <img src={item.image} alt={item.title} />
               {item?.rating ? (
@@ -48,6 +48,10 @@ const { title, items, showInfo } = Astro.props;
     min-width: 800px;
   }
 
+  .nowItem {
+    line-height: 1.5;
+  }
+
   a.image {
     display: block;
     position: relative;
@@ -55,9 +59,9 @@ const { title, items, showInfo } = Astro.props;
   }
 
   .meta {
+    display: block;
     font-size: var(--step--3);
-    line-height: 1 !important;
-    margin-top: var(--space-m);
+    margin-block-start: var(--space-2xs);
 
     @media screen and (min-width: 600px) {
       font-size: var(--step--1);
