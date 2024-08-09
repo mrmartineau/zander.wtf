@@ -64,7 +64,6 @@ export const SITE_FOOTER_ITEMS = [
   {
     text: 'Feeds',
     url: '/feeds',
-    // icon: 'ph-rss-simple',
   },
   {
     text: 'Colophon',
@@ -106,10 +105,10 @@ export const SITE_FOOTER_ITEMS = [
 ];
 
 export const ABOUT_ME = {
-  bio: `I am a front-end web developer with over 15 years experience helping companies get products to market, rewriting apps, creating POCs and more.`,
+  bio: `I am a front-end web developer with over 15 years experience helping companies bring products to market, rewriting apps, creating POCs and more.`,
   cv: 'https://read.cv/mrmartineau',
   email:
-    'mailto:hi+enquiry@zander.wtf?subject=Contract%20enquiry&body=Hi%20Zander%2C%0A%0AI%20would%20like%20to%20work%20with%20you...',
+    'mailto:hi+enquiry@zander.wtf',
 };
 
 type Job = {
