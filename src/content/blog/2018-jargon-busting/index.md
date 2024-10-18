@@ -82,7 +82,7 @@ A **heuristic technique**, often called simply a **heuristic**, is any approach 
 
 ### Sturgeon's law
 
-**Sturgeon's revelation** (as originally expounded by [Theodore Sturgeon](https://en.wikipedia.org/wiki/Theodore_Sturgeon)), commonly referred to as **Sturgeon's law**, is an [adage](https://en.wikipedia.org/wiki/Adage) commonly cited as "ninety percent of everything is crap". It is derived from quotations by Sturgeon, an American [science fiction author](https://en.wikipedia.org/wiki/Science_fiction_author) and critic; while Sturgeon coined another adage that he termed "Sturgeon's law", it is the "ninety percent crap" remark that is usually referred to by that term.
+**Sturgeon's revelation** (as originally expounded by [Theodore Sturgeon](https://en.wikipedia.org/wiki/Theodore_Sturgeon)), commonly referred to as **Sturgeon's law**, is an [adage](https://en.wikipedia.org/wiki/Adage) commonly cited as **"ninety percent of everything is crap"**. It is derived from quotations by Sturgeon, an American [science fiction author](https://en.wikipedia.org/wiki/Science_fiction_author) and critic; while Sturgeon coined another adage that he termed "Sturgeon's law", it is the "ninety percent crap" remark that is usually referred to by that term.
 
 [Wikipedia link](https://en.wikipedia.org/wiki/Sturgeon%27s_law)
 
@@ -121,6 +121,14 @@ Doxxing is the Internet-based practice of researching and broadcasting private o
 **Phishing** is the fraudulent attempt to obtain [sensitive information](https://en.wikipedia.org/wiki/Information_sensitivity) such as usernames, passwords, and [credit card](https://en.wikipedia.org/wiki/Credit_card) details (and [money](https://en.wikipedia.org/wiki/Money)), often for [malicious](https://en.wikipedia.org/wiki/Black_hat) reasons, by disguising as a trustworthy entity in an [electronic communication](https://en.wikipedia.org/wiki/Electronic_communication).
 
 [Wikipedia link](https://en.wikipedia.org/wiki/Phishing)
+
+### Voice phishing
+
+**Voice phishing**, or **vishing**,[[1]](https://en.wikipedia.org/wiki/Voice_phishing#cite_note-vishing3-1) is the use of telephony (often [Voice over IP](https://en.wikipedia.org/wiki/Voice_over_IP "Voice over IP") telephony) to conduct [phishing](https://en.wikipedia.org/wiki/Phishing "Phishing") attacks.
+
+Landline telephone services have traditionally been trustworthy; terminated in physical locations known to the telephone company, and associated with a bill-payer. Now however, vishing fraudsters often use modern [Voice over IP](https://en.wikipedia.org/wiki/Voice_over_IP "Voice over IP") (VoIP) features such as [caller ID spoofing](https://en.wikipedia.org/wiki/Caller_ID_spoofing "Caller ID spoofing") and automated systems ([IVR](https://en.wikipedia.org/wiki/Interactive_voice_response "Interactive voice response")) to impede detection by law enforcement agencies. Voice phishing is typically used to steal [credit card numbers](https://en.wikipedia.org/wiki/Payment_card_number "Payment card number") or other information used in [identity theft](https://en.wikipedia.org/wiki/Identity_theft "Identity theft") schemes from individuals.
+
+[Wikipedia link](https://en.wikipedia.org/wiki/Voice_phishing)
 
 ### Birthday problem
 

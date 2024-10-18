@@ -23,7 +23,7 @@ I work almost exclusively from my home office and I like to use good quality pro
 
 ### Keyboard
 
-[Keychron Q1 version 2](https://keychron.in/product/keychron-q1-qmk-custom-mechanical-keyboard/) Keyboard. I bought the barebones ISO version and some Gateron Oil King switches and PBTFans Resonance keycaps from [Mech Mods](https://www.mechmods.co.uk/). What's not to love.
+[Keychron Q1 version 2](https://keychron.in/product/keychron-q1-qmk-custom-mechanical-keyboard/) Keyboard. I bought the barebones ISO version, Gateron Oil King switches and PBTFans Resonance keycaps from [Mech Mods](https://www.mechmods.co.uk/). What's not to love?
 
 ### Mouse
 
@@ -37,13 +37,34 @@ I alternate between the [Logitech MX Master 3](http://amzn.eu/iGzdIg0) and the [
 
 ### IDE
 
-[VS Code](https://code.visualstudio.com/) with the [Rosé Pine Moon](https://github.com/rose-pine/vscode#readme) colour theme and either [Comic Code](https://tosche.net/fonts/comic-code) font (as much as I hate Comic Sans, I happen to LOVE Comic Code for coding.. who knew!), [Recursive Mono](https://www.recursive.design/) and more lately [Berkeley Mono](https://berkeleygraphics.com/typefaces/berkeley-mono/).
+[VS Code](https://code.visualstudio.com/) is my daily driver, but I've been using [Cursor](https://cursor.sh/) at work recently. We have found that it really helps with refactoring and converting from JS to TS.
+
+I tend to switch my colour themes fairly often, but these are the most used:
+
+- [Rosé Pine Moon](https://github.com/rose-pine/vscode#readme)
+- [Catppuccin Mocha](https://github.com/catppuccin/vscode)
+- [Rigel](https://marketplace.visualstudio.com/items?itemName=mrmartineau.rigel-vscode) which I made actually
+
+I also switch the fonts I use too:
+
+- [Comic Code](https://tosche.net/fonts/comic-code) font (as much as I hate Comic Sans, I happen to LOVE Comic Code for coding.. who knew!)
+- [Recursive Mono](https://www.recursive.design/)
+- [Berkeley Mono](https://berkeleygraphics.com/typefaces/berkeley-mono/).
 
 A copy of my `settings.json` can be found [here](https://gist.github.com/mrmartineau/ea3b428124bc1e31cd46dfa55469d781) and a full list of my installed extensions can be found [here](https://gist.github.com/mrmartineau/28ef03c53275ea468e470532d6d20449).
 
 #### Extensions
 
-One of my most used extensions is [Surround](https://marketplace.visualstudio.com/items?itemName=yatki.vscode-surround), a simple yet powerful extension to add wrapper templates around your code blocks. It has many built-in templates and you can add your own. I've added a few of my own templates to the settings below.
+- [Surround](https://marketplace.visualstudio.com/items?itemName=yatki.vscode-surround) a simple yet powerful extension to add wrapper templates around your code blocks. It has many built-in templates and you can add your own. I've added a few of my own templates to the settings below.
+- [Error Lens](https://marketplace.visualstudio.com/items?itemName=usernamehw.errorlens)
+- [Multiple cursor case preserve](https://marketplace.visualstudio.com/items?itemName=Cardinal90.multi-cursor-case-preserve)
+- [Project Manager](https://marketplace.visualstudio.com/items?itemName=alefragnani.project-manager)
+- [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+- [Rewrap](https://marketplace.visualstudio.com/items?itemName=stkb.rewrap)
+- [Toggle Quotes](https://marketplace.visualstudio.com/items?itemName=BriteSnow.vscode-toggle-quotes)
+- [Turbo Console Log](https://marketplace.visualstudio.com/items?itemName=ChakrounAnas.turbo-console-log)
+- [Sublime Commands](https://marketplace.visualstudio.com/items?itemName=Zarel.sublime-commands)
+- [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client)
 
 <details>
   <summary>Surround settings</summary>
@@ -356,6 +377,10 @@ One of my most used extensions is [Surround](https://marketplace.visualstudio.co
 I use it in nearly every aspect of my work. I use it for searching the web with its custom web searches (e.g. npm, JIRA, bundlephobia, MDN and many more); searching npm with the [npm extension](https://www.raycast.com/mrmartineau/search-npm) (that I created) workflow and loads more. It truly is a massive productivity booster.
 
 FYI I also created the [GitHub Stars extension](https://www.raycast.com/mrmartineau/search-github-stars).
+
+- [Toothpick](https://www.raycast.com/VladCuciureanu/toothpick) - Manage Bluetooth connections
+- [JIRA](https://www.raycast.com/raycast/jira) - Interact with JIRA
+- [Set Audio Device](https://www.raycast.com/benvp/audio-device) - Set the input/output audio device
 
 #### [1Password](https://1password.com/)
 
