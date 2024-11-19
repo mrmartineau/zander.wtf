@@ -98,6 +98,12 @@ export const SITE_FOOTER_ITEMS = [
     external: true,
   },
   {
+    text: 'Bluesky',
+    url: 'https://bsky.app/profile/zander.wtf',
+    rel: 'me',
+    external: true,
+  },
+  {
     text: 'CV/Resumé',
     url: 'https://read.cv/mrmartineau',
     external: true,
@@ -107,8 +113,7 @@ export const SITE_FOOTER_ITEMS = [
 export const ABOUT_ME = {
   bio: `I am a front-end web developer with over 15 years experience helping companies bring products to market, rewriting apps, creating POCs and more.`,
   cv: 'https://read.cv/mrmartineau',
-  email:
-    'mailto:hi+enquiry@zander.wtf',
+  email: 'mailto:hi+enquiry@zander.wtf',
 };
 
 type Job = {
