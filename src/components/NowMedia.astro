@@ -7,9 +7,10 @@ interface Props {
   description?: string;
   items: Array<NowMediaItem>;
   showInfo?: boolean
+  square?: boolean
 }
 
-const { title, items, showInfo } = Astro.props;
+const { title, items, showInfo, square } = Astro.props;
 ---
 
 <div class="my-l">
@@ -19,7 +20,10 @@ const { title, items, showInfo } = Astro.props;
       {
         items?.map((item) => (
           <div class="nowItem">
-            <a href={item.link} class="image">
+            <a href={item.link} class:list={[
+              'image',
+              { square },
+            ]}>
               <img src={item.image} alt={item.title} />
               {item?.rating ? (
                 <div class="rating">
@@ -56,6 +60,11 @@ const { title, items, showInfo } = Astro.props;
     display: block;
     position: relative;
     overflow: hidden;
+    border-radius: 0.5rem;
+
+    &.square {
+      aspect-ratio: 1/1;
+    }
   }
 
   .meta {
@@ -70,7 +79,6 @@ const { title, items, showInfo } = Astro.props;
 
 
   img {
-    border-radius: 0.5rem;
     width: 100%;
   }
 
