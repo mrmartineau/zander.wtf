@@ -37,7 +37,7 @@ I alternate between the [Logitech MX Master 3](http://amzn.eu/iGzdIg0) and the [
 
 ### IDE
 
-[VS Code](https://code.visualstudio.com/) is my daily driver, but I've been using [Cursor](https://cursor.sh/) at work recently. We have found that it really helps with refactoring and converting from JS to TS.
+[VS Code](https://code.visualstudio.com/) has now been replaced by [Cursor](https://cursor.sh/) now, although Cursor becomes quite laggy from time to time so I use [Zed](https://zed.dev/) as a backup.
 
 I tend to switch my colour themes fairly often, but these are the most used:
 
@@ -390,9 +390,9 @@ I never need to worry about passwords anymore. It integrates with my browser (vi
 
 This app is a recent addition and is an indispensible tool for my workflow.
 
-#### [Notion](https://notion.so/)
+#### [Obsidian](https://obsidian.md/)
 
-I moved to Notion a while back and haven't looked back. It has most of what I want for a note-taking app with a healthy free-tier and Markdown-like input method.
+I moved to Obsidian a while back and haven't looked back.
 
 #### [iTerm2](https://www.iterm2.com/) with [Fish Shell](https://fishshell.com/)
 
@@ -410,8 +410,7 @@ A cloud-based private DNS service that gives you full control over what is allow
 
 ### And the rest:
 
-- [Things](https://culturedcode.com/things/): The best Mac/iPhone-based task list/productivity app I know.
-- [Superkey](https://superkey.app/): "Keyboard superpower on macOS". I use this mainly for its "hyperkey" functionality (where caps lock is converted to a "hyper key", with all these four modifiers combined: `⌃⌥⌘⇧`)
+- [Superkey](https://superkey.app/): "Keyboard superpower on macOS". I use this mainly for its "hyperkey" functionality (where caps lock is converted to a "hyper key", with all these four modifiers combined: `⌃⌥⌘⇧`). FYI Raycast now has hyperkey functionality built-in, but I found it buggy so I still use this.
 - [Rectangle Pro](https://rectangleapp.com/): Window snapping and positioning
 - [Vivid](https://www.getvivid.app/) - Double brightness system-wide
 - [Dash](https://kapeli.com/dash): Dash is an API Documentation Browser and Code Snippet Manager. Devdocs.io or the [Devdocs app](https://devdocs.egoist.rocks/) are free alternatives.
