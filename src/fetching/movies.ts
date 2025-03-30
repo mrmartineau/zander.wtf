@@ -1,28 +1,34 @@
-import letterboxd, {type Entry} from 'letterboxd';
+import axios from 'axios';
+import urlJoin from 'proper-url-join';
 import type { NowMediaItem } from 'src/types';
 
 export const fetchMovies = async (limit = 3) => {
-  const rawMovieData = await letterboxd('mrmartineau');
-  const movieDiaryData = rawMovieData
-    .filter((item) => item.type === 'diary')
-    // @ts-ignore
-    .sort((a, b) => b.date?.watched - a.date?.watched)
+  const letterboxdData = await axios.get(
+    urlJoin(import.meta.env.ZM_API, '/letterboxd/mrmartineau'),
+  );
+  const movieDiaryData = letterboxdData?.data
+    ?.filter((item: any) => item?.['letterboxd:watchedDate'])
+    .toSorted(
+      (a: any, b: any) =>
+        new Date(b?.item?.['letterboxd:watchedDate']).getTime() -
+        new Date(a?.item?.['letterboxd:watchedDate']).getTime(),
+    )
     .slice(0, limit);
 
   return movieDiaryData;
 };
 
-export const transformMoviesToNow = (movies: Entry[]): NowMediaItem[] => {
+export const transformMoviesToNow = (movies: any[]): NowMediaItem[] => {
   let transformedMovies: NowMediaItem[] = [];
   for (const movie of movies) {
-    if (movie?.film?.image !== undefined) {
+    if (movie['letterboxd:poster'] !== undefined) {
       transformedMovies.push({
-        title: movie?.film?.title,
+        title: movie?.title,
         link: movie.uri,
-        image: movie?.film?.image.large,
-        rating: movie?.rating?.text,
+        image: movie['letterboxd:poster'],
+        rating: movie['letterboxd:memberRatingText'],
       });
     }
   }
-  return transformedMovies
-}
+  return transformedMovies;
+};

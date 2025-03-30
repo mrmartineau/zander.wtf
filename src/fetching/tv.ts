@@ -1,10 +1,10 @@
-import { Client }  from '@notionhq/client'
+import { Client } from '@notionhq/client';
 import axios from 'axios';
 import type { NowMediaItem } from 'src/types';
 
 const notion = new Client({
   auth: import.meta.env.NOTION_TOKEN,
-})
+});
 
 export const fetchShows = async (limit = 5) => {
   const currentTvShowsFromNotion = await notion.databases.query({
@@ -23,7 +23,7 @@ export const fetchShows = async (limit = 5) => {
         },
       ],
     },
-  })
+  });
   const watchedTvShowsFromNotion = await notion.databases.query({
     database_id: '88c86996386045a0af9c69c0e1a448f4',
     filter: {
@@ -40,32 +40,36 @@ export const fetchShows = async (limit = 5) => {
         },
       ],
     },
-  })
-  const currentLength = currentTvShowsFromNotion.results?.length
-  const rawShows = currentTvShowsFromNotion.results
-  const watchedDelta = 5 - currentLength
+  });
+  const currentLength = currentTvShowsFromNotion.results?.length;
+  const rawShows = currentTvShowsFromNotion.results;
+  const watchedDelta = 5 - currentLength;
   if (watchedDelta > 0) {
-    rawShows.push(...watchedTvShowsFromNotion.results.slice(0, watchedDelta))
+    rawShows.push(...watchedTvShowsFromNotion.results.slice(0, watchedDelta));
   }
 
-  const simplifiedTvShows = []
+  const simplifiedTvShows = [];
   for (const show of rawShows) {
-    const id = show?.properties?.ID.rich_text[0]?.plain_text
+    const id = show?.properties?.ID.rich_text[0]?.plain_text;
     simplifiedTvShows.push({
       id,
-      title: show.properties.Name.title[0]?.plain_text
-    })
+      title: show.properties.Name.title[0]?.plain_text,
+    });
   }
 
-  const shows = []
+  const shows = [];
   for await (const show of simplifiedTvShows) {
-    const { data } = await axios.get(
-      `https://api.tvmaze.com/lookup/shows?thetvdb=${show.id}`
-    )
-    shows.push(data)
+    try {
+      const { data } = await axios.get(
+        `https://api.tvmaze.com/lookup/shows?thetvdb=${show.id}`,
+      );
+      shows.push(data);
+    } catch (err) {
+      console.error(err);
+    }
   }
 
-  return shows.slice(0, limit)
+  return shows.slice(0, limit);
 };
 
 export const transformShowsToNow = (shows: unknown[]): NowMediaItem[] => {
@@ -77,5 +81,5 @@ export const transformShowsToNow = (shows: unknown[]): NowMediaItem[] => {
       link: data.url,
     });
   }
-  return transformedShows
-}
+  return transformedShows;
+};
