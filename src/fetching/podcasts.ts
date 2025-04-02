@@ -10,7 +10,7 @@ const podcasts: NowMediaItem[] = [
   },
   {
     title: 'The Rest is Entertainment',
-    link: 'https://www.theringer.com/the-rewatchables',
+    link: 'https://podcasts.apple.com/gb/podcast/the-rest-is-entertainment/id1718287198',
     description:
       'The Rest Is Entertainment pulls back the curtain on television, movies, journalism and more with Richard Osman and Marina Hyde using their years of knowledge, enviable contact book and wit to bring you what’s hot, and what’s not in the world of entertainment.',
     image:
