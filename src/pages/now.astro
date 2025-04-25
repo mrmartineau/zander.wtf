@@ -55,11 +55,11 @@ try {
       your own site, you should make one, too.
     </p>
     <h2>Watching</h2>
-    <NowMedia title="Movies" items={transformedMovies} />
-    <NowMedia title="TV Shows" items={transformedShows} />
+    {transformedMovies?.length ? (<NowMedia title="Movies" items={transformedMovies} />) : null}
+    {transformedShows?.length ? (<NowMedia title="TV Shows" items={transformedShows} />) : null}
     <h2>Listening</h2>
-    <NowMedia title="Top albums" items={transformedMusicAlbums} showInfo square />
-    <NowMedia title="Top artists" items={transformedMusicArtists} showInfo square />
-    <NowMedia title="Podcasts" items={podcasts} square />
+    {transformedMusicAlbums?.length ? (<NowMedia title="Top albums" items={transformedMusicAlbums} showInfo square />) : null}
+    {transformedMusicArtists?.length ? (<NowMedia title="Top artists" items={transformedMusicArtists} showInfo square />) : null}
+    {podcasts?.length ? (<NowMedia title="Podcasts" items={podcasts} square />) : null}
   </div>
 </PageLayout>

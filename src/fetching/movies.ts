@@ -3,19 +3,25 @@ import urlJoin from 'proper-url-join';
 import type { NowMediaItem } from 'src/types';
 
 export const fetchMovies = async (limit = 3) => {
-  const letterboxdData = await axios.get(
-    urlJoin(import.meta.env.ZM_API, '/letterboxd/mrmartineau'),
-  );
-  const movieDiaryData = letterboxdData?.data
-    ?.filter((item: any) => item?.['letterboxd:watchedDate'])
-    .toSorted(
-      (a: any, b: any) =>
-        new Date(b?.item?.['letterboxd:watchedDate']).getTime() -
-        new Date(a?.item?.['letterboxd:watchedDate']).getTime(),
-    )
-    .slice(0, limit);
+  try {
+    const letterboxdData = await axios.get(
+      urlJoin(import.meta.env.ZM_API, '/letterboxd/mrmartineau'),
+    );
+    console.log(`🚀 ~ fetchMovies ~ letterboxdData:`, letterboxdData);
+    const movieDiaryData = letterboxdData?.data
+      ?.filter((item: any) => item?.['letterboxd:watchedDate'])
+      .toSorted(
+        (a: any, b: any) =>
+          new Date(b?.item?.['letterboxd:watchedDate']).getTime() -
+          new Date(a?.item?.['letterboxd:watchedDate']).getTime(),
+      )
+      .slice(0, limit);
 
-  return movieDiaryData;
+    return movieDiaryData;
+  } catch (err) {
+    console.log('fetchMovies', err);
+    return [];
+  }
 };
 
 export const transformMoviesToNow = (movies: any[]): NowMediaItem[] => {
