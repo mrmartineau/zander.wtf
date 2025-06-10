@@ -4,10 +4,8 @@ import type { NowMediaItem } from 'src/types';
 
 export const fetchMovies = async (limit = 3) => {
   const url = urlJoin(import.meta.env.ZM_API, '/letterboxd/mrmartineau');
-  console.log(`🚀 ~ fetchMovies ~ url:`, url);
   try {
     const letterboxdData = await axios.get(url);
-    console.log(`🚀 ~ fetchMovies ~ letterboxdData:`, letterboxdData);
     const movieDiaryData = letterboxdData?.data
       ?.filter((item: any) => item?.['letterboxd:watchedDate'])
       .toSorted(
