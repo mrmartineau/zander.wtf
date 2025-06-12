@@ -6,6 +6,7 @@ import { fetchMovies, transformMoviesToNow } from 'src/fetching/movies';
 import { fetchMusic, transformMusicToNow } from 'src/fetching/music';
 import { fetchShows, transformShowsToNow } from 'src/fetching/tv';
 import { fetchPodcasts } from 'src/fetching/podcasts';
+import { fetchBooks, transformBooksToNow } from 'src/fetching/books';
 import type { NowMediaItem } from 'src/types';
 
 const slug = 'now';
@@ -15,6 +16,7 @@ let transformedShows: NowMediaItem[] = [];
 let transformedMusicArtists: NowMediaItem[] = [];
 let transformedMusicAlbums: NowMediaItem[] = [];
 let podcasts: NowMediaItem[] = [];
+let books: NowMediaItem[] = [];
 
 try {
   const movies = await fetchMovies(5);
@@ -42,6 +44,12 @@ try {
 } catch (err) {
   console.error(err);
 }
+
+try {
+  books = await fetchBooks(5);
+} catch (err) {
+  console.error(err);
+}
 ---
 
 <PageLayout
@@ -61,5 +69,7 @@ try {
     {transformedMusicAlbums?.length ? (<NowMedia title="Top albums" items={transformedMusicAlbums} showInfo square />) : null}
     {transformedMusicArtists?.length ? (<NowMedia title="Top artists" items={transformedMusicArtists} showInfo square />) : null}
     {podcasts?.length ? (<NowMedia title="Podcasts" items={podcasts} square />) : null}
+    <h2>Reading</h2>
+    {books?.length ? (<NowMedia title="Books" items={books} />) : null}
   </div>
 </PageLayout>
