@@ -4,29 +4,29 @@ import NowMedia from '~/components/NowMedia.astro';
 import { SITE_METADATA } from 'src/consts';
 import { fetchMovies, transformMoviesToNow } from 'src/fetching/movies';
 import { fetchMusic, transformMusicToNow } from 'src/fetching/music';
-import { fetchShows, transformShowsToNow } from 'src/fetching/tv';
-import { fetchPodcasts } from 'src/fetching/podcasts';
-import { fetchBooks, transformBooksToNow } from 'src/fetching/books';
+import { fetchMedia, transformMediaToNow } from 'src/fetching/media';
 import type { NowMediaItem } from 'src/types';
 
 const slug = 'now';
 
 let transformedMovies: NowMediaItem[] = [];
-let transformedShows: NowMediaItem[] = [];
+let tv: NowMediaItem[] = [];
 let transformedMusicArtists: NowMediaItem[] = [];
 let transformedMusicAlbums: NowMediaItem[] = [];
 let podcasts: NowMediaItem[] = [];
 let books: NowMediaItem[] = [];
 
 try {
-  const movies = await fetchMovies(5);
-  transformedMovies = transformMoviesToNow(movies);
+  const media = await fetchMedia();
+  books = transformMediaToNow(media.book);
+  tv = transformMediaToNow(media.tv);
+  podcasts = transformMediaToNow(media.podcast);
 } catch (err) {
   console.error(err);
 }
 try {
-  const shows = await fetchShows();
-  transformedShows = transformShowsToNow(shows);
+  const movies = await fetchMovies(5);
+  transformedMovies = transformMoviesToNow(movies);
 } catch (err) {
   console.error(err);
 }
@@ -35,18 +35,6 @@ try {
   const music = await fetchMusic();
   transformedMusicArtists = await transformMusicToNow(music.topArtists, 'artist');
   transformedMusicAlbums = await transformMusicToNow(music.topAlbums, 'album');
-} catch (err) {
-  console.error(err);
-}
-
-try {
-  podcasts = await fetchPodcasts(5);
-} catch (err) {
-  console.error(err);
-}
-
-try {
-  books = await fetchBooks(5);
 } catch (err) {
   console.error(err);
 }
@@ -64,10 +52,10 @@ try {
     </p>
     <h2>Watching</h2>
     {transformedMovies?.length ? (<NowMedia title="Movies" items={transformedMovies} />) : null}
-    {transformedShows?.length ? (<NowMedia title="TV Shows" items={transformedShows} />) : null}
+    {tv?.length ? (<NowMedia title="TV Shows" items={tv} />) : null}
     <h2>Listening</h2>
-    {transformedMusicAlbums?.length ? (<NowMedia title="Top albums" items={transformedMusicAlbums} showInfo square />) : null}
-    {transformedMusicArtists?.length ? (<NowMedia title="Top artists" items={transformedMusicArtists} showInfo square />) : null}
+    {transformedMusicAlbums?.length ? (<NowMedia title="Top albums" items={transformedMusicAlbums} square />) : null}
+    {transformedMusicArtists?.length ? (<NowMedia title="Top artists" items={transformedMusicArtists} square />) : null}
     {podcasts?.length ? (<NowMedia title="Podcasts" items={podcasts} square />) : null}
     <h2>Reading</h2>
     {books?.length ? (<NowMedia title="Books" items={books} />) : null}

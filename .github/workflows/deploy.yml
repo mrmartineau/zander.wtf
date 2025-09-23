@@ -8,6 +8,7 @@ env:
   SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
   SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
   ZM_API: ${{ secrets.ZM_API }}
+  SUPABASE_USER_API_KEY: ${{ secrets.SUPABASE_USER_API_KEY }}
 
 on:
   schedule:
@@ -38,4 +39,3 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: pages deploy dist --project-name=zander-wtf
-          # gitHubToken: ${{ secrets.GITHUB_TOKEN }}
