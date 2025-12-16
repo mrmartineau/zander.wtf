@@ -1,4 +1,4 @@
-import { For, createSignal, createMemo, onCleanup } from 'solid-js';
+import { createMemo, createSignal, For, onCleanup } from 'solid-js';
 import type { Bookmark } from 'src/fetching/links';
 import { LinkFeedItem } from './LinkFeedItem';
 

@@ -1,4 +1,4 @@
-import { getCollection, type CollectionEntry } from 'astro:content';
+import { type CollectionEntry, getCollection } from 'astro:content';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { ImageResponse } from '@vercel/og';

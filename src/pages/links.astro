@@ -1,8 +1,8 @@
 ---
-import { fetchLinks } from '../fetching/links';
-import PageLayout from '~/layouts/PageLayout.astro';
 import { SITE_METADATA } from 'src/consts';
 import { LinkFeed } from '~/components/solid/LinkFeed';
+import PageLayout from '~/layouts/PageLayout.astro';
+import { fetchLinks } from '../fetching/links';
 
 const links = await fetchLinks();
 const slug = 'links';

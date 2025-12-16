@@ -1,8 +1,9 @@
-import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
-import { SITE_METADATA } from '../consts';
-import sanitizeHtml from 'sanitize-html';
+import rss from '@astrojs/rss';
 import MarkdownIt from 'markdown-it';
+import sanitizeHtml from 'sanitize-html';
+import { SITE_METADATA } from '../consts';
+
 const parser = new MarkdownIt();
 
 export const GET = async (context) => {

@@ -1,11 +1,11 @@
 ---
-import PageLayout from '~/layouts/PageLayout.astro';
-import NowMedia from '~/components/NowMedia.astro';
 import { SITE_METADATA } from 'src/consts';
+import { fetchMedia, transformMediaToNow } from 'src/fetching/media';
 import { fetchMovies, transformMoviesToNow } from 'src/fetching/movies';
 import { fetchMusic, transformMusicToNow } from 'src/fetching/music';
-import { fetchMedia, transformMediaToNow } from 'src/fetching/media';
 import type { NowMediaItem } from 'src/types';
+import NowMedia from '~/components/NowMedia.astro';
+import PageLayout from '~/layouts/PageLayout.astro';
 
 const slug = 'now';
 
@@ -33,7 +33,10 @@ try {
 
 try {
   const music = await fetchMusic();
-  transformedMusicArtists = await transformMusicToNow(music.topArtists, 'artist');
+  transformedMusicArtists = await transformMusicToNow(
+    music.topArtists,
+    'artist',
+  );
   transformedMusicAlbums = await transformMusicToNow(music.topAlbums, 'album');
 } catch (err) {
   console.error(err);

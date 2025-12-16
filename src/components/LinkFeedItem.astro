@@ -9,8 +9,16 @@ type Props = Bookmark & {
   isFeed?: boolean;
 };
 
-const { url, type, tags, title, description, isFeed = false, image } = Astro.props;
-const imagePath = fullPath(url, image)
+const {
+  url,
+  type,
+  tags,
+  title,
+  description,
+  isFeed = false,
+  image,
+} = Astro.props;
+const imagePath = fullPath(url, image);
 ---
 
 <div class:list={['zm-links-item', { 'zm-links-item--feed': isFeed }]}>

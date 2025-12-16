@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
-import BlogList from './BlogList.astro';
 import Block from './Block.astro';
+import BlogList from './BlogList.astro';
 
 const posts = (await getCollection('blog'))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())

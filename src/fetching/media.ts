@@ -50,7 +50,7 @@ export const fetchMedia = async (): Promise<MediaResponse> => {
 };
 
 export const transformMediaToNow = (media: MediaByStatus): NowMediaItem[] => {
-  let items = media.now ?? [];
+  const items = media.now ?? [];
   const doneItems = media.done;
   if (items.length < 5) {
     items.push(...doneItems.slice(0, 5 - items.length));

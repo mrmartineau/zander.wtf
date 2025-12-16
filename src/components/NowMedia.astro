@@ -1,13 +1,12 @@
 ---
 import type { NowMediaItem } from 'src/types';
 
-
 interface Props {
   title: string;
   description?: string;
   items: Array<NowMediaItem>;
-  showInfo?: boolean
-  square?: boolean
+  showInfo?: boolean;
+  square?: boolean;
 }
 
 const { title, items, showInfo, square } = Astro.props;

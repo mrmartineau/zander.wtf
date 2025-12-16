@@ -23,7 +23,7 @@ export const fetchMovies = async (limit = 3) => {
 };
 
 export const transformMoviesToNow = (movies: any[]): NowMediaItem[] => {
-  let transformedMovies: NowMediaItem[] = [];
+  const transformedMovies: NowMediaItem[] = [];
   for (const movie of movies) {
     if (movie['letterboxd:poster'] !== undefined) {
       transformedMovies.push({

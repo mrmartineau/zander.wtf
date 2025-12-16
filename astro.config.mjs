@@ -1,8 +1,9 @@
-import { defineConfig } from 'astro/config';
+import { execSync } from 'node:child_process';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
-import { execSync } from 'node:child_process';
 import solidJs from '@astrojs/solid-js';
+import { defineConfig } from 'astro/config';
+
 const commitHash = execSync('git rev-parse --short HEAD').toString();
 
 // https://astro.build/config

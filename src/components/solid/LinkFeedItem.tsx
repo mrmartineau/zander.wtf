@@ -1,9 +1,9 @@
+import type { Setter } from 'solid-js';
 import type { Bookmark } from 'src/fetching/links';
 import { fullPath } from 'src/utils/fullPath';
 import { Favicon } from './Favicon';
-import { ShortUrl } from './ShortUrl';
 import { LinkType } from './LinkType';
-import type { Setter } from 'solid-js';
+import { ShortUrl } from './ShortUrl';
 
 type Props = Bookmark & {
   isFeed?: boolean;

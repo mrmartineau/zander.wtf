@@ -7,4 +7,3 @@ export function ShortUrl({ url }: Props) {
 
   return <>{domain}</>;
 }
-

@@ -21,7 +21,7 @@ pre.astro-code {
   code {
     &::before,
     &::after {
-      content: '';
+      content: "";
     }
   }
 }

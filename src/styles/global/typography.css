@@ -34,9 +34,9 @@ h1,
 h2,
 h3 {
   font-variation-settings:
-    'wght' 900,
-    'wdth' 125,
-    'ital' 0;
+    "wght" 900,
+    "wdth" 125,
+    "ital" 0;
   line-height: 1.1;
   text-wrap: balance;
   font-family: var(--font-headings);
@@ -45,9 +45,9 @@ h3 {
 
 h4 {
   font-variation-settings:
-    'wght' 500,
-    'wdth' 125,
-    'ital' 0;
+    "wght" 500,
+    "wdth" 125,
+    "ital" 0;
   line-height: 1.1;
   text-wrap: balance;
   font-family: var(--font-headings);
@@ -106,7 +106,7 @@ article {
     font-family: var(--font-mono);
     &::before,
     &::after {
-      content: '`';
+      content: "`";
     }
   }
 
@@ -133,7 +133,7 @@ article {
 }
 
 .zm-block-link {
-  font-variation-settings: 'wght' 500;
+  font-variation-settings: "wght" 500;
   margin-top: var(--space-s);
   display: inline-block;
 

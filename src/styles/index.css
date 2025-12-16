@@ -1,19 +1,19 @@
-@import 'tailwindcss/base';
+@import "tailwindcss/base";
 
-@import 'global/vars.css';
-@import 'global/utopia.css';
-@import 'global/global.css';
-@import 'global/font-face.css';
-@import 'global/typography.css';
+@import "global/vars.css";
+@import "global/utopia.css";
+@import "global/global.css";
+@import "global/font-face.css";
+@import "global/typography.css";
 
-@import 'tailwindcss/components';
+@import "tailwindcss/components";
 
-@import 'components/block-music.css';
-@import 'components/block-tvshows.css';
-@import 'components/code.css';
-@import 'components/copy.css';
-@import 'components/layout.css';
+@import "components/block-music.css";
+@import "components/block-tvshows.css";
+@import "components/code.css";
+@import "components/copy.css";
+@import "components/layout.css";
 
-@import 'utilities/hidden.css';
+@import "utilities/hidden.css";
 
-@import 'tailwindcss/utilities';
+@import "tailwindcss/utilities";

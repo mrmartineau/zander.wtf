@@ -7,7 +7,11 @@ export interface Env {
   LASTFM_API_KEY: string;
 }
 
-const sdk = SpotifyApi.withClientCredentials(import.meta.env.SPOTIFY_CLIENT_ID, import.meta.env.SPOTIFY_CLIENT_SECRET, ["user-top-read"]);
+const sdk = SpotifyApi.withClientCredentials(
+  import.meta.env.SPOTIFY_CLIENT_ID,
+  import.meta.env.SPOTIFY_CLIENT_SECRET,
+  ['user-top-read'],
+);
 
 export const fetchMusic = async (limit = 5) => {
   const topArtistsPath = urlJoin('https://ws.audioscrobbler.com/2.0/', {
@@ -32,14 +36,14 @@ export const fetchMusic = async (limit = 5) => {
     },
   });
 
-  let topArtists:unknown;
-  let topAlbums:unknown;
+  let topArtists: unknown;
+  let topAlbums: unknown;
 
   try {
     topArtists = await axios.get(topArtistsPath);
     topAlbums = await axios.get(topAlbumsPath);
   } catch (err) {
-    console.log(`🚀 ~ fetchMusic ~ err:`, err)
+    console.log(`🚀 ~ fetchMusic ~ err:`, err);
   }
 
   return {
@@ -50,14 +54,20 @@ export const fetchMusic = async (limit = 5) => {
   };
 };
 
-export const transformMusicToNow = async (items: unknown[], type: 'artist' | 'album'): Promise<NowMediaItem[]> => {
-  const transformedItems: NowMediaItem[] = []
+export const transformMusicToNow = async (
+  items: unknown[],
+  type: 'artist' | 'album',
+): Promise<NowMediaItem[]> => {
+  const transformedItems: NowMediaItem[] = [];
   for await (const item of items) {
     // @ts-expect-error
-    const name = item?.name ?? ''
+    const name = item?.name ?? '';
     const theArtist = await sdk.search(name, [type], 'GB', 1);
     // @ts-expect-error
-    const image = theArtist.artists?.items[0].images.length > 0 ? theArtist.artists?.items[0].images[0].url : item?.image[item?.image?.length - 1]['#text'];
+    const image =
+      theArtist.artists?.items[0].images.length > 0
+        ? theArtist.artists?.items[0].images[0].url
+        : item?.image[item?.image?.length - 1]['#text'];
 
     if (image) {
       transformedItems.push({
@@ -70,5 +80,5 @@ export const transformMusicToNow = async (items: unknown[], type: 'artist' | 'al
       });
     }
   }
-  return transformedItems
-}
+  return transformedItems;
+};
