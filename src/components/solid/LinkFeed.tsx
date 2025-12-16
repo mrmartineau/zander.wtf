@@ -70,11 +70,12 @@ export function LinkFeed({ links }: { links: Bookmark[] }) {
             <button
               class="absolute top-1/2 right-4 transform -translate-y-1/2 z-20 inline-flex items-center opacity-0 group-hover:opacity-100 transition-opacity"
               onClick={() => setSearchQuery('')}
+              type="button"
+              aria-label="Clear search"
             >
               <i
                 class="ph-fill ph-backspace zm-icon"
                 style="--icon-size: 1.4rem;"
-                aria-label="Clear search"
               ></i>
             </button>
           </>
@@ -82,13 +83,7 @@ export function LinkFeed({ links }: { links: Bookmark[] }) {
       </div>
       <div class="border-t border-gray-700">
         <For each={filteredLinks()}>
-          {(item) => (
-            <LinkFeedItem
-              {...item}
-              isFeed={true}
-              setSearchQuery={setSearchQuery}
-            />
-          )}
+          {(item) => <LinkFeedItem {...item} setSearchQuery={setSearchQuery} />}
         </For>
       </div>
     </div>

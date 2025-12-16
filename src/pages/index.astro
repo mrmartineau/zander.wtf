@@ -2,7 +2,6 @@
 import BlockAbout from '~/components/BlockAbout.astro';
 import BlockBlog from '~/components/BlockBlog.astro';
 import BlockLinks from '~/components/BlockLinks.astro';
-import BlockMovies from '~/components/BlockMovies.astro';
 import BlockProjects from '~/components/BlockProjects.astro';
 import Status from '~/components/Status.astro';
 import BaseLayout from '~/layouts/BaseLayout.astro';
@@ -20,14 +19,9 @@ const slug = 'home';
     <!-- prettier-ignore -->
     <h1 class="zm-intro">
       Hi! I’m <span>Zander<img
-          src="/images/avatars/zm-avatar-4.webp"
-          class="avatar-normal"
+          src="/images/avatars/zm-avatar.webp"
+          class="avatar"
           alt="Stylised (pixellated) picture of Zander"
-        /><img
-          src="/images/avatars/zm-avatar-1.webp"
-          class="avatar-hover"
-          loading="lazy"
-          alt="Picture of Zander"
         /></span>, I make websites
     </h1>
 
@@ -67,7 +61,6 @@ const slug = 'home';
       color: var(--colour-accent);
       position: relative;
       white-space: pre;
-      cursor: help;
 
       img {
         transition: all 150ms ease-in-out;
@@ -79,42 +72,6 @@ const slug = 'home';
         border-radius: 50%;
         aspect-ratio: 1 / 1;
         max-width: 180px;
-        /* Parallelogram */
-        /* clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%); */
-        /* Heptagon */
-        /* clip-path: polygon(
-          50% 0%,
-          90% 20%,
-          100% 60%,
-          75% 100%,
-          25% 100%,
-          0% 60%,
-          10% 20%
-        ); */
-        /* Nonagan */
-        /* clip-path: polygon(
-          50% 0%,
-          83% 12%,
-          100% 43%,
-          94% 78%,
-          68% 100%,
-          32% 100%,
-          6% 78%,
-          0% 43%,
-          17% 12%
-        ); */
-      }
-      .avatar-hover {
-        opacity: 0;
-      }
-      &:hover img {
-        transform: rotate(12deg) scale(0.9);
-      }
-      &:hover .avatar-hover {
-        opacity: 1;
-      }
-      &:hover .avatar-normal {
-        opacity: 0;
       }
     }
     @media screen and (min-width: 500px) {

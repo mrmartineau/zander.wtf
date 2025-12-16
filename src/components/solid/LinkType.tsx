@@ -54,10 +54,9 @@ export function LinkType({ type, setSearchQuery }: Props) {
 
   return (
     <button
-      role="img"
-      aria-label={label}
       class="flex items-center gap-2 hover:opacity-60"
       onClick={() => setSearchQuery(label)}
+      type="button"
     >
       <i class={`ph-duotone ph-${icon} zm-icon`}></i>
       {label}

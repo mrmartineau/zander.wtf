@@ -1,13 +1,10 @@
 import type { Setter } from 'solid-js';
 import type { Bookmark } from 'src/fetching/links';
-import { fullPath } from 'src/utils/fullPath';
 import { Favicon } from './Favicon';
 import { LinkType } from './LinkType';
 import { ShortUrl } from './ShortUrl';
 
 type Props = Bookmark & {
-  isFeed?: boolean;
-  showImage?: boolean;
   setSearchQuery: Setter<string>;
 };
 
@@ -15,25 +12,16 @@ export function LinkFeedItem({
   url,
   title = '',
   description = '',
-  image = '',
   type,
   tags,
-  showImage = false,
   setSearchQuery,
 }: Props) {
-  const imagePath = fullPath(url, image);
-
   if (!url) {
     return null;
   }
 
   return (
     <div class="py-4 px-2 border-b border-gray-700 flex flex-col gap-2">
-      {imagePath && showImage ? (
-        <div class="zm-links-item-image">
-          <img src={imagePath} alt={title} />
-        </div>
-      ) : null}
       <a class="text-sm" href={url}>
         {title}
       </a>
@@ -51,20 +39,22 @@ export function LinkFeedItem({
         ) : null}
         {type ? <LinkType type={type} setSearchQuery={setSearchQuery} /> : null}
         {tags?.length
-          ? tags.map((tag) => {
-              if (
-                !['IFTTT', 'TwitterLike', 'instapaper', 'public'].includes(tag)
-              ) {
-                return (
-                  <button
-                    class="hover:opacity-60"
-                    onClick={() => setSearchQuery(tag)}
-                  >
-                    #{tag}
-                  </button>
-                );
-              }
-            })
+          ? tags
+              .filter(
+                (tag) =>
+                  !['IFTTT', 'TwitterLike', 'instapaper', 'public'].includes(
+                    tag,
+                  ),
+              )
+              .map((tag) => (
+                <button
+                  class="hover:opacity-60"
+                  onClick={() => setSearchQuery(tag)}
+                  type="button"
+                >
+                  #{tag}
+                </button>
+              ))
           : null}
       </div>
     </div>
