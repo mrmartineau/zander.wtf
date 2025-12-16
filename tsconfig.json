@@ -4,9 +4,17 @@
     "strictNullChecks": true,
     "baseUrl": ".",
     "paths": {
-      "~/assets/*": ["src/assets/*"],
-      "~/components/*": ["src/components/*"],
-      "~/layouts/*": ["src/layouts/*"]
-    }
+      "~/assets/*": [
+        "src/assets/*"
+      ],
+      "~/components/*": [
+        "src/components/*"
+      ],
+      "~/layouts/*": [
+        "src/layouts/*"
+      ]
+    },
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js"
   }
 }

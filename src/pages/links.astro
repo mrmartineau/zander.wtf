@@ -1,8 +1,8 @@
 ---
-import LinkFeedItem from '~/components/LinkFeedItem.astro';
 import { fetchLinks } from '../fetching/links';
 import PageLayout from '~/layouts/PageLayout.astro';
 import { SITE_METADATA } from 'src/consts';
+import { LinkFeed } from '~/components/solid/LinkFeed';
 
 const links = await fetchLinks();
 const slug = 'links';
@@ -21,24 +21,5 @@ const slug = 'links';
     </a>
   </div>
 
-  <div class="zm-links-feed">
-    {
-      links.map((item) => {
-        if (!item?.title) {
-          return null;
-        }
-
-        return <LinkFeedItem {...item} isFeed={true} />;
-      })
-    }
-  </div>
+  <LinkFeed links={links} client:only="solid" />
 </PageLayout>
-
-<style>
-  .zm-links-feed {
-    margin-block-start: var(--space-m);
-    display: grid;
-    gap: var(--space-l);
-    grid-template-columns: repeat(auto-fill, minmax(min(400px, 100%), 1fr));
-  }
-</style>

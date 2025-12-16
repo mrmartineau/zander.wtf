@@ -22,6 +22,9 @@ a {
 .zm-icon {
   --icon-size: 1rem;
   font-size: var(--icon-size);
+  line-height: var(--icon-size);
+  width: var(--icon-size);
+  height: var(--icon-size);
 }
 
 ::selection {
