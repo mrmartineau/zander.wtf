@@ -104,27 +104,22 @@ export const SITE_FOOTER_ITEMS = [
     external: true,
   },
   {
-    text: 'Mastodon',
-    url: 'https://toot.cafe/@zander',
-    rel: 'me',
-    external: true,
-  },
-  {
     text: 'Bluesky',
     url: 'https://bsky.app/profile/zander.wtf',
     rel: 'me',
     external: true,
   },
   {
-    text: 'CV/Resumé',
-    url: 'https://read.cv/mrmartineau',
+    text: 'Mastodon',
+    url: 'https://toot.cafe/@zander',
+    rel: 'me',
     external: true,
   },
 ];
 
 export const ABOUT_ME = {
   bio: `I am a front-end web developer with over 15 years experience helping companies bring products to market, rewriting apps, creating POCs and more.`,
-  cv: 'https://read.cv/mrmartineau',
+  // cv: 'https://read.cv/mrmartineau',
   email: 'mailto:hi+enquiry@zander.wtf',
 };
 
@@ -187,7 +182,7 @@ export const JOBS: Jobs = {
       name: 'Heights',
       description: '',
       type: 'contract',
-      url: 'https://www.yourheights.com',
+      url: 'https://www.heights.com',
       projects: [
         {
           name: '',
