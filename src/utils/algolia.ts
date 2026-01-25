@@ -16,7 +16,7 @@ export async function searchNotes(
     return [];
   }
 
-  const appId = import.meta.env.ALGOLIA_APP_ID;
+  const appId = import.meta.env.ALGOLIA_APP;
   const searchKey = import.meta.env.ALGOLIA_SEARCH_KEY;
   const indexName = import.meta.env.ALGOLIA_INDEX;
 

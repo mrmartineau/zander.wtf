@@ -1,0 +1,50 @@
+---
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface TocNode {
+  heading: Heading;
+  children: TocNode[];
+}
+
+interface Props {
+  items: TocNode[];
+}
+
+const { items } = Astro.props;
+---
+
+{items.length > 0 && (
+  <ol>
+    {items.map((item) => (
+      <li>
+        <a href={`#${item.heading.slug}`}>{item.heading.text}</a>
+        {item.children.length > 0 && (
+          <Astro.self items={item.children} />
+        )}
+      </li>
+    ))}
+  </ol>
+)}
+
+<style>
+  ol {
+    list-style-type: none;
+    padding-left: 0;
+    margin: 0;
+
+    ol {
+      padding-left: var(--space-s);
+    }
+  }
+
+  li {
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+  }
+</style>
+

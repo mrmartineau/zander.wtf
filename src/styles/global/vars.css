@@ -43,6 +43,7 @@
   /* Dark */
   --bg: var(--colour-reallyFuckingDark);
   --bg-block: var(--colour-notQuiteSoFuckingDark);
+  --colour-muted: var(--colour-notQuiteSoFuckingDark);
   --bg-code-highlight: var(--colour-notQuiteSoFuckingDark);
   --bg-nav-active: var(--bg-main);
   --border: theme(colors.zinc.500);
@@ -64,6 +65,6 @@
     Geist Mono,Recursive Mono Casual Static, Recursive Mono Casual,
     Recursive Mono, Comic Code, JetBrains Mono, SF Mono, Menlo, Monaco,
     Courier New, monospace;
-  --font-headings: Gorton, var(--font-mona);
+  --font-headings: var(--font-mona);
   --font-body: var(--font-mona);
 }

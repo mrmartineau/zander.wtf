@@ -12,8 +12,40 @@ const {
 } = Astro.props;
 ---
 
+
+<script>
+  function isFormField(element) {
+    if (!(element instanceof HTMLElement)) {
+      return false;
+    }
+
+    const name = element.nodeName.toLowerCase();
+    const type = (element.getAttribute('type') || '').toLowerCase();
+    return (
+      name === 'select' ||
+      name === 'textarea' ||
+      (name === 'input' && type !== 'submit' && type !== 'reset') ||
+      element.isContentEditable
+    );
+  }
+
+  const inputEl = document.querySelector<HTMLInputElement>('.search-input');
+  document.addEventListener('keydown', (event) => {
+    if (!(event instanceof KeyboardEvent)) {
+      return;
+    }
+    if (event.target instanceof Node && isFormField(event.target)) {
+      return;
+    }
+    if (event.isComposing || event.key === '/') {
+      event.preventDefault();
+      inputEl?.focus();
+    }
+  });
+</script>
+
 <form action="/notes/search" method="GET" class="search-form">
-  <i class="ph-duotone ph-magnifying-glass search-icon"></i>
+  <!-- <i class="ph-duotone ph-magnifying-glass search-icon"></i> -->
   <input
     type="search"
     name="q"
@@ -31,11 +63,7 @@ const {
     display: flex;
     align-items: center;
     gap: var(--space-xs);
-    margin-block-end: var(--space-m);
-
-    &:focus-within {
-      box-shadow: 0 2px 0 var(--colour-accent);
-    }
+    width: 100%;
   }
 
   .search-input {
@@ -48,8 +76,10 @@ const {
     width: 100%;
     background: transparent;
     font-size: var(--step-1);
+    border-bottom: 2px solid var(--colour-muted);
 
     &:focus {
+      border-bottom: 2px solid var(--colour-accent);
       outline: none;
     }
 

@@ -2,8 +2,6 @@
 export const prerender = false;
 
 import NoteList from '~/components/NoteList.astro';
-import SearchForm from '~/components/SearchForm.astro';
-import ContentLayout from '~/layouts/ContentLayout.astro';
 import NoteLayout from '~/layouts/NoteLayout.astro';
 import { type AlgoliaSearchResult, searchNotes } from '~/utils/algolia';
 
@@ -20,9 +18,8 @@ if (query) {
   }
 }
 
-// Convert Algolia results to the format NoteList expects
 const formattedResults = searchResults.map((result) => ({
-  slug: result.slug,
+  slug: result.objectID.replace('/notes/', ''),
   title: result.title,
   date: result.date ? new Date(result.date) : undefined,
   tags: result.tags,

@@ -3,6 +3,7 @@ import { type CollectionEntry, getCollection } from 'astro:content';
 import FormattedDate from '~/components/FormattedDate.astro';
 import NoteTagLink from '~/components/NoteTagLink.astro';
 import PageTitle from '~/components/PageTitle.astro';
+import TableOfContents from '~/components/TableOfContents.astro';
 import NoteLayout from '~/layouts/NoteLayout.astro';
 
 export async function getStaticPaths() {
@@ -16,8 +17,9 @@ export async function getStaticPaths() {
 type Props = CollectionEntry<'codenotes'>;
 
 const note = Astro.props;
-const { Content } = await note.render();
+const { Content, headings } = await note.render();
 const { title, date, tags, emoji, link } = note.data;
+console.log(`🚀 ~ headings:`, headings);
 ---
 <NoteLayout title={title} slug="notes">
   <article>
@@ -61,6 +63,8 @@ const { title, date, tags, emoji, link } = note.data;
     </header>
 
     <div class="flow">
+      <TableOfContents headings={headings} />
+
       <Content />
     </div>
 
