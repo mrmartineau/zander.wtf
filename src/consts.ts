@@ -43,6 +43,15 @@ export const SITE_METADATA: Record<
     title: 'Now',
     subtitle: `What I'm up to now`,
   },
+  notes: {
+    title: 'Code Notes',
+    ogTitle: 'Code Notes',
+    subtitle: 'TILs, snippets—my digital code garden',
+  },
+  search: {
+    title: 'Search Notes',
+    subtitle: 'Search through all code notes',
+  },
 };
 
 export const SITE_NAV_ITEMS = [
@@ -57,6 +66,10 @@ export const SITE_NAV_ITEMS = [
   {
     text: 'About',
     url: '/about',
+  },
+  {
+    text: 'Notes',
+    url: '/notes',
   },
 ];
 
@@ -82,9 +95,8 @@ export const SITE_FOOTER_ITEMS = [
     url: '/uses',
   },
   {
-    text: 'Code Notes',
-    url: 'https://notes.zander.wtf',
-    external: true,
+    text: 'Notes',
+    url: '/notes',
   },
   {
     text: 'GitHub',
@@ -321,12 +333,12 @@ export const SIDE_PROJECTS: Project[] = [
     ],
   },
   {
-    name: 'Code Notes v2',
-    description: 'TILs, snippets—my digital code garden 🌱',
-    link: 'https://notes.zander.wtf',
-    repo: 'https://github.com/mrmartineau/notes.zander.wtf',
+    name: 'Code Notes',
+    description: 'TILs, snippets—my digital code garden',
+    link: '/notes',
+    repo: 'https://github.com/mrmartineau/zander.wtf',
     status: 'active',
-    tech: 'Eleventy, Nunjucks, TypeScript, PostCSS, Algolia search',
+    tech: 'Astro, TypeScript, PostCSS, Algolia search',
   },
   {
     name: 'Rigel VS Code theme',

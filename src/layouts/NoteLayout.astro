@@ -1,0 +1,71 @@
+---
+import { getCollection } from 'astro:content';
+import NoteTagDot from '~/components/NoteTagDot.astro';
+import SearchForm from '~/components/SearchForm.astro';
+import BaseLayout from './BaseLayout.astro';
+
+const { title, subtitle, slug } = Astro.props;
+const tagList = (await getCollection('codenotes'))
+  .flatMap((note) => note.data.tags)
+  .filter((tag) => tag !== undefined)
+  .toSorted()
+  .filter((tag, index, self) => self.indexOf(tag) === index);
+const pathname = new URL(Astro.request.url).pathname;
+---
+
+<BaseLayout title={title} subtitle={subtitle} slug={slug}>
+  <div class="note-layout zm-mainContainer">
+    <div class="note-sidebar">
+      <p class="note-sidebar-description">TILs, snippets—my digital code garden 🌱.</p>
+      <a href="/notes" class:list={[{ tag: true, active: pathname === '/notes' }]}><i class="ph-duotone ph-cards-three"></i> <span>All notes</span></a>
+      {tagList.map((tag) => (
+        <a href={`/notes/tags/${tag}`} class:list={[{
+          tag: true, active: pathname.includes(tag) }]}>
+            <NoteTagDot tag={tag} /> <span>{tag}</span>
+        </a>
+      ))}
+    </div>
+    <div class="note-main zm-contentContainer">
+      <SearchForm placeholder="Search notes..." />
+      <slot />
+    </div>
+  </div>
+</BaseLayout>
+
+
+<style>
+  .note-layout {
+    display: flex;
+    flex-direction: row;
+    gap: var(--space-s);
+  }
+  .note-sidebar {
+    background-color: var(--bg-block);
+    padding: var(--space-m);
+    border-radius: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
+    width: 220px;
+  }
+
+  .note-main {
+    flex-grow: 1;
+  }
+
+  .note-sidebar a {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3xs);
+    font-size: var(--step--2);
+    text-decoration: none;
+    color: var(--colour-text);
+    padding: var(--space-3xs) 0;
+    border-radius: var(--space-2xs);
+    transition: background-color 200ms ease-in-out;
+
+    &.active, &:hover {
+      color: var(--colour-yellow);
+    }
+  }
+</style>

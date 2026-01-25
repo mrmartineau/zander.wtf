@@ -1,0 +1,93 @@
+---
+export const prerender = false;
+
+import NoteList from '~/components/NoteList.astro';
+import SearchForm from '~/components/SearchForm.astro';
+import ContentLayout from '~/layouts/ContentLayout.astro';
+import NoteLayout from '~/layouts/NoteLayout.astro';
+import { type AlgoliaSearchResult, searchNotes } from '~/utils/algolia';
+
+const query = Astro.url.searchParams.get('q') || '';
+let searchResults: AlgoliaSearchResult[] = [];
+let searchError = '';
+
+if (query) {
+  try {
+    searchResults = await searchNotes(query);
+  } catch (error) {
+    console.error('Search error:', error);
+    searchError = 'An error occurred while searching. Please try again.';
+  }
+}
+
+// Convert Algolia results to the format NoteList expects
+const formattedResults = searchResults.map((result) => ({
+  slug: result.slug,
+  title: result.title,
+  date: result.date ? new Date(result.date) : undefined,
+  tags: result.tags,
+  emoji: result.emoji,
+}));
+---
+
+<NoteLayout title="Search Notes" subtitle="Search through all code notes" slug="search">
+  {
+    query ? (
+      <div class="search-results">
+        <p class="search-summary">
+          {searchResults.length > 0 ? (
+            <>
+              Found <strong>{searchResults.length}</strong> result{searchResults.length !== 1 ? 's' : ''} for "{query}"
+            </>
+          ) : searchError ? (
+            <span class="error">{searchError}</span>
+          ) : (
+            <>No results found for "{query}"</>
+          )}
+        </p>
+
+        {searchResults.length > 0 ? <NoteList searchResults={formattedResults} /> : null}
+      </div>
+    ) : (
+      <p class="search-prompt">Enter a search term to find notes.</p>
+    )
+  }
+
+  <div class="back-link">
+    <a href="/notes">&larr; Back to all notes</a>
+  </div>
+</NoteLayout>
+
+<style>
+  .search-container {
+    margin-block-end: var(--space-l);
+  }
+
+  .search-results {
+    margin-block-end: var(--space-l);
+  }
+
+  .search-summary {
+    margin-block-end: var(--space-m);
+    opacity: 0.8;
+  }
+
+  .search-summary strong {
+    color: var(--colour-accent);
+  }
+
+  .error {
+    color: var(--colour-error, #ef4444);
+  }
+
+  .search-prompt {
+    opacity: 0.7;
+    margin-block-end: var(--space-l);
+  }
+
+  .back-link {
+    margin-block-start: var(--space-xl);
+    padding-block-start: var(--space-m);
+    border-block-start: 1px solid var(--colour-border);
+  }
+</style>

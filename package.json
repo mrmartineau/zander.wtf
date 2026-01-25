@@ -13,9 +13,11 @@
     "format": "biome format --write .",
     "lint": "biome lint",
     "lint:fix": "biome lint --write .",
-    "lint:check": "biome check --write ."
+    "lint:check": "biome check --write .",
+    "algolia:update": "npx tsx scripts/update-algolia-index.ts"
   },
   "dependencies": {
+    "@alexcarpenter/slugify": "^1.0.6",
     "@astrojs/check": "^0.9.4",
     "@astrojs/cloudflare": "^11.2.0",
     "@astrojs/mdx": "^3.1.9",
@@ -25,16 +27,20 @@
     "@notionhq/client": "^2.2.15",
     "@phosphor-icons/web": "^2.1.1",
     "@spotify/web-api-ts-sdk": "^1.2.0",
+    "@types/color-hash": "^2.0.0",
     "@types/markdown-it": "^14.1.1",
     "@types/sanitize-html": "^2.11.0",
     "@vercel/og": "^0.6.2",
+    "algoliasearch": "^5.47.0",
     "astro": "^4.16.13",
     "axios": "^1.7.2",
+    "color-hash": "^2.0.2",
     "letterboxd": "^3.1.1",
     "markdown-it": "^14.1.0",
     "proper-url-join": "^2.1.1",
     "sanitize-html": "^2.13.0",
     "sharp": "^0.33.4",
+    "slugify": "^1.6.6",
     "solid-js": "^1.9.10"
   },
   "devDependencies": {

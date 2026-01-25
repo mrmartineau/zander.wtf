@@ -1,0 +1,132 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import FormattedDate from './FormattedDate.astro';
+import NoteTag from './NoteTag.astro';
+
+type NoteItem = {
+  slug: string;
+  title: string;
+  date?: Date;
+  tags?: string[];
+  emoji?: string;
+};
+
+type Props = {
+  notes?: CollectionEntry<'codenotes'>[];
+  searchResults?: NoteItem[];
+};
+
+const { notes, searchResults } = Astro.props;
+
+// Normalize data from either collection entries or search results
+const items: NoteItem[] = notes
+  ? notes.map((note) => ({
+      slug: note.slug,
+      title: note.data.title,
+      date: note.data.date,
+      tags: note.data.tags,
+      emoji: note.data.emoji,
+    }))
+  : searchResults || [];
+---
+
+<div class="zm-note-items">
+  {
+    items.map((item) => (
+      <a href={`/notes/${item.slug}`} class="zm-note-item">
+          <span class="title">
+            {item.emoji ? <span class="emoji">{item.emoji}</span> : null}
+            {item.title}
+          </span>
+          <div class="flex gap-2 items-center">
+          {item.tags && item.tags.length > 0 ? (
+            <div class="tags">
+              {item.tags.map((tag) => (
+                <NoteTag tag={tag} />
+              ))}
+            </div>
+          ) : null}
+          {item.date ? (
+            <div class="date">
+              <FormattedDate date={item.date} />
+            </div>
+          ) : null}
+        </div>
+      </a>
+    ))
+  }
+</div>
+
+<style>
+  .zm-note-items {
+    container: note-item / inline-size;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
+  }
+
+  .zm-note-item {
+    display: block;
+    padding: var(--space-3xs) var(--space-xs);
+    border-radius: var(--space-2xs);
+    transition: background-color 200ms ease-in-out;
+    text-decoration: none;
+    color: inherit;
+    @apply block md:flex justify-between items-center gap-3;
+  }
+
+  .zm-note-item:hover {
+    background-color: var(--bg-block);
+  }
+
+  .title {
+    font-weight: 600;
+    line-height: 1.3;
+    display: block;
+    flex-shrink: 0;
+    padding: var(--space-4xs) 0;
+  }
+
+  .emoji {
+    margin-inline-end: var(--space-3xs);
+  }
+
+  .tags {
+    /* display: flex;
+    flex-wrap: wrap; */
+    /* gap: var(--space-3xs); */
+    /* margin-block-start: var(--space-3xs); */
+    @apply flex items-center gap-1 truncate;
+  }
+
+
+  .date {
+    @apply truncate;
+    opacity: 0.7;
+    /* font-feature-settings:
+      'calt' 1,
+      'liga' 1,
+      'rlig' 1,
+      'rvrn' 1,
+      'kern' 1,
+      'rclt' 1,
+      'tnum' 1; */
+    font-size: var(--step--2);
+    /* margin-block-start: var(--space-3xs); */
+  }
+
+  @container note-item (min-width: 480px) {
+    /* .zm-note-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: var(--space-s);
+    } */
+
+
+    .date {
+      flex-shrink: 0;
+      margin-block-start: 0;
+    }
+  }
+</style>

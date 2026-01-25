@@ -1,0 +1,134 @@
+---
+import { type CollectionEntry, getCollection } from 'astro:content';
+import FormattedDate from '~/components/FormattedDate.astro';
+import NoteTagLink from '~/components/NoteTagLink.astro';
+import PageTitle from '~/components/PageTitle.astro';
+import NoteLayout from '~/layouts/NoteLayout.astro';
+
+export async function getStaticPaths() {
+  const notes = await getCollection('codenotes');
+  return notes.map((note) => ({
+    params: { slug: note.slug },
+    props: note,
+  }));
+}
+
+type Props = CollectionEntry<'codenotes'>;
+
+const note = Astro.props;
+const { Content } = await note.render();
+const { title, date, tags, emoji, link } = note.data;
+---
+<NoteLayout title={title} slug="notes">
+  <article>
+    <header class="note-header">
+      <PageTitle transition:persist>
+        {emoji ? <span class="emoji">{emoji}</span> : null}
+        {title}
+      </PageTitle>
+
+      <div class="note-metadata mb-2 flex items-center gap-2">
+        {
+          link ? (
+            <div class="flex items-center gap-2">
+              <i class="ph-duotone ph-link" />
+              <a href={link} target="_blank" rel="noopener noreferrer" class="note-link">
+                {link}
+              </a>
+            </div>
+          ) : null
+        }
+        {
+          date ? (
+            <div class="note-date flex items-center gap-2">
+              <i class="ph-duotone ph-calendar" />
+              <FormattedDate date={date} />
+            </div>
+          ) : null
+        }
+      </div>
+
+      {
+        tags && tags.length > 0 ? (
+          <div class="note-tags flex items-center gap-2">
+            <i class="ph-duotone ph-tag" />
+            {tags.map((tag) => (
+              <NoteTagLink tag={tag} />
+            ))}
+          </div>
+        ) : null
+      }
+    </header>
+
+    <div class="flow">
+      <Content />
+    </div>
+
+    <footer class="note-footer">
+      <span class="mono">&gt;</span>{' '}
+      <a href="/notes">cd ..</a>
+    </footer>
+  </article>
+</NoteLayout>
+
+<style>
+  .note-header {
+    margin-block-end: var(--space-l);
+  }
+
+  .emoji {
+    margin-inline-end: var(--space-xs);
+  }
+
+  .note-metadata {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s) var(--space-m);
+    align-items: center;
+    margin-block-start: var(--space-s);
+    font-size: var(--step--1);
+  }
+
+  .note-metadata > * {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2xs);
+  }
+
+  .note-metadata i {
+    font-size: var(--step-0);
+    opacity: 0.7;
+  }
+
+  .note-link {
+    word-break: break-all;
+  }
+
+  .note-date {
+    opacity: 0.8;
+  }
+
+  .note-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+    align-items: center;
+  }
+
+  .tag {
+    opacity: 0.8;
+  }
+
+  .note-footer {
+    margin-block-start: var(--space-xl);
+    padding-block-start: var(--space-m);
+    border-block-start: 1px solid var(--colour-border);
+  }
+
+  .mono {
+    font-family: var(--font-mono);
+  }
+
+
+</style>
+

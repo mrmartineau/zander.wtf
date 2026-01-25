@@ -1,0 +1,27 @@
+---
+import slugify from '@alexcarpenter/slugify';
+import { getColourFromString } from '~/utils/getColourFromString';
+
+type Props = {
+  tag: string;
+};
+
+const { tag } = Astro.props;
+
+const tagName = slugify(tag);
+const tagColor = getColourFromString(tagName);
+---
+
+<span class="badge" style={`background-color: ${tagColor};`}>{tag}</span>
+
+<style>
+  .badge {
+    display: inline-flex;
+    flex-shrink: 0;
+    @apply py-0.5 px-2.5 rounded-full bg-zinc-200 text-xs;
+    text-decoration: none;
+    font-weight: normal;
+    font-family: var(--font-mono);
+    font-size: var(--step--3);
+  }
+</style>

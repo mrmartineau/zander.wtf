@@ -1,4 +1,5 @@
 import { execSync } from 'node:child_process';
+import cloudflare from '@astrojs/cloudflare';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import solidJs from '@astrojs/solid-js';
@@ -31,5 +32,6 @@ export default defineConfig({
       __COMMIT_HASH__: JSON.stringify(commitHash),
     },
   },
-  output: 'static',
+  output: 'hybrid',
+  adapter: cloudflare(),
 });

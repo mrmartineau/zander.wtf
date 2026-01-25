@@ -61,9 +61,9 @@
   /* Fonts */
   --font-mona: Mona Sans, system-ui, sans-serif;
   --font-mono:
-    Recursive Mono Casual Static, Recursive Mono Casual,
+    Geist Mono,Recursive Mono Casual Static, Recursive Mono Casual,
     Recursive Mono, Comic Code, JetBrains Mono, SF Mono, Menlo, Monaco,
     Courier New, monospace;
-  --font-headings: var(--font-mona);
+  --font-headings: Gorton, var(--font-mona);
   --font-body: var(--font-mona);
 }

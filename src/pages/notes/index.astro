@@ -1,0 +1,22 @@
+---
+import { getCollection } from 'astro:content';
+import { SITE_METADATA } from 'src/consts';
+import NoteList from '~/components/NoteList.astro';
+import NoteLayout from '~/layouts/NoteLayout.astro';
+
+const notes = (await getCollection('codenotes')).sort((a, b) => {
+  // Sort by date descending, notes without dates go to the end
+  const dateA = a.data.date?.valueOf() ?? 0;
+  const dateB = b.data.date?.valueOf() ?? 0;
+  return dateB - dateA;
+});
+
+const slug = 'notes';
+const title = SITE_METADATA[slug].title;
+const subtitle = SITE_METADATA[slug].subtitle;
+---
+
+<NoteLayout title={title} subtitle={subtitle} slug={slug}>
+  <NoteList notes={notes} />
+</NoteLayout>
+
