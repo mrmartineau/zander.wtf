@@ -3,7 +3,7 @@
  * Script to update Algolia search index with codenotes content.
  *
  * Required environment variables:
- * - ALGOLIA_APP_ID: Your Algolia application ID
+ * - ALGOLIA_APP: Your Algolia application ID
  * - ALGOLIA_ADMIN_KEY: Your Algolia admin API key (not the search key!)
  * - ALGOLIA_INDEX: The name of your Algolia index
  *
@@ -170,13 +170,13 @@ async function processDirectory(dir: string): Promise<AlgoliaRecord[]> {
 }
 
 async function main() {
-  const appId = process.env.ALGOLIA_APP_ID;
+  const appId = process.env.ALGOLIA_APP;
   const adminKey = process.env.ALGOLIA_ADMIN_KEY;
   const indexName = process.env.ALGOLIA_INDEX;
 
   if (!appId || !adminKey || !indexName) {
     console.error('Missing required environment variables:');
-    console.error('  ALGOLIA_APP_ID, ALGOLIA_ADMIN_KEY, ALGOLIA_INDEX');
+    console.error('ALGOLIA_APP, ALGOLIA_ADMIN_KEY, ALGOLIA_INDEX');
     console.error('\nPlease set these in your .env file or environment.');
     process.exit(1);
   }
