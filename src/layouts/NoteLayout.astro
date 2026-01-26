@@ -44,7 +44,7 @@ const pathname = new URL(Astro.request.url).pathname;
         ))}
       </div>
     </div>
-    <div class="note-main zm-contentContainer">
+    <div class="note-main">
       <div class="flex items-center gap-3 mb-6">
         <button class="note-sidebar-toggle note-sidebar-toggle1" aria-label="Toggle sidebar">
           <i class="ph-duotone ph-sidebar-simple"></i>
@@ -63,7 +63,7 @@ const pathname = new URL(Astro.request.url).pathname;
     position: relative;
 
     @media screen and (min-width: 768px) {
-      gap: var(--space-s);
+      gap: var(--space-s-m);
       display: grid;
       grid-template-columns: var(--sidebar-width) 1fr;
     }
@@ -76,8 +76,8 @@ const pathname = new URL(Astro.request.url).pathname;
     overflow-x: hidden;
     overflow-y: auto;
     z-index: 10;
-    padding: 0 var(--space-s-m);
     min-height: 100vh;
+    max-width: 1000px;
   }
 
   .note-sidebar-wrapper {
