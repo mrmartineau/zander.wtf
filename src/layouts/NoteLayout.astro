@@ -1,0 +1,148 @@
+---
+import { getCollection } from 'astro:content';
+import NoteTagDot from '~/components/NoteTagDot.astro';
+import SearchForm from '~/components/SearchForm.astro';
+import BaseLayout from './BaseLayout.astro';
+
+const { title, subtitle, slug } = Astro.props;
+const tagList = (await getCollection('codenotes'))
+  .flatMap((note) => note.data.tags)
+  .filter((tag) => tag !== undefined)
+  .toSorted()
+  .filter((tag, index, self) => self.indexOf(tag) === index);
+const pathname = new URL(Astro.request.url).pathname;
+---
+
+<script>
+  const toggleBtn1 = document.querySelector<HTMLButtonElement>('.note-sidebar-toggle1')
+  const toggleBtn2 = document.querySelector<HTMLButtonElement>('.note-sidebar-toggle2')
+  const sidebarEl = document.querySelector<HTMLDivElement>('.note-sidebar-wrapper')
+  toggleBtn1?.addEventListener('click', () => {
+    sidebarEl?.toggleAttribute('open')
+  })
+  toggleBtn2?.addEventListener('click', () => {
+    sidebarEl?.toggleAttribute('open')
+  })
+</script>
+
+<BaseLayout title={title} subtitle={subtitle} slug={slug}>
+  <div class="note-layout zm-mainContainer">
+    <div class="note-sidebar-wrapper">
+      <div class="note-sidebar">
+        <button class="note-sidebar-toggle note-sidebar-toggle2" aria-label="Toggle sidebar">
+          <i class="ph-duotone ph-sidebar-simple"></i>
+        </button>
+
+        <p class="note-sidebar-description">TILs, snippets—my digital code garden 🌱.</p>
+
+        <a href="/notes" class:list={[{ tag: true, active: pathname === '/notes' }]}><i class="ph-duotone ph-cards-three"></i> <span>All notes</span></a>
+        {tagList.map((tag) => (
+          <a href={`/notes/tags/${tag}`} class:list={[{
+            tag: true, active: pathname.includes(tag) }]}>
+              <NoteTagDot tag={tag} /> <span>{tag}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+    <div class="note-main zm-contentContainer">
+      <div class="flex items-center gap-3 mb-6">
+        <button class="note-sidebar-toggle note-sidebar-toggle1" aria-label="Toggle sidebar">
+          <i class="ph-duotone ph-sidebar-simple"></i>
+        </button>
+        <SearchForm placeholder="Search notes..." />
+      </div>
+      <slot />
+    </div>
+  </div>
+</BaseLayout>
+
+
+<style>
+  .note-layout {
+    --sidebar-width: 300px;
+    position: relative;
+
+    @media screen and (min-width: 768px) {
+      gap: var(--space-s);
+      display: grid;
+      grid-template-columns: var(--sidebar-width) 1fr;
+    }
+  }
+
+  .note-main {
+    margin: 0;
+    min-width: 0;
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: auto;
+    z-index: 10;
+    padding: 0 var(--space-s-m);
+    min-height: 100vh;
+  }
+
+  .note-sidebar-wrapper {
+    transition: transform 200ms ease-in-out;
+    opacity: 0;
+    transform: translateX(-100%);
+    position: relative;
+    z-index: 11;
+
+    &[open] {
+      transform: translateX(0);
+      opacity: 1;
+    }
+
+    a {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3xs);
+      font-size: var(--step--2);
+      text-decoration: none;
+      color: var(--colour-text);
+      padding: var(--space-3xs) var(--space-xs);
+      border-radius: var(--space-2xs);
+      transition: background-color 200ms ease-in-out;
+
+      &.active, &:hover {
+        background-color: var(--colour-reallyFuckingDark);
+      }
+    }
+  }
+
+
+  @media screen and (min-width: 768px) {
+    .note-sidebar-wrapper {
+      margin-left: 0;
+
+      &, &[open] {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    .note-sidebar-toggle {
+      display: none;
+    }
+  }
+
+  .note-sidebar {
+    position: absolute;
+    min-height: 100vh;
+    background-color: var(--bg-block);
+    padding: var(--space-s);
+    border-radius: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
+    z-index: 1000;
+
+
+    @media screen and (min-width: 768px) {
+      position: static;
+    }
+  }
+
+  .note-sidebar-toggle {
+    font-size: 1.5em;
+  }
+</style>

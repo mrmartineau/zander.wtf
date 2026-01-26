@@ -5,6 +5,7 @@
 @import "global/global.css";
 @import "global/font-face.css";
 @import "global/typography.css";
+@import "global/table.css";
 
 @import "tailwindcss/components";
 

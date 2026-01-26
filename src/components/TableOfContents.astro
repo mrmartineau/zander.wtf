@@ -1,0 +1,88 @@
+---
+import TableOfContentsItem from './TableOfContentsItem.astro';
+
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface TocNode {
+  heading: Heading;
+  children: TocNode[];
+}
+
+interface Props {
+  headings: Heading[];
+  minDepth?: number;
+  maxDepth?: number;
+}
+
+const { headings, minDepth = 2, maxDepth = 6 } = Astro.props;
+
+// Filter headings by depth range
+const filteredHeadings = headings.filter(
+  (h) => h.depth >= minDepth && h.depth <= maxDepth,
+);
+
+// Build nested structure from flat headings array
+function buildToc(headings: Heading[]): TocNode[] {
+  const result: TocNode[] = [];
+  const stack: TocNode[] = [];
+
+  for (const heading of headings) {
+    const node: TocNode = { heading, children: [] };
+
+    // Pop items from stack that are same or deeper level
+    while (
+      stack.length > 0 &&
+      stack[stack.length - 1].heading.depth >= heading.depth
+    ) {
+      stack.pop();
+    }
+
+    if (stack.length === 0) {
+      result.push(node);
+    } else {
+      stack[stack.length - 1].children.push(node);
+    }
+
+    stack.push(node);
+  }
+
+  return result;
+}
+
+const toc = buildToc(filteredHeadings);
+---
+
+{toc.length > 0 && (
+  <nav class="table-of-contents" aria-label="Table of contents">
+    <details>
+      <summary>On this page</summary>
+      <TableOfContentsItem items={toc} />
+    </details>
+  </nav>
+)}
+
+<style>
+  .table-of-contents {
+    font-size: var(--step--1);
+  }
+
+  details {
+    padding: var(--space-s);
+
+    &[open] {
+      border-radius: 1rem;
+      background-color: var(--bg-block);
+    }
+  }
+
+  summary {
+    font-size: var(--step--2);
+    text-transform: uppercase;
+    cursor: pointer;
+    font-weight: 600;
+  }
+</style>

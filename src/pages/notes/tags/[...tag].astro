@@ -1,0 +1,52 @@
+---
+import { getCollection } from 'astro:content';
+import NoteList from '~/components/NoteList.astro';
+import NoteTagDot from '~/components/NoteTagDot.astro';
+import PageTitle from '~/components/PageTitle.astro';
+import NoteLayout from '~/layouts/NoteLayout.astro';
+
+const tag = Astro.params.tag;
+const notes = (await getCollection('codenotes'))
+  .sort((a, b) => {
+    // Sort by date descending, notes without dates go to the end
+    const dateA = a.data.date?.valueOf() ?? 0;
+    const dateB = b.data.date?.valueOf() ?? 0;
+    return dateB - dateA;
+  })
+  .filter((note) => note.data.tags?.includes(tag));
+
+export async function getStaticPaths() {
+  const notes = await getCollection('codenotes');
+  const allTags = new Set<string>();
+
+  for (const note of notes) {
+    for (const tag of note.data.tags ?? []) {
+      allTags.add(tag);
+    }
+  }
+
+  return [...allTags].map((tag) => ({
+    params: { tag },
+  }));
+}
+
+const slug = 'notes';
+const title = `Notes tagged with ${tag}`;
+const subtitle = `All notes tagged with ${tag}`;
+---
+
+<NoteLayout title={title} subtitle={subtitle} slug={slug}>
+  <header class="note-header">
+    <PageTitle transition:persist>
+      <NoteTagDot tag={tag} /> {tag}
+    </PageTitle>
+  </header>
+
+  <NoteList notes={notes} />
+</NoteLayout>
+
+<style>
+  .note-header {
+    margin-block-end: var(--space-l);
+  }
+</style>

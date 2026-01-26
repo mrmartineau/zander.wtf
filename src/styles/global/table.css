@@ -1,0 +1,22 @@
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-block: var(--space-m);
+  table-layout: auto;
+
+  th,
+  td {
+    padding: var(--space-xs);
+    border-bottom: 1px solid var(--border);
+  }
+}
+
+th {
+  text-align: left;
+  font-weight: 600;
+}
+
+thead {
+  background-color: var(--bg-main);
+  border-bottom: 1px solid var(--border);
+}

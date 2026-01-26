@@ -20,4 +20,15 @@ const worklog = defineCollection({
   }),
 });
 
-export const collections = { blog, worklog };
+const codenotes = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    tags: z.array(z.string()).optional(),
+    date: z.date().optional(),
+    emoji: z.string().optional(),
+    link: z.string().optional(),
+  }),
+});
+
+export const collections = { blog, worklog, codenotes };

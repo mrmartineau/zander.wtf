@@ -1,0 +1,24 @@
+---
+import slugify from '@alexcarpenter/slugify';
+import { getColourFromString } from '~/utils/getColourFromString';
+
+type Props = {
+  tag: string;
+};
+
+const { tag } = Astro.props;
+
+const tagName = slugify(tag);
+const tagColor = getColourFromString(tagName);
+---
+
+<span class="tagDot" style={`background-color: ${tagColor};`}></span>
+
+<style>
+  .tagDot {
+    @apply rounded-full;
+    display: inline-block;
+    width: 0.7em;
+    height: 0.7em;
+  }
+</style>

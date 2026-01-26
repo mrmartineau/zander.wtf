@@ -1,0 +1,97 @@
+---
+interface Props {
+  query?: string;
+  placeholder?: string;
+  autofocus?: boolean;
+}
+
+const {
+  query = '',
+  placeholder = 'Search notes...',
+  autofocus = false,
+} = Astro.props;
+---
+
+
+<script>
+  function isFormField(element) {
+    if (!(element instanceof HTMLElement)) {
+      return false;
+    }
+
+    const name = element.nodeName.toLowerCase();
+    const type = (element.getAttribute('type') || '').toLowerCase();
+    return (
+      name === 'select' ||
+      name === 'textarea' ||
+      (name === 'input' && type !== 'submit' && type !== 'reset') ||
+      element.isContentEditable
+    );
+  }
+
+  const inputEl = document.querySelector<HTMLInputElement>('.search-input');
+  document.addEventListener('keydown', (event) => {
+    if (!(event instanceof KeyboardEvent)) {
+      return;
+    }
+    if (event.target instanceof Node && isFormField(event.target)) {
+      return;
+    }
+    if (event.isComposing || event.key === '/') {
+      event.preventDefault();
+      inputEl?.focus();
+    }
+  });
+</script>
+
+<form action="/notes/search" method="GET" class="search-form">
+  <!-- <i class="ph-duotone ph-magnifying-glass search-icon"></i> -->
+  <input
+    type="search"
+    name="q"
+    value={query}
+    placeholder={placeholder}
+    class="search-input"
+    autofocus={autofocus}
+    autocomplete="off"
+  />
+  <button type="submit" class="visually-hidden">Search</button>
+</form>
+
+<style>
+  .search-form {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    width: 100%;
+  }
+
+  .search-input {
+    appearance: none;
+    border: 0;
+    display: block;
+    border-radius: 0;
+    line-height: 1.4rem;
+    padding: var(--space-2xs) var(--space-xs);
+    width: 100%;
+    background: transparent;
+    font-size: var(--step-1);
+    border-bottom: 2px solid var(--colour-muted);
+
+    &:focus {
+      border-bottom: 2px solid var(--colour-accent);
+      outline: none;
+    }
+
+    &::placeholder {
+      color: var(--colour-text);
+      opacity: 0.5;
+    }
+  }
+
+  .search-icon {
+    opacity: 0.5;
+    pointer-events: none;
+    font-size: 2rem;
+  }
+</style>

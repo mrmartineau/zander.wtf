@@ -1,8 +1,14 @@
 import { type CollectionEntry, getCollection } from 'astro:content';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { ImageResponse } from '@vercel/og';
+import { initWasm, Resvg } from '@resvg/resvg-wasm';
+import satori from 'satori';
 import { SITE_METADATA } from 'src/consts';
+
+export const prerender = true;
+
+// Initialize WASM once
+let wasmInitialized = false;
 
 interface Props {
   params: { slug: string };
@@ -11,6 +17,14 @@ interface Props {
 
 export const GET = async ({ props }: Props) => {
   const { post } = props;
+
+  // Initialize WASM if not already done
+  if (!wasmInitialized) {
+    const wasmPath = resolve('./node_modules/@resvg/resvg-wasm/index_bg.wasm');
+    const wasmBuffer = readFileSync(wasmPath);
+    await initWasm(wasmBuffer);
+    wasmInitialized = true;
+  }
 
   const MonaSansBoldItalic = readFileSync(
     resolve('./public/fonts/MonaSansExpanded-ExtraBoldItalic.ttf'),
@@ -21,7 +35,8 @@ export const GET = async ({ props }: Props) => {
 
   const title = post.data.title ?? '';
   const subtitle = post.data.subtitle ?? '';
-  const date = post.data.date ?? '';
+  const rawDate = post.data.date;
+  const date = rawDate instanceof Date ? rawDate : null;
 
   // Astro doesn't support .tsx endpoints so using React-element objects
   const html = {
@@ -70,13 +85,11 @@ export const GET = async ({ props }: Props) => {
                     lineHeight: '1.4',
                     fontWeight: 300,
                   },
-                  children:
-                    date &&
-                    date.toLocaleDateString('en-gb', {
-                      year: 'numeric',
-                      month: 'short',
-                      day: 'numeric',
-                    }),
+                  children: date?.toLocaleDateString('en-gb', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                  }),
                 },
               },
             ],
@@ -156,23 +169,39 @@ export const GET = async ({ props }: Props) => {
     },
   };
 
-  return new ImageResponse(html, {
+  const svg = await satori(html, {
     width: 1200,
     height: 600,
     fonts: [
       {
         name: 'Mona Sans',
-        data: MonaSansBoldItalic.buffer,
+        data: MonaSansBoldItalic,
         style: 'italic',
         weight: 700,
       },
       {
         name: 'Mona Sans',
-        data: MonaSansLight.buffer,
+        data: MonaSansLight,
         style: 'normal',
         weight: 300,
       },
     ],
+  });
+
+  const resvg = new Resvg(svg, {
+    fitTo: {
+      mode: 'width',
+      value: 1200,
+    },
+  });
+
+  const pngData = resvg.render();
+  const pngBuffer = pngData.asPng();
+
+  return new Response(pngBuffer, {
+    headers: {
+      'Content-Type': 'image/png',
+    },
   });
 };
 

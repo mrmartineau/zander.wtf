@@ -43,6 +43,15 @@ export const SITE_METADATA: Record<
     title: 'Now',
     subtitle: `What I'm up to now`,
   },
+  notes: {
+    title: 'Code Notes',
+    ogTitle: 'Code Notes',
+    subtitle: 'TILs, snippets—my digital code garden',
+  },
+  search: {
+    title: 'Search Notes',
+    subtitle: 'Search through all code notes',
+  },
 };
 
 export const SITE_NAV_ITEMS = [
@@ -57,6 +66,10 @@ export const SITE_NAV_ITEMS = [
   {
     text: 'About',
     url: '/about',
+  },
+  {
+    text: 'Notes',
+    url: '/notes',
   },
 ];
 
@@ -82,19 +95,12 @@ export const SITE_FOOTER_ITEMS = [
     url: '/uses',
   },
   {
-    text: 'Code Notes',
-    url: 'https://notes.zander.wtf',
-    external: true,
+    text: 'Notes',
+    url: '/notes',
   },
   {
     text: 'GitHub',
     url: 'https://github.com/mrmartineau',
-    external: true,
-  },
-  {
-    text: 'Mastodon',
-    url: 'https://toot.cafe/@zander',
-    rel: 'me',
     external: true,
   },
   {
@@ -104,15 +110,16 @@ export const SITE_FOOTER_ITEMS = [
     external: true,
   },
   {
-    text: 'CV/Resumé',
-    url: 'https://read.cv/mrmartineau',
+    text: 'Mastodon',
+    url: 'https://toot.cafe/@zander',
+    rel: 'me',
     external: true,
   },
 ];
 
 export const ABOUT_ME = {
   bio: `I am a front-end web developer with over 15 years experience helping companies bring products to market, rewriting apps, creating POCs and more.`,
-  cv: 'https://read.cv/mrmartineau',
+  // cv: 'https://read.cv/mrmartineau',
   email: 'mailto:hi+enquiry@zander.wtf',
 };
 
@@ -175,7 +182,7 @@ export const JOBS: Jobs = {
       name: 'Heights',
       description: '',
       type: 'contract',
-      url: 'https://www.yourheights.com',
+      url: 'https://www.heights.com',
       projects: [
         {
           name: '',
@@ -321,12 +328,12 @@ export const SIDE_PROJECTS: Project[] = [
     ],
   },
   {
-    name: 'Code Notes v2',
-    description: 'TILs, snippets—my digital code garden 🌱',
-    link: 'https://notes.zander.wtf',
-    repo: 'https://github.com/mrmartineau/notes.zander.wtf',
+    name: 'Code Notes',
+    description: 'TILs, snippets—my digital code garden',
+    link: '/notes',
+    repo: 'https://github.com/mrmartineau/zander.wtf',
     status: 'active',
-    tech: 'Eleventy, Nunjucks, TypeScript, PostCSS, Algolia search',
+    tech: 'Astro, TypeScript, PostCSS, Algolia search',
   },
   {
     name: 'Rigel VS Code theme',
