@@ -19,7 +19,6 @@ type Props = CollectionEntry<'codenotes'>;
 const note = Astro.props;
 const { Content, headings } = await note.render();
 const { title, date, tags, emoji, link } = note.data;
-console.log(`🚀 ~ headings:`, headings);
 ---
 <NoteLayout title={title} slug="notes">
   <article>

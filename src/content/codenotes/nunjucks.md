@@ -12,7 +12,7 @@ date: 2023-06-22
 
 #### If
 
-```njk
+```liquid
 {% if variable %}
   It is true
 {% endif %}
@@ -20,7 +20,7 @@ date: 2023-06-22
 
 #### For
 
-```njk
+```liquid
 <ul>
 {% for item in items %}
   <li>{{ item.title }}</li>
@@ -32,7 +32,7 @@ date: 2023-06-22
 
 Another example that makes use of `loop.index` and `loop.length`:
 
-```njk
+```liquid
 {% for value in array %}
   <li>[{{ loop.index }} of {{ loop.length }}] {{ value }}
   <pre>{{ loop | inspect }}</pre>
@@ -51,7 +51,7 @@ There are two useful ways to debug data in Nunjucks templates.
 
 Prints the data to the page
 
-```njk
+```liquid
 {{ data | dump }}
 ```
 
@@ -59,19 +59,19 @@ Prints the data to the page
 
 Logs the data to your terminal
 
-```njk
+```liquid
 {{ data | log }}
 ```
 
 They can be used together:
 
-```njk
+```liquid
 {{ data | dump | log }}
 ```
 
 ### Active class on links
 
-```njk
+```liquid
 <a
   class="{{ 'active' if '/' === page.url }}"
   href="{{ '/' | url }}"

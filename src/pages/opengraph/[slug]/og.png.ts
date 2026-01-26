@@ -4,6 +4,8 @@ import { resolve } from 'node:path';
 import { ImageResponse } from '@vercel/og';
 import { SITE_METADATA } from 'src/consts';
 
+export const prerender = true;
+
 interface Props {
   params: { slug: string };
   props: { post: CollectionEntry<'blog'> };

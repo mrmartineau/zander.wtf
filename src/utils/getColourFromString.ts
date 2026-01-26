@@ -1,9 +1,8 @@
-import ColorHash from 'color-hash';
+import ColorHash from './color-hash';
 
-// @ts-expect-error - https://github.com/zenozeng/color-hash/issues/42
-const colorHash = new ColorHash.default({
-  lightness: 0.6,
-  saturation: 0.4,
+const colorHash = new ColorHash({
+  lightness: 0.5,
+  saturation: 0.5,
 });
 
 export const getColourFromString = (item: string): string => {

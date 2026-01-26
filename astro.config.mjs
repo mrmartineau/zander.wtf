@@ -32,6 +32,6 @@ export default defineConfig({
       __COMMIT_HASH__: JSON.stringify(commitHash),
     },
   },
-  output: 'hybrid',
-  adapter: cloudflare(),
+  output: 'static',
+  adapter: cloudflare({imageService: "compile"}),
 });
