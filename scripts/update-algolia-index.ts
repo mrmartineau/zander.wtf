@@ -205,7 +205,7 @@ async function main() {
     console.log(`\nSuccessfully indexed ${records.length} notes!`);
     console.log(
       'Object IDs:',
-      response.objectIDs.slice(0, 5).join(', '),
+      response.objectIDs?.slice(0, 5).join(', ') ?? 'No object IDs',
       '...',
     );
   } catch (error) {
