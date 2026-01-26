@@ -19,6 +19,6 @@ eleventyConfig.addFilter('readableDate', (dateObj) => {
 
 Usage:
 
-```njk
+```liquid
 {{ page.date | readableDate }}
 ```
