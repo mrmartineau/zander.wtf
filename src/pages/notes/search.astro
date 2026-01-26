@@ -10,13 +10,15 @@ let searchResults: AlgoliaSearchResult[] = [];
 let searchError = '';
 
 if (query) {
+  console.log(`🚀 ~ searching for query: ${query}`);
   try {
     searchResults = await searchNotes(query);
   } catch (error) {
     console.error('Search error:', error);
-    searchError = 'An error occurred while searching. Please try again.';
+    searchError = `An error occurred while searching for "${query}". Please try again.`;
   }
 }
+console.log(`🚀 ~ searchResults:`, searchResults);
 
 const formattedResults = searchResults.map((result) => ({
   slug: result.objectID.replace('/notes/', ''),
