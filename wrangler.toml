@@ -1,6 +1,7 @@
 name = "zander-wtf"
-compatibility_flags = ["nodejs_compat"]
-compatibility_date = "2023-09-22"
+compatibility_flags = ["nodejs_compat", "global_fetch_strictly_public"]
+compatibility_date = "2026-01-20"
+observability.enabled = true
 
 # Variable bindings. These are arbitrary, plaintext strings (similar to environment variables)
 # Note: Use secrets to store sensitive data.
