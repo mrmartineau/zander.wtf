@@ -6,7 +6,7 @@ tags:
 date: 2026-01-27
 ---
 
-Using worktrees with [Graphite](https://grasphite.dev) is a bit painful, so I made some shell scripts that integrate with [Worktrunk](https://worktrunk.dev/) to make the process a lot easier
+Using worktrees with [Graphite](https://graphite.dev) is a bit painful, so I made some shell scripts that integrate with [Worktrunk](https://worktrunk.dev/) to make the process a lot easier
 
 ## Fishshell script
 
