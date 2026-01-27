@@ -62,7 +62,7 @@ function parseFrontmatter(content: string): {
     } else if (line.includes(':')) {
       // Save previous array if any
       if (inArray && currentKey) {
-        (frontmatter as Record<string, unknown>)[currentKey] =
+        (frontmatter)[currentKey] =
           arrayValues.slice();
         arrayValues.length = 0;
       }
@@ -78,14 +78,14 @@ function parseFrontmatter(content: string): {
         inArray = true;
       } else {
         inArray = false;
-        (frontmatter as Record<string, unknown>)[key] = value;
+        (frontmatter)[key] = value;
       }
     }
   }
 
   // Handle last array
   if (inArray && currentKey && arrayValues.length > 0) {
-    (frontmatter as Record<string, unknown>)[currentKey] = arrayValues;
+    (frontmatter)[currentKey] = arrayValues;
   }
 
   return { frontmatter, body: body.trim() };
@@ -199,12 +199,13 @@ async function main() {
     // Clear the index and replace with new records
     const response = await client.replaceAllObjects({
       indexName,
-      objects: records,
+      objects: records as unknown as Record<string, unknown>[],
     });
 
     console.log(`\nSuccessfully indexed ${records.length} notes!`);
     console.log(
       'Object IDs:',
+      // @ts-expect-error
       response.objectIDs?.slice(0, 5).join(', ') ?? 'No object IDs',
       '...',
     );

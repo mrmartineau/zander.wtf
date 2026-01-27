@@ -63,10 +63,10 @@ export const transformMusicToNow = async (
     // @ts-expect-error
     const name = item?.name ?? '';
     const theArtist = await sdk.search(name, [type], 'GB', 1);
-    // @ts-expect-error
     const image =
       theArtist.artists?.items[0].images.length > 0
         ? theArtist.artists?.items[0].images[0].url
+        // @ts-expect-error
         : item?.image[item?.image?.length - 1]['#text'];
 
     if (image) {

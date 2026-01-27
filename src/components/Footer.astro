@@ -14,11 +14,6 @@ const today = new Date();
         SITE_FOOTER_ITEMS.map((item) => {
           return (
             <a href={item.url} rel={item.rel}>
-              {item.icon ? (
-                <>
-                  <i class={`ph-duotone ${item.icon}`} />{' '}
-                </>
-              ) : null}
               {item.text}
               {item.external ? <i class="ph-duotone ph-arrow-up-right" /> : null}
             </a>

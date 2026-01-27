@@ -198,7 +198,7 @@ export const GET = async ({ props }: Props) => {
   const pngData = resvg.render();
   const pngBuffer = pngData.asPng();
 
-  return new Response(pngBuffer, {
+  return new Response(pngBuffer.buffer as ArrayBuffer, {
     headers: {
       'Content-Type': 'image/png',
     },
