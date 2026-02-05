@@ -9,10 +9,12 @@ const query = Astro.url.searchParams.get('q') || '';
 let searchResults: AlgoliaSearchResult[] = [];
 let searchError = '';
 
+const runtimeEnv = Astro.locals?.runtime?.env;
+
 if (query) {
   console.log(`🚀 ~ searching for query: ${query}`);
   try {
-    searchResults = await searchNotes(query);
+    searchResults = await searchNotes(query, runtimeEnv);
   } catch (error) {
     console.error('Search error:', error);
     searchError = `An error occurred while searching for "${query}". Please try again.`;

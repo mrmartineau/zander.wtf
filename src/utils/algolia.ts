@@ -9,16 +9,23 @@ export type AlgoliaSearchResult = {
   emoji?: string;
 };
 
+type AlgoliaEnv = {
+  ALGOLIA_APP: string;
+  ALGOLIA_SEARCH_KEY: string;
+  ALGOLIA_INDEX: string;
+};
+
 export async function searchNotes(
   query: string,
+  env?: AlgoliaEnv,
 ): Promise<AlgoliaSearchResult[]> {
   if (!query || !query.trim()) {
     return [];
   }
 
-  const appId = import.meta.env.ALGOLIA_APP;
-  const searchKey = import.meta.env.ALGOLIA_SEARCH_KEY;
-  const indexName = import.meta.env.ALGOLIA_INDEX;
+  const appId = env?.ALGOLIA_APP || import.meta.env.ALGOLIA_APP;
+  const searchKey = env?.ALGOLIA_SEARCH_KEY || import.meta.env.ALGOLIA_SEARCH_KEY;
+  const indexName = env?.ALGOLIA_INDEX || import.meta.env.ALGOLIA_INDEX;
 
   if (!appId || !searchKey || !indexName) {
     console.error('Algolia environment variables not configured');
