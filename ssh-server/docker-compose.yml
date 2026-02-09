@@ -1,0 +1,22 @@
+services:
+  ssh-server:
+    build: .
+    container_name: ssh-zander-wtf
+    restart: unless-stopped
+    ports:
+      # Change the left side if port 22 is already in use on the host.
+      # For Synology NAS, the built-in SSH usually runs on port 22,
+      # so you may want to use a different host port (e.g. 2222:22)
+      # and set up port forwarding on your router from external port 22
+      # to internal port 2222 on the NAS IP.
+      - "2222:22"
+    volumes:
+      # Persist host keys so they don't change between container restarts.
+      # This prevents SSH "host key changed" warnings for returning visitors.
+      - ssh-keys:/app/.ssh
+    environment:
+      - SSH_HOST=0.0.0.0
+      - SSH_PORT=22
+
+volumes:
+  ssh-keys:
