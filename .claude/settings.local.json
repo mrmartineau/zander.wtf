@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(head:*)",
+      "Bash(pnpm wrangler secret put:*)",
+      "Bash(npx astro check:*)"
+    ]
+  }
+}

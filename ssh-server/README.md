@@ -51,6 +51,56 @@ Edit `ui/styles.go` to change colours, fonts, and layout.
 
 - [Go 1.22+](https://go.dev/dl/)
 
+#### Installing Go on Synology NAS
+
+If you want to build/run locally on your Synology NAS (instead of using Docker), you can install Go manually:
+
+1. SSH into your NAS:
+
+   ```bash
+   ssh your-nas-user@your-nas-ip
+   ```
+
+2. Check your CPU architecture and download the matching Go binary:
+
+   ```bash
+   uname -m
+   ```
+
+   | `uname -m` output | Go architecture | Download command |
+   |-------------------|-----------------|------------------|
+   | `x86_64`          | `amd64`         | `curl -LO https://go.dev/dl/go1.26.0.linux-amd64.tar.gz` |
+   | `aarch64`         | `arm64`         | `curl -LO https://go.dev/dl/go1.26.0.linux-arm64.tar.gz` |
+   | `armv7l`          | `armv6l`        | `curl -LO https://go.dev/dl/go1.26.0.linux-armv6l.tar.gz` |
+
+   > **Troubleshooting:** If you get `cannot execute binary file: Exec format error`, you downloaded the wrong architecture. Remove it and download the correct one:
+   > ```bash
+   > sudo rm -rf /usr/local/go
+   > # Then download the correct version from the table above
+   > ```
+
+4. Extract to `/usr/local`:
+
+   ```bash
+   sudo tar -C /usr/local -xzf go1.26.0.linux-*.tar.gz
+   ```
+
+5. Add Go to your PATH. Edit `~/.profile` (or `~/.bashrc`):
+
+   ```bash
+   echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.profile
+   source ~/.profile
+   ```
+
+6. Verify installation:
+
+   ```bash
+   go version
+   # Should output: go version go1.22.0 linux/amd64
+   ```
+
+> **Note:** This installation may not persist across DSM updates. For production, using Docker (as described below) is recommended.
+
 ### Run locally
 
 ```bash
@@ -104,6 +154,40 @@ scp -r ssh-server/ your-nas-user@your-nas-ip:/volume1/docker/ssh-zander-wtf/
 ```
 
 ### Step 3: Build and start the container
+
+#### Option A: Using Dockge (recommended)
+
+If you're running [Dockge](https://github.com/louislam/dockge) on your Synology:
+
+1. Open Dockge in your browser (e.g. `http://your-nas-ip:5001`)
+2. Click **+ Compose** to create a new stack
+3. Set the stack name to `ssh-zander-wtf`
+4. Set the compose path to where you copied the files (e.g. `/volume1/docker/ssh-zander-wtf`)
+5. Dockge will auto-detect the `docker-compose.yml` — or paste this:
+
+   ```yaml
+   services:
+     ssh-server:
+       build: .
+       container_name: ssh-zander-wtf
+       restart: unless-stopped
+       ports:
+         - "2222:22"
+       volumes:
+         - ssh-keys:/app/.ssh
+       environment:
+         - SSH_HOST=0.0.0.0
+         - SSH_PORT=22
+
+   volumes:
+     ssh-keys:
+   ```
+
+6. Click **Deploy**
+
+> **Note:** Dockge needs the source files (including `Dockerfile`, `go.mod`, `main.go`, etc.) in the compose path to build the image. Make sure you copied the entire `ssh-server/` directory, not just `docker-compose.yml`.
+
+#### Option B: Using command line
 
 SSH into your NAS and run:
 

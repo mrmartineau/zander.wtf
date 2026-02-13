@@ -1,6 +1,9 @@
 services:
   ssh-server:
-    build: .
+    build:
+      context: /volume1/docker/ssh-zander-wtf
+      dockerfile: Dockerfile
+      network: host
     container_name: ssh-zander-wtf
     restart: unless-stopped
     ports:
@@ -14,6 +17,7 @@ services:
       # Persist host keys so they don't change between container restarts.
       # This prevents SSH "host key changed" warnings for returning visitors.
       - ssh-keys:/app/.ssh
+      - /volume1/docker:/volume1/docker
     environment:
       - SSH_HOST=0.0.0.0
       - SSH_PORT=22
