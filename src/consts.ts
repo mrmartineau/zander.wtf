@@ -264,6 +264,13 @@ export type Project = {
 
 export const SIDE_PROJECTS: Project[] = [
   {
+    name: 'url-merge',
+    description: 'A zero-dependency URL path joiner. Like path.join() but for URLs.',
+    repo: 'https://github.com/mrmartineau/url-merge',
+    status: 'active',
+    tech: 'TypeScript',
+  },
+  {
     name: 'Otter',
     description: 'Self-hosted personal bookmarking app. Open source.',
     repo: 'https://github.com/mrmartineau/Otter',
@@ -300,14 +307,20 @@ export const SIDE_PROJECTS: Project[] = [
     status: 'ongoing',
     subitems: [
       {
+        name: 'Bird',
+        description: 'View your X/Twitter bookmarks and likes in Raycast using the bird CLI',
+        link: 'https://github.com/mrmartineau/raycast-extensions/tree/main/bird',
+        status: 'active',
+      },
+      {
         name: 'Search npm Packages',
-        description: 'Search and favouriting for npm packages',
+        description: 'Search and favouriting for npm packages. 18k+ users',
         link: 'https://www.raycast.com/mrmartineau/search-npm',
         status: 'active',
       },
       {
         name: 'GitHub Stars',
-        description: 'Display and filter your recent GitHub stars',
+        description: 'Display and filter your recent GitHub stars. 3.3k+ users',
         link: 'https://www.raycast.com/mrmartineau/search-github-stars',
         status: 'active',
       },
