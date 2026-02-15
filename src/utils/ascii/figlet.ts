@@ -12,30 +12,26 @@
 import figlet from 'figlet';
 
 // Pre-load bundleable font data so figlet never touches the filesystem
-// @ts-expect-error — importable-fonts have no type declarations
 import ansiShadow from 'figlet/importable-fonts/ANSI Shadow.js';
-// @ts-expect-error
-import standard from 'figlet/importable-fonts/Standard.js';
-// @ts-expect-error
-import small from 'figlet/importable-fonts/Small.js';
-// @ts-expect-error
-import doom from 'figlet/importable-fonts/Doom.js';
-// @ts-expect-error
 import calvinS from 'figlet/importable-fonts/Calvin S.js';
-// @ts-expect-error
+import doom from 'figlet/importable-fonts/Doom.js';
 import slant from 'figlet/importable-fonts/Slant.js';
-// @ts-expect-error
+import small from 'figlet/importable-fonts/Small.js';
 import smallSlant from 'figlet/importable-fonts/Small Slant.js';
+import standard from 'figlet/importable-fonts/Standard.js';
+
+/** Handle CJS/ESM interop: imports may be `{ default: string }` or plain `string` */
+const resolve = (mod: any): string => mod.default ?? mod;
 
 /** Map of pre-loaded font names → font data */
 const FONT_DATA: Record<string, string> = {
-  'ANSI Shadow': ansiShadow.default ?? ansiShadow,
-  Standard: standard.default ?? standard,
-  Small: small.default ?? small,
-  Doom: doom.default ?? doom,
-  'Calvin S': calvinS.default ?? calvinS,
-  Slant: slant.default ?? slant,
-  'Small Slant': smallSlant.default ?? smallSlant,
+  'ANSI Shadow': resolve(ansiShadow),
+  Standard: resolve(standard),
+  Small: resolve(small),
+  Doom: resolve(doom),
+  'Calvin S': resolve(calvinS),
+  Slant: resolve(slant),
+  'Small Slant': resolve(smallSlant),
 };
 
 // Register all pre-loaded fonts with figlet
@@ -103,10 +99,7 @@ export function paddedBanner(
 /**
  * Get the width (in characters) of the widest line in a banner.
  */
-export function bannerWidth(
-  text: string,
-  options: BannerOptions = {},
-): number {
+export function bannerWidth(text: string, options: BannerOptions = {}): number {
   const lines = banner(text, options);
   return Math.max(0, ...lines.map((l) => l.length));
 }
