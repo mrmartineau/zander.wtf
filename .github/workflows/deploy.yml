@@ -9,6 +9,9 @@ env:
   SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
   ZM_API: ${{ secrets.ZM_API }}
   SUPABASE_USER_API_KEY: ${{ secrets.SUPABASE_USER_API_KEY }}
+  ALGOLIA_APP: ${{ secrets.ALGOLIA_APP }}
+  ALGOLIA_ADMIN_KEY: ${{ secrets.ALGOLIA_ADMIN_KEY }}
+  ALGOLIA_INDEX: ${{ secrets.ALGOLIA_INDEX }}
 
 on:
   schedule:
@@ -31,6 +34,8 @@ jobs:
           version: 9
       - name: Install dependencies
         run: pnpm install
+      - name: Update Algolia index
+        run: pnpm algolia:update
       - name: Build site
         run: pnpm build
       - name: Deploy to Cloudflare
