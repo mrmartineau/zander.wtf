@@ -1,7 +1,7 @@
 ---
 slug: ai-side-projects
 title: Things I've been building recently while evaluating AI agents
-subtitle: Nine side projects — npm packages, Raycast extensions, iOS apps and more — and what using Claude Code, Cursor and Amp on real work taught me
+subtitle: Ten side projects — npm packages, Raycast extensions, iOS apps and more — and what using Claude Code, Cursor and Amp on real work taught me
 date: 2026-02-23
 tags:
   - side-project
@@ -20,9 +20,9 @@ Over the past few months I've been using [Claude Code](https://claude.ai/code), 
 
 **Repo:** [github.com/mrmartineau/url-merge](https://github.com/mrmartineau/url-merge) • `npm i url-merge`
 
-One of my favourite npm packages is [proper-url-join](https://github.com/nicolo-ribaudo/proper-url-join) - it works like Node's `path.join()` but for URLs. It's simple, predictable, and I've relied on it in a bunch of projects. The problem is that it depends on [query-string](https://github.com/sindresorhus/query-string), which is a solid package but a dependency you don't need anymore. The native [`URLSearchParams`](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams) API produces a compatible output and is available everywhere.
+One of my favourite npm packages is [proper-url-join](https://github.com/nicolo-ribaudo/proper-url-join) - it works like Node's `path.join()` but for URLs. It's simple, predictable, and I've relied on it in a bunch of projects. The problem is that it depends on [query-string](https://github.com/sindresorhus/query-string), which is a solid package but a dependency you don't need anymore. The native [`URLSearchParams`](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams) API handles query string manipulation perfectly well in modern environments.
 
-So I wrote `url-merge`: a drop-in replacement that does the same job with zero dependencies. Rather than pulling in `query-string`, it produces `URLSearchParams`-compatible output using its own implementation — smaller install, one fewer thing to keep updated. I'd rather not carry a transitive dependency when the result can be achieved without one.
+So I wrote `url-merge`: a drop-in replacement that does the same job with zero dependencies. It leans on `URLSearchParams` instead of pulling in `query-string`, which means a smaller install and one fewer thing to keep updated. I'd rather not carry a transitive dependency when the platform already provides exactly what I need.
 
 ## Lang Compare
 
@@ -81,6 +81,16 @@ Zen is built on Firefox under the hood, which isn't compatible with the existing
 Supabase added OAuth support late last year, and it was well overdue that the Otter Raycast extension made use of it. Previously you had to paste in your Supabase credentials manually — fine for a power-user tool, but not exactly slick. With OAuth, the extension can handle authentication properly through a standard browser flow.
 
 It required a small change to the Otter web app as well to support the OAuth callback, but nothing significant. The end result is a much cleaner setup experience.
+
+## Code notes migration
+
+**Live:** [zander.wtf/notes](https://zander.wtf/notes)
+
+My code notes — a collection of TILs and snippets I've accumulated over the years — used to live on a separate Eleventy site. It worked, but maintaining two separate sites with different toolchains and deployment pipelines was more friction than it needed to be. I migrated the whole thing into this Astro site, which means one repo, one build, one deployment. The maintenance burden is massively reduced.
+
+The one wrinkle was search. It's powered by a Cloudflare Worker and worked perfectly in local development, but getting it to behave correctly once hosted took some head-scratching. Production environments have a way of surfacing edge cases that local dev cheerfully ignores.
+
+---
 
 ## SSH site
 
