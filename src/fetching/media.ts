@@ -36,7 +36,7 @@ type MediaByStatus = Record<Enums['media_status'], Media[]>;
 type MediaResponse = Record<Enums['media_type'], MediaByStatus>;
 
 export const fetchMedia = async (): Promise<MediaResponse> => {
-  const path = urlJoin('https://otter3.zander.wtf/api/media', {
+  const path = urlJoin('https://otter.zander.wtf/api/media', {
     query: {
       user: import.meta.env.SUPABASE_USER_ID || '',
     },

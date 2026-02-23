@@ -1,4 +1,3 @@
-import axios from 'axios';
 import urlJoin from 'proper-url-join';
 
 export interface Bookmark {
@@ -45,10 +44,14 @@ export const fetchLinks = async (limit = 150): Promise<Bookmark[]> => {
       user: import.meta.env.SUPABASE_USER_ID || '',
     },
   });
-  const linksData = await axios.get(linksPath, {
+  const response = await fetch(linksPath, {
     headers: {
-      Authorization: `Bearer ${import.meta.env.OTTER_API_KEY}`,
+      Authorization: `Bearer ${import.meta.env.SUPABASE_USER_API_KEY}`
     },
   });
-  return linksData.data.data;
+  if (!response.ok) {
+    throw new Error(`Failed to fetch links: ${response.status}`);
+  }
+  const linksData = await response.json<{ data: Bookmark[] }>();
+  return linksData.data;
 };

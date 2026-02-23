@@ -8,3 +8,7 @@
 # Get media with per-status limit
 GET {{otter_base_url}}/media?limit=3
 Authorization: Bearer {{token}}
+
+###
+GET https://otter.zander.wtf/api/bookmarks?limit=3&public=true
+Authorization: Bearer {{token}}
