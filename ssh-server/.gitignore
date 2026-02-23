@@ -1,0 +1,5 @@
+# Binary
+ssh-server
+
+# SSH host keys (generated at runtime)
+.ssh/
