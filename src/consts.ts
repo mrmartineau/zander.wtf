@@ -264,6 +264,14 @@ export type Project = {
 
 export const SIDE_PROJECTS: Project[] = [
   {
+    name: 'Lang Compare',
+    description: 'Compare language features across a range of topics in a structured, comparable format.',
+    repo: 'https://github.com/mrmartineau/lang-compare',
+    link: 'https://lang-compare.zander.wtf',
+    status: 'active',
+    tech: 'Astro, TypeScript',
+  },
+  {
     name: 'url-merge',
     description: 'A zero-dependency URL path joiner. Like path.join() but for URLs.',
     repo: 'https://github.com/mrmartineau/url-merge',
@@ -279,25 +287,11 @@ export const SIDE_PROJECTS: Project[] = [
     tech: 'React, Next.js, TypeScript, PostgreSQL and authentication (powered by Supabase), Tailwind',
   },
   {
-    name: 'cloudflare-worker-scraper',
-    description: `Page Metadata Scraper with Cloudflare workers. It uses a Cloudflare's HTMLRewriter to scrape the page for metadata and returns it as JSON.`,
-    link: 'https://github.com/mrmartineau/cloudflare-worker-scraper',
-    status: 'active',
-    tech: 'TypeScript, Cloudflare workers',
-  },
-  {
     name: 'zander.wtf',
     description: 'This very website. Open source.',
     link: 'https://github.com/mrmartineau/zander.wtf',
     status: 'active',
     tech: 'Astro, TypeScript, PostCSS, Tailwind',
-  },
-  {
-    name: 'Journal',
-    description: 'Personal journalling app. Open source.',
-    link: 'https://github.com/mrmartineau/journal',
-    status: 'active',
-    tech: 'SvelteKit, TypeScript, A.I. powered text improvements, PostgreSQL and authentication (powered by Supabase)',
   },
   {
     name: 'Raycast extensions',
@@ -341,11 +335,25 @@ export const SIDE_PROJECTS: Project[] = [
     ],
   },
   {
+    name: 'Journal',
+    description: 'Personal journalling app. Open source.',
+    link: 'https://github.com/mrmartineau/journal',
+    status: 'inactive',
+    tech: 'SvelteKit, TypeScript, A.I. powered text improvements, PostgreSQL and authentication (powered by Supabase)',
+  },
+  {
+    name: 'cloudflare-worker-scraper',
+    description: `Page Metadata Scraper with Cloudflare workers. It uses a Cloudflare's HTMLRewriter to scrape the page for metadata and returns it as JSON.`,
+    link: 'https://github.com/mrmartineau/cloudflare-worker-scraper',
+    status: 'inactive',
+    tech: 'TypeScript, Cloudflare workers',
+  },
+  {
     name: 'Code Notes',
-    description: 'TILs, snippets—my digital code garden',
+    description: 'TILs, snippets—my digital code garden. This site has been archived and has been incorporated into the "notes" section of this site.',
     link: '/notes',
     repo: 'https://github.com/mrmartineau/zander.wtf',
-    status: 'active',
+    status: 'inactive',
     tech: 'Astro, TypeScript, PostCSS, Algolia search',
   },
   {
