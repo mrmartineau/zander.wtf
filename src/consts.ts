@@ -264,6 +264,27 @@ export type Project = {
 
 export const SIDE_PROJECTS: Project[] = [
   {
+    name: '@mrmartineau/kit',
+    description: 'A personal collection of sounds, utilities, components, and hooks for use across projects',
+    repo: 'https://github.com/mrmartineau/kit',
+    status: 'active',
+    tech: 'TypeScript, Biome, OxLint, OxFmt, ESLint, Prettier',
+  },
+  {
+    name: '@mrmartineau/strifx',
+    description: 'Like clsx for strings — conditionally compose any string, not just classNames.',
+    repo: 'https://github.com/mrmartineau/strifx',
+    status: 'active',
+    tech: 'TypeScript',
+  },
+  {
+    name: 'Surround for Zed',
+    description: 'A Zed extension that lets you surround selected text with code snippets — inspired by vscode-surround.',
+    repo: 'https://github.com/mrmartineau/zed-surround',
+    status: 'active',
+    tech: 'Rust, TypeScript, LSP server',
+  },
+  {
     name: 'Lang Compare',
     description: 'Compare language features across a range of topics in a structured, comparable format.',
     repo: 'https://github.com/mrmartineau/lang-compare',
