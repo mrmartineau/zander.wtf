@@ -15,7 +15,7 @@ When working from my home office I like to use good quality products that make m
 
 ### Computer
 
-14" Apple M1 MacBook Pro 💻. I love this little thing and it's still going strong.
+14" Apple M1 Max MacBook Pro 💻. I love this little thing and it's still going strong.
 
 ### Monitor
 
@@ -41,6 +41,7 @@ The [Logitech MX Master 4](https://amzn.eu/d/goOteiW) is great, but if you have 
 
 I tend to switch my colour themes fairly often, but these are the most used:
 
+- [Kanagawa Wave](https://github.com/metapho-re/kanagawa-vscode-theme)
 - [Rosé Pine Moon](https://github.com/rose-pine/vscode#readme)
 - [Catppuccin Mocha](https://github.com/catppuccin/vscode)
 - [Rigel](https://marketplace.visualstudio.com/items?itemName=mrmartineau.rigel-vscode) which I made actually
@@ -372,11 +373,13 @@ This app is a recent addition and is an indispensible tool for my workflow.
 
 I moved to Obsidian a while back and haven't looked back.
 
-#### [Ghostty](https://ghostty.org/)
+#### Termincal
 
-With [Fish Shell](https://fishshell.com/) and the excellent [TIDE](https://github.com/IlanCosman/tide) prompt. I use [iTerm2](https://www.iterm2.com/) when I need to search for something. Hopefully Ghostty with add that functionality soon.
+I switched from [iTerm2](https://www.iterm2.com/) to [Ghostty](https://ghostty.org/) a while back but I now use [cmux](https://www.cmux.dev/) (which is based on Ghostty).
 
-I also use a few other CLI apps to make the experience better, in particular, [ni](https://github.com/antfu/ni) by [Anthony Fu](https://antfu.me). It is great for installing npm packages and running npm scripts. I bounce from project to project a lot and they often use different package managers. This tool makes it easy to install packages and run scripts without having to remember which package manager to use.
+Instead of bash/zsh, I use [Fish Shell](https://fishshell.com/) and the excellent [TIDE](https://github.com/IlanCosman/tide) prompt.
+
+I also use a few other CLI apps to make the experience better, in particular, [ni](https://github.com/antfu/ni) by [Anthony Fu](https://antfu.me) and [Worktrunk](https://worktrunk.dev/) for working with git worktrees. "ni" is great for installing npm packages and running npm scripts. I bounce from project to project a lot and they often use different package managers. This tool makes it easy to install packages and run scripts without having to remember which package manager to use.
 
 #### [Tower](https://www.git-tower.com/mac)
 
