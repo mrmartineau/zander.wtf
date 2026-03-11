@@ -7,7 +7,7 @@ export const SITE_METADATA: Record<
 > = {
   home: {
     title: `Hi! I'm Zander, I make websites`,
-    subtitle: `Zander Martineau's personal site. I'm a contractor with 15+ years of experience helping companies get products to market, rewriting apps, creating POCs and more. I specialize in front-end but also work full-stack.`,
+    subtitle: `Zander Martineau's personal site. I have over 15 years experience helping companies get products to market, rewriting apps, creating POCs and more. I specialise in front-end but also work full-stack. I'm currently a Staff Software Engineer at Dare Global, a energy trading firm.`,
   },
   blog: {
     title: 'Blog',
