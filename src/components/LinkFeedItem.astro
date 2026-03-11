@@ -85,6 +85,21 @@ const imagePath = fullPath(url, image);
     line-height: 1.2;
   }
 
+  .zm-links-item-link {
+    --colour: var(--colour-text-bright);
+    --colour-decoration: var(--colour-link-decoration);
+    color: var(--colour);
+    text-decoration-color: var(--colour-decoration);
+    text-decoration-thickness: 0.2ex;
+    text-underline-offset: 0.3ex;
+    text-decoration-line: underline;
+
+    &:hover {
+      --colour-decoration: var(--colour-accent);
+      --colour: var(--colour-text-bright);
+    }
+  }
+
   .zm-links-item-description {
     margin-block-start: var(--space-2xs);
     font-size: var(--step--1);
