@@ -41,7 +41,7 @@ const theTitle = slug === 'home' ? title : `${title} | Zander Martineau`;
 <meta name="og:type" content="website" />
 <meta name="og:url" content={Astro.url} />
 <meta
-  name="og:image"
+  property="og:image"
   content={slug
     ? new URL(`/opengraph/${slug}/og.png`, Astro.url)
     : new URL(image, Astro.url)}
