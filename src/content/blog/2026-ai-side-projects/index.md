@@ -48,13 +48,15 @@ I turned the approach into a set of React components. The initial version handle
 
 ## Raycast Bird extension
 
-**Repo:** [github.com/mrmartineau/raycast-extensions/tree/main/bird](https://github.com/mrmartineau/raycast-extensions/tree/main/bird)
+**Repo:** [github.com/mrmartineau/raycast-extensions/tree/main/bird](https://github.com/mrmartineau/raycast-extensions/tree/main/bird) • [Raycast store](https://www.raycast.com/mrmartineau/bird)
 
 I've been spending more time on Twitter recently - it's still the best place to keep up with what's happening in AI, for better or worse. I use bookmarks and likes heavily to save things I want to come back to, but actually accessing them quickly was always a bit of a faff.
 
 The fix was obvious: a Raycast extension. It's built on top of the [`bird` CLI](https://bird.fast) by [Peter Steinberger](https://x.com/steipete) - a command-line interface for Twitter/X that handles all the authentication and API calls. My Raycast extension wraps it in a searchable interface so I can get to my bookmarks and likes without leaving my keyboard. It's a small thing, but this is exactly what Raycast extensions are perfect for.
 
-I have submitted this to Raycast's extension store but as of writing, it hasn't been approved.
+~~I have submitted this to Raycast's extension store but as of writing, it hasn't been approved.~~
+
+You can install the extension in the [Raycast store](https://www.raycast.com/mrmartineau/bird) now.
 
 ## Otter native iOS share extension
 
