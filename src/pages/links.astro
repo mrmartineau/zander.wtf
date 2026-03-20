@@ -1,14 +1,14 @@
 ---
 import { SITE_METADATA } from 'src/consts';
 import { LinkFeed } from '~/components/solid/LinkFeed';
-import PageLayout from '~/layouts/PageLayout.astro';
+import ContentLayout from '~/layouts/ContentLayout.astro';
 import { fetchLinks } from '../fetching/links';
 
 const links = await fetchLinks();
 const slug = 'links';
 ---
 
-<PageLayout
+<ContentLayout
   title={SITE_METADATA[slug].title}
   subtitle={SITE_METADATA[slug].subtitle}
   slug={slug}
@@ -22,4 +22,4 @@ const slug = 'links';
   </div>
 
   <LinkFeed links={links} client:only="solid" />
-</PageLayout>
+</ContentLayout>

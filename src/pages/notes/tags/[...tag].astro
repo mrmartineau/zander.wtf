@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import { SITE_METADATA } from 'src/consts';
 import NoteList from '~/components/NoteList.astro';
 import NoteTagDot from '~/components/NoteTagDot.astro';
 import PageTitle from '~/components/PageTitle.astro';
@@ -31,8 +32,8 @@ export async function getStaticPaths() {
 }
 
 const slug = 'notes';
-const title = `Notes tagged with ${tag}`;
-const subtitle = `All notes tagged with ${tag}`;
+const title = SITE_METADATA[slug].title;
+const subtitle = `Notes tagged with "${tag}"`;
 ---
 
 <NoteLayout title={title} subtitle={subtitle} slug={slug}>

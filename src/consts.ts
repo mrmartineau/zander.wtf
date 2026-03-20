@@ -264,6 +264,20 @@ export type Project = {
 
 export const SIDE_PROJECTS: Project[] = [
   {
+    name: '@mrmartineau/xtractr',
+    description: `Reusable page content (as markdown) and metadata extractor, based on Obsidian's Defuddle extractor.`,
+    repo: 'https://github.com/mrmartineau/xtractr',
+    status: 'active',
+    tech: 'TypeScript',
+  },
+  {
+    name: 'npm package template',
+    description: `A small, reusable starter repo for building TypeScript npm packages with its own SKILL.md for AI-powered skill development.`,
+    repo: 'https://github.com/mrmartineau/npm-package',
+    status: 'active',
+    tech: 'TypeScript',
+  },
+  {
     name: '@mrmartineau/kit',
     description: 'A personal collection of sounds, utilities, components, and hooks for use across projects',
     repo: 'https://github.com/mrmartineau/kit',

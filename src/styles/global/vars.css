@@ -37,7 +37,7 @@
   --bg-code: var(--bg);
   --bg-code-highlight: #f1f1f1;
   --hr: #ddd;
-  --body-opacity: 0.75;
+  --body-opacity: 0.7;
   --flow-space: var(--space-m);
 
   /* Dark */
@@ -65,6 +65,6 @@
     Geist Mono,Recursive Mono Casual Static, Recursive Mono Casual,
     Recursive Mono, Comic Code, JetBrains Mono, SF Mono, Menlo, Monaco,
     Courier New, monospace;
-  --font-headings: var(--font-mona);
+  --font-headings: Hubot Sans, var(--font-mona);
   --font-body: var(--font-mona);
 }

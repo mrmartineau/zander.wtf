@@ -1,5 +1,6 @@
 ---
 import { type CollectionEntry, getCollection } from 'astro:content';
+import { SITE_METADATA } from 'src/consts';
 import FormattedDate from '~/components/FormattedDate.astro';
 import NoteTagLink from '~/components/NoteTagLink.astro';
 import PageTitle from '~/components/PageTitle.astro';
@@ -19,8 +20,10 @@ type Props = CollectionEntry<'codenotes'>;
 const note = Astro.props;
 const { Content, headings } = await note.render();
 const { title, date, tags, emoji, link } = note.data;
+
+const pageTitle = SITE_METADATA.notes.title;
 ---
-<NoteLayout title={title} slug="notes">
+<NoteLayout title={pageTitle} slug="notes">
   <article>
     <header class="note-header">
       <PageTitle transition:persist>

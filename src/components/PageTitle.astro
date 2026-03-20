@@ -6,19 +6,20 @@ const { class: className } = Astro.props;
 
 <style>
   h1 {
-    font-family: var(--font-mona);
-    font-size: var(--step-5);
+    font-family: var(--font-headings);
+    font-size: var(--step-4);
     font-variation-settings:
-      'wght' 900,
-      'wdth' 125,
-      'ital' 10;
-    line-height: 1;
+      'wght' 300,
+      'wdth' 100,
+      'ital' 0;
+    line-height: 1.1;
+    /* letter-spacing: 0.02em; */
     color: var(--colour-accent);
   }
 
   @media screen and (min-width: 700px) {
     h1 {
-      font-size: var(--step-6);
+      font-size: var(--step-4);
     }
   }
 </style>
