@@ -75,6 +75,10 @@ export const SITE_NAV_ITEMS = [
 
 export const SITE_FOOTER_ITEMS = [
   {
+    text: 'CV/Resume',
+    url: '/cv',
+  },
+  {
     text: 'Feeds',
     url: '/feeds',
   },

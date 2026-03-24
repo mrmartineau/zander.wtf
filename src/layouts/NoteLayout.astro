@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 import NoteTagDot from '~/components/NoteTagDot.astro';
 import SearchForm from '~/components/SearchForm.astro';
-import BaseLayout from './BaseLayout.astro';
+import ContentLayout from './ContentLayout.astro';
 
 const { title, subtitle, slug } = Astro.props;
 const tagList = (await getCollection('codenotes'))
@@ -25,8 +25,8 @@ const pathname = new URL(Astro.request.url).pathname;
   })
 </script>
 
-<BaseLayout title={title} subtitle={subtitle} slug={slug}>
-  <div class="note-layout zm-mainContainer">
+<ContentLayout title={title} subtitle={subtitle} slug={slug}>
+  <div class="note-layout">
     <div class="note-sidebar-wrapper">
       <div class="note-sidebar">
         <button class="note-sidebar-toggle note-sidebar-toggle2" aria-label="Toggle sidebar">
@@ -54,7 +54,7 @@ const pathname = new URL(Astro.request.url).pathname;
       <slot />
     </div>
   </div>
-</BaseLayout>
+</ContentLayout>
 
 
 <style>
