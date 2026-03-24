@@ -45,8 +45,9 @@ const currentPath = pathname.slice(1); // remove the first "/"
     font-variation-settings:
       'wght' 800,
       'wdth' 125,
-      'ital' 10;
+      'ital' 0;
     font-size: var(--step--1);
+    font-family: var(--font-headings);
     text-transform: uppercase;
     padding: 0 0.5ex;
     letter-spacing: 0.1em;
@@ -61,17 +62,6 @@ const currentPath = pathname.slice(1); // remove the first "/"
     &:hover,
     &.active {
       color: var(--colour-accent);
-    }
-
-    &::before {
-      content: '';
-      display: inline-flex;
-      height: 1ex;
-      width: 1ex;
-      border-radius: 50%;
-      background-color: var(--colour-accent);
-      opacity: 0;
-      transform: translateY(-15%);
     }
 
     &.active::before {
