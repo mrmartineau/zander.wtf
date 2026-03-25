@@ -268,6 +268,13 @@ export type Project = {
 
 export const SIDE_PROJECTS: Project[] = [
   {
+    name: '@mrmartineau/zui',
+    description: `A CSS-first UI library with optional React and Astro components.`,
+    repo: 'https://github.com/mrmartineau/zui',
+    status: 'active',
+    tech: 'CSS, React, Astro',
+  },
+  {
     name: '@mrmartineau/xtractr',
     description: `Reusable page content (as markdown) and metadata extractor, based on Obsidian's Defuddle extractor.`,
     repo: 'https://github.com/mrmartineau/xtractr',
