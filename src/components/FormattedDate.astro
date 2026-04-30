@@ -1,14 +1,20 @@
 ---
 interface Props {
   date: Date;
+  monthYearOnly?: boolean;
 }
 
-const { date } = Astro.props;
-const dateString = date.toLocaleDateString('en-GB', {
-  year: 'numeric',
-  month: 'short',
-  day: 'numeric',
-});
+const { date, monthYearOnly = false } = Astro.props;
+const dateString = date.toLocaleDateString('en-GB', monthYearOnly
+  ? {
+      year: 'numeric',
+      month: 'short',
+    }
+  : {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    });
 const timestamp = date.toISOString();
 ---
 

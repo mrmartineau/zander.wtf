@@ -1,0 +1,125 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import FormattedDate from './FormattedDate.astro';
+
+type Props = {
+  tools: CollectionEntry<'tools'>[];
+};
+const { tools } = Astro.props;
+
+const statusLabels: Record<string, string> = {
+  active: 'Active',
+  ongoing: 'Ongoing',
+  inactive: 'Inactive',
+  archived: 'Archived',
+};
+---
+
+<div class="zm-tool-items">
+  {
+    tools.map(({ slug, data }) => (
+      <div class="zm-tool-item">
+        <div class="info">
+          <a href={`/tools/${slug}`} class="title" transition:persist>
+            {data.title}
+          </a>
+          {data?.subtitle ? (
+            <div class="subtitle" transition:persist>
+              {data.subtitle}
+            </div>
+          ) : null}
+          {data.tech ? <div class="tech">{data.tech}</div> : null}
+        </div>
+        <div class="meta" transition:persist>
+          <FormattedDate date={data.date} monthYearOnly />
+        </div>
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  .zm-tool-items {
+    container: tool-item / inline-size;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .title {
+    line-height: 1.2;
+    display: block;
+    margin-block-end: var(--space-3xs);
+  }
+
+  .subtitle {
+    opacity: 0.7;
+    font-size: var(--step--1);
+    line-height: 1.2;
+  }
+
+  .tech {
+    font-size: var(--step--2);
+    opacity: 0.5;
+    margin-block-start: var(--space-3xs);
+  }
+
+  .meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3xs);
+    opacity: 0.7;
+    font-feature-settings:
+      'calt' 1,
+      'liga' 1,
+      'rlig' 1,
+      'rvrn' 1,
+      'kern' 1,
+      'rclt' 1,
+      'tnum' 1;
+    font-size: var(--step--1);
+  }
+
+  .status {
+    display: inline-block;
+    padding: var(--space-4xs) var(--space-3xs);
+    border-radius: 0.3rem;
+    font-size: var(--step--3);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-variation-settings: 'wght' 600;
+
+    &--active,
+    &--ongoing {
+      background-color: color-mix(in srgb, var(--colour-accent) 20%, transparent);
+      color: var(--colour-accent);
+    }
+
+    &--inactive,
+    &--archived {
+      background-color: color-mix(in srgb, var(--colour-text) 10%, transparent);
+      color: var(--colour-text);
+    }
+  }
+
+  @container tool-item (min-width: 480px) {
+    .zm-tool-item {
+      display: flex;
+      gap: var(--space-xs);
+    }
+
+    .info {
+      order: 2;
+      flex: 1;
+    }
+
+    .meta {
+      min-width: 9rem;
+      order: 1;
+      font-size: unset;
+      flex-shrink: 0;
+      align-items: flex-start;
+    }
+  }
+</style>

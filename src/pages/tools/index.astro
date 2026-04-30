@@ -1,0 +1,19 @@
+---
+import { getCollection } from 'astro:content';
+import { SITE_METADATA } from 'src/consts';
+import ToolList from '~/components/ToolList.astro';
+import ContentLayout from '~/layouts/ContentLayout.astro';
+
+const tools = (await getCollection('tools')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+const slug = 'tools';
+---
+
+<ContentLayout
+  title={SITE_METADATA[slug].title}
+  subtitle={SITE_METADATA[slug].subtitle}
+  slug={slug}
+>
+  <ToolList tools={tools} />
+</ContentLayout>

@@ -59,6 +59,9 @@ importers:
       color-hash:
         specifier: ^2.0.2
         version: 2.0.2
+      fetch-readme:
+        specifier: ^1.0.0
+        version: 1.0.0
       figlet:
         specifier: ^1.10.0
         version: 1.10.0
@@ -68,6 +71,9 @@ importers:
       markdown-it:
         specifier: ^14.1.0
         version: 14.1.0
+      marked:
+        specifier: ^18.0.2
+        version: 18.0.2
       sanitize-html:
         specifier: ^2.17.0
         version: 2.17.0
@@ -2581,6 +2587,10 @@ packages:
       picomatch:
         optional: true
 
+  fetch-readme@1.0.0:
+    resolution: {integrity: sha512-72bvHF41Lllqv+Y4ynt2TIKB4FdA0xIvm1InIpKQbQS/aX278vcLIr6n7BXY6ssbVngXX2yihkeup8x6L9koNA==}
+    hasBin: true
+
   fflate@0.7.4:
     resolution: {integrity: sha512-5u2V/CDW15QM1XbbgS+0DfPxVB+jUKhWEKuuFuHncbk3tEEqzmoXL+2KyOFuKGqOnmdIy0/davWF1CkuwtibCw==}
 
@@ -2955,6 +2965,11 @@ packages:
   markdown-table@3.0.4:
     resolution: {integrity: sha512-wiYz4+JrLyb/DqW2hkFJxP7Vd7JuTDm77fvbM8VfEQdmSMqcImWeeRbHwZjBjIFki/VaMK2BhFi7oUUZeM5bqw==}
 
+  marked@18.0.2:
+    resolution: {integrity: sha512-NsmlUYBS/Zg57rgDWMYdnre6OTj4e+qq/JS2ot3KrYLSoHLw+sDu0Nm1ZGpRgYAq6c+b1ekaY5NzVchMCQnzcg==}
+    engines: {node: '>= 20'}
+    hasBin: true
+
   mdast-util-definitions@6.0.0:
     resolution: {integrity: sha512-scTllyX6pnYNZH/AIp/0ePz6s4cZtARxImwoPJ7kS42n+MnVsI4XbnG6d4ibehRIldYMWM2LD7ImQblVhUejVQ==}
 
@@ -3158,6 +3173,9 @@ packages:
     resolution: {integrity: sha512-Co8onUh+POwOuLty4myQg+Nzg9/xZ5eAJc1oqYBzRovHd/XIpb5WAnRVaubcfAQJ85awWtF3yXUHCDx6cIaN3w==}
     engines: {node: '>=18.0.0'}
     hasBin: true
+
+  minimist@1.2.8:
+    resolution: {integrity: sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==}
 
   mrmime@2.0.1:
     resolution: {integrity: sha512-Y3wQdFg2Va6etvQ5I82yUhGdsKrcYox6p7FfL1LbK2J4V01F9TGlepTIhnK24t7koZibmg82KGglhA1XK5IsLQ==}
@@ -6522,6 +6540,13 @@ snapshots:
     optionalDependencies:
       picomatch: 4.0.3
 
+  fetch-readme@1.0.0:
+    dependencies:
+      minimist: 1.2.8
+      node-fetch: 2.7.0
+    transitivePeerDependencies:
+      - encoding
+
   fflate@0.7.4: {}
 
   figlet@1.10.0:
@@ -6920,6 +6945,8 @@ snapshots:
       uc.micro: 2.1.0
 
   markdown-table@3.0.4: {}
+
+  marked@18.0.2: {}
 
   mdast-util-definitions@6.0.0:
     dependencies:
@@ -7413,6 +7440,8 @@ snapshots:
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
+
+  minimist@1.2.8: {}
 
   mrmime@2.0.1: {}
 

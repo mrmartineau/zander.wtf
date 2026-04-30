@@ -1,0 +1,191 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import GithubReadme from '~/components/GithubReadme.astro';
+import PageHeader from '~/components/PageHeader.astro';
+import BaseLayout from './BaseLayout.astro';
+
+type Props = CollectionEntry<'tools'>;
+const { data, slug } = Astro.props;
+const { title, date, subtitle, tags, repo, link, tech, showReadme } =
+  data;
+
+// Parse "https://github.com/user/repo" → { user, repo }
+const githubMatch = repo?.match(/github\.com\/([^/]+)\/([^/]+)/);
+const githubUser = githubMatch?.[1];
+const githubRepo = githubMatch?.[2];
+---
+
+<BaseLayout title={title} subtitle={subtitle} slug={`tools/${slug}`}>
+  <article class="zm-contentContainer">
+    <PageHeader title={title} subtitle={subtitle} date={date} tags={tags} />
+
+    <div class="tool-meta">
+      {
+        link ? (
+          <a href={link} target="_blank" rel="noopener noreferrer" class="tool-link">
+            <i class="ph-duotone ph-arrow-square-out" />
+            Live site
+          </a>
+        ) : null
+      }
+      {
+        repo ? (
+          <a href={repo} target="_blank" rel="noopener noreferrer" class="tool-link">
+            <i class="ph-duotone ph-github-logo" />
+            Repo
+          </a>
+        ) : null
+      }
+      {tech ? <span class="tool-tech">{tech}</span> : null}
+    </div>
+
+    <article class="flow">
+      <slot />
+    </article>
+
+    {showReadme && githubUser && githubRepo ? (
+      <details class="collapsible mt-l">
+        <summary class="collapsible-trigger">Project README</summary>
+        <div class="collapsible-content">
+          <GithubReadme user={githubUser} repo={githubRepo} />
+        </div>
+      </details>
+    ) : null}
+
+    <footer class="tool-footer">
+      <span class="mono">&gt;</span>{' '}
+      <a href="/tools">cd ..</a>
+    </footer>
+  </article>
+</BaseLayout>
+
+<style lang="postcss">
+  .tool-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-xs) var(--space-s);
+    margin-block-end: var(--space-l);
+    font-size: var(--step--1);
+  }
+
+  .tool-status {
+    display: inline-block;
+    padding: var(--space-4xs) var(--space-3xs);
+    border-radius: 0.3rem;
+    font-size: var(--step--3);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-variation-settings: 'wght' 600;
+
+    &--active,
+    &--ongoing {
+      background-color: color-mix(in srgb, var(--colour-accent) 20%, transparent);
+      color: var(--colour-accent);
+    }
+
+    &--inactive {
+      background-color: color-mix(in srgb, var(--colour-text) 10%, transparent);
+      color: var(--colour-text);
+    }
+
+    &--archived {
+      background-color: color-mix(in srgb, var(--colour-text) 10%, transparent);
+      color: var(--colour-text);
+      opacity: 0.7;
+    }
+  }
+
+  .tool-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3xs);
+  }
+
+  .tool-tech {
+    opacity: 0.6;
+  }
+
+  .tool-footer {
+    margin-block-start: var(--space-xl);
+    padding-block-start: var(--space-m);
+    border-block-start: 1px solid var(--colour-border);
+  }
+
+  .mono {
+    font-family: var(--font-mono);
+  }
+
+  .collapsible {
+    /* --zui-collapsible-border: var(--border); */
+    --zui-collapsible-radius: 0.5rem;
+    --zui-collapsible-bg: var(--bg-block);
+    --zui-collapsible-padding-x: var(--space-s);
+    --zui-collapsible-padding-y: var(--space-xs);
+
+    /* border: 1px var(--border-style, solid) var(--zui-collapsible-border); */
+    border-radius: var(--zui-collapsible-radius);
+    background-color: var(--zui-collapsible-bg);
+    overflow: hidden;
+  }
+
+  .collapsible-trigger {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-xs);
+    padding: var(--zui-collapsible-padding-y) var(--zui-collapsible-padding-x);
+    cursor: pointer;
+    font-weight: var(--font-weight-medium, 500);
+    color: var(--color-text);
+    user-select: none;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    &::marker {
+      content: "";
+    }
+
+    @starting-style {
+      details[open]::details-content {
+        opacity: 0;
+        block-size: 0;
+      }
+    }
+
+    &::after {
+      content: "";
+      display: inline-block;
+      width: 0.45em;
+      height: 0.45em;
+      border-right: 1.5px solid currentColor;
+      border-bottom: 1.5px solid currentColor;
+      transform: rotate(45deg) translateY(-1px);
+      flex-shrink: 0;
+      transition: transform 200ms var(--ease-out, ease-out);
+    }
+  }
+
+  .collapsible[open] > .collapsible-trigger::after {
+    transform: rotate(-135deg) translateY(1px);
+  }
+
+  .collapsible::details-content {
+    block-size: 0;
+    transition:
+      block-size 250ms allow-discrete,
+      content-visibility 250ms allow-discrete;
+  }
+
+  .collapsible:open::details-content {
+    block-size: auto;
+  }
+
+  .collapsible-content {
+    padding: 0 var(--zui-collapsible-padding-x) var(--zui-collapsible-padding-y);
+    color: var(--color-text);
+  }
+</style>

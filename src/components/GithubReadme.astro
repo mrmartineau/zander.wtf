@@ -1,0 +1,25 @@
+---
+import { marked } from 'marked';
+
+type Props = {
+  user: string;
+  repo: string;
+};
+
+const { user, repo } = Astro.props;
+
+let html;
+try {
+  const response = await fetch(
+    `https://raw.githubusercontent.com/${user}/${repo}/main/README.md`,
+  );
+  const markdown = await response.text();
+  // console.log(`🚀 ~ markdown:`, markdown);
+  html = marked.parse(markdown);
+  // console.log(`🚀 ~ html:`, html);
+} catch (e) {
+  console.warn(`[GithubReadme] Could not fetch README for ${user}/${repo}:`, e);
+}
+---
+
+{html ? <div class="readme flow" set:html={html} /> : null}

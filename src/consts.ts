@@ -52,6 +52,10 @@ export const SITE_METADATA: Record<
     title: 'Search Notes',
     subtitle: 'Search through all code notes',
   },
+  tools: {
+    title: 'Tools',
+    subtitle: 'Packages, experiments, and side-projects',
+  },
 };
 
 export const SITE_NAV_ITEMS = [
@@ -101,6 +105,10 @@ export const SITE_FOOTER_ITEMS = [
   {
     text: 'Notes',
     url: '/notes',
+  },
+  {
+    text: 'Tools',
+    url: '/tools',
   },
   {
     text: 'GitHub',

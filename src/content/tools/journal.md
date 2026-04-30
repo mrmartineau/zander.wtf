@@ -1,0 +1,14 @@
+---
+title: Journal
+subtitle: Personal journalling app. Open source.
+date: 2024-09-01
+link: 'https://github.com/mrmartineau/journal'
+status: inactive
+tech: SvelteKit, TypeScript, PostgreSQL, Supabase
+tags:
+  - sveltekit
+  - supabase
+  - self-hosted
+---
+
+A personal journalling app built with SvelteKit and Supabase. Includes AI-powered text improvements. No longer actively maintained.
