@@ -1,11 +1,30 @@
 import { SpotifyApi } from '@spotify/web-api-ts-sdk';
-import axios from 'axios';
-import urlJoin from 'proper-url-join';
 import type { NowMediaItem } from 'src/types';
+import urlMerge from 'url-merge';
 
 export interface Env {
   LASTFM_API_KEY: string;
 }
+
+type LastFmArtist = {
+  name?: string;
+  url?: string;
+  artist?: {
+    name?: string;
+  };
+  image?: Array<{
+    '#text'?: string;
+  }>;
+};
+
+type LastFmResponse = {
+  topartists?: {
+    artist?: LastFmArtist[];
+  };
+  topalbums?: {
+    album?: LastFmArtist[];
+  };
+};
 
 const sdk = SpotifyApi.withClientCredentials(
   import.meta.env.SPOTIFY_CLIENT_ID,
@@ -13,8 +32,10 @@ const sdk = SpotifyApi.withClientCredentials(
   ['user-top-read'],
 );
 
-export const fetchMusic = async (limit = 5) => {
-  const topArtistsPath = urlJoin('https://ws.audioscrobbler.com/2.0/', {
+export const fetchMusic = async (
+  limit = 5,
+): Promise<{ topArtists: LastFmArtist[]; topAlbums: LastFmArtist[] }> => {
+  const topArtistsPath = urlMerge('https://ws.audioscrobbler.com/2.0/', {
     query: {
       method: 'user.gettopartists',
       user: 'martineau',
@@ -25,7 +46,7 @@ export const fetchMusic = async (limit = 5) => {
     },
   });
 
-  const topAlbumsPath = urlJoin('https://ws.audioscrobbler.com/2.0/', {
+  const topAlbumsPath = urlMerge('https://ws.audioscrobbler.com/2.0/', {
     query: {
       method: 'user.gettopalbums',
       user: 'martineau',
@@ -36,46 +57,63 @@ export const fetchMusic = async (limit = 5) => {
     },
   });
 
-  let topArtists: unknown;
-  let topAlbums: unknown;
-
   try {
-    topArtists = await axios.get(topArtistsPath);
-    topAlbums = await axios.get(topAlbumsPath);
-  } catch (err) {
-    console.log(`🚀 ~ fetchMusic ~ err:`, err);
-  }
+    const [topArtistsResponse, topAlbumsResponse] = await Promise.all([
+      fetch(topArtistsPath, {
+        headers: {
+          Accept: 'application/json',
+        },
+      }),
+      fetch(topAlbumsPath, {
+        headers: {
+          Accept: 'application/json',
+        },
+      }),
+    ]);
 
-  return {
-    // @ts-expect-error
-    topArtists: topArtists?.data?.topartists.artist ?? [],
-    // @ts-expect-error
-    topAlbums: topAlbums?.data?.topalbums.album ?? [],
-  };
+    if (!topArtistsResponse.ok || !topAlbumsResponse.ok) {
+      console.warn(
+        `[music] Failed to fetch Last.fm data. artists=${topArtistsResponse.status} ${topArtistsResponse.statusText}, albums=${topAlbumsResponse.status} ${topAlbumsResponse.statusText}`,
+      );
+      return {
+        topArtists: [],
+        topAlbums: [],
+      };
+    }
+
+    const topArtists = (await topArtistsResponse.json()) as LastFmResponse;
+    const topAlbums = (await topAlbumsResponse.json()) as LastFmResponse;
+
+    return {
+      topArtists: topArtists?.topartists?.artist ?? [],
+      topAlbums: topAlbums?.topalbums?.album ?? [],
+    };
+  } catch (err) {
+    console.warn('[music] Network error while fetching Last.fm data. Returning empty lists.', err);
+    return {
+      topArtists: [],
+      topAlbums: [],
+    };
+  }
 };
 
 export const transformMusicToNow = async (
-  items: unknown[],
+  items: LastFmArtist[],
   type: 'artist' | 'album',
 ): Promise<NowMediaItem[]> => {
   const transformedItems: NowMediaItem[] = [];
   for await (const item of items) {
-    // @ts-expect-error
-    const name = item?.name ?? '';
+    const name = item.name ?? '';
     const theArtist = await sdk.search(name, [type], 'GB', 1);
-    const image =
-      theArtist.artists?.items[0].images.length > 0
-        ? theArtist.artists?.items[0].images[0].url
-        // @ts-expect-error
-        : item?.image[item?.image?.length - 1]['#text'];
+    const spotifyImage = theArtist.artists?.items[0]?.images?.[0]?.url;
+    const fallbackImage = item.image?.[item.image.length - 1]?.['#text'];
+    const image = spotifyImage || fallbackImage;
 
     if (image) {
       transformedItems.push({
         title: name,
-        // @ts-expect-error
-        description: item?.artist?.name,
-        // @ts-expect-error
-        link: item?.url,
+        description: item.artist?.name,
+        link: item.url,
         image,
       });
     }

@@ -1,4 +1,4 @@
-import urlJoin from 'proper-url-join';
+import urlMerge from 'url-merge';
 
 type FetchOtterJsonOptions<T> = {
   endpoint: string;
@@ -71,7 +71,7 @@ export const fetchOtterJson = async <T>({
   fallback,
   resourceName,
 }: FetchOtterJsonOptions<T>): Promise<T> => {
-  const url = urlJoin(OTTER_API_BASE, endpoint, query ? { query } : undefined);
+  const url = urlMerge(OTTER_API_BASE, endpoint, query ? { query } : undefined);
 
   try {
     const response = await fetch(url, {
