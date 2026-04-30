@@ -1,4 +1,4 @@
-import urlJoin from 'proper-url-join';
+import { fetchOtterJson } from './otter';
 
 export interface Bookmark {
   title: string | null;
@@ -37,21 +37,16 @@ export type BookmarkType =
   | 'file';
 
 export const fetchLinks = async (limit = 150): Promise<Bookmark[]> => {
-  const linksPath = urlJoin('https://otter.zander.wtf/api/bookmarks', {
+  const linksData = await fetchOtterJson<{ data: Bookmark[] }>({
+    endpoint: 'bookmarks',
     query: {
       limit,
       public: 'true',
       user: import.meta.env.SUPABASE_USER_ID || '',
     },
+    fallback: { data: [] },
+    resourceName: 'links',
   });
-  const response = await fetch(linksPath, {
-    headers: {
-      Authorization: `Bearer ${import.meta.env.SUPABASE_USER_API_KEY}`
-    },
-  });
-  if (!response.ok) {
-    throw new Error(`Failed to fetch links: ${response.status}`);
-  }
-  const linksData = await response.json<{ data: Bookmark[] }>();
+
   return linksData.data;
 };

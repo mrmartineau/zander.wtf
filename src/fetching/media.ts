@@ -1,6 +1,5 @@
-import axios from 'axios';
-import urlJoin from 'proper-url-join';
 import type { NowMediaItem } from 'src/types';
+import { fetchOtterJson } from './otter';
 
 type Enums = {
   media_rating:
@@ -35,22 +34,35 @@ export interface Media {
 type MediaByStatus = Record<Enums['media_status'], Media[]>;
 type MediaResponse = Record<Enums['media_type'], MediaByStatus>;
 
-export const fetchMedia = async (): Promise<MediaResponse> => {
-  const path = urlJoin('https://otter.zander.wtf/api/media', {
+const createEmptyMediaByStatus = (): MediaByStatus => ({
+  now: [],
+  skipped: [],
+  done: [],
+  wishlist: [],
+});
+
+const EMPTY_MEDIA_RESPONSE: MediaResponse = {
+  tv: createEmptyMediaByStatus(),
+  film: createEmptyMediaByStatus(),
+  game: createEmptyMediaByStatus(),
+  book: createEmptyMediaByStatus(),
+  podcast: createEmptyMediaByStatus(),
+  music: createEmptyMediaByStatus(),
+  other: createEmptyMediaByStatus(),
+};
+
+export const fetchMedia = async (): Promise<MediaResponse> =>
+  fetchOtterJson<MediaResponse>({
+    endpoint: 'media',
     query: {
       user: import.meta.env.SUPABASE_USER_ID || '',
     },
+    fallback: EMPTY_MEDIA_RESPONSE,
+    resourceName: 'media',
   });
-  const mediaResponse = await axios.get<MediaResponse>(path, {
-    headers: {
-      Authorization: `Bearer ${import.meta.env.SUPABASE_USER_API_KEY}`,
-    },
-  });
-  return mediaResponse.data;
-};
 
 export const transformMediaToNow = (media: MediaByStatus): NowMediaItem[] => {
-  const items = media.now ?? [];
+  const items = [...(media.now ?? [])];
   const doneItems = media.done;
   if (items.length < 5) {
     items.push(...doneItems.slice(0, 5 - items.length));
