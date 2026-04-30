@@ -1,0 +1,29 @@
+# robots.txt for https://zander.wtf
+# RFC 9309 syntax
+
+User-agent: *
+Allow: /
+Disallow: /notes/search
+Disallow: /opengraph/
+Disallow: /scraper-test.html
+
+# Block common AI training / scraping bots
+User-agent: CCBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: GPTBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: Omgilibot
+Disallow: /
+
+User-agent: FacebookBot
+Disallow: /
+
+Sitemap: https://zander.wtf/sitemap-index.xml

@@ -1,0 +1,8 @@
+/
+  Link: </.well-known/api-catalog>; rel="api-catalog"; type="application/linkset+json"
+  Link: </feeds>; rel="service-doc"; type="text/html"
+  Link: </sitemap-index.xml>; rel="service-desc"; type="application/xml"
+
+/.well-known/api-catalog
+  Content-Type: application/linkset+json; profile="https://www.rfc-editor.org/info/rfc9727"
+  X-Content-Type-Options: nosniff

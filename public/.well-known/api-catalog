@@ -1,0 +1,43 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://zander.wtf/",
+      "service-doc": [
+        {
+          "href": "https://zander.wtf/feeds",
+          "type": "text/html",
+          "title": "Site feeds and machine-readable resources"
+        }
+      ],
+      "service-desc": [
+        {
+          "href": "https://zander.wtf/sitemap-index.xml",
+          "type": "application/xml",
+          "title": "XML sitemap"
+        }
+      ],
+      "item": [
+        {
+          "href": "https://zander.wtf/blog.rss.xml",
+          "type": "application/rss+xml",
+          "title": "Blog RSS feed"
+        },
+        {
+          "href": "https://zander.wtf/links.rss.xml",
+          "type": "application/rss+xml",
+          "title": "Links RSS feed"
+        },
+        {
+          "href": "https://zander.wtf/worklog.rss.xml",
+          "type": "application/rss+xml",
+          "title": "Worklog RSS feed"
+        },
+        {
+          "href": "https://zander.wtf/robots.txt",
+          "type": "text/plain",
+          "title": "Crawler rules"
+        }
+      ]
+    }
+  ]
+}

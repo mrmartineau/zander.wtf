@@ -2,7 +2,12 @@ import rss from '@astrojs/rss';
 import { fetchLinks } from '../fetching/links';
 
 export const GET = async (context) => {
-  const links = await fetchLinks(50);
+  let links;
+  try {
+    links = await fetchLinks(50);
+  } catch (_err) {
+    links = []
+  }
 
   return rss({
     title: `Zander's Link Feed`,

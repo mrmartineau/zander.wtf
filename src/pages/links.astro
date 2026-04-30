@@ -2,9 +2,14 @@
 import { SITE_METADATA } from 'src/consts';
 import { LinkFeed } from '~/components/solid/LinkFeed';
 import ContentLayout from '~/layouts/ContentLayout.astro';
-import { fetchLinks } from '../fetching/links';
+import { type Bookmark, fetchLinks } from '../fetching/links';
 
-const links = await fetchLinks();
+let links: Bookmark[];
+try {
+  links = await fetchLinks();
+} catch (_err) {
+  links = []
+}
 const slug = 'links';
 ---
 
