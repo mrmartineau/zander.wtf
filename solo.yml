@@ -1,0 +1,10 @@
+name: zander.wtf-astro
+icon: null
+processes:
+  dev:
+    command: pnpm run dev
+    working_dir: null
+    auto_start: true
+    auto_restart: true
+    restart_when_changed: []
+    env: {}
