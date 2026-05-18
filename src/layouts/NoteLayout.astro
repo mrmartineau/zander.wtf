@@ -59,7 +59,7 @@ const pathname = new URL(Astro.request.url).pathname;
 
 <style>
   .note-layout {
-    --sidebar-width: 300px;
+    --sidebar-width: 200px;
     position: relative;
 
     @media screen and (min-width: 768px) {
@@ -73,8 +73,6 @@ const pathname = new URL(Astro.request.url).pathname;
     margin: 0;
     min-width: 0;
     position: relative;
-    overflow-x: hidden;
-    overflow-y: auto;
     z-index: 10;
     min-height: 100vh;
     max-width: 1000px;

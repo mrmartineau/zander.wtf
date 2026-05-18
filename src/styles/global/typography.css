@@ -87,6 +87,10 @@ article {
     list-style-type: disc;
   }
 
+  ol {
+    list-style-type: decimal;
+  }
+
   a {
     --colour: var(--colour-text-bright);
     --colour-decoration: var(--colour-link-decoration);
@@ -95,6 +99,7 @@ article {
     text-decoration-thickness: 0.2ex;
     text-underline-offset: 0.3ex;
     text-decoration-line: underline;
+    word-wrap: break-word;
 
     &:hover {
       --colour-decoration: var(--colour-accent);
