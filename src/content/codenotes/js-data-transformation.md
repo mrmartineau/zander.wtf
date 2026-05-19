@@ -255,6 +255,58 @@ const techProducts = orders.flatMap((order) =>
 
 Plain `arr.flat()` (or `arr.flat(Infinity)` for deeply nested) flattens without the mapping step.
 
+## Rendering into a data grid
+
+A data grid — TanStack Table, AG Grid — needs two separate things: **column definitions** and **row data**. The API hands you a flat array of objects, but the object _keys_ have to become columns while the objects themselves become rows. Splitting one into the other is a transform in its own right.
+
+The quickest version derives the columns straight from the keys of a row:
+
+```js
+const titleCase = (s) => s.charAt(0).toUpperCase() + s.slice(1)
+
+const columns = Object.keys(orders[0]).map((key) => ({
+  accessorKey: key, // TanStack Table — AG Grid calls this `field`
+  header: titleCase(key), // AG Grid calls this `headerName`
+}))
+// → [{ accessorKey: 'id', header: 'Id' }, { accessorKey: 'customer', header: 'Customer' }, …]
+```
+
+That trusts `orders[0]` to carry every key. If the data is sparse — some field missing on some records — collect the **union** of keys with a `Set` so no column gets dropped:
+
+```js
+const allKeys = [...new Set(orders.flatMap((order) => Object.keys(order)))]
+```
+
+Usually you don't want a column for _every_ field anyway: `id` is internal, the column order matters, and headers need real labels rather than raw key names. Drive the columns from an explicit map instead of from the data — `Object.entries` keeps it in the order you wrote:
+
+```js
+const COLUMNS = {
+  customer: 'Customer',
+  product: 'Product',
+  category: 'Category',
+  price: 'Price (£)',
+}
+
+const columns = Object.entries(COLUMNS).map(([key, header]) => ({
+  accessorKey: key,
+  header,
+}))
+```
+
+The rows are often just the raw array — _but only_ when every cell value sits at the top level. Grids address a cell by a flat key, so a nested API response has to be flattened first: lift each nested leaf up to its own property.
+
+```js
+// API nested the customer: { customer: { name: 'Ada', tier: 'gold' }, … }
+const rows = nestedOrders.map((order) => ({
+  ...order,
+  customer: order.customer.name,
+  customerTier: order.customer.tier,
+}))
+// now a column with accessorKey 'customerTier' resolves to a real cell
+```
+
+TanStack Table will also accept a dotted `accessorKey: 'customer.tier'`, but flattening up front keeps sorting, filtering and CSV export working without each of them needing to understand the nesting.
+
 ---
 
 ## Putting it together
@@ -296,3 +348,4 @@ Each step does one job: `filter` narrows, `groupBy` buckets, `entries` makes it 
 | Array → keyed object                         | `Object.fromEntries(pairs)`            |
 | Transform an object's values                 | `entries` → `map` → `fromEntries`      |
 | Flatten one level of nesting                 | `flat` / `flatMap`                     |
+| Build grid columns from object keys           | `Object.keys(row).map(...)`            |
