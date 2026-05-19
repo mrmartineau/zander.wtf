@@ -229,31 +229,75 @@ const withSale = Object.fromEntries(
 
 `Object.keys` and `Object.values` are the narrower versions when you only need one side.
 
-## `flat` and `flatMap` — collapse nesting
+## `flat` — un-nest an array of arrays
 
-When each item itself holds an array — line items on an order, results across paginated pages — `flatMap` maps and flattens one level in a single pass:
+`flat` takes an array that contains _other arrays_ and pulls the inner items up to the top level:
 
 ```js
-const pages = [
-  { items: ['a', 'b'] },
-  { items: ['c'] },
-  { items: ['d', 'e'] },
-]
+const nested = [['a', 'b'], ['c'], ['d', 'e']]
 
-const allItems = pages.flatMap((page) => page.items)
+const flattened = nested.flat()
 // → ['a', 'b', 'c', 'd', 'e']
 ```
 
-`flatMap` also doubles as a "filter + map" in one go: return `[]` to drop an item, `[value]` to keep it.
+By default it only unwraps **one** level of nesting. For something deeper, pass a depth number — or `Infinity` to flatten all the way down:
 
 ```js
+const deep = [1, [2, [3, [4]]]]
+
+deep.flat() // → [1, 2, [3, [4]]]   one level (the default)
+deep.flat(2) // → [1, 2, 3, [4]]    two levels
+deep.flat(Infinity) // → [1, 2, 3, 4]
+```
+
+## `flatMap` — map, then flatten one level
+
+`flatMap` is for one specific situation: you `map` over a list and the callback returns an **array** for each item. A plain `map` then leaves you with an array _of arrays_ — almost never the shape you actually want.
+
+Picture a paginated API. It handed back three pages, and each page carries its own list of results:
+
+```js
+const pages = [
+  { page: 1, results: ['Keyboard', 'Mug'] },
+  { page: 2, results: ['Monitor', 'Notebook'] },
+  { page: 3, results: ['Desk', 'Cable'] },
+]
+```
+
+`map` gets you _almost_ there — but each page's results stay boxed up inside their own array:
+
+```js
+const stillNested = pages.map((page) => page.results)
+// → [['Keyboard', 'Mug'], ['Monitor', 'Notebook'], ['Desk', 'Cable']]
+```
+
+Adding `.flat()` merges those inner arrays into one flat list. And that pairing — a `map` followed by a one-level `flat` — is _exactly_ what `flatMap` does in a single call:
+
+```js
+const mapThenFlat = pages.map((page) => page.results).flat()
+const flatMapped = pages.flatMap((page) => page.results)
+// both → ['Keyboard', 'Mug', 'Monitor', 'Notebook', 'Desk', 'Cable']
+```
+
+So there's nothing more to `flatMap` than "`map`, then `flat(1)`".
+
+That framing also explains a handy side effect. Because each callback's array gets flattened away, the _length_ of the array you return decides how many items come out:
+
+- return a one-item array `[x]` → the item is kept, as `x`
+- return an empty array `[]` → the item vanishes entirely
+- return a multi-item array `[x, y]` → that one item becomes several
+
+Returning `[]` to drop an item is what lets `flatMap` act as a filter-and-map in one pass:
+
+```js
+// keep tech products only — [product] keeps it, [] drops it
 const techProducts = orders.flatMap((order) =>
   order.category === 'tech' ? [order.product] : [],
 )
 // → ['Keyboard', 'Monitor', 'Cable']
 ```
 
-Plain `arr.flat()` (or `arr.flat(Infinity)` for deeply nested) flattens without the mapping step.
+A separate `filter` then `map` does the same job and reads more plainly when the two steps are distinct. Reach for `flatMap` when an item naturally expands into _zero or more_ results rather than exactly one.
 
 ## Rendering into a data grid
 
