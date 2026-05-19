@@ -18,12 +18,54 @@ One dataset for the whole note — pretend it came back from `GET /orders`:
 
 ```js
 const orders = [
-  { id: 1, customer: 'Ada',  product: 'Keyboard', category: 'tech',   price: 80,  status: 'shipped'   },
-  { id: 2, customer: 'Bram', product: 'Mug',      category: 'home',   price: 12,  status: 'pending'   },
-  { id: 3, customer: 'Ada',  product: 'Monitor',  category: 'tech',   price: 240, status: 'shipped'   },
-  { id: 4, customer: 'Cleo', product: 'Notebook', category: 'office', price: 6,   status: 'cancelled' },
-  { id: 5, customer: 'Bram', product: 'Desk',     category: 'home',   price: 320, status: 'shipped'   },
-  { id: 6, customer: 'Ada',  product: 'Cable',    category: 'tech',   price: 9,   status: 'pending'   },
+  {
+    id: 1,
+    customer: 'Ada',
+    product: 'Keyboard',
+    category: 'tech',
+    price: 80,
+    status: 'shipped',
+  },
+  {
+    id: 2,
+    customer: 'Bram',
+    product: 'Mug',
+    category: 'home',
+    price: 12,
+    status: 'pending',
+  },
+  {
+    id: 3,
+    customer: 'Ada',
+    product: 'Monitor',
+    category: 'tech',
+    price: 240,
+    status: 'shipped',
+  },
+  {
+    id: 4,
+    customer: 'Cleo',
+    product: 'Notebook',
+    category: 'office',
+    price: 6,
+    status: 'cancelled',
+  },
+  {
+    id: 5,
+    customer: 'Bram',
+    product: 'Desk',
+    category: 'home',
+    price: 320,
+    status: 'shipped',
+  },
+  {
+    id: 6,
+    customer: 'Ada',
+    product: 'Cable',
+    category: 'tech',
+    price: 9,
+    status: 'pending',
+  },
 ]
 ```
 
@@ -31,7 +73,7 @@ And a second endpoint, `GET /customers`, for the join example later:
 
 ```js
 const customers = [
-  { name: 'Ada',  tier: 'gold'   },
+  { name: 'Ada', tier: 'gold' },
   { name: 'Bram', tier: 'silver' },
   { name: 'Cleo', tier: 'bronze' },
 ]
@@ -234,11 +276,7 @@ const withSale = Object.fromEntries(
 When each item itself holds an array — line items on an order, results across paginated pages — `flatMap` maps and flattens one level in a single pass:
 
 ```js
-const pages = [
-  { items: ['a', 'b'] },
-  { items: ['c'] },
-  { items: ['d', 'e'] },
-]
+const pages = [{ items: ['a', 'b'] }, { items: ['c'] }, { items: ['d', 'e'] }]
 
 const allItems = pages.flatMap((page) => page.items)
 // → ['a', 'b', 'c', 'd', 'e']
@@ -334,18 +372,18 @@ Each step does one job: `filter` narrows, `groupBy` buckets, `entries` makes it 
 
 ## Quick reference
 
-| I want to…                                  | Reach for                              |
-| -------------------------------------------- | -------------------------------------- |
-| Reshape every item, same length out          | `map`                                  |
-| Keep only some items                         | `filter`                               |
-| Collapse a list to a single value            | `reduce`                               |
-| Split a list into keyed buckets              | `Object.groupBy` / `Map.groupBy`       |
-| Look an item up by id, repeatedly            | `new Map(list.map(x => [x.id, x]))`    |
-| Get the unique values of something           | `[...new Set(values)]`                 |
-| Merge data from two endpoints                | index one side in a `Map`, `map` other |
-| Sort without mutating                        | `toSorted`                             |
-| Keyed object → renderable array              | `Object.entries(obj).map(...)`         |
-| Array → keyed object                         | `Object.fromEntries(pairs)`            |
-| Transform an object's values                 | `entries` → `map` → `fromEntries`      |
-| Flatten one level of nesting                 | `flat` / `flatMap`                     |
-| Build grid columns from object keys           | `Object.keys(row).map(...)`            |
+| I want to…                          | Reach for                              |
+| ----------------------------------- | -------------------------------------- |
+| Reshape every item, same length out | `map`                                  |
+| Keep only some items                | `filter`                               |
+| Collapse a list to a single value   | `reduce`                               |
+| Split a list into keyed buckets     | `Object.groupBy` / `Map.groupBy`       |
+| Look an item up by id, repeatedly   | `new Map(list.map(x => [x.id, x]))`    |
+| Get the unique values of something  | `[...new Set(values)]`                 |
+| Merge data from two endpoints       | index one side in a `Map`, `map` other |
+| Sort without mutating               | `toSorted`                             |
+| Keyed object → renderable array     | `Object.entries(obj).map(...)`         |
+| Array → keyed object                | `Object.fromEntries(pairs)`            |
+| Transform an object's values        | `entries` → `map` → `fromEntries`      |
+| Flatten one level of nesting        | `flat` / `flatMap`                     |
+| Build grid columns from object keys | `Object.keys(row).map(...)`            |
