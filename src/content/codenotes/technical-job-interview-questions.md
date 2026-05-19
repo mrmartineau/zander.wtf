@@ -56,11 +56,40 @@ The Promise object represents the eventual completion (or failure) of an asynchr
 - `let` statement declares a block-scoped local variable, optionally initializing it to a value.
 - `const` are block-scoped, much like variables declared using the let keyword. The value of a constant can't be changed through reassignment, and it can't be redeclared.
 
+```js
+function scopeTest() {
+  if (true) {
+    var functionScoped = 'visible outside the block'
+    let blockScoped = 'only visible inside the block'
+  }
+  console.log(functionScoped) // 'visible outside the block'
+  console.log(blockScoped) // ReferenceError: blockScoped is not defined
+}
+
+const obj = { a: 1 }
+obj.a = 2 // OK — the binding is constant, not the value
+obj = {} // TypeError: Assignment to constant variable
+```
+
 ### Difference between `null` and `undefined`?
 
 `undefined` means a variable has been declared but has not yet been assigned a value.
 `null` is an assignment value. It can be assigned to a variable as a representation of no value
 https://stackoverflow.com/questions/5076944/what-is-the-difference-between-null-and-undefined-in-javascript#5076962
+
+```js
+let a
+console.log(a) // undefined — declared, never assigned
+
+let b = null
+console.log(b) // null — explicitly "no value"
+
+console.log(typeof undefined) // 'undefined'
+console.log(typeof null) // 'object' (historical bug)
+
+console.log(null == undefined) // true  (loose equality)
+console.log(null === undefined) // false (different types)
+```
 
 ### What is a closure?
 
@@ -69,6 +98,20 @@ A closure is the combination of a function bundled together (enclosed) with refe
 A closure is the combination of a function and the lexical environment within which that function was declared.
 
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures
+
+```js
+function makeCounter() {
+  let count = 0 // private state captured by the closure
+  return function () {
+    count += 1
+    return count
+  }
+}
+
+const counter = makeCounter()
+counter() // 1
+counter() // 2 — `count` persists between calls
+```
 
 ### What is currying?
 
@@ -106,6 +149,33 @@ Throttling and debouncing are techniques used in JavaScript to optimize and cont
 
 Both techniques help optimize performance and enhance user experience by preventing unnecessary or excessive function invocations.
 
+```js
+function throttle(fn, interval) {
+  let lastCall = 0
+  return function (...args) {
+    const now = Date.now()
+    if (now - lastCall >= interval) {
+      lastCall = now
+      fn.apply(this, args)
+    }
+  }
+}
+
+const debounce = (fn, delay) => {
+  let timer
+  return function (...args) {
+    clearTimeout(timer)
+    timer = setTimeout(() => fn.apply(this, args), delay)
+  }
+}
+
+// throttled: fires at most once per 200ms during a scroll
+window.addEventListener('scroll', throttle(onScroll, 200))
+
+// debounced: fires once, 300ms after the user stops typing
+input.addEventListener('input', debounce(onSearch, 300))
+```
+
 ### What is a tuple?
 
 A tuple is an ordered collection or array-like structure that can contain multiple elements of different types in JavaScript. Unlike regular arrays, tuples have a fixed length and their elements are typically accessed using indices.
@@ -133,19 +203,76 @@ Although arrays can be used to represent tuples in JavaScript, they lack the str
 The Map object holds key-value pairs and remembers the original insertion order of the keys. Any value (both objects and primitive values) may be used as either a key or a value.
 http://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map
 
+```js
+const map = new Map()
+const objKey = { id: 1 }
+
+map.set('name', 'Zander')
+map.set(objKey, 'object used as a key')
+
+map.get('name') // 'Zander'
+map.has(objKey) // true
+map.size // 2
+
+for (const [key, value] of map) {
+  console.log(key, value)
+}
+```
+
 ### What is a `Set`?
 
 The Set object lets you store unique values of any type, whether primitive values or object references. A value in the Set may only occur once; it is unique in the Set's collection.
 http://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set
 
+```js
+const set = new Set([1, 2, 2, 3, 3, 3])
+set.size // 3 — duplicates dropped
+
+set.add(4)
+set.has(4) // true
+set.delete(1)
+
+// common use: dedupe an array
+const unique = [...new Set([1, 1, 2, 3])] // [1, 2, 3]
+```
+
 ### What is a Higher order function?
 
-A higher order function is a function that returns another function
+A higher order function is a function that takes a function as an argument, returns a function, or both.
+
+```js
+// takes a function as an argument
+;[1, 2, 3].map((n) => n * 2) // [2, 4, 6]
+
+// returns a function
+function multiplier(factor) {
+  return (n) => n * factor
+}
+const double = multiplier(2)
+double(5) // 10
+```
 
 ### What is destructuring?
 
 The destructuring assignment syntax is a JavaScript expression that makes it possible to unpack values from arrays, or properties from objects, into distinct variables.
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment
+
+```js
+// object destructuring
+const user = { name: 'Zander', role: 'engineer' }
+const { name, role } = user
+
+// array destructuring
+const [first, second] = [1, 2]
+
+// defaults and renaming
+const { name: fullName, active = false } = user
+
+// swap without a temp variable
+let a = 1
+let b = 2
+;[a, b] = [b, a]
+```
 
 ## React questions
 
@@ -155,8 +282,7 @@ CSS.. with PostCSS/Sass and Tailwind
 
 ### What is your preferred state management solution for React?
 
-`useState`, Context, [Jotai](https://jotai.org/), [Zustand](https://docs.pmnd.rs/zustand/getting-started/introduction), [Recoil](https://recoiljs.org/), [Redux](https://redux.js.org/)
-Correct answer is: it depends?
+`useState`, Context, [Jotai](https://jotai.org/), [Zustand](https://docs.pmnd.rs/zustand/getting-started/introduction), [Recoil](https://recoiljs.org/), [Redux](https://redux.js.org/). Correct answer is: it depends?
 
 ### Explain Suspense?
 
@@ -164,20 +290,76 @@ Correct answer is: it depends?
 
 https://react.dev/reference/react/Suspense
 
+```jsx
+<Suspense fallback={<Spinner />}>
+  <Profile />
+</Suspense>
+```
+
 ### What are ErrorBoundary's used for?
 
 Error boundaries are React components that catch JavaScript errors anywhere in their child component tree, log those errors, and display a fallback UI instead of the component tree that crashed.
 https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary
+
+```jsx
+class ErrorBoundary extends React.Component {
+  state = { hasError: false }
+
+  static getDerivedStateFromError() {
+    return { hasError: true }
+  }
+
+  componentDidCatch(error, info) {
+    logError(error, info)
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return <h1>Something went wrong.</h1>
+    }
+    return this.props.children
+  }
+}
+
+// usage
+;<ErrorBoundary>
+  <App />
+</ErrorBoundary>
+```
 
 ### Explain Context?
 
 Context provides a way to pass data through the component tree without having to pass props down manually at every level.
 https://react.dev/learn/passing-data-deeply-with-context
 
+```jsx
+const ThemeContext = createContext('light')
+
+function App() {
+  return (
+    <ThemeContext.Provider value="dark">
+      <Toolbar />
+    </ThemeContext.Provider>
+  )
+}
+
+function Toolbar() {
+  const theme = useContext(ThemeContext) // 'dark' — no prop drilling
+  return <button className={theme}>Click</button>
+}
+```
+
 ### What is the significance of **keys** in React?
 
 Keys help React identify which items have changed, are added, or are removed.
 https://robinpokorny.medium.com/index-as-a-key-is-an-anti-pattern-e0349aece318
+
+```jsx
+// use a stable, unique id — not the array index
+{
+  items.map((item) => <li key={item.id}>{item.name}</li>)
+}
+```
 
 ### When would you use a Class Component over a Functional Component?
 
@@ -185,7 +367,24 @@ Would only use a class component these days when creating a custom error boundar
 
 ### What are refs in React and why are they important?
 
-Refs provide a way to access DOM nodes or React elements created in the render method. - Why would you need to forward ref? If an internal component used refs you might want to be able to access them
+Refs provide a way to access DOM nodes or React elements created in the render method.
+
+Why would you need to forward ref? If an internal component used refs you might want to be able to access them
+
+```jsx
+function TextInput() {
+  const inputRef = useRef(null)
+
+  const focus = () => inputRef.current.focus()
+
+  return (
+    <>
+      <input ref={inputRef} />
+      <button onClick={focus}>Focus the input</button>
+    </>
+  )
+}
+```
 
 ### List ways of defining a component in React
 
@@ -217,7 +416,16 @@ Read more about these patterns here: https://kentcdodds.com/blog/advanced-react-
 ### What are Portals?
 
 Portals provide a first-class way to render children into a DOM node that exists outside the DOM hierarchy of the parent component.
-https://reactjs.org/docs/portals.html
+https://react.dev/reference/react-dom/createPortal
+
+```jsx
+function Modal({ children }) {
+  return createPortal(
+    <div className="modal">{children}</div>,
+    document.getElementById('modal-root'),
+  )
+}
+```
 
 ### What does it mean to destructure props?
 
@@ -271,7 +479,7 @@ Callbacks, Context, etc... There are lots of ways to do this and it's important 
 
 ### What does the deps array in useEffect() do?
 
-Very important to know. https://reactjs.org/docs/hooks-reference.html#useeffect
+Very important to know. [docs](https://react.dev/reference/react/useEffect)
 
 ### What is React?
 
@@ -294,15 +502,54 @@ Type checking,
 
 Make all properties in `T` optional
 
+```ts
+interface User {
+  id: number
+  name: string
+}
+
+// all properties optional — handy for update payloads
+type PartialUser = Partial<User>
+// { id?: number; name?: string }
+
+function updateUser(id: number, changes: Partial<User>) {
+  /* ... */
+}
+```
+
 ### What does the built-in `Record` type do?
 
 Construct a type with a set of properties `K` of type `T`
+
+```ts
+type Role = 'admin' | 'editor' | 'viewer'
+
+const permissions: Record<Role, boolean> = {
+  admin: true,
+  editor: true,
+  viewer: false,
+}
+```
 
 More built-in types: [/notes/typescript/#built-in-utility-types](/notes/typescript/#built-in-utility-types)
 
 ### What is a generic and how might you use one?
 
-Used to pass a type into another type/interface. Like when you need to specify the return type of a a generic function.
+Used to pass a type into another type/interface. Like when you need to specify the return type of a generic function.
+
+```ts
+function identity<T>(value: T): T {
+  return value
+}
+
+identity<string>('hello') // T is string
+identity(42) // T inferred as number
+
+interface Box<T> {
+  contents: T
+}
+const stringBox: Box<string> = { contents: 'hi' }
+```
 
 ## Web performance questions
 
@@ -333,7 +580,7 @@ Service workers are a type of script that can run in the background of a web pag
 - Push notifications: Service workers can be used to receive push notifications even when a web page is closed. This means that users can receive notifications even when they are not actively using the web page.
 - Performance optimization: Service workers can be used to handle network requests, such as fetching resources or sending data to a server. By handling these requests in the background, service workers can improve the performance of a web page by reducing the load on the main JavaScript thread.
 
-### How would you use browser developer tools to analyze and improve the performance of a web page?
+### How would you use browser developer tools to analyse and improve the performance of a web page?
 
 Browser developer tools are a powerful tool for analyzing and improving the performance of a web page. Here are the steps that can be taken to use browser developer tools to analyze and improve the performance of a web page:
 
@@ -346,8 +593,8 @@ Browser developer tools are a powerful tool for analyzing and improving the perf
 1. Long or blocked rendering: If the rendering is blocked for long periods of time, the browser may not be able to display the web page.
 1. Long load time: If the web page takes a long time to load, the user may experience a delay before they can interact with the web page.
 1. Once you've identified the issue, use the other tools available in the developer tools to identify the cause of the issue, such as the network tab to see the resources loaded and their size, time taken to load and other details.
-1. Once you've identified the cause of the issue, use the optimization techniques to improve the performance of the web page, for example, minifying and compressing resources, using browser caching, or optimizing images.
-1. Repeat steps 3-7 to see if the performance has improved after making the changes.
+10. Once you've identified the cause of the issue, use the optimization techniques to improve the performance of the web page, for example, minifying and compressing resources, using browser caching, or optimizing images.
+11. Repeat steps 3-7 to see if the performance has improved after making the changes.
 
 ### How would you optimize the load time of a web page?
 
