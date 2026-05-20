@@ -111,6 +111,11 @@ export const SITE_FOOTER_ITEMS = [
     url: '/tools',
   },
   {
+    text: 'Lab',
+    url: 'https://lab.zander.wtf',
+    external: true,
+  },
+  {
     text: 'GitHub',
     url: 'https://github.com/mrmartineau',
     external: true,
@@ -121,17 +126,10 @@ export const SITE_FOOTER_ITEMS = [
     rel: 'me',
     external: true,
   },
-  {
-    text: 'Mastodon',
-    url: 'https://toot.cafe/@zander',
-    rel: 'me',
-    external: true,
-  },
 ];
 
 export const ABOUT_ME = {
   bio: `I am a front-end web developer with over 15 years experience helping companies bring products to market, rewriting apps, creating POCs and more.`,
-  // cv: 'https://read.cv/mrmartineau',
   email: 'mailto:hi+enquiry@zander.wtf',
 };
 
