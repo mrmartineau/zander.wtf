@@ -1,4 +1,4 @@
-export const SITE_TITLE = `Hi! I'm Zander, I make websites`;
+export const SITE_TITLE = `Hi! I'm Zander, I make web things`;
 export const SHOW_STATUS = false;
 
 export const SITE_METADATA: Record<
@@ -6,7 +6,7 @@ export const SITE_METADATA: Record<
   { title: string; subtitle?: string; ogTitle?: string }
 > = {
   home: {
-    title: `Hi! I'm Zander, I make websites`,
+    title: `Hi! I'm Zander, I make web things`,
     subtitle: `Zander Martineau's personal site. I'm a Staff Software Engineer at Dare Global with 15+ years shipping products, rewriting apps, and building POCs across front-end and full-stack.`,
   },
   blog: {
@@ -129,7 +129,7 @@ export const SITE_FOOTER_ITEMS = [
 ];
 
 export const ABOUT_ME = {
-  bio: `I am a front-end web developer with over 15 years experience helping companies bring products to market, rewriting apps, creating POCs and more.`,
+  bio: `I am a product engineer with over 16 years experience helping companies bring products to market, rewriting apps, creating POCs and more.`,
   email: 'mailto:hi+enquiry@zander.wtf',
 };
 
