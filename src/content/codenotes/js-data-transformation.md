@@ -6,6 +6,7 @@ tags:
   - interview
 emoji: 🔀
 date: 2026-05-19
+link: https://lab.zander.wtf/data-transformation/
 ---
 
 Data from an API almost never arrives in the shape your UI wants. A list needs grouping, two endpoints need joining, a keyed object needs to become an array you can `.map()` over in React. This note collects the array, object, `Map` and `Set` methods I reach for to get data from the shape it _is_ to the shape I _need_ — with realistic examples rather than `[1, 2, 3]` toys.
