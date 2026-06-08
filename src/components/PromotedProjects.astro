@@ -1,0 +1,128 @@
+---
+import { getCollection } from 'astro:content';
+
+
+const allProjects = await getCollection('projects');
+
+const promoted = allProjects
+.filter((project) => project.data?.promote)
+.sort(
+    (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+  );
+console.log(`🚀 ~ promoted:`, promoted);
+---
+
+<div class="zm-promoted">
+  <div class="zm-promoted-grid">
+    {
+      promoted.map((item) => {
+
+        const { title, subtitle, link, repo, image, bgColour, fgColour } = item.data;
+        // Prefer the live link, fall back to the repo, otherwise don't link.
+        const href = link || repo;
+        return (
+          <div
+            class="zm-promoted-card"
+            style={`--card-bg: ${bgColour}; --card-fg: ${fgColour};`}
+          >
+            {image ? (
+              <div class="zm-promoted-image">
+                <img src={image} alt={`${title} preview`} />
+              </div>
+            ) : null}
+            <div class="zm-promoted-body">
+              <h3 class="zm-promoted-title">{title}</h3>
+              <p class="zm-promoted-description">{subtitle}</p>
+              <a href={href} class="zm-promoted-link" target="_blank" rel="noopener noreferrer">
+                {href}
+              </a>
+            </div>
+          </div>
+        );
+      })
+    }
+  </div>
+
+  <div class="text-center">
+    <a href="/projects" class="button" transition:persist>
+      View all projects
+    </a>
+  </div>
+</div>
+
+<style>
+  .zm-promoted {
+    margin-block: var(--space-3xl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-l);
+  }
+
+  .zm-promoted-grid {
+    --grid-count: 1;
+    display: grid;
+    grid-template-columns: repeat(var(--grid-count), 1fr);
+    gap: var(--space-l);
+
+    @media screen and (min-width: 550px) {
+      --grid-count: 2;
+    }
+    @media screen and (min-width: 1350px) {
+      --grid-count: 4;
+    }
+  }
+
+  .zm-promoted-card {
+    --card-bg: var(--bg-block);
+    --card-fg: var(--colour-accent);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 2rem;
+    background-color: var(--card-bg);
+    color: var(--card-fg);
+    text-decoration: none;
+    transition: transform 150ms ease-in-out;
+  }
+
+  a.zm-promoted-card {
+    --colour-decoration: transparent;
+  }
+
+  a.zm-promoted-card:hover {
+    transform: translateY(-4px);
+  }
+
+  .zm-promoted-image {
+    aspect-ratio: 16 / 9;
+    background-color: color-mix(in srgb, var(--card-fg) 15%, var(--card-bg));
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .zm-promoted-body {
+    padding: var(--space-m);
+  }
+
+  .zm-promoted-title {
+    font-variation-settings: 'wght' 600;
+    font-size: var(--step-1);
+    color: var(--card-fg);
+  }
+
+  .zm-promoted-description {
+    margin-block-start: var(--space-2xs);
+    font-size: var(--step--2);
+    opacity: 0.8;
+  }
+
+  .zm-promoted-link {
+    margin-block-start: var(--space-2xs);
+    font-size: var(--step--2);
+    opacity: 0.8;
+  }
+</style>

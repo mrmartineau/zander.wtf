@@ -4,10 +4,10 @@ import { SITE_METADATA } from 'src/consts';
 import ToolList from '~/components/ToolList.astro';
 import ContentLayout from '~/layouts/ContentLayout.astro';
 
-const tools = (await getCollection('tools')).sort(
+const projects = (await getCollection('projects')).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
 );
-const slug = 'tools';
+const slug = 'projects';
 ---
 
 <ContentLayout
@@ -15,5 +15,5 @@ const slug = 'tools';
   subtitle={SITE_METADATA[slug].subtitle}
   slug={slug}
 >
-  <ToolList tools={tools} />
+  <ToolList tools={projects} />
 </ContentLayout>

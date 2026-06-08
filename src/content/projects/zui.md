@@ -1,6 +1,6 @@
 ---
 title: ZUI
-subtitle: A CSS-first UI library with optional React, Astro, Solid, Svelte, and Vue components.
+subtitle: A CSS-first UI library with design tokens, layered architecture, and optional React, Astro, Solid, Svelte & Vue components. No build step required.
 date: 2026-04-01
 repo: 'https://github.com/mrmartineau/zui'
 link: 'https://zui.zander.wtf'
@@ -15,6 +15,10 @@ tags:
   - vue
   - svelte
   - solid
+promote: true
+bgColour: '#161B1D'
+# fgColour: '#5eead4'
+image: '/images/promoted/zui.png'
 ---
 
 I've wanted my own UI lib for side-projects for ages. Tailwind is the go-to but it never really clicked for me. ZUI hits the sweet spot - just enough to accelerate development without getting in the way, and trivially easy to override when you need to.

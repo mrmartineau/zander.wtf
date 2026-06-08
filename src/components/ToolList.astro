@@ -3,7 +3,7 @@ import type { CollectionEntry } from 'astro:content';
 import FormattedDate from './FormattedDate.astro';
 
 type Props = {
-  tools: CollectionEntry<'tools'>[];
+  tools: CollectionEntry<'projects'>[];
 };
 const { tools } = Astro.props;
 
@@ -12,6 +12,7 @@ const statusLabels: Record<string, string> = {
   ongoing: 'Ongoing',
   inactive: 'Inactive',
   archived: 'Archived',
+  unreleased: 'Unreleased',
 };
 ---
 
@@ -20,7 +21,7 @@ const statusLabels: Record<string, string> = {
     tools.map(({ slug, data }) => (
       <div class="zm-tool-item">
         <div class="info">
-          <a href={`/tools/${slug}`} class="title" transition:persist>
+          <a href={`/projects/${slug}`} class="title" transition:persist>
             {data.title}
           </a>
           {data?.subtitle ? (

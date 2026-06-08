@@ -52,9 +52,9 @@ export const SITE_METADATA: Record<
     title: 'Search Notes',
     subtitle: 'Search through all code notes',
   },
-  tools: {
-    title: 'Tools',
-    subtitle: 'Packages, experiments, and side-projects',
+  projects: {
+    title: 'Projects',
+    subtitle: 'Side-projects, packages and other things I have made or am making',
   },
 };
 
@@ -64,16 +64,12 @@ export const SITE_NAV_ITEMS = [
     url: '/blog',
   },
   {
+    text: 'Projects',
+    url: '/projects',
+  },
+  {
     text: 'Links',
     url: '/links',
-  },
-  {
-    text: 'About',
-    url: '/about',
-  },
-  {
-    text: 'Notes',
-    url: '/notes',
   },
 ];
 
@@ -81,6 +77,10 @@ export const SITE_FOOTER_ITEMS = [
   {
     text: 'CV/Resume',
     url: '/cv',
+  },
+  {
+    text: 'Code Notes',
+    url: '/notes',
   },
   {
     text: 'Feeds',
@@ -129,7 +129,7 @@ export const SITE_FOOTER_ITEMS = [
 ];
 
 export const ABOUT_ME = {
-  bio: `I am a product engineer with over 16 years experience helping companies bring products to market, rewriting apps, creating POCs and more.`,
+  bio: `Product engineer with 18 years of experience, specialising in front-end and design systems - building products that work well for the people who use them.`,
   email: 'mailto:hi+enquiry@zander.wtf',
 };
 
@@ -153,7 +153,7 @@ export const JOBS: Jobs = {
   current: {
     name: 'Dare',
     url: 'https://dare.global',
-    description: `Staff Software Engineer`,
+    description: `Staff Software Engineer and web team lead. I maintained and evolved Dare's core ETRM (Energy Trading and Risk Management) platform — a complex, data-intensive system — and built a new component library from the ground up, bringing visual and functional consistency across the product suite.`,
     type: 'employed',
   },
   previous: [
@@ -266,19 +266,65 @@ export type Project = {
   description: string;
   link?: string;
   repo?: string;
-  status: 'active' | 'archived' | 'inactive' | 'ongoing';
+  status: 'active' | 'archived' | 'inactive' | 'ongoing' | 'unreleased';
   tech?: string;
   published?: 'private' | 'public';
   subitems?: Project[];
+  promote?: boolean;
+  /** Background colour for the promoted card on the home page. Placeholder. */
+  bgColour?: string;
+  /** Foreground/accent colour for the promoted card. Placeholder. */
+  fgColour?: string;
+  /** Image shown on the promoted card, relative to /public or a full URL. Placeholder. */
+  image?: string;
 };
 
 export const SIDE_PROJECTS: Project[] = [
   {
-    name: '@mrmartineau/zui',
+    name: 'Reps',
+    description: `A daily JavaScript coding puzzle. Solve one function a day in your browser.`,
+    repo: 'https://github.com/mrmartineau/reps.zander.wtf',
+    link: 'https://github.com/mrmartineau/reps.zander.wtf',
+    status: 'active',
+    tech: 'CSS, React, TypeScript, Vite, Web Workers',
+    promote: true,
+    bgColour: '#1e1b4b',
+    fgColour: '#a5b4fc',
+    image: 'https://reps.zander.wtf/opengraph.png',
+  },
+  {
+    name: 'Simmer',
+    description: `A recipe management app for restaurants and home cooks.`,
+    status: 'unreleased',
+    tech: 'CSS, React, TypeScript, Vite, Cloudflare Workers',
+    promote: true,
+    bgColour: '#3b1d1d',
+    fgColour: '#fca5a5',
+    // image: '/images/promoted/simmer.png',
+  },
+  {
+    name: 'ZUI',
     description: `A CSS-first UI library with optional React and Astro components.`,
     repo: 'https://github.com/mrmartineau/zui',
+    link: 'https://zui.zander.wtf',
     status: 'active',
-    tech: 'CSS, React, Astro',
+    tech: 'CSS, React, Astro, Vue, Solid, TypeScript',
+    promote: true,
+    bgColour: '#0f2e2a',
+    fgColour: '#5eead4',
+    image: '/images/promoted/zui.png',
+  },
+  {
+    name: 'Otter',
+    description: 'Self-hosted personal bookmarking app. Open source.',
+    repo: 'https://github.com/mrmartineau/Otter',
+    link: '/blog/otter-v2',
+    status: 'active',
+    tech: 'React, Next.js, TypeScript, PostgreSQL and authentication (powered by Supabase), Tailwind',
+    promote: true,
+    bgColour: '#1e1b4b',
+    fgColour: '#a5b4fc',
+    image: '/images/promoted/otter.png',
   },
   {
     name: '@mrmartineau/xtractr',
@@ -329,14 +375,6 @@ export const SIDE_PROJECTS: Project[] = [
     repo: 'https://github.com/mrmartineau/url-merge',
     status: 'active',
     tech: 'TypeScript',
-  },
-  {
-    name: 'Otter',
-    description: 'Self-hosted personal bookmarking app. Open source.',
-    repo: 'https://github.com/mrmartineau/Otter',
-    link: '/blog/otter-v2',
-    status: 'active',
-    tech: 'React, Next.js, TypeScript, PostgreSQL and authentication (powered by Supabase), Tailwind',
   },
   {
     name: 'zander.wtf',

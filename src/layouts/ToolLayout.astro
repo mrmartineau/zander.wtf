@@ -4,7 +4,7 @@ import GithubReadme from '~/components/GithubReadme.astro';
 import PageHeader from '~/components/PageHeader.astro';
 import BaseLayout from './BaseLayout.astro';
 
-type Props = CollectionEntry<'tools'>;
+type Props = CollectionEntry<'projects'>;
 const { data, slug } = Astro.props;
 const { title, date, subtitle, tags, repo, link, tech, showReadme } =
   data;

@@ -1,0 +1,20 @@
+---
+title: Otter
+subtitle: A self-hosted bookmark manager and media tracker built for people who value privacy and ownership.
+date: 2022-02-01
+repo: 'https://github.com/mrmartineau/otter'
+link: 'https://otter.zander.wtf'
+showReadme: true
+status: active
+tech: CSS, TypeScript
+tags:
+  - css
+  - typescript
+  - react
+  - PostgreSQL
+  - tailwind
+promote: true
+bgColour: '#33255B'
+# fgColour: '#5eead4'
+image: '/images/promoted/otter.png'
+---

@@ -31,7 +31,7 @@ const codenotes = defineCollection({
   }),
 });
 
-const tools = defineCollection({
+const projects = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
@@ -40,10 +40,14 @@ const tools = defineCollection({
     tags: z.array(z.string()).optional(),
     repo: z.string().optional(),
     link: z.string().optional(),
-    status: z.enum(['active', 'archived', 'inactive', 'ongoing']).default('active'),
+    status: z.enum(['active', 'archived', 'inactive', 'ongoing', 'unreleased']).default('active'),
     tech: z.string().optional(),
     showReadme: z.boolean().optional().default(false),
+    promote: z.boolean().optional().default(false),
+    bgColour: z.string().optional(),
+    fgColour: z.string().optional(),
+    image: z.string().optional(),
   }),
 });
 
-export const collections = { blog, worklog, codenotes, tools };
+export const collections = { blog, worklog, codenotes, projects };
