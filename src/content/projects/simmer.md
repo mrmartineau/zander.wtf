@@ -1,6 +1,6 @@
 ---
 title: Simmer
-subtitle: Your recipes, finally at home. Currently in closed beta - join the waitlist for updates!
+subtitle: Your recipes, finally at home.
 date: 2025-12-18
 # repo: 'https://github.com/mrmartineau/simmer'
 link: 'https://simmer.zander.wtf'
@@ -19,4 +19,4 @@ bgColour: '#211811'
 image: '/images/promoted/simmer.png'
 ---
 
-Simmer is in closed-beta right now. Watch this space for updates, or join the waitlist to be the first to know when it's ready!
+Simmer is in beta right now. You can sign-up but expect a few rough edges. If you give it a go, I'd love to hear your feedback - what you like, what you don't, and what you'd like to see next.
