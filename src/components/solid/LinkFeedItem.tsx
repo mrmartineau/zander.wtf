@@ -15,6 +15,7 @@ export function LinkFeedItem({
   type,
   tags,
   setSearchQuery,
+  created_at: date,
 }: Props) {
   if (!url) {
     return null;
@@ -56,6 +57,7 @@ export function LinkFeedItem({
                 </button>
               ))
           : null}
+        <time datetime={date}>{new Date(date).toLocaleDateString()}</time>
       </div>
     </div>
   );

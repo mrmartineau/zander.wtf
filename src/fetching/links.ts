@@ -36,7 +36,7 @@ export type BookmarkType =
   | 'event'
   | 'file';
 
-export const fetchLinks = async (limit = 150): Promise<Bookmark[]> => {
+export const fetchLinks = async (limit = 550): Promise<Bookmark[]> => {
   const linksData = await fetchOtterJson<{ data: Bookmark[] }>({
     endpoint: 'bookmarks',
     query: {

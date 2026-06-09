@@ -1,6 +1,8 @@
 ---
 import BlockAbout from '~/components/BlockAbout.astro';
 import BlockBlog from '~/components/BlockBlog.astro';
+import BlockLinks from '~/components/BlockLinks.astro';
+import BlockNotes from '~/components/BlockNotes.astro';
 import PromotedProjects from '~/components/PromotedProjects.astro';
 import Status from '~/components/Status.astro';
 import BaseLayout from '~/layouts/BaseLayout.astro';
@@ -33,6 +35,8 @@ const slug = 'home';
     <div class="zm-block-grid">
       <BlockAbout />
       <BlockBlog />
+      <BlockLinks />
+      <BlockNotes />
     </div>
   </div>
 </BaseLayout>
