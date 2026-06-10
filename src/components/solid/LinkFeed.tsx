@@ -59,7 +59,7 @@ export function LinkFeed({ links }: { links: Bookmark[] }) {
           placeholder={`Search ${filteredLinks().length} links...`}
           value={searchQuery()}
           onInput={(e) => setSearchQuery(e.currentTarget.value)}
-          class="w-full p-4 my-5 rounded-xl bg-[var(--bg-block)] text-base font-sans text-[var(--colour-text)] border-none focus:outline-none focus:ring-2 focus:ring-[var(--colour-accent)] focus:ring-offset-2"
+          class="w-full p-4 my-5 rounded-none bg-[var(--bg-block)] text-base font-mono text-[var(--colour-text)] border-none focus:outline-none focus:ring-2 focus:ring-[var(--colour-accent)] focus:ring-offset-2"
           autofocus
         />
         {searchQuery()?.length > 0 ? (

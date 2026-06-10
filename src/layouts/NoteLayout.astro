@@ -98,11 +98,11 @@ const pathname = new URL(Astro.request.url).pathname;
       text-decoration: none;
       color: var(--colour-text);
       padding: var(--space-3xs) var(--space-xs);
-      border-radius: var(--space-2xs);
+      border-radius: 0;
       transition: background-color 200ms ease-in-out;
 
       &.active, &:hover {
-        background-color: var(--colour-reallyFuckingDark);
+        background-color: var(--color-background);
       }
     }
   }
@@ -128,7 +128,8 @@ const pathname = new URL(Astro.request.url).pathname;
     min-height: 100vh;
     background-color: var(--bg-block);
     padding: var(--space-s);
-    border-radius: 1.5rem;
+    border-radius: 0;
+    border: var(--border-width) solid var(--color-border);
     display: flex;
     flex-direction: column;
     gap: var(--space-3xs);

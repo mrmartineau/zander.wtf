@@ -1,6 +1,12 @@
 ---
-// Import the global.css file here so that it is included on
-// all pages through the use of the <BaseHead /> component.
+// ZUI provides the token system + component styles (inside zui.* cascade
+// layers); the site theme in styles/index.css overrides it unlayered.
+import '@mrmartineau/zui/css';
+import '@fontsource/ibm-plex-serif/400.css';
+import '@fontsource/ibm-plex-serif/400-italic.css';
+import '@fontsource/ibm-plex-serif/600.css';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/600.css';
 import '../styles/index.css';
 
 interface Props {
@@ -49,7 +55,7 @@ const theTitle = slug === 'home' ? title : `${title} | Zander Martineau`;
 
 <link
   rel="preload"
-  href="/fonts/Mona-Sans.woff2"
+  href="/fonts/DepartureMono-Regular.woff2"
   as="font"
   type="font/woff2"
   crossorigin
@@ -82,4 +88,13 @@ const theTitle = slug === 'home' ? title : `${title} | Zander Martineau`;
   sizes="500x500"
   href="/images/favicon/icon@1x.png"
 />
-<meta name="theme-color" content="#21262c" />
+<meta
+  name="theme-color"
+  media="(prefers-color-scheme: light)"
+  content="#f1ede2"
+/>
+<meta
+  name="theme-color"
+  media="(prefers-color-scheme: dark)"
+  content="#13160f"
+/>

@@ -6,41 +6,71 @@ import BigName from './BigName.astro';
 const today = new Date();
 ---
 
-<footer class="zm-contentContainer">
-  <Status />
-  <div class="grid gap-l">
-    <nav class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2xs">
-      {
-        SITE_FOOTER_ITEMS.map((item) => {
-          return (
-            <a href={item.url} rel={item.rel}>
-              {item.text}
-              {item.external ? <i class="ph-duotone ph-arrow-up-right" /> : null}
-            </a>
-          );
-        })
-      }
-      <a href="/ascii">ASCII mode <i class="ph-duotone ph-terminal" /></a>
-    </nav>
-    <div>
-      <p>
-        &copy; {today.getFullYear()} Zander Martineau • <a
-          href={`https://github.com/mrmartineau/zander.wtf/commit/${__COMMIT_HASH__}`}
-          class="commit-hash"
-        >#{__COMMIT_HASH__}</a> • This site is always under construction. 🚧
-      </p>
+<footer>
+  <div class="zm-contentContainer">
+    <Status />
+    <div class="grid gap-l">
+      <nav class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2xs">
+        {
+          SITE_FOOTER_ITEMS.map((item) => {
+            return (
+              <a href={item.url} rel={item.rel}>
+                {item.text}
+                {item.external ? (
+                  <i class="ph-duotone ph-arrow-up-right" />
+                ) : null}
+              </a>
+            );
+          })
+        }
+        <a href="/ascii">ASCII mode <i class="ph-duotone ph-terminal" /></a>
+      </nav>
+      <div class="zm-colophon">
+        <p>
+          &copy; {today.getFullYear()} Zander Martineau • <a
+            href={`https://github.com/mrmartineau/zander.wtf/commit/${__COMMIT_HASH__}`}
+            class="commit-hash"
+          >rev. #{__COMMIT_HASH__}</a> • This site is always under construction.
+          🚧
+        </p>
+        <p class="zm-eof" aria-hidden="true">── EOF ──</p>
+      </div>
     </div>
   </div>
-</footer>
 
-<BigName orientation="top" class="mt-l" />
+  <BigName class="mt-l" />
+</footer>
 
 <style lang="postcss">
   footer {
-    padding: var(--space-xl) 0;
+    border-top: var(--border-width) solid var(--color-border);
+    padding-top: var(--space-l);
+    margin-top: var(--space-2xl);
+  }
+
+  footer :global(.zm-contentContainer) {
+    padding-bottom: var(--space-xl);
+  }
+
+  nav a {
+    font-family: var(--font-display);
+    font-size: var(--step--1);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .zm-colophon {
+    font-size: var(--step--1);
+    color: var(--color-muted);
   }
 
   .commit-hash {
-    font-family: var(--font-mono);
+    font-family: var(--font-code);
+  }
+
+  .zm-eof {
+    font-family: var(--font-display);
+    margin-top: var(--space-s);
+    color: var(--color-faint);
   }
 </style>

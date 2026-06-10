@@ -18,6 +18,11 @@ module.exports = {
       '9xl': ['var(--step-10)', { lineHeight: '1' }],
     },
     extend: {
+      fontFamily: {
+        serif: ['var(--font-body)'],
+        display: ['var(--font-display)'],
+        mono: ['var(--font-code)'],
+      },
       typography: {
         DEFAULT: {
           css: {
