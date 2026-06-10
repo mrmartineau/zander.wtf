@@ -103,10 +103,6 @@ export const SITE_FOOTER_ITEMS = [
     url: '/uses',
   },
   {
-    text: 'Notes',
-    url: '/notes',
-  },
-  {
     text: 'Lab',
     url: 'https://lab.zander.wtf',
     external: true,
