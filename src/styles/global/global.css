@@ -1,13 +1,16 @@
 :root {
-  color-scheme: dark;
-  background-color: var(--bg);
-  line-height: 1.5;
-  color: var(--colour-text);
+  color-scheme: light dark;
+  background-color: var(--color-background);
+  color: var(--color-text);
   scroll-behavior: smooth;
 }
 
-:root.dark {
-  color-scheme: dark;
+/* Tailwind's preflight is unlayered and overrides ZUI's layered base,
+   so the body font is re-asserted here. */
+html,
+body {
+  font-family: var(--font-body);
+  line-height: var(--line-height);
 }
 
 .icon {
@@ -15,7 +18,10 @@
 }
 
 a {
-  transition: all 250ms ease-in-out;
+  transition:
+    color 150ms ease-in-out,
+    background-color 150ms ease-in-out,
+    text-decoration-color 150ms ease-in-out;
   text-decoration: none;
 }
 
@@ -28,6 +34,37 @@ a {
 }
 
 ::selection {
-  background-color: var(--colour-accent);
-  color: var(--bg);
+  background-color: var(--color-accent);
+  color: var(--color-background);
+}
+
+/* Blinking block cursor, e.g. <span class="zm-cursor" /> */
+.zm-cursor::after {
+  content: "▮";
+  color: var(--color-accent);
+  animation: zm-blink 1.1s step-end infinite;
+}
+
+@keyframes zm-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Faint CRT scanlines in dark mode */
+@media (prefers-color-scheme: dark) {
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 2px,
+      oklch(0% 0 0 / 6%) 2px,
+      oklch(0% 0 0 / 6%) 3px
+    );
+  }
 }

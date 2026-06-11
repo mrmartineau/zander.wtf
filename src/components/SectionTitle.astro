@@ -2,25 +2,27 @@
 const { class: className } = Astro.props;
 ---
 
-<h1 class={className}><slot /></h1>
+<h1 class={className}><span aria-hidden="true">&gt; </span><slot /></h1>
 
 <style>
   h1 {
-    font-family: var(--font-mona);
-    font-size: var(--step-5);
-    font-variation-settings:
-      'wght' 900,
-      'wdth' 125,
-      'ital' 10;
-    line-height: 1;
+    font-family: var(--font-display);
+    font-size: var(--step-4);
+    font-weight: 400;
+    line-height: 1.1;
     text-transform: uppercase;
     letter-spacing: 0.02em;
-    color: var(--colour-accent);
+    color: var(--color-text-bright);
+
+    span {
+      color: var(--color-accent);
+      user-select: none;
+    }
   }
 
   @media screen and (min-width: 700px) {
     h1 {
-      font-size: var(--step-8);
+      font-size: var(--step-6);
     }
   }
 </style>

@@ -3,20 +3,25 @@ table {
   border-collapse: collapse;
   margin-block: var(--space-m);
   table-layout: auto;
+  border: var(--border-width) solid var(--color-border);
 
   th,
   td {
     padding: var(--space-xs);
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--color-border);
   }
 }
 
 th {
   text-align: left;
-  font-weight: 600;
+  font-family: var(--font-display);
+  font-size: var(--step--1);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 thead {
-  background-color: var(--bg-main);
-  border-bottom: 1px solid var(--border);
+  background-color: var(--color-surface);
+  border-bottom: var(--border-width) solid var(--color-border);
 }

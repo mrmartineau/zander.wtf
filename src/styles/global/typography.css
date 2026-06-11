@@ -1,7 +1,7 @@
 body {
   font-family: var(--font-body);
-  font-size: var(--step--1);
-  line-height: 1.6;
+  font-size: var(--step-0);
+  line-height: var(--line-height);
 }
 
 ul,
@@ -11,52 +11,40 @@ ol {
 
 blockquote {
   padding-inline-start: 1em;
-  border-inline-start: 0.3em solid;
+  border-inline-start: var(--border-width) solid var(--color-accent);
   font-style: italic;
 }
 
-h1 {
-  font-size: var(--step-4);
+/* Headings are set in Departure Mono — a pixel font with a single weight,
+   so hierarchy comes from size and colour rather than weight. */
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.2;
+  text-wrap: balance;
+  scroll-margin-top: 1em;
+  color: var(--color-text-bright);
 }
 
-h2 {
+h1 {
   font-size: var(--step-3);
 }
 
-h3 {
+h2 {
   font-size: var(--step-2);
 }
 
-h4 {
+h3 {
   font-size: var(--step-1);
 }
 
-h1,
-h2,
-h3 {
-  font-variation-settings:
-    "wght" 250,
-    "wdth" 100,
-    "ital" 0;
-  line-height: 1.1;
-  text-wrap: balance;
-  font-family: var(--font-headings);
-  scroll-margin-top: 1em;
-}
-
 h4 {
-  font-variation-settings:
-    "wght" 500,
-    "wdth" 125,
-    "ital" 0;
-  line-height: 1.1;
-  text-wrap: balance;
-  font-family: var(--font-headings);
-  scroll-margin-top: 1em;
-}
-
-.flow > * {
-  /* max-width: 65ch; */
+  font-size: var(--step-0);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .flow > * + * {
@@ -65,7 +53,7 @@ h4 {
 
 :is(h1, h2, h3, blockquote) {
   --flow-space: var(--space-xl);
-  color: var(--colour-text-bright);
+  color: var(--color-text-bright);
 }
 
 :is(h1, h2, h3) + * {
@@ -73,46 +61,63 @@ h4 {
 }
 
 a {
-  --colour: var(--colour-text-bright);
+  --colour: var(--color-text-bright);
   color: var(--colour);
   text-decoration: none;
 
   &:hover {
-    --colour: var(--colour-accent);
+    --colour: var(--color-accent);
   }
 }
 
 article {
   ul {
-    list-style-type: disc;
+    list-style-type: square;
   }
 
   ol {
     list-style-type: decimal;
   }
 
+  /* Markdown-style heading markers — only on body copy (.flow),
+     not on page chrome like subtitles */
+  .flow h2::before,
+  .flow h3::before {
+    color: var(--color-accent);
+  }
+
+  .flow h2::before {
+    content: "## ";
+  }
+
+  .flow h3::before {
+    content: "### ";
+  }
+
   a {
-    --colour: var(--colour-text-bright);
+    --colour: var(--color-text-bright);
     --colour-decoration: var(--colour-link-decoration);
     color: var(--colour);
     text-decoration-color: var(--colour-decoration);
-    text-decoration-thickness: 0.2ex;
+    text-decoration-thickness: 0.15ex;
     text-underline-offset: 0.3ex;
     text-decoration-line: underline;
     word-wrap: break-word;
 
     &:hover {
-      --colour-decoration: var(--colour-accent);
-      --colour: var(--colour-text-bright);
+      --colour-decoration: var(--color-accent);
+      --colour: var(--color-text-bright);
     }
   }
 
   code {
-    color: var(--colour-text-bright);
-    font-family: var(--font-mono);
+    color: var(--color-text-bright);
+    font-family: var(--font-code);
+    font-size: 0.92em;
     &::before,
     &::after {
       content: "`";
+      color: var(--color-muted);
     }
   }
 
@@ -125,11 +130,12 @@ article {
   img,
   iframe,
   video {
-    border-radius: 0.5em;
-    border: 3px solid;
+    border: var(--border-width) solid var(--color-border);
+    box-shadow: var(--shadow-hard);
 
     &.no-border {
       border: none;
+      box-shadow: none;
     }
   }
 
@@ -139,7 +145,8 @@ article {
 }
 
 .zm-block-link {
-  font-variation-settings: "wght" 500;
+  font-family: var(--font-display);
+  font-size: var(--step--1);
   margin-top: var(--space-s);
   display: inline-block;
 
@@ -156,14 +163,15 @@ article {
 }
 
 .lede + * {
-  --flow-space: var(---space-m);
+  --flow-space: var(--space-m);
 }
 
 hr {
-  border-top-color: var(--hr);
+  border: none;
+  border-top: 1px dashed var(--color-border);
 }
 
 p,
 blockquote {
-  color: var(--colour-text);
+  color: var(--color-text);
 }

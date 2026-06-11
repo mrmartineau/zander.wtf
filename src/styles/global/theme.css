@@ -1,0 +1,81 @@
+/* -------------------------------------------------------------------------
+ * zander.wtf — retro computer theme, built on ZUI
+ *
+ * ZUI (@mrmartineau/zui) supplies the token system and component styles
+ * inside `zui.*` cascade layers. Everything here is unlayered, so it wins
+ * over ZUI defaults and Tailwind's preflight.
+ *
+ * Light mode: warm paper + ink with a vivid phosphor-orange accent —
+ *             vintage computer manual.
+ * Dark mode:  near-black with phosphor green — CRT terminal.
+ * ------------------------------------------------------------------------- */
+
+/* Departure Mono — pixel mono by Helena Zhang (SIL OFL 1.1).
+   Used for headings, nav, and UI chrome. Single weight. */
+@font-face {
+  font-family: "Departure Mono";
+  src: url("/fonts/DepartureMono-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* ZUI semantic tokens ---------------------------------------------- */
+  --color-accent: light-dark(oklch(56% 0.19 40), oklch(85% 0.21 145));
+  --color-theme: light-dark(oklch(35% 0.02 75), oklch(72% 0.09 145));
+  --color-background: light-dark(oklch(95% 0.015 90), oklch(16% 0.01 150));
+  --color-surface: light-dark(oklch(97.5% 0.01 90), oklch(20% 0.012 150));
+  --color-border: light-dark(oklch(45% 0.025 75), oklch(42% 0.035 145));
+  --color-text: light-dark(oklch(27% 0.015 75), oklch(85% 0.02 130));
+
+  /* ZUI typography tokens */
+  --font-body: "IBM Plex Serif", var(--font-stack-serif);
+  --font-display: "Departure Mono", var(--font-stack-mono);
+  --font-code: "IBM Plex Mono", var(--font-stack-mono);
+  --line-height: 1.65;
+
+  /* ZUI shape tokens — hard edges everywhere */
+  --radius-scale: 0;
+  --focus-ring: var(--color-accent) solid 2px;
+  --focus-ring-offset: 2px;
+
+  /* Site-specific tokens --------------------------------------------- */
+  --color-text-bright: light-dark(oklch(16% 0.015 75), oklch(96% 0.01 130));
+  --border-width: 2px;
+  --shadow-hard: 0.3rem 0.3rem 0 0 var(--color-border);
+  --sidebar-width: 250px;
+
+  /* Utopia-era spacing aliases → ZUI fluid space tokens --------------- */
+  --space-s: var(--space-sm);
+  --space-m: var(--space-md);
+  --space-l: var(--space-lg);
+  --space-s-m: var(--space-sm-md);
+  --space-m-l: var(--space-md-lg);
+
+  /* Legacy variable names, mapped onto the new tokens ------------------
+     Components throughout the site still reference these. */
+  --bg: var(--color-background);
+  --bg-main: var(--color-background);
+  --bg-block: var(--color-surface);
+  --bg-code: var(--color-surface);
+  --bg-code-highlight: oklch(from var(--color-accent) l c h / 14%);
+  --colour-text: var(--color-text);
+  --colour-text-bright: var(--color-text-bright);
+  --colour-accent: var(--color-accent);
+  --colour-muted: var(--color-muted);
+  --colour-border: var(--color-border);
+  --colour-error: var(--color-error);
+  --colour-link-decoration: oklch(from var(--color-text) l c h / 35%);
+  --border: var(--color-border);
+  --hr: var(--color-border);
+  --tag: var(--color-muted);
+  --font-mono: var(--font-code);
+  --font-headings: var(--font-display);
+  --font-mona: var(--font-display);
+}
+
+/* Square badges/chips — pills don't exist on a terminal */
+.zui-badge {
+  --zui-badge-radius: 0;
+}

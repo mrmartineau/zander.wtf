@@ -16,27 +16,20 @@ import { ABOUT_ME, SHOW_STATUS } from 'src/consts';
 
 <style>
   a {
-    background-color: var(--colour-accent);
-    border-radius: 0.5rem;
+    background-color: var(--color-accent);
     margin: var(--space-m) auto;
     padding: var(--space-2xs) var(--space-xs);
+    font-family: var(--font-display);
     font-size: var(--step--1);
-    font-weight: 500;
-    color: var(--bg);
+    color: var(--color-background);
     text-align: center;
     max-width: fit-content;
     display: block;
-    font-variation-settings:
-      'wght' 400,
-      'wdth' 110,
-      'ital' 0;
+    box-shadow: var(--shadow-hard);
   }
 
   a:hover {
-    font-variation-settings:
-      'wght' 700,
-      'wdth' 125,
-      'ital' 0;
+    background-color: var(--color-text-bright);
   }
 
   span {
