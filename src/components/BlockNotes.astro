@@ -1,0 +1,18 @@
+---
+import { getCollection } from 'astro:content';
+import Block from './Block.astro';
+import NoteListBlock from './NoteListBlock.astro';
+
+const notes = (await getCollection('codenotes')).sort((a, b) => {
+  // Sort by date descending, notes without dates go to the end
+  const dateA = a.data.date?.valueOf() ?? 0;
+  const dateB = b.data.date?.valueOf() ?? 0;
+  return dateB - dateA;
+}).slice(0, 5)
+
+---
+
+<Block title="Code Notes" subtitle="TILs, snippets—my digital code garden">
+  <NoteListBlock notes={notes} />
+  <a href="/notes" class="zm-block-link">View all notes →</a>
+</Block>
