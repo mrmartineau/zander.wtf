@@ -13,8 +13,6 @@ A reference for reading the symbols in formulas, written for people (me) who are
 
 | Symbol | Name | Means | Example |
 |--------|------|-------|---------|
-| `+ − × ÷` | plus, minus, times, divide | basic arithmetic | `3 × 4 = 12` |
-| `=` | equals | left side has the same value as right | `Q = U × A` |
 | `Σ` | sigma (capital) | **sum**: add up a series of things | see below |
 | `Δ` | delta (capital) | **change/difference** between two values | `ΔT = 21 − (−3)` |
 | `·` | dot | multiply (same as `×`) | `W/m²·K` |
