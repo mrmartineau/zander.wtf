@@ -1,4 +1,5 @@
 ---
+slug: code-notes-gatsby-theme
 title: Code Notes (Gatsby Theme)
 subtitle: Gatsby theme for your digital garden. Archived.
 date: 2020-06-01

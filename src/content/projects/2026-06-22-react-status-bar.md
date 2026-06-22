@@ -1,4 +1,5 @@
 ---
+slug: react-status-bar
 title: React Status Bar
 subtitle: A lightweight, portal-based status bar system for React.
 date: 2026-06-22

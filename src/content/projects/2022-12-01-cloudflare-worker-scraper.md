@@ -1,4 +1,5 @@
 ---
+slug: cloudflare-worker-scraper
 title: cloudflare-worker-scraper
 subtitle: Page metadata scraper powered by Cloudflare Workers.
 date: 2022-12-01

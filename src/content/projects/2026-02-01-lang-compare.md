@@ -1,4 +1,5 @@
 ---
+slug: lang-compare
 title: Lang Compare
 subtitle: Compare language features across a range of topics in a structured, comparable format.
 date: 2026-02-01

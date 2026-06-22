@@ -1,4 +1,5 @@
 ---
+slug: raycast-extensions
 title: Raycast extensions
 subtitle: A collection of Raycast extensions for personal and public use.
 date: 2023-01-01

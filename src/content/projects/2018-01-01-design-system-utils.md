@@ -1,4 +1,5 @@
 ---
+slug: design-system-utils
 title: Design System Utils
 subtitle: A micro framework that standardises your design-system and provides helpful utilities to access its information.
 date: 2018-01-01

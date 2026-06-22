@@ -1,4 +1,5 @@
 ---
+slug: npm-package
 title: npm package template
 subtitle: A small, reusable starter repo for building TypeScript npm packages with its own SKILL.md for AI-powered skill development.
 date: 2026-03-01

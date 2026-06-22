@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import ShortUrl from './ShortUrl.astro';
 
 
 const allProjects = await getCollection('projects');
@@ -33,9 +34,11 @@ console.log(`🚀 ~ promoted:`, promoted);
             <div class="zm-promoted-body">
               <h3 class="zm-promoted-title">{title}</h3>
               <p class="zm-promoted-description">{subtitle}</p>
-              <a href={href} class="zm-promoted-link" target="_blank" rel="noopener noreferrer">
-                {href}
-              </a>
+              {href ? (
+                <a href={href} class="zm-promoted-link" target="_blank" rel="noopener noreferrer">
+                  ➤ <ShortUrl url={href} />
+                </a>
+              ) : null}
             </div>
           </div>
         );

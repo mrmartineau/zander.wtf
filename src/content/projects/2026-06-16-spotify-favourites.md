@@ -1,4 +1,5 @@
 ---
+slug: spotify-favourites
 title: Spotify Favourites
 subtitle: Finds your real favourite artists and albums on Spotify by how much of each catalogue you've actually explored, not raw play counts.
 date: 2026-06-16

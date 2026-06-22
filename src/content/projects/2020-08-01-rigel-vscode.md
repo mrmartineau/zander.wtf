@@ -1,4 +1,5 @@
 ---
+slug: rigel-vscode
 title: Rigel VS Code theme
 subtitle: Port of the Rigel colour theme for VS Code.
 date: 2020-08-01
