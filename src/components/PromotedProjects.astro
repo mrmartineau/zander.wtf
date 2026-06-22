@@ -2,14 +2,11 @@
 import { getCollection } from 'astro:content';
 import ShortUrl from './ShortUrl.astro';
 
-
 const allProjects = await getCollection('projects');
 
 const promoted = allProjects
-.filter((project) => project.data?.promote)
-.sort(
-    (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
-  );
+  .filter((project) => project.data?.promote)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 console.log(`🚀 ~ promoted:`, promoted);
 ---
 
@@ -21,10 +18,16 @@ console.log(`🚀 ~ promoted:`, promoted);
         const { title, subtitle, link, repo, image, bgColour, fgColour } = item.data;
         // Prefer the live link, fall back to the repo, otherwise don't link.
         const href = link || repo;
+        // Only set the vars that exist — `--card-fg: undefined` would
+        // override the CSS fallback with an invalid value
+        const cardStyle = [
+          bgColour ? `--card-bg: ${bgColour};` : '',
+          fgColour ? `--card-fg: ${fgColour};` : '',
+        ].join(' ');
         return (
           <div
             class="zm-promoted-card"
-            style={`--card-bg: ${bgColour}; --card-fg: ${fgColour};`}
+            style={cardStyle}
           >
             {image ? (
               <div class="zm-promoted-image">
@@ -76,12 +79,15 @@ console.log(`🚀 ~ promoted:`, promoted);
   }
 
   .zm-promoted-card {
+    /* Card backgrounds from frontmatter are dark in both colour schemes,
+       so the fallback foreground is a fixed light colour */
     --card-bg: var(--bg-block);
-    --card-fg: var(--colour-accent);
+    --card-fg: oklch(95% 0.01 90);
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    border-radius: 2rem;
+    border: var(--border-width) solid var(--color-border);
+    box-shadow: var(--shadow-hard);
     background-color: var(--card-bg);
     color: var(--card-fg);
     text-decoration: none;
@@ -112,20 +118,30 @@ console.log(`🚀 ~ promoted:`, promoted);
   }
 
   .zm-promoted-title {
-    font-variation-settings: 'wght' 600;
+    font-family: var(--font-display);
     font-size: var(--step-1);
     color: var(--card-fg);
   }
 
+  /* Explicit colour — the global p/a rules would otherwise override
+     the per-card foreground from the content frontmatter */
   .zm-promoted-description {
     margin-block-start: var(--space-2xs);
     font-size: var(--step--2);
+    color: var(--card-fg);
     opacity: 0.8;
   }
 
   .zm-promoted-link {
     margin-block-start: var(--space-2xs);
+    font-family: var(--font-code);
     font-size: var(--step--2);
+    color: var(--card-fg);
     opacity: 0.8;
+    display: inline-block;
+
+    &:hover {
+      opacity: 1;
+    }
   }
 </style>

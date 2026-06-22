@@ -17,13 +17,14 @@ const slug = 'home';
   slug={slug}
 >
   <div class="zm-mainContainer">
+    <p class="zm-whoami" aria-hidden="true">~ $ whoami</p>
     <!-- prettier-ignore -->
     <h1 class="zm-intro">
       Hi! I’m <span>Zander<img
           src="/images/avatars/zm-avatar.webp"
           class="avatar"
           alt="Stylised (pixellated) picture of Zander"
-        /></span>, I make web things
+        /></span>, I make web things<span class="zm-cursor"></span>
     </h1>
 
 
@@ -42,26 +43,32 @@ const slug = 'home';
 </BaseLayout>
 
 <style>
+  .zm-whoami {
+    font-family: var(--font-display);
+    font-size: var(--step-0);
+    color: var(--color-muted);
+    padding-block-start: 4vh;
+    margin-block-end: var(--space-m);
+    user-select: none;
+
+    @media screen and (min-width: 750px) {
+      margin-block-end: calc(min(8vw, 180px) * 0.6);
+    }
+  }
+
   .zm-intro {
     --avatarSize: min(8vw, 180px);
-    font-family: var(--font-mona);
-    font-variation-settings:
-      'wght' 900,
-      'wdth' 75,
-      'ital' 0;
-    font-size: var(--step-6);
-    line-height: 0.9;
-    color: var(--colour-text-bright);
-    padding-block-start: 4vh;
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: var(--step-4);
+    line-height: 1.1;
+    text-wrap: balance;
+    color: var(--color-text-bright);
     margin-block-end: var(--space-xl);
-    /* padding-top: var(--avatarSize); */
 
-    span {
-      font-variation-settings:
-        'wght' 900,
-        'wdth' 125,
-        'ital' 10;
-      color: var(--colour-accent);
+    > span:first-of-type {
+      font-family: var(--font-display);
+      color: var(--color-accent);
       position: relative;
       white-space: pre;
 
@@ -69,15 +76,16 @@ const slug = 'home';
         transition: all 150ms ease-in-out;
         position: absolute;
         right: 0;
-        bottom: 80%;
+        bottom: 90%;
         width: var(--avatarSize);
-        border-radius: 50%;
+        image-rendering: pixelated;
+        border: var(--border-width) solid var(--color-border);
         aspect-ratio: 1 / 1;
         max-width: 180px;
       }
     }
     @media screen and (min-width: 500px) {
-      font-size: var(--step-8);
+      font-size: var(--step-6);
     }
     @media screen and (min-width: 750px) {
       text-align: center;

@@ -27,6 +27,17 @@ There are no test commands—vitest is a dev dependency but no test files exist 
 
 Personal website for Zander Martineau (`https://zander.wtf`). Built as a **static site** (`output: 'static'`) deployed to **Cloudflare Pages** using the `@astrojs/cloudflare` adapter. The Cloudflare runtime provides env vars to server-side Astro pages via `Astro.locals.runtime.env`.
 
+### Styling and theming
+
+The visual design is a **retro computer theme** built on **ZUI** (`@mrmartineau/zui`):
+
+- ZUI supplies the design-token system and component styles inside `zui.*` cascade layers; it is imported first in `BaseHead.astro`, before `src/styles/index.css`.
+- The theme lives in `src/styles/global/theme.css` — **unlayered** overrides of ZUI's semantic tokens: palette via `light-dark()` (warm paper + orange accent in light mode, near-black + phosphor green in dark mode), fonts, and `--radius-scale: 0` for square corners. It also defines legacy `--colour-*` / `--space-s/m/l` aliases that map old variable names onto ZUI tokens, so components can use either.
+- Fonts: **Departure Mono** (self-hosted pixel mono in `public/fonts/`, used for headings/nav/UI chrome), **IBM Plex Serif** (body) and **IBM Plex Mono** (code), both via Fontsource packages.
+- Tailwind is still used for utility classes. Its preflight is unlayered and beats ZUI's layered base, so element-level defaults (body font, etc.) are re-asserted in `global.css`/`typography.css`.
+- Recurring visual idioms: hard `--border-width` borders, offset `--shadow-hard` shadows, `.zm-cursor` blinking block cursor, `▚▚▚` window-title decorations, markdown-style `##` heading markers on `.flow` content.
+- The two `MonaSansExpanded-*.ttf` files in `public/fonts/` are only used by Satori for OG image generation — do not delete them.
+
 ### Content collections (`src/content/`)
 
 Three Astro content collections defined in `src/content/config.ts`:
