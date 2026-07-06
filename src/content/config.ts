@@ -50,4 +50,18 @@ const projects = defineCollection({
   }),
 });
 
-export const collections = { blog, worklog, codenotes, projects };
+const cv = defineCollection({
+  type: 'content',
+  schema: z.object({
+    company: z.string(),
+    url: z.string().optional(),
+    industry: z.string(),
+    title: z.string(),
+    startDate: z.string(),
+    endDate: z.string(),
+    type: z.enum(['employed', 'contract', 'freelance']),
+    tech: z.array(z.string()).optional(),
+  }),
+});
+
+export const collections = { blog, worklog, codenotes, projects, cv };

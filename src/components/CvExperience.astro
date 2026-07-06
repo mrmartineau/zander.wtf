@@ -1,5 +1,16 @@
 ---
-import { CV_EXPERIENCE } from '../data/cv';
+import { getCollection } from 'astro:content';
+
+const roles = (await getCollection('cv')).sort((a, b) =>
+  b.data.startDate.localeCompare(a.data.startDate),
+);
+
+const renderedRoles = await Promise.all(
+  roles.map(async (role) => {
+    const { Content } = await role.render();
+    return { ...role, Content };
+  }),
+);
 
 function formatDate(date: string): string {
   if (date === 'present') return 'Present';
@@ -12,40 +23,38 @@ function formatDate(date: string): string {
 
 <div class="cv-experience">
   {
-    CV_EXPERIENCE.map((role) => (
+    renderedRoles.map((role) => (
       <div class="cv-role">
         <div class="cv-role-header">
           <div class="cv-role-identity">
             <div class="cv-company">
-              {role.url ? (
-                <a href={role.url} target="_blank" rel="noopener noreferrer">
-                  {role.company}
+              {role.data.url ? (
+                <a href={role.data.url} target="_blank" rel="noopener noreferrer">
+                  {role.data.company}
                 </a>
               ) : (
-                role.company
+                role.data.company
               )}
               •
-              <span class="cv-industry">{role.industry}</span>
+              <span class="cv-industry">{role.data.industry}</span>
             </div>
-            <p class="cv-title">{role.title}</p>
+            <p class="cv-title">{role.data.title}</p>
           </div>
           <div class="cv-role-meta">
             <span class="cv-dates">
-              {formatDate(role.startDate)}–{formatDate(role.endDate)}
+              {formatDate(role.data.startDate)}–{formatDate(role.data.endDate)}
             </span>
             •
-            <span class="cv-type">{role.type}</span>
+            <span class="cv-type">{role.data.type}</span>
           </div>
         </div>
         <div class="cv-description">
-          {role.description.split('\n\n').map((para) => (
-            <p>{para}</p>
-          ))}
+          <role.Content />
         </div>
-        {role.tech && role.tech.length > 0 && (
+        {role.data.tech && role.data.tech.length > 0 && (
           <p class="cv-tech">
             <span class="cv-tech-label">Stack:</span>{' '}
-            {role.tech.join(', ')}
+            {role.data.tech.join(', ')}
           </p>
         )}
       </div>
@@ -107,7 +116,7 @@ function formatDate(date: string): string {
     gap: var(--space-2xs);
   }
 
-  .cv-description p {
+  .cv-description :global(p) {
     margin: 0;
   }
 
