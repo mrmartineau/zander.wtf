@@ -1,19 +1,12 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import FormattedDate from './FormattedDate.astro';
+import ShortUrl from './ShortUrl.astro';
 
 type Props = {
   tools: CollectionEntry<'projects'>[];
 };
 const { tools } = Astro.props;
-
-const statusLabels: Record<string, string> = {
-  active: 'Active',
-  ongoing: 'Ongoing',
-  inactive: 'Inactive',
-  archived: 'Archived',
-  unreleased: 'Unreleased',
-};
 ---
 
 <div class="zm-tool-items">
@@ -29,7 +22,19 @@ const statusLabels: Record<string, string> = {
               {data.subtitle}
             </div>
           ) : null}
-          {data.tech ? <div class="tech">{data.tech}</div> : null}
+          {data.tech ? <div class="tech">
+            {
+            data.link ? (
+              <>
+                <a href={data.link} target="_blank" rel="noopener noreferrer" class="tool-link">
+                  <ShortUrl url={data.link} />
+                </a>
+                &nbsp;•&nbsp;
+            </>
+            ) : null
+          }
+          {data.tech}
+        </div> : null}
         </div>
         <div class="meta" transition:persist>
           <FormattedDate date={data.date} monthYearOnly />

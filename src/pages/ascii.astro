@@ -1,6 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
-import { ABOUT_ME, JOBS, SIDE_PROJECTS, SITE_FOOTER_ITEMS } from '../consts';
+import { ABOUT_ME, JOBS, SITE_FOOTER_ITEMS } from '../consts';
 import { fetchLinks } from '../fetching/links';
 import {
   accent,
@@ -27,7 +27,9 @@ try {
   // If links API is unavailable at build time, show empty
 }
 
-const projects = SIDE_PROJECTS.slice(0, 4);
+const projects = (await getCollection('projects'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 4);
 const previousJobs = JOBS.previous.map((j) => j.name);
 
 function fmtDate(d: Date) {
@@ -145,15 +147,17 @@ for (let i = 0; i < projects.length; i++) {
   projLines.push(
     '  ' +
       link(
-        proj.link || '#',
-        `[${shortcut(key)}] ${trunc(proj.name, L - 8)}`,
+        proj.data.link || proj.data.repo || `/projects/${proj.slug}`,
+        `[${shortcut(key)}] ${trunc(proj.data.title, L - 8)}`,
         '',
         key,
       ),
   );
-  projLines.push('  ' + dim(trunc(proj.description, L - 4)));
-  if (proj.tech) {
-    projLines.push('  ' + span('dim tech', trunc(proj.tech, L - 4)));
+  if (proj.data.subtitle) {
+    projLines.push('  ' + dim(trunc(proj.data.subtitle, L - 4)));
+  }
+  if (proj.data.tech) {
+    projLines.push('  ' + span('dim tech', trunc(proj.data.tech, L - 4)));
   }
 
   linkLines.push('');
@@ -167,7 +171,7 @@ for (let i = 0; i < projects.length; i++) {
 }
 
 projLines.push('');
-projLines.push('  ' + link('/about#side-projects', 'View all projects →'));
+projLines.push('  ' + link('/projects', 'View all projects →'));
 
 linkLines.push('');
 linkLines.push('  ' + link('/links', 'View all links →'));

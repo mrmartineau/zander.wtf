@@ -2,6 +2,7 @@
 import type { CollectionEntry } from 'astro:content';
 import GithubReadme from '~/components/GithubReadme.astro';
 import PageHeader from '~/components/PageHeader.astro';
+import ShortUrl from '~/components/ShortUrl.astro';
 import BaseLayout from './BaseLayout.astro';
 
 type Props = CollectionEntry<'projects'>;
@@ -23,8 +24,7 @@ const githubRepo = githubMatch?.[2];
       {
         link ? (
           <a href={link} target="_blank" rel="noopener noreferrer" class="tool-link">
-            <i class="ph-duotone ph-arrow-square-out" />
-            Live site
+            <ShortUrl url={link} />
           </a>
         ) : null
       }
