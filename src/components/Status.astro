@@ -5,7 +5,7 @@ import { ABOUT_ME, SHOW_STATUS } from 'src/consts';
 {
   SHOW_STATUS ? (
     <a href={ABOUT_ME.email}>
-      <div>Available for work from mid-July 2026. <br />Hire me before someone else does.</div>
+      <div>Available for work from mid-July 2026.<br /> Hire me before someone else does.</div>
       <span>
         Get in touch <i class="ph-duotone ph-paper-plane-right" />
       </span>
@@ -21,23 +21,34 @@ import { ABOUT_ME, SHOW_STATUS } from 'src/consts';
     transform: translateX(-50%);
     right: 0;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     justify-items: center;
-    gap: var(--space-s);
-    background-color: var(--colour-accent);
-    border-radius: 999px;
-    padding: var(--space-2xs) var(--space-m);
+    gap: var(--space-2xs);
+    background-color: oklch(from var(--colour-accent) l c h / 80%);
+    border-radius: 1rem;
+    padding: var(--space-xs);
     font-size: var(--step--1);
     color: var(--bg);
     text-align: center;
-    max-width: fit-content;
+    width: max-content;
     font-variation-settings:
       'wght' 400,
       'wdth' 100,
       'ital' 0;
     transition: all 100ms ease-in-out;
     line-height: 1.2;
+    backdrop-filter: blur(4px);
+  }
+
+  @media screen and (min-width: 550px) {
+    a {
+      flex-direction: row;
+      border-radius: 999px;
+      gap: var(--space-s);
+      padding: var(--space-2xs) var(--space-m);
+    }
   }
 
   span {

@@ -1,6 +1,6 @@
 :root {
   /* Colours */
-  --colour-yellow: #ffd200; /* hsl(33.2deg 72.12% 59.22%) */
+  --colour-yellow: oklch(0.88 0.18 93.12); /* hsl(33.2deg 72.12% 59.22%) */
   --colour-pink: hsl(334, 86%, 48%);
   --notQuiteSoFuckingDarkSaturation: 25%;
   --notQuiteSoFuckingDarkLightness: 20%;
