@@ -5,8 +5,7 @@ import { ABOUT_ME, SHOW_STATUS } from 'src/consts';
 {
   SHOW_STATUS ? (
     <a href={ABOUT_ME.email}>
-      <div>Want to work with me?</div>
-      I'm available for contract work Q4 2023 —{' '}
+      <div>Available for work from mid-July 2026. <br />Hire me before someone else does.</div>
       <span>
         Get in touch <i class="ph-duotone ph-paper-plane-right" />
       </span>
@@ -16,30 +15,43 @@ import { ABOUT_ME, SHOW_STATUS } from 'src/consts';
 
 <style>
   a {
+    position: fixed;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    gap: var(--space-s);
     background-color: var(--colour-accent);
-    border-radius: 0.5rem;
-    margin: var(--space-m) auto;
-    padding: var(--space-2xs) var(--space-xs);
+    border-radius: 999px;
+    padding: var(--space-2xs) var(--space-m);
     font-size: var(--step--1);
-    font-weight: 500;
     color: var(--bg);
     text-align: center;
     max-width: fit-content;
-    display: block;
     font-variation-settings:
       'wght' 400,
-      'wdth' 110,
+      'wdth' 100,
       'ital' 0;
+    transition: all 100ms ease-in-out;
+    line-height: 1.2;
   }
 
-  a:hover {
+  span {
+    transition: all 100ms ease-in-out;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2xs);
+  }
+
+  a:hover span {
     font-variation-settings:
       'wght' 700,
       'wdth' 125,
       'ital' 0;
-  }
-
-  span {
-    display: inline-block;
+    scale:1.05;
   }
 </style>
