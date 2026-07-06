@@ -17,9 +17,10 @@ import { ABOUT_ME, SHOW_STATUS } from 'src/consts';
   a {
     position: fixed;
     bottom: 1rem;
-    left: 50%;
-    transform: translateX(-50%);
-    right: 0;
+    left: 1rem;
+    right: 1rem;
+    width: fit-content;
+    margin-inline: auto;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -31,7 +32,6 @@ import { ABOUT_ME, SHOW_STATUS } from 'src/consts';
     font-size: var(--step--1);
     color: var(--bg);
     text-align: center;
-    max-width: fit-content;
     font-variation-settings:
       'wght' 400,
       'wdth' 100,
@@ -53,5 +53,11 @@ import { ABOUT_ME, SHOW_STATUS } from 'src/consts';
       'wdth' 125,
       'ital' 0;
     scale:1.05;
+  }
+
+  @media (max-width: 600px) {
+    a {
+      font-size: var(--step--2);
+    }
   }
 </style>
