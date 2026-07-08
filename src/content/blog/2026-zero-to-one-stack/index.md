@@ -58,6 +58,8 @@ Once I'd figured everything out through that migration, I distilled it into a sk
 
 ## The unsolved bit: from idea to running project
 
+> **Update:** this bit is now solved. I built [Zero, a project factory](/blog/zero-project-factory) — a single GitHub Actions workflow that does everything described below from one form on my phone.
+
 There's one part of this I haven't cracked yet. Ideas don't arrive when I'm sat at my desk — they arrive when I'm out, phone in hand. I use Claude a lot, including the mobile app, and what I'd love is to go from "I've just had an idea" to "Claude Code is building it" without touching a laptop.
 
 Right now the process looks something like this:
