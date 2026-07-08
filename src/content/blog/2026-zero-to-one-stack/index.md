@@ -15,9 +15,9 @@ I build a lot of side projects. Most of them have somewhere between one and five
 
 - React + TypeScript with [TanStack Router](https://tanstack.com/router) and [TanStack Query](https://tanstack.com/query) on the frontend
 - [Hono](https://hono.dev/) for the API layer, deployed to [Cloudflare Workers](https://workers.cloudflare.com/) via the excellent Vite plugin
-- Postgres on [Neon](https://neon.tech/), with [Drizzle](https://orm.drizzle.team/) as the ORM and [better-auth](https://www.better-auth.com/) for authentication
+- Postgres on [Neon](https://neon.com/signup?refcode=NK4UL5YL), with [Drizzle](https://orm.drizzle.team/) as the ORM and [better-auth](https://www.better-auth.com/) for authentication
 - All wrapped up in a template repo: [zed-stack-starter](https://github.com/mrmartineau/zed-stack-starter)
-- [Astro](https://astro.build/) for static sites
+- [Astro](https://astro.build/) for static sites, with its own template: [zed-astro-starter](https://github.com/mrmartineau/zed-astro-starter)
 
 ## Where I came from
 
@@ -33,7 +33,7 @@ My first attempt was the classic one — a VPS on [Hetzner](https://www.hetzner.
 
 ## The stack I landed on
 
-Looking around at hosted Postgres providers, I found [Neon](https://neon.tech/). It gives you proper Postgres databases, lots of them, for free — which was exactly the "spin up a new project without thinking about it" property I was after. They have an auth product too, but the database was the draw.
+Looking around at hosted Postgres providers, I found [Neon](https://neon.com/signup?refcode=NK4UL5YL). It gives you proper Postgres databases, lots of them, for free — which was exactly the "spin up a new project without thinking about it" property I was after. They have an auth product too, but the database was the draw.
 
 For authentication I went with [better-auth](https://www.better-auth.com/), which plugs straight into the Postgres database, and [Drizzle](https://orm.drizzle.team/) as the ORM. I looked at other ORMs, but Drizzle suited my needs and stays close enough to SQL that nothing feels magic.
 
@@ -73,7 +73,7 @@ None of these steps is hard individually, but together they're enough friction t
 
 ## And for static sites: Astro
 
-Not everything is an interactive app. For content-driven, mostly-static websites I use [Astro](https://astro.build/) — this site runs on it, as do [fonts.zander.wtf](https://fonts.zander.wtf) and [lab.zander.wtf](https://lab.zander.wtf). I don't yet have an Astro equivalent of the starter template, but I need to make one, because it would make spinning up those projects just as quick.
+Not everything is an interactive app. For content-driven, mostly-static websites I use [Astro](https://astro.build/) — this site runs on it, as do [fonts.zander.wtf](https://fonts.zander.wtf) and [lab.zander.wtf](https://lab.zander.wtf). And because the template approach worked so well for the app stack, I've now made an Astro equivalent too: [zed-astro-starter](https://github.com/mrmartineau/zed-astro-starter). Same idea — a couple of clicks and a new static site is ready to build on.
 
 ---
 
