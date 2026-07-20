@@ -6,7 +6,7 @@ import { ABOUT_ME, SHOW_STATUS } from 'src/consts';
   SHOW_STATUS ? (
     <div id="status-banner" hidden>
       <a href={ABOUT_ME.email}>
-        <div>Available for work from mid-July 2026.<br /> Hire me before someone else does.</div>
+        <div>I'm available for work right now.</div>
         <span>
           Get in touch <i class="ph-duotone ph-paper-plane-right" />
         </span>
@@ -45,6 +45,7 @@ import { ABOUT_ME, SHOW_STATUS } from 'src/consts';
     align-items: center;
     gap: var(--space-2xs);
     width: max-content;
+    z-index: 1000;
   }
 
   #status-banner[hidden] {
