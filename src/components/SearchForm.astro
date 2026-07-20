@@ -3,12 +3,14 @@ interface Props {
   query?: string;
   placeholder?: string;
   autofocus?: boolean;
+  action?: string;
 }
 
 const {
   query = '',
   placeholder = 'Search notes...',
   autofocus = false,
+  action = '/notes/search',
 } = Astro.props;
 ---
 
@@ -44,7 +46,7 @@ const {
   });
 </script>
 
-<form action="/notes/search" method="GET" class="search-form">
+<form action={action} method="GET" class="search-form">
   <!-- <i class="ph-duotone ph-magnifying-glass search-icon"></i> -->
   <input
     type="search"

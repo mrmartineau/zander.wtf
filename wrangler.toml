@@ -1,9 +1,18 @@
 name = "zander-wtf"
+account_id = "7fc0d74818901c4359078bfee873c9c9"
+pages_build_output_dir = "./dist"
 compatibility_flags = ["nodejs_compat", "global_fetch_strictly_public"]
 compatibility_date = "2026-03-12"
 
 [observability]
 enabled = true
+
+# D1 database backing the site-wide search index (FTS5).
+# Rebuilt on every deploy by scripts/build-search-index.ts
+[[d1_databases]]
+binding = "SEARCH_DB"
+database_name = "zander-wtf-search"
+database_id = "5bd3fe25-813c-491f-8376-c523f8863200"
 
 # Variable bindings. These are arbitrary, plaintext strings (similar to environment variables)
 # Note: Use secrets to store sensitive data.

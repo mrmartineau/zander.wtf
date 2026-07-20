@@ -3,31 +3,31 @@ export const prerender = false;
 
 import NoteList from '~/components/NoteList.astro';
 import NoteLayout from '~/layouts/NoteLayout.astro';
-import { type AlgoliaSearchResult, searchNotes } from '~/utils/algolia';
+import { type SearchResult, searchIndex } from '~/utils/search';
 
-const query = Astro.url.searchParams.get('q') || '';
-let searchResults: AlgoliaSearchResult[] = [];
+const query = Astro.url.searchParams.get('q')?.trim() || '';
+let searchResults: SearchResult[] = [];
 let searchError = '';
 
-const runtimeEnv = Astro.locals?.runtime?.env;
-
-if (query) {
-  console.log(`🚀 ~ searching for query: ${query}`);
+if (query.length >= 2) {
   try {
-    searchResults = await searchNotes(query, runtimeEnv);
+    searchResults = await searchIndex(Astro.locals.runtime.env.SEARCH_DB, {
+      query,
+      limit: 50,
+      type: 'note',
+    });
   } catch (error) {
     console.error('Search error:', error);
     searchError = `An error occurred while searching for "${query}". Please try again.`;
   }
 }
-console.log(`🚀 ~ searchResults:`, searchResults);
 
 const formattedResults = searchResults.map((result) => ({
-  slug: result.objectID.replace('/notes/', ''),
+  slug: result.url.replace('/notes/', ''),
   title: result.title,
   date: result.date ? new Date(result.date) : undefined,
-  tags: result.tags,
-  emoji: result.emoji,
+  tags: result.tags ? result.tags.split(' ').filter(Boolean) : undefined,
+  emoji: result.emoji || undefined,
 }));
 ---
 
@@ -54,16 +54,16 @@ const formattedResults = searchResults.map((result) => ({
     )
   }
 
+  <p class="all-site-search">
+    Searching everything? Try the <a href={`/search${query ? `?q=${encodeURIComponent(query)}` : ''}`}>site-wide search</a>.
+  </p>
+
   <div class="back-link">
     <a href="/notes">&larr; Back to all notes</a>
   </div>
 </NoteLayout>
 
 <style>
-  .search-container {
-    margin-block-end: var(--space-l);
-  }
-
   .search-results {
     margin-block-end: var(--space-l);
   }
@@ -84,6 +84,11 @@ const formattedResults = searchResults.map((result) => ({
   .search-prompt {
     opacity: 0.7;
     margin-block-end: var(--space-l);
+  }
+
+  .all-site-search {
+    font-size: var(--step--1);
+    opacity: 0.8;
   }
 
   .back-link {

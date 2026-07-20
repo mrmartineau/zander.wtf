@@ -16,10 +16,10 @@ pnpm lint           # Biome lint
 pnpm lint:fix       # Biome lint with auto-fix
 pnpm format         # Biome format with auto-fix
 pnpm lint:check     # Biome check (lint + format) with auto-fix
-pnpm algolia:update # Re-index all codenotes into Algolia (requires ALGOLIA_ADMIN_KEY in env)
+pnpm test           # Vitest unit tests
+pnpm search:index   # Rebuild search index and push to local D1
+pnpm search:push    # Rebuild search index and push to remote (production) D1
 ```
-
-There are no test commands—vitest is a dev dependency but no test files exist yet.
 
 ## Architecture
 
@@ -44,7 +44,14 @@ Page data that comes from external APIs is fetched at build time inside `.astro`
 
 ### Search
 
-Code notes are full-text searched via **Algolia**. The search index is maintained separately by running `pnpm algolia:update` (uses `ALGOLIA_ADMIN_KEY`). The search page (`src/pages/notes/search.astro`) and `src/utils/algolia.ts` use the read-only `ALGOLIA_SEARCH_KEY` at runtime. Algolia env vars (`ALGOLIA_APP`, `ALGOLIA_SEARCH_KEY`, `ALGOLIA_INDEX`) are exposed to the Cloudflare runtime and accessed via `Astro.locals.runtime.env` in server endpoints.
+Site-wide full-text search backed by **Cloudflare D1** (SQLite FTS5), database `zander-wtf-search`, bound as `SEARCH_DB` in `wrangler.toml`. Schema lives in `migrations/0001_search_index.sql`.
+
+- **Index build**: `scripts/build-search-index.ts` parses all content collections (blog, codenotes, projects, worklog) plus standalone markdown pages, emits `search-index.sql` (full rebuild: DELETE + batched INSERTs) and executes it via `wrangler d1 execute`. Run `pnpm search:index` (local) / `pnpm search:push` (remote). CI runs `search:push` after each deploy.
+- **API**: `GET /api/search?q=...&limit=...&offset=...&type=blog|note|project|worklog|page` (`src/pages/api/search.ts`, server-rendered). Returns JSON results with `<mark>` snippets, bm25-ranked. Open endpoint, CORS `*` — also consumed by a Raycast extension.
+- **Pages**: `/search` (site-wide, `src/pages/search.astro`) and `/notes/search` (notes-only). Both query D1 directly via `src/utils/search.ts` (`toFtsQuery` sanitizer + `searchIndex`).
+- **Ranking config**: `src/search.config.ts` — bm25 column weights, recency boost (newer docs multiplied up, linear falloff over `windowDays`), snippet size, max query terms.
+- **Raycast extension**: `raycast-extension/` — standalone npm package (not part of the pnpm workspace; excluded from root tsconfig and Biome) consuming `/api/search`. `cd raycast-extension && npm install && npm run dev`.
+- Local dev gets the D1 binding via the adapter's `platformProxy`; local data lives in `.wrangler/state/v3/d1`.
 
 ### Interactive components
 
@@ -84,11 +91,9 @@ Required in `.env` (local dev) and as Cloudflare Pages secrets (production):
 | `SPOTIFY_CLIENT_ID` / `SPOTIFY_CLIENT_SECRET` | Spotify image enrichment |
 | `SUPABASE_USER_ID` | Otter bookmarking API user ID |
 | `SUPABASE_USER_API_KEY` | Otter bookmarking API auth |
-| `ALGOLIA_APP` | Algolia application ID |
-| `ALGOLIA_SEARCH_KEY` | Algolia search-only key (public) |
-| `ALGOLIA_INDEX` | Algolia index name (e.g. `notes`) |
-| `ALGOLIA_ADMIN_KEY` | Algolia admin key (only for `algolia:update` script) |
 | `ZM_API` | Personal Cloudflare Worker API base URL |
+
+CI additionally uses `CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_ACCOUNT_ID` (deploy + D1 search index push; token needs Pages Edit and D1 Edit scopes).
 
 Cloudflare-runtime env vars are typed in `src/env.d.ts` and `worker-configuration.d.ts`.
 

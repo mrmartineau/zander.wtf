@@ -21,6 +21,14 @@ const currentPath = pathname.slice(1); // remove the first "/"
         );
       })
     }
+    <a
+      href="/search"
+      class:list={[{ active: currentPath.startsWith('search') }]}
+      aria-label="Search"
+      title="Search"
+    >
+      <i class="ph-duotone ph-magnifying-glass" aria-hidden="true"></i>
+    </a>
   </nav>
 </header>
 

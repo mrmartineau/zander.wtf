@@ -9,9 +9,6 @@ env:
   SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
   ZM_API: ${{ secrets.ZM_API }}
   SUPABASE_USER_API_KEY: ${{ secrets.SUPABASE_USER_API_KEY }}
-  ALGOLIA_APP: ${{ secrets.ALGOLIA_APP }}
-  ALGOLIA_ADMIN_KEY: ${{ secrets.ALGOLIA_ADMIN_KEY }}
-  ALGOLIA_INDEX: ${{ secrets.ALGOLIA_INDEX }}
 
 on:
   schedule:
@@ -35,8 +32,6 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-      - name: Update Algolia index
-        run: pnpm algolia:update
       - name: Build site
         run: pnpm build
       - name: Deploy to Cloudflare
@@ -45,3 +40,9 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: pages deploy dist --project-name=zander-wtf
+      # Runs after deploy so new pages exist before they're searchable
+      - name: Update search index (D1)
+        run: pnpm search:push
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

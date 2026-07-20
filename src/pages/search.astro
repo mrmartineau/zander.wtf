@@ -1,0 +1,274 @@
+---
+export const prerender = false;
+
+import { getCollection } from 'astro:content';
+import { SITE_METADATA } from 'src/consts';
+import Block from '~/components/Block.astro';
+import BlogList from '~/components/BlogList.astro';
+import FormattedDate from '~/components/FormattedDate.astro';
+import NoteListBlock from '~/components/NoteListBlock.astro';
+import NoteTag from '~/components/NoteTag.astro';
+import SearchForm from '~/components/SearchForm.astro';
+import PageLayout from '~/layouts/PageLayout.astro';
+import {
+  SEARCH_TYPES,
+  type SearchResult,
+  type SearchType,
+  searchIndex,
+} from '~/utils/search';
+
+const query = Astro.url.searchParams.get('q')?.trim() || '';
+const typeParam = Astro.url.searchParams.get('type') || '';
+const type = SEARCH_TYPES.includes(typeParam as SearchType)
+  ? (typeParam as SearchType)
+  : undefined;
+
+let results: SearchResult[] = [];
+let searchError = '';
+
+if (query.length >= 2) {
+  try {
+    results = await searchIndex(Astro.locals.runtime.env.SEARCH_DB, {
+      query,
+      limit: 25,
+      type,
+    });
+  } catch (error) {
+    console.error('Search error:', error);
+    searchError = `An error occurred while searching for "${query}". Please try again.`;
+  }
+}
+
+const typeLabels: Record<SearchType, string> = {
+  blog: 'Blog',
+  note: 'Code note',
+  project: 'Project',
+  worklog: 'Worklog',
+  page: 'Page',
+};
+
+const filterUrl = (t?: SearchType) => {
+  const params = new URLSearchParams({ q: query });
+  if (t) params.set('type', t);
+  return `/search?${params.toString()}`;
+};
+
+// Empty state: latest posts + notes
+const hasQuery = query.length >= 2;
+const latestPosts = hasQuery
+  ? []
+  : (await getCollection('blog'))
+      .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+      .slice(0, 2);
+const latestNotes = hasQuery
+  ? []
+  : (await getCollection('codenotes'))
+      .sort(
+        (a, b) => (b.data.date?.valueOf() ?? 0) - (a.data.date?.valueOf() ?? 0),
+      )
+      .slice(0, 3);
+---
+
+<PageLayout
+  title={SITE_METADATA.search.title}
+  subtitle={SITE_METADATA.search.subtitle}
+  slug="search"
+>
+  <div class="search-page">
+    <SearchForm query={query} action="/search" placeholder="Search the site..." autofocus />
+
+    {
+      hasQuery ? (
+        <>
+          <nav class="filters" aria-label="Filter results by type">
+            <a href={filterUrl()} class:list={['filter', { active: !type }]}>
+              All
+            </a>
+            {SEARCH_TYPES.map((t) => (
+              <a href={filterUrl(t)} class:list={['filter', { active: type === t }]}>
+                {typeLabels[t]}
+              </a>
+            ))}
+          </nav>
+
+          <p class="search-summary">
+            {searchError ? (
+              <span class="error">{searchError}</span>
+            ) : results.length > 0 ? (
+              <>
+                Found <strong>{results.length}</strong> result{results.length !== 1 ? 's' : ''} for "{query}"
+              </>
+            ) : (
+              <>No results found for "{query}"</>
+            )}
+          </p>
+
+          <div class="zm-search-items">
+            {results.map((result) => (
+              <div class="zm-search-item">
+                <div class="info">
+                  <a href={result.url} class="title">
+                    {result.emoji ? <span class="emoji">{result.emoji}</span> : null}
+                    {result.title}
+                  </a>
+                  {result.snippet ? <div class="snippet" set:html={result.snippet} /> : null}
+                </div>
+                <div class="meta">
+                  <NoteTag tag={typeLabels[result.type]} />
+                  {result.date ? (
+                    <span class="date">
+                      <FormattedDate date={new Date(result.date)} />
+                    </span>
+                  ) : null}
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
+      ) : (
+        <>
+          <p class="search-prompt">Search blog posts, code notes, projects and more. In the meantime, here's the latest:</p>
+          <div class="empty-state">
+            <Block title="Blog">
+              <BlogList posts={latestPosts} />
+              <a href="/blog" class="zm-block-link">View all articles →</a>
+            </Block>
+            <Block title="Code Notes">
+              <NoteListBlock notes={latestNotes} />
+              <a href="/notes" class="zm-block-link">View all notes →</a>
+            </Block>
+          </div>
+        </>
+      )
+    }
+  </div>
+</PageLayout>
+
+<style>
+  .search-page {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+  }
+
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+  }
+
+  .filter {
+    display: inline-flex;
+    padding: 0.125rem 0.625rem;
+    border-radius: 99px;
+    border: 1px solid var(--colour-muted);
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    text-decoration: none;
+
+    &:hover {
+      color: var(--colour-accent);
+      border-color: var(--colour-accent);
+    }
+
+    &.active {
+      border-color: var(--colour-accent);
+      color: var(--colour-accent);
+    }
+  }
+
+  .search-summary {
+    opacity: 0.8;
+
+    strong {
+      color: var(--colour-accent);
+    }
+  }
+
+  .error {
+    color: var(--colour-error, #ef4444);
+  }
+
+  .zm-search-items {
+    container: search-item / inline-size;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+  }
+
+  .title {
+    line-height: 1.2;
+    display: block;
+    margin-block-end: var(--space-3xs);
+  }
+
+  .emoji {
+    margin-inline-end: var(--space-3xs);
+  }
+
+  .snippet {
+    opacity: 0.7;
+    font-size: var(--step--1);
+    line-height: 1.4;
+
+    :global(mark) {
+      background-color: var(--colour-accent);
+      color: var(--bg);
+      padding-inline: 0.1em;
+    }
+  }
+
+  .meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    margin-block-start: var(--space-3xs);
+    align-self: start;
+  }
+
+  .date {
+    opacity: 0.7;
+    font-size: var(--step--1);
+    font-feature-settings:
+      'calt' 1,
+      'liga' 1,
+      'rlig' 1,
+      'rvrn' 1,
+      'kern' 1,
+      'rclt' 1,
+      'tnum' 1;
+  }
+
+  @container search-item (min-width: 480px) {
+    .zm-search-item {
+      display: flex;
+      gap: var(--space-xs);
+      justify-content: space-between;
+    }
+
+    .info {
+      order: 1;
+    }
+
+    .meta {
+      order: 2;
+      flex-shrink: 0;
+      margin-block-start: 0;
+    }
+  }
+
+  .search-prompt {
+    opacity: 0.7;
+  }
+
+  .empty-state {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-m);
+    align-items: start;
+
+    @media (min-width: 700px) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>

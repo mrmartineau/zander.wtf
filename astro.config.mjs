@@ -33,5 +33,9 @@ export default defineConfig({
     },
   },
   output: 'static',
-  adapter: cloudflare({imageService: "compile"}),
+  adapter: cloudflare({
+    imageService: 'compile',
+    // Exposes wrangler.toml bindings (SEARCH_DB) to astro dev via Astro.locals.runtime
+    platformProxy: { enabled: true },
+  }),
 });

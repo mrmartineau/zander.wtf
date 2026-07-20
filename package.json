@@ -14,7 +14,9 @@
     "lint": "biome lint",
     "lint:fix": "biome lint --write .",
     "lint:check": "biome check --write .",
-    "algolia:update": "npx tsx scripts/update-algolia-index.ts"
+    "test": "vitest run",
+    "search:index": "tsx scripts/build-search-index.ts",
+    "search:push": "tsx scripts/build-search-index.ts --target=remote"
   },
   "dependencies": {
     "@alexcarpenter/slugify": "^1.0.6",
@@ -31,7 +33,6 @@
     "@types/color-hash": "^2.0.0",
     "@types/markdown-it": "^14.1.2",
     "@types/sanitize-html": "^2.16.0",
-    "algoliasearch": "^5.47.0",
     "astro": "^5.16.15",
     "color-hash": "^2.0.2",
     "fetch-readme": "^1.0.0",
@@ -51,11 +52,13 @@
     "@tailwindcss/postcss": "^4.1.18",
     "@tailwindcss/typography": "^0.5.19",
     "@types/figlet": "^1.7.0",
+    "gray-matter": "^4.0.3",
     "postcss": "^8.5.6",
     "postcss-import": "^16.1.1",
     "postcss-import-ext-glob": "^2.1.1",
     "postcss-nested": "^7.0.2",
     "tailwindcss": "^3.4.3",
+    "tsx": "^4.23.1",
     "typescript": "^5.9.3",
     "vitest": "^4.0.18",
     "wrangler": "^4.61.0"

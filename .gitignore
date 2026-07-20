@@ -25,3 +25,7 @@ pnpm-debug.log*
 .claude
 ssh-server
 
+
+# generated search index
+search-index.sql
+.wrangler/

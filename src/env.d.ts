@@ -2,9 +2,7 @@
 /// <reference types="astro/client" />
 
 interface Env {
-  ALGOLIA_APP: string;
-  ALGOLIA_SEARCH_KEY: string;
-  ALGOLIA_INDEX: string;
+  SEARCH_DB: D1Database;
 }
 
 type Runtime = import('@astrojs/cloudflare').Runtime<Env>;

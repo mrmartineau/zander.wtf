@@ -49,8 +49,8 @@ export const SITE_METADATA: Record<
     subtitle: 'TILs, snippets—my digital code garden',
   },
   search: {
-    title: 'Search Notes',
-    subtitle: 'Search through all code notes',
+    title: 'Search',
+    subtitle: 'Search blog posts, code notes, projects and more',
   },
   projects: {
     title: 'Projects',
