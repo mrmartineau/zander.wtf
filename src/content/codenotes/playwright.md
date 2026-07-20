@@ -5,7 +5,7 @@ tags:
   - testing
 emoji: 🎭
 link: https://playwright.dev/
-date: 2026-07-20
+date: 2026-07-21
 ---
 
 My go-to for E2E testing. Cross-browser (Chromium, Firefox, WebKit), auto-waiting built in, and the tooling (`--ui` mode, codegen, trace viewer) is genuinely excellent.

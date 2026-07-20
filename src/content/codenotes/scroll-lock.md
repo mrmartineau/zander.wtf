@@ -4,7 +4,7 @@ tags:
   - css
   - javascript
 emoji: 🔒
-date: 2026-07-20
+date: 2026-07-21T15:30:00Z
 ---
 
 When an overlay is open — modal, search palette, mobile nav — the page behind it shouldn't scroll. Deceptively fiddly to get right: the naive version causes layout shift when the scrollbar disappears, scroll chaining leaks through to the page, and iOS Safari has historically ignored the whole thing. Here's my packaged-up version.

@@ -4,7 +4,7 @@ tags:
   - javascript
 emoji: 🔢
 link: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/PluralRules
-date: 2026-07-20
+date: 2026-07-20T15:30:00Z
 ---
 
 The standards-based way to pick the right plural form, instead of hand-rolling `count === 1 ? 'item' : 'items'`. English only has two plural forms, but many languages have more — Polish has three, Arabic has six — and `Intl.PluralRules` knows the rules for all of them.

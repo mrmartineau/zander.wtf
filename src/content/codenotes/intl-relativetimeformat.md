@@ -4,7 +4,7 @@ tags:
   - javascript
 emoji: ⏳
 link: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/RelativeTimeFormat
-date: 2026-07-20
+date: 2026-07-20T15:30:00Z
 ---
 
 The built-in way to get "2 days ago", "in 3 hours", "yesterday" — no date library needed. Rounds out the `Intl` family alongside [`Intl.NumberFormat`](/notes/intl-numberformat) and [`Intl.PluralRules`](/notes/intl-pluralrules) (which it uses under the hood, so "1 day ago" vs "2 days ago" plurals are handled for you, in any locale).

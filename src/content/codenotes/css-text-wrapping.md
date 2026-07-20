@@ -3,7 +3,7 @@ title: Text wrapping & word breaking
 tags:
   - css
 link: 'https://zander.wtf/blog/css-text-wrapping'
-date: 2026-07-20
+date: 2026-07-20T15:30:00Z
 ---
 
 - `text-wrap` — overall line-wrapping strategy: `balance` (headings), `pretty` (body, avoids orphans), `nowrap`, `stable` (editable content)

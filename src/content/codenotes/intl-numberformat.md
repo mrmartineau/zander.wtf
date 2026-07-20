@@ -4,7 +4,7 @@ tags:
   - javascript
 emoji: 💯
 link: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat
-date: 2026-07-20
+date: 2026-07-20T15:30:00Z
 ---
 
 Locale-aware number formatting, built in. Currency symbols, thousands separators, compact "1.2M"-style notation, units, percentages — no library needed. I use this all the time.
