@@ -9,7 +9,7 @@ import FormattedDate from '~/components/FormattedDate.astro';
 import NoteListBlock from '~/components/NoteListBlock.astro';
 import NoteTag from '~/components/NoteTag.astro';
 import SearchForm from '~/components/SearchForm.astro';
-import PageLayout from '~/layouts/PageLayout.astro';
+import ContentLayout from '~/layouts/ContentLayout.astro';
 import {
   SEARCH_TYPES,
   type SearchResult,
@@ -69,7 +69,7 @@ const latestNotes = hasQuery
       .slice(0, 3);
 ---
 
-<PageLayout
+<ContentLayout
   title={SITE_METADATA.search.title}
   subtitle={SITE_METADATA.search.subtitle}
   slug="search"
@@ -142,7 +142,7 @@ const latestNotes = hasQuery
       )
     }
   </div>
-</PageLayout>
+</ContentLayout>
 
 <style>
   .search-page {

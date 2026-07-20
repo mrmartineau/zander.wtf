@@ -8,7 +8,6 @@ const { title, subtitle, slug } = Astro.props;
 <BaseLayout title={title} subtitle={subtitle} slug={slug}>
   <div class="zm-contentContainer">
     <PageHeader title={title} subtitle={subtitle} />
-
     <slot />
   </div>
 </BaseLayout>
