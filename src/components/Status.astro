@@ -4,22 +4,54 @@ import { ABOUT_ME, SHOW_STATUS } from 'src/consts';
 
 {
   SHOW_STATUS ? (
-    <a href={ABOUT_ME.email}>
-      <div>Available for work from mid-July 2026.<br /> Hire me before someone else does.</div>
-      <span>
-        Get in touch <i class="ph-duotone ph-paper-plane-right" />
-      </span>
-    </a>
+    <div id="status-banner" hidden>
+      <a href={ABOUT_ME.email}>
+        <div>Available for work from mid-July 2026.<br /> Hire me before someone else does.</div>
+        <span>
+          Get in touch <i class="ph-duotone ph-paper-plane-right" />
+        </span>
+      </a>
+      <button
+        type="button"
+        aria-label="Hide this banner permanently"
+        title="Hide this banner permanently"
+      >
+        <i class="ph-fill ph-x-circle" />
+      </button>
+    </div>
   ) : null
 }
 
+<script>
+  const banner = document.getElementById('status-banner');
+  if (banner) {
+    if (localStorage.getItem('zm:hide-status') !== 'true') {
+      banner.hidden = false;
+    }
+    banner.querySelector('button')?.addEventListener('click', () => {
+      localStorage.setItem('zm:hide-status', 'true');
+      banner.hidden = true;
+    });
+  }
+</script>
+
 <style>
-  a {
+  #status-banner {
     position: fixed;
     bottom: 1rem;
     left: 50%;
     transform: translateX(-50%);
-    right: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    width: max-content;
+  }
+
+  #status-banner[hidden] {
+    display: none;
+  }
+
+  a {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -40,6 +72,31 @@ import { ABOUT_ME, SHOW_STATUS } from 'src/consts';
     transition: all 100ms ease-in-out;
     line-height: 1.2;
     backdrop-filter: blur(4px);
+  }
+
+  button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    flex-shrink: 0;
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    background-color: oklch(from var(--colour-accent) l c h / 80%);
+    color: var(--bg);
+    font-size: var(--step--1);
+    backdrop-filter: blur(4px);
+    transition: all 100ms ease-in-out;
+  }
+
+  button:hover {
+    scale: 1.1;
+  }
+
+  button i {
+    font-size: var(--step-0);
   }
 
   @media screen and (min-width: 550px) {
@@ -63,6 +120,6 @@ import { ABOUT_ME, SHOW_STATUS } from 'src/consts';
       'wght' 700,
       'wdth' 125,
       'ital' 0;
-    scale:1.05;
+    scale: 1.05;
   }
 </style>
