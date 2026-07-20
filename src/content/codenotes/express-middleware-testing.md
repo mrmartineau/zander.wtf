@@ -4,8 +4,10 @@ tags:
   - javascript
   - node
   - testing
-date: 2020-02-27
+date: 2026-07-20
 ---
+
+Heads up: `reqresnext` is barely maintained these days — [node-mocks-http](https://github.com/eugef/node-mocks-http) or [supertest](https://github.com/ladjs/supertest) are the ecosystem standards now. The pattern below still works though.
 
 ```js
 import reqresnext from 'reqresnext'
@@ -14,8 +16,7 @@ import { userIdChecker } from './userIdMiddleware'
 
 const DOMAIN = 'https://example.com'
 const VALID_USER_ID = '103003'
-const jwtToken =
-  'eyJraWQiOiI1WFwvUjdxdEdoeWxcLzNYcnY5SXFiWFwvWEhEKytvb2p0TXhBNDhZRzVERVlZPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiJhNTdjMmM1YS1hNmMyLTQzZGYtYjJiMS04YmU1ZTA1YzI1NzMiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLmV1LXdlc3QtMi5hbWF6b25hd3MuY29tXC9ldS13ZXN0LTJfUDZVMkhmNTZ5IiwiY3VzdG9tOnVzZXJfaWQiOiIxMDMwMDMiLCJjb2duaXRvOnVzZXJuYW1lIjoiYTU3YzJjNWEtYTZjMi00M2RmLWIyYjEtOGJlNWUwNWMyNTczIiwiY3VzdG9tOmlzX2FkbWluIjoiZmFsc2UiLCJhdWQiOiIyZ3FpaWlrdGQwNXFibm1jdmluODV2Zm0yZCIsImV2ZW50X2lkIjoiZDFmMjI4ZWYtMjE0Yi00NmE2LTljMjQtZWZjYTNhNDM1NzQxIiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE1NjM0NDgzMTksImV4cCI6MTU2MzQ1MjUzOSwiaWF0IjoxNTYzNDQ4OTM5LCJlbWFpbCI6ImhpK2RpenpsZUB6YW5kZXIud3RmIn0.gAelFt52A-84nkTMjuJ1_0SLSGUNQJgMnPPhci2zeLM0j2g4fCK12tVHbWbRq1yFeJ8LyRpobCq0CyNfDGechYqbnt91owaBDQzZNySdb0Edsfbxoq-JkgGbCJWCTddW9YxDzupZ4IjnYlfQlk6yH0bAzUH0WmACu22pLSk1isDJO8YiPvjtAN10calUkP7O4i0wTMNXXikh4UVylqfJCP4C-6XvJxG8x_UELyVB38N4Vti4aeUOpMjxii6bLxu2fvtCvQIlZJhRBjtHxKb3pWeVxldPMYpEeGrhgW6IiOgGdinGRsM0ENM0EtSrkvJpxCcnmWXjHWQBJsUJqxVD2w'
+const jwtToken = 'fake.jwt.token'
 
 describe('Given a userIdChecker middleware', () => {
   describe(`when it is called with matching userId's`, () => {

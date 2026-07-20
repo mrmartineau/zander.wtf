@@ -2,7 +2,7 @@
 title: Array methods summarised
 tags:
   - javascript
-date: 2021-05-21
+date: 2026-07-20
 ---
 
 ## Intro
@@ -142,12 +142,58 @@ const foundIndex = objects.findIndex((item) => {
 console.log(foundIndex === 1) // true
 ```
 
+### `findLast`
+
+- _callback is a predicate_ - it should return a truthy or falsy value
+- _callback answers_: is this item what you’re looking for? (searching from the end)
+- _callback gets these arguments_: `item`, `index`, `list`
+- _final return value_: the last item that matches, or `undefined`
+- **note**: iterates from `end` to `start`, and stops once it receives a truthy value from your callback.
+- _example use case_:
+
+```js
+const numbers = [1, 2, 3, 4, 5]
+const lastEven = numbers.findLast((item) => {
+  return item % 2 === 0
+})
+console.log(lastEven) // 4
+```
+
+### `findLastIndex`
+
+- Same as `findLast`, but returns the _index_ of the last matching item, or `-1`.
+
+```js
+const numbers = [1, 2, 3, 4, 5]
+const lastEvenIndex = numbers.findLastIndex((item) => {
+  return item % 2 === 0
+})
+console.log(lastEvenIndex) // 3
+```
+
+### `flatMap`
+
+- _callback answers_: here’s an item. what should i put in the new list in its place? (and if you return a list, i’ll flatten it one level)
+- _callback gets these arguments_: `item`, `index`, `list`
+- _final return value_: new list, flattened by one level
+- **note**: equivalent to `.map(...).flat()`, but in a single pass. Great for "map, but sometimes zero or many results per item".
+- _example use case_:
+
+```js
+const sentences = ['hello world', 'foo bar']
+const words = sentences.flatMap((item) => {
+  return item.split(' ')
+})
+console.log(words) // ['hello', 'world', 'foo', 'bar']
+```
+
 ### `sort`
 
 - _callback is a comparator_ - it should return either a number either < 0, 0, or > 0
 - _callback answers_: how do the two items compare with each other
 - _callback gets these arguments_: `oneElement`, `theOtherElement`
 - _final return value_: `number < 0`, if `oneElement` should preceed `theOtherElement`, `0` to keep the relative order, `> 0` to place `oneElement` at a later index than `theOtherElement`
+- **note**: `sort` _mutates_ the array in-place (and returns the same array). If you don't want that, use [`toSorted`](#tosorted) below.
 - _example use case_:
 
 ```js
@@ -210,4 +256,119 @@ export const sortByPropertyPriority = <T>(
     return order === 'desc' ? ~result : result
   }
 }
+```
+
+---
+
+## Change-by-copy methods (ES2023)
+
+For years, a handful of array methods (`sort`, `reverse`, `splice`) broke the "return a new list" rule and mutated the array in-place - forcing you into the `[...array].sort()` dance. ES2023 finally fixed this with non-mutating counterparts. Each one returns a **new array** and leaves the original untouched.
+
+### `toSorted`
+
+- Non-mutating version of `sort`. Takes the same optional comparator callback.
+- _final return value_: a new, sorted list
+- _example use case_:
+
+```js
+const names = ['John', 'Doe', 'Foo', 'Bar']
+const sorted = names.toSorted()
+console.log(sorted) // ['Bar', 'Doe', 'Foo', 'John']
+console.log(names) // ['John', 'Doe', 'Foo', 'Bar'] - untouched!
+```
+
+### `toReversed`
+
+- Non-mutating version of `reverse`. No callback.
+- _final return value_: a new list in reverse order
+- _example use case_:
+
+```js
+const numbers = [1, 2, 3]
+const reversed = numbers.toReversed()
+console.log(reversed) // [3, 2, 1]
+console.log(numbers) // [1, 2, 3]
+```
+
+### `toSpliced`
+
+- Non-mutating version of `splice`. Same arguments: `start`, `deleteCount`, then any items to insert.
+- _final return value_: a new list with items removed and/or inserted
+- **note**: unlike `splice` (which returns the _removed_ items), `toSpliced` returns the new modified list.
+- _example use case_:
+
+```js
+const months = ['Jan', 'Mar', 'Apr']
+const fixed = months.toSpliced(1, 0, 'Feb')
+console.log(fixed) // ['Jan', 'Feb', 'Mar', 'Apr']
+console.log(months) // ['Jan', 'Mar', 'Apr']
+```
+
+### `with`
+
+- Non-mutating version of bracket assignment (`array[index] = value`). Takes an `index` (negative counts from the end) and a `value`.
+- _final return value_: a new list with the item at `index` replaced by `value`
+- _example use case_:
+
+```js
+const numbers = [1, 2, 3]
+const replaced = numbers.with(1, 99)
+console.log(replaced) // [1, 99, 3]
+console.log(numbers) // [1, 2, 3]
+
+// negative indices work too
+console.log(numbers.with(-1, 0)) // [1, 2, 0]
+```
+
+---
+
+## Other useful newer methods
+
+### `at`
+
+- Like bracket access, but accepts negative indices - `at(-1)` is the last item. So much nicer than `array[array.length - 1]`.
+
+```js
+const numbers = [1, 2, 3]
+console.log(numbers.at(-1)) // 3
+console.log(numbers.at(0)) // 1
+```
+
+### `flat`
+
+- Flattens nested arrays by a given depth (default `1`). Pass `Infinity` to flatten fully.
+
+```js
+const nested = [1, [2, [3, [4]]]]
+console.log(nested.flat()) // [1, 2, [3, [4]]]
+console.log(nested.flat(Infinity)) // [1, 2, 3, 4]
+```
+
+### `includes`
+
+- Returns `true` if the array contains the given value. Simpler than `indexOf(x) !== -1`, and unlike `indexOf` it can find `NaN`.
+
+```js
+console.log([1, 2, 3].includes(2)) // true
+console.log([Number.NaN].includes(Number.NaN)) // true
+console.log([Number.NaN].indexOf(Number.NaN)) // -1 🙃
+```
+
+### `Object.groupBy`
+
+- Not an array method (it's a static method on `Object`), but it iterates a list just like the methods above. Groups items into an object keyed by whatever your callback returns.
+- _callback answers_: which group does this item belong to?
+- _callback gets these arguments_: `item`, `index`
+
+```js
+const inventory = [
+  { name: 'asparagus', type: 'vegetable' },
+  { name: 'banana', type: 'fruit' },
+  { name: 'cherry', type: 'fruit' },
+]
+const grouped = Object.groupBy(inventory, (item) => item.type)
+// {
+//   vegetable: [{ name: 'asparagus', ... }],
+//   fruit: [{ name: 'banana', ... }, { name: 'cherry', ... }],
+// }
 ```

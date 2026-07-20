@@ -2,7 +2,7 @@
 title: Contentful migrations
 tags:
   - javascript
-date: 2021-01-06
+date: 2026-07-20
 emoji: 🦒
 ---
 
@@ -28,12 +28,6 @@ Using [npm](https://npmjs.org):
 npm install -g contentful-cli
 ```
 
-Using [yarn](https://yarnpkg.com):
-
-```sh
-yarn global add contentful-cli
-```
-
 ### Login
 
 You will need to login to Contentful on your computer. Run `contentful login` and follow the prompts, see below for an example:
@@ -50,15 +44,15 @@ Great! Your CMA token is now stored on your system. (Located at /Users/zander/.c
 You can always run contentful logout to remove it.
 ```
 
-Create a new CMA token (personal access token) from [this page](https://app.contentful.com/spaces/t51bs9y4c70l/api/cma_tokens).
+Create a new CMA token (personal access token) from `https://app.contentful.com/spaces/<space-id>/api/cma_tokens`.
 
 ## Content modeling & migration scripts
 
-Every time you need to modify a content model, a new migration script should be created. It needs to be carefully modeled so that you don't overwrite existing types and content.
+Every time you need to modify a content model, a new migration script should be created. It needs to be carefully modelled so that you don't overwrite existing types and content.
 
 For more information on how to model your content programmatically, see [these docs](https://www.contentful.com/developers/docs/concepts/data-model/)
 
-When editing existing fields, it can be useful to view the JSON representation of the content model to see what is there. e.g. https://app.contentful.com/spaces/t51bs9y4c70l/environments/staging/content_types/article/preview
+When editing existing fields, it can be useful to view the JSON representation of the content model to see what is there. e.g. `https://app.contentful.com/spaces/<space-id>/environments/staging/content_types/article/preview`
 
 Useful links:
 
@@ -72,10 +66,6 @@ Useful links:
 - [Example migrations](https://github.com/contentful/contentful-migration/tree/master/examples)
 
 ### Migration scripts
-
-```js
-
-```
 
 #### Richtext field
 
@@ -146,5 +136,5 @@ myRichTextCT
 It is a good idea to create a `test` environment that is a clone of `master` so that everything can be checked before running the migration script "for real".
 
 ```sh
-contentful space migration --space-id a65gr7u3g09k --environment-id 'test' 01-add-article-cta-type.js
+contentful space migration --space-id <space-id> --environment-id 'test' 01-add-article-cta-type.js
 ```

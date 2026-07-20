@@ -3,13 +3,15 @@ title: Yalc
 tags:
   - javascript
 link: 'https://github.com/whitecolor/yalc'
-date: 2020-11-13
+date: 2026-07-20
 ---
+
+> Heads up: yalc has been effectively unmaintained since ~2021, but it still works. Alternatives worth knowing about: `pnpm add ../package-a` (or the `link:` protocol), `npm pack`, or just using pnpm workspaces — though none of them quite replicate yalc's publish/push model.
 
 ## Installation
 
 ```sh
-yarn global add yalc
+npm install -g yalc
 ```
 
 ## Usage

@@ -3,12 +3,14 @@ title: Postman.io
 tags:
   - javascript
 emoji: 📨
-date: 2020-03-26
+date: 2026-07-20
 ---
 
-## Save an env var
+## Save a variable from a response
 
 ```js
-var jsonData = JSON.parse(responseBody)
-pm.environment.set('ref', jsonData.refs[0].ref)
+const jsonData = pm.response.json()
+pm.collectionVariables.set('ref', jsonData.refs[0].ref)
 ```
+
+Collection variables are usually the right target these days. Use `pm.environment.set(...)` instead if the value should differ per environment.

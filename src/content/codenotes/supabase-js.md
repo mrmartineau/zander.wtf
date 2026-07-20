@@ -3,7 +3,7 @@ title: Supabase.js
 tags:
   - javascript
   - typescript
-date: 2026-01-20
+date: 2026-07-20
 emoji: ⚡
 ---
 
@@ -96,10 +96,12 @@ const { data, error } = await supabase
 ## Generated your schema locally
 
 ```sh
-npx supabase gen types typescript --project-id \"your-project-id\" --schema public > src/types/supabase.ts
+npx supabase gen types typescript --project-id your-project-id --schema public > src/types/supabase.ts
 ```
 
 ## @supabase/ssr
+
+> Note: since Supabase's 2025 API key migration, new projects get `sb_publishable_...` keys instead — commonly stored as `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`. `NEXT_PUBLIC_SUPABASE_ANON_KEY` (used below) is the legacy name.
 
 ### Browser client
 

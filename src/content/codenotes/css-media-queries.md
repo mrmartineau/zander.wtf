@@ -4,12 +4,12 @@ tags:
   - css
 link: 'https://developer.mozilla.org/en-US/docs/Web/CSS/@media'
 emoji: ↔️
-date: 2020-06-11
+date: 2026-07-20
 ---
 
 ## light-level
 
-This feature isn’t available in any browsers at the time of writing, but it definitely sounds like a future favorite. With the [`light-level`](https://drafts.csswg.org/mediaqueries-5/#light-level) media query, you can tune your styles based on whether your user is viewing your web app outside in daylight, or perhaps checking in before going to bed. This is great news for anyone who has ever tried to read their phone in the park, or check out a website at night!
+This feature isn’t available in any browsers at the time of writing, but it definitely sounds like a future favourite. With the [`light-level`](https://drafts.csswg.org/mediaqueries-5/#light-level) media query, you can tune your styles based on whether your user is viewing your web app outside in daylight, or perhaps checking in before going to bed. This is great news for anyone who has ever tried to read their phone in the park, or check out a website at night!
 
 There are three available values – `dim`, `normal` (the default), and `washed`.
 
@@ -52,7 +52,7 @@ The fifth level of CSS media queries also has a huge focus on personalization. I
 
 ### prefers-color-scheme
 
-This feature is already widely supported in browsers, and has three possible values – `light`, `dark`, and `no-preference`. Here’s an example where we change the background color of the site based on preference:
+This feature is already widely supported in browsers, and has three possible values – `light`, `dark`, and `no-preference`. Here’s an example where we change the background colour of the site based on preference:
 
 ```css
 @media (prefers-color-scheme: dark) {

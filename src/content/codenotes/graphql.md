@@ -2,7 +2,7 @@
 title: GraphQL
 tags:
   - graphql
-date: 2020-06-25
+date: 2026-07-20
 ---
 
 # Essential quotes
@@ -190,7 +190,7 @@ JSON result
 
 - Enumeration type
 - GraphQL's default set of types
-- The GraphQL server can declare its own custom types (must be serializable)
+- The GraphQL server can declare its own custom types (must be serialisable)
 
 ### Aliases to query the same field with different arguments
 
@@ -464,7 +464,7 @@ query HeroNameAndFriends($episode: Episode = JEDI) {
 
 ### Directives to dynamically change the structure using variables
 
-- Example: UI component that has a summarized and a detailed view
+- Example: UI component that has a summarised and a detailed view
 - Directives can be attached to a filed or fragment incusion
 - Two directives built into the spec:
   - `include(if: Boolean)` - Includes this field only if the argument is `true`
@@ -481,7 +481,7 @@ query Hero($episode: Episode, $withFriends: Boolean!) {
 }
 ```
 
-#### Summarized view
+#### Summarised view
 
 Variables
 

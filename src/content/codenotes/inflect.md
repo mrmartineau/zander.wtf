@@ -2,7 +2,7 @@
 title: Pluralisation with inflect()
 tags:
   - javascript
-date: 2022-11-11
+date: 2026-07-20
 link: https://kyleshevlin.com/snippets/inflect
 ---
 
@@ -10,9 +10,8 @@ Often nouns need slight changes depending on the quantity of that noun. Example:
 
 ```ts
 const inflect = (singular: string, plural = `${singular}s`) => {
-  return (quantity): string => {
+  return (quantity: number): string =>
     Math.abs(quantity) === 1 ? singular : plural
-  }
 }
 ```
 
@@ -35,4 +34,4 @@ const inflectMouse = inflect('mouse', 'mice')
 const inflectKnife = inflect('knife', 'knives')
 ```
 
-Now, as helpful as this is, it is not a proper solution should you need internationalization. Treat this is a helper function for those instances this can support.
+Now, as helpful as this is, it is not a proper solution should you need internationalization. Treat this is a helper function for those instances this can support. For anything beyond trivial English plurals, use the built-in [`Intl.PluralRules`](/notes/intl-pluralrules) — it's the standards-based option.

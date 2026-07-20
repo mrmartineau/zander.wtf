@@ -4,7 +4,7 @@ tags:
   - golang
   - typescript
   - cheatsheet
-date: 2026-01-20
+date: 2026-07-20
 emoji: 🐹
 ---
 
@@ -650,7 +650,7 @@ go test ./...
 ## Common gotchas for TS developers
 
 1. **No unused variables/imports** - Go won't compile with unused code
-2. **Exported names are Capitalized** - `User` is public, `user` is private
+2. **Exported names are Capitalised** - `User` is public, `user` is private
 3. **No exceptions** - use error return values
 4. **No optional parameters** - use variadic or option structs
 5. **Nil is not null** - nil has specific semantics per type

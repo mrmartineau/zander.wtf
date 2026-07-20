@@ -3,7 +3,7 @@ title: useReducer
 tags:
   - react
 emoji: 🎣
-date: 2026-01-20
+date: 2026-07-20
 link: https://react.dev/reference/react/useReducer
 ---
 
@@ -46,7 +46,7 @@ export const Counter = () => {
 }
 ```
 
-## With lazy initialization
+## With lazy initialisation
 
 ```tsx
 const init = (initialCount: number): State => {

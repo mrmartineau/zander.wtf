@@ -15,37 +15,7 @@ const {
 ---
 
 
-<script>
-  function isFormField(element) {
-    if (!(element instanceof HTMLElement)) {
-      return false;
-    }
-
-    const name = element.nodeName.toLowerCase();
-    const type = (element.getAttribute('type') || '').toLowerCase();
-    return (
-      name === 'select' ||
-      name === 'textarea' ||
-      (name === 'input' && type !== 'submit' && type !== 'reset') ||
-      element.isContentEditable
-    );
-  }
-
-  const inputEl = document.querySelector<HTMLInputElement>('.search-input');
-  document.addEventListener('keydown', (event) => {
-    if (!(event instanceof KeyboardEvent)) {
-      return;
-    }
-    if (event.target instanceof Node && isFormField(event.target)) {
-      return;
-    }
-    if (event.isComposing || event.key === '/') {
-      event.preventDefault();
-      inputEl?.focus();
-    }
-  });
-</script>
-
+<!-- The site-wide "/" shortcut (see Header.astro) focuses this input when present -->
 <form action={action} method="GET" class="search-form">
   <!-- <i class="ph-duotone ph-magnifying-glass search-icon"></i> -->
   <input

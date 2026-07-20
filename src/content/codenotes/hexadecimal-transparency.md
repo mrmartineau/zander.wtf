@@ -1,8 +1,8 @@
 ---
-title: Hexadecimal color code for transparency
+title: Hexadecimal colour code for transparency
 tags:
   - css
-date: 2020-09-29
+date: 2026-07-20
 ---
 
 ### How to set transparency with hex value?

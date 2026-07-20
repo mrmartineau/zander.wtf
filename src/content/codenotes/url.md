@@ -1,6 +1,6 @@
 ---
 title: URL & URLSearchParams
-date: 2024-09-16
+date: 2026-07-20
 tags:
   - javascript
 ---
@@ -25,10 +25,10 @@ url.hash // #hello
 Docs: http://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams/URLSearchParams
 
 ```js twoslash
-// example.com?much=wow
-const params = new URLSearchParams(
-  'https://mysite.com/login?user=zander&page=news#hello'
-)
+// note: don't pass a full URL string to URLSearchParams directly —
+// it treats the whole thing as a query string. Go via new URL() instead.
+const params = new URL('https://mysite.com/login?user=zander&page=news#hello')
+  .searchParams
 
 params.has('user') // true
 params.get('user') // 'zander'
@@ -36,7 +36,7 @@ params.get('user') // 'zander'
 params.set('page', 'code')
 params.toString() // user=zander&page=code
 
-for ([key, value] of params) {
+for (const [key, value] of params) {
   // ...
 }
 
@@ -49,7 +49,7 @@ params.toString() // user=zander
 ```ts
 // one liner
 const params = Object.fromEntries(
-  new URLSearchParams(new URL('user=zander&page=news#hello').search)
+  new URL('https://mysite.com/login?user=zander&page=news#hello').searchParams
 )
 ```
 
@@ -60,13 +60,31 @@ const urlParams = new URLSearchParams(url.search)
 const params = Object.fromEntries(urlParams)
 ```
 
-Polyfill: https://github.com/ungap/url-search-params#readme
+## `URL.canParse()`
+
+A quick boolean check for whether a string is a valid URL — no try/catch needed:
+
+```js
+URL.canParse('https://mysite.com') // true
+URL.canParse('user=zander&page=news') // false
+```
+
+## `URL.parse()`
+
+Like the `URL` constructor but it returns `null` on invalid input instead of throwing:
+
+```js
+const url = URL.parse('not a url') // null
+const ok = URL.parse('https://mysite.com/login') // URL instance
+```
 
 ## Use `proper-url-join` to construct a url
 
 > I use this package on nearly every project to normalise urls
 
 https://github.com/moxystudio/js-proper-url-join
+
+Caveat: it's barely maintained these days, and the native `URL` API covers most of these cases now — I'd reach for that first.
 
 ```ts
 import urlJoin from 'proper-url-join'

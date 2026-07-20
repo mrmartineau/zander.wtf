@@ -4,30 +4,25 @@ emoji: 🍿
 tags:
   - javascript
   - typescript
-date: 2020-02-27
+date: 2026-07-20
 ---
 
-```ts
-const openFullscreen = (elem: HTMLElement): Promise<any> => {
-  if (elem.requestFullscreen) {
-    return elem.requestFullscreen()
-  } else if (elem.mozRequestFullscreen) {
-    /* Firefox */
-    return elem.mozRequestFullscreen()
-  } else if (elem.webkitRequestFullscreen) {
-    /* Chrome, Safari and Opera */
-    return elem.webkitRequestFullscreen()
-  } else if (elem.msRequestFullscreen) {
-    /* IE/Edge */
-    return elem.msRequestFullscreen()
-  }
-}
+The old vendor-prefix cascade (`mozRequestFullscreen`, `webkitRequestFullscreen`, `msRequestFullscreen`) is dead — unprefixed `requestFullscreen()` is baseline everywhere now (Safari has had it since 16.4). So this is all you need:
 
-// Usage
-openFullscreen(element).catch((error) => {
-  Sentry.captureException(new Error(error))
-  Sentry.captureMessage(
-    `Error attempting to enable full-screen mode: ${error.message} (${error.name})`
-  )
-})
+```ts
+const toggleFullscreen = (elem: HTMLElement) => {
+  if (document.fullscreenElement) {
+    return document.exitFullscreen()
+  }
+
+  return elem.requestFullscreen().catch((error) => {
+    console.error(
+      `Error attempting to enable fullscreen: ${error.message} (${error.name})`
+    )
+  })
+}
 ```
+
+`requestFullscreen()` returns a promise, so `.catch()` is the place to handle the user-gesture and permission failures. `document.fullscreenElement` tells you if something is already fullscreen (and what).
+
+One remaining caveat: iPhone Safari only supports fullscreen on `<video>` elements — you can't fullscreen an arbitrary div there.

@@ -4,7 +4,7 @@ tags:
   - javascript
   - html
 link: https://oembed.com/
-date: 2024-09-16
+date: 2026-07-20
 ---
 
 Default providers list: https://oembed.com/providers.json
@@ -13,13 +13,13 @@ Example provider scheme:
 
 ```json
 {
-  "provider_name": "Twitter",
-  "provider_url": "http:\/\/www.twitter.com\/",
+  "provider_name": "X",
+  "provider_url": "https:\/\/x.com\/",
   "endpoints": [
     {
       "schemes": [
-        "https:\/\/twitter.com\/*\/status\/*",
-        "https:\/\/*.twitter.com\/*\/status\/*"
+        "https:\/\/x.com\/*\/status\/*",
+        "https:\/\/*.x.com\/*\/status\/*"
       ],
       "url": "https:\/\/publish.twitter.com\/oembed"
     }
@@ -42,10 +42,12 @@ Example provider scheme:
 }
 ```
 
-### Twitter
+### Twitter / X
+
+The schemes in `providers.json` now cover `x.com/*/status/*`, but the oEmbed endpoint itself is still `publish.twitter.com/oembed` and still answers.
 
 ```json
-// https://publish.twitter.com/oembed?url=https://twitter.com/rowancheung/status/1721939337409888732
+// https://publish.twitter.com/oembed?url=https://x.com/rowancheung/status/1721939337409888732
 {
   "url": "https://twitter.com/rowancheung/status/1721939337409888732",
   "author_name": "Rowan Cheung",

@@ -2,27 +2,32 @@
 title: Check if JavaScript object is empty
 tags:
   - javascript
-date: 2021-01-28
+date: 2026-07-20
 ---
 
 ```js
-if (obj && Object.entries(obj).length === 0 && obj.constructor === Object) {
+if (obj != null && obj.constructor === Object && Object.keys(obj).length === 0) {
   // do something
 }
 ```
 
-or use a function:
+The `constructor === Object` check matters — without it, things like `''`, `0`, `42` and `[]` also pass the "no keys" test and get treated as empty objects. `Object.keys` beats `Object.entries` here too: no point allocating all those `[key, value]` pairs just to count them.
+
+As a function:
 
 ```ts
 export const isObjectEmpty = (obj: unknown): boolean => {
-  if (obj === null || obj === undefined || obj === false) {
-    return true
-  }
-  return Object.entries(obj).length === 0
+  return (
+    obj != null &&
+    obj.constructor === Object &&
+    Object.keys(obj).length === 0
+  )
 }
 
 // isObjectEmpty({}) true
 // isObjectEmpty({a: 1}) false
+// isObjectEmpty([]) false
+// isObjectEmpty('') false
 ```
 
 You can also invert that function to check if an object has values.

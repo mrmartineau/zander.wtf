@@ -2,7 +2,7 @@
 title: Useful JavaScript functions & snippets
 tags:
   - javascript
-date: 2021-01-06
+date: 2026-07-20
 ---
 
 ## Automatically remove an event listener after it has executed
@@ -35,22 +35,9 @@ btn.addEventListener('click', myObject)
 ## Remove query param
 
 ```ts
-// https://stackoverflow.com/a/58128921/91359
-
-export const removeSearchParam = (paramName: string): void => {
-  const searchParams = new URLSearchParams(window.location.search)
-  searchParams.delete(paramName)
-  if (history.replaceState) {
-    const searchString =
-      searchParams.toString().length > 0 ? '?' + searchParams.toString() : ''
-    const newUrl =
-      window.location.protocol +
-      '//' +
-      window.location.host +
-      window.location.pathname +
-      searchString +
-      window.location.hash
-    history.replaceState(null, document.title, newUrl)
-  }
+export const removeSearchParam = (name: string): void => {
+  const url = new URL(location.href)
+  url.searchParams.delete(name)
+  history.replaceState(null, '', url)
 }
 ```

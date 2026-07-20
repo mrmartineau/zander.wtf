@@ -2,7 +2,7 @@
 title: Big O Notation
 tags:
   - computer-science
-date: 2026-01-20
+date: 2026-07-20
 ---
 
 Big O Notation describes the **upper bound** of an algorithm's time or space complexity, helping us understand how performance scales as input size grows.
@@ -237,13 +237,13 @@ function permutations(arr) {
 }
 ```
 
-**Examples:** Generating all permutations, brute-force traveling salesman problem, solving n-queens by trying all arrangements.
+**Examples:** Generating all permutations, brute-force travelling salesman problem, solving n-queens by trying all arrangements.
 
 ---
 
 ## O(√n) — Square Root Time
 
-Runtime grows relative to the square root of input. Used in optimization techniques.
+Runtime grows relative to the square root of input. Used in optimisation techniques.
 
 ```js
 // Check if number is prime
@@ -276,7 +276,7 @@ function jumpSearch(arr, target) {
 }
 ```
 
-**Examples:** Prime checking, jump search, Sieve of Eratosthenes optimizations, finding divisors.
+**Examples:** Prime checking, jump search, Sieve of Eratosthenes optimisations, finding divisors.
 
 ---
 
@@ -300,7 +300,7 @@ Big O also applies to **memory usage**:
 1. **Drop constants** — O(2n) simplifies to O(n)
 2. **Drop non-dominant terms** — O(n² + n) simplifies to O(n²)
 3. **Consider worst case** — Big O typically describes the worst-case scenario
-4. **Analyze loops** — Nested loops often multiply complexity
+4. **Analyse loops** — Nested loops often multiply complexity
 5. **Recursive calls** — Draw the recursion tree to understand branching
 
 ## Common Pitfalls

@@ -3,7 +3,7 @@ title: Technical Job Interview Questions
 tags:
   - interview
   - questions
-date: 2024-09-16
+date: 2026-07-20
 ---
 
 Use the Custom GPT that I made to prepare for technical interviews: https://chat.openai.com/g/g-lCM8cVeOj-tech-interview-coach
@@ -32,7 +32,7 @@ Functional Programming (FP) and Object-Oriented Programming (OOP) are two fundam
 
 #### Comparative Summary
 
-- **Philosophy**: FP is about transforming data in a sequence of immutable steps without side effects, while OOP is about organizing code around objects and their interactions.
+- **Philosophy**: FP is about transforming data in a sequence of immutable steps without side effects, while OOP is about organising code around objects and their interactions.
 - **State Management**: FP avoids state and mutable data, while OOP embraces them.
 - **Code Reusability**: In FP, reusability is achieved through functions, especially higher-order functions. In OOP, reusability is achieved through inheritance and polymorphism.
 - **Concurrency**: FP tends to be more friendly towards concurrent programming due to its emphasis on immutability.
@@ -53,7 +53,7 @@ The Promise object represents the eventual completion (or failure) of an asynchr
 ### Difference between `var`, `let` and `const`?
 
 - `var` statement declares a function-scoped or globally-scoped variable, optionally initialising it to a value.
-- `let` statement declares a block-scoped local variable, optionally initializing it to a value.
+- `let` statement declares a block-scoped local variable, optionally initialising it to a value.
 - `const` are block-scoped, much like variables declared using the let keyword. The value of a constant can't be changed through reassignment, and it can't be redeclared.
 
 ```js
@@ -141,13 +141,13 @@ https://javascript.info/currying-partials
 
 ### What is throttling and debouncing?
 
-Throttling and debouncing are techniques used in JavaScript to optimize and control the execution of repeated or heavy-duty functions.
+Throttling and debouncing are techniques used in JavaScript to optimise and control the execution of repeated or heavy-duty functions.
 
 **Throttling** limits the rate at which a function gets called. It ensures that the function is executed at most once within a specified time interval, regardless of how many times it is invoked. Throttling is often useful to prevent excessive or unnecessary function calls, such as during scroll or resize events.
 
 **Debouncing** limits the frequency at which a function gets called. It postpones the execution of a function until after a certain cooldown period has elapsed since the last invocation. If the function is called again during the cooldown period, the timer resets. Debouncing is commonly used for tasks that require a delay, such as search suggestions or form input validation.
 
-Both techniques help optimize performance and enhance user experience by preventing unnecessary or excessive function invocations.
+Both techniques help optimise performance and enhance user experience by preventing unnecessary or excessive function invocations.
 
 ```js
 function throttle(fn, interval) {
@@ -553,9 +553,9 @@ const stringBox: Box<string> = { contents: 'hi' }
 
 ## Web performance questions
 
-### How would you use critical rendering path optimization to improve the performance of a web page?
+### How would you use critical rendering path optimisation to improve the performance of a web page?
 
-The critical rendering path is the sequence of steps the browser takes to convert the HTML, CSS, and JavaScript into pixels on the screen. Optimizing the critical rendering path can improve the performance of a web page by reducing the time it takes for the content to be visible to the user.
+The critical rendering path is the sequence of steps the browser takes to convert the HTML, CSS, and JavaScript into pixels on the screen. Optimising the critical rendering path can improve the performance of a web page by reducing the time it takes for the content to be visible to the user.
 
 - Deferring the loading of non-critical JavaScript
 - Code-Splitting
@@ -563,11 +563,11 @@ The critical rendering path is the sequence of steps the browser takes to conver
 
 ### What are some common performance bottlenecks in web applications?
 
-- Slow server response time: The time it takes for the server to process a request and send back a response can be a bottleneck if the server is not optimized or is overloaded with requests.
-- Unoptimized database queries: Poorly written or numerous database queries can slow down the performance of a web application by causing delays in retrieving data.
+- Slow server response time: The time it takes for the server to process a request and send back a response can be a bottleneck if the server is not optimised or is overloaded with requests.
+- Unoptimised database queries: Poorly written or numerous database queries can slow down the performance of a web application by causing delays in retrieving data.
 - Slow page load time: If a web page takes too long to load, it can lead to a poor user experience and negatively impact the performance of the web application.
 - Large or numerous JavaScript files: Loading and executing large or numerous JavaScript files can slow down the performance of a web application, especially on slower devices or network connections.
-- Unoptimized images: Large or unoptimized images can slow down the performance of a web page by taking longer to load.
+- Unoptimised images: Large or unoptimised images can slow down the performance of a web page by taking longer to load.
 - Bloated and complex CSS: Web pages with complex CSS can slow down the performance of a web application, especially when the browser has to spend more time parsing and rendering the styles.
 - Lack of browser caching: Not utilizing browser caching can result in a slower experience for returning users as the browser will have to download resources again.
 
@@ -578,46 +578,46 @@ Service workers are a type of script that can run in the background of a web pag
 - Offline caching: Service workers can be used to cache resources, such as HTML, CSS, and JavaScript files, so that they can be accessed offline. This means that if a user visits a page again when they are offline, they will still be able to access the page's content.
 - Background synchronization: Service workers can be used to send data from a web page to a server even when the user is offline. This means that when the user comes back online, the data can be sent to the server and the user will not lose any data.
 - Push notifications: Service workers can be used to receive push notifications even when a web page is closed. This means that users can receive notifications even when they are not actively using the web page.
-- Performance optimization: Service workers can be used to handle network requests, such as fetching resources or sending data to a server. By handling these requests in the background, service workers can improve the performance of a web page by reducing the load on the main JavaScript thread.
+- Performance optimisation: Service workers can be used to handle network requests, such as fetching resources or sending data to a server. By handling these requests in the background, service workers can improve the performance of a web page by reducing the load on the main JavaScript thread.
 
 ### How would you use browser developer tools to analyse and improve the performance of a web page?
 
-Browser developer tools are a powerful tool for analyzing and improving the performance of a web page. Here are the steps that can be taken to use browser developer tools to analyze and improve the performance of a web page:
+Browser developer tools are a powerful tool for analysing and improving the performance of a web page. Here are the steps that can be taken to use browser developer tools to analyse and improve the performance of a web page:
 
 1. Open the developer tools by pressing F12 or Ctrl+Shift+I in your browser.
 1. Once the developer tools are open, select the "Performance" tab. This will open a timeline of the browser's activity during the loading of the web page.
 1. Click on the "Record" button to start recording the performance of the web page. Interact with the web page to simulate the actions of a user.
 1. Once you've finished interacting with the web page, click on the "Stop" button to stop the recording. The timeline will now show a detailed breakdown of the browser's activity during the recording.
-1. Analyze the timeline by looking for any performance bottlenecks or issues. Some common issues to look for include:
+1. Analyse the timeline by looking for any performance bottlenecks or issues. Some common issues to look for include:
 1. Long or blocked main thread: If the main thread is blocked for long periods of time, the browser may not be able to respond to user input or update the screen.
 1. Long or blocked rendering: If the rendering is blocked for long periods of time, the browser may not be able to display the web page.
 1. Long load time: If the web page takes a long time to load, the user may experience a delay before they can interact with the web page.
 1. Once you've identified the issue, use the other tools available in the developer tools to identify the cause of the issue, such as the network tab to see the resources loaded and their size, time taken to load and other details.
-10. Once you've identified the cause of the issue, use the optimization techniques to improve the performance of the web page, for example, minifying and compressing resources, using browser caching, or optimizing images.
+10. Once you've identified the cause of the issue, use the optimisation techniques to improve the performance of the web page, for example, minifying and compressing resources, using browser caching, or optimising images.
 11. Repeat steps 3-7 to see if the performance has improved after making the changes.
 
-### How would you optimize the load time of a web page?
+### How would you optimise the load time of a web page?
 
-There are many techniques that can be used to optimize the load time of a web page, some include:
+There are many techniques that can be used to optimise the load time of a web page, some include:
 
-- Minimize the number of HTTP requests: The more resources a web page has to load, the longer it will take. Minimizing the number of resources (such as images, stylesheets, and scripts) can help reduce the number of HTTP requests, and therefore speed up the load time of a web page.
+- Minimise the number of HTTP requests: The more resources a web page has to load, the longer it will take. Minimising the number of resources (such as images, stylesheets, and scripts) can help reduce the number of HTTP requests, and therefore speed up the load time of a web page.
 - Minify and compress resources: Minifying resources means removing unnecessary characters and whitespace from code, while compressing resources means reducing their file size. Both of these techniques can help reduce the size of resources and therefore speed up their download time.
 - Use a content delivery network (CDN): A CDN can help speed up the load time of a web page by distributing resources across multiple servers in different locations. This means that resources are loaded from a server that is geographically closer to the user, which can help reduce the download time.
 - Use browser caching: By utilizing browser caching, the browser will save certain resources on the user's device and not have to re-download it on subsequent visits.
 - Defer the loading of non-critical resources: Some resources on a web page might not be needed right away, such as analytics tracking scripts, or ads. By deferring the loading of these non-critical resources, the web page can load faster.
-- Optimize images: Large, unoptimized images can significantly slow down the load time of a web page. Optimizing images can help reduce their file size, making them faster to download.
+- Optimise images: Large, unoptimised images can significantly slow down the load time of a web page. Optimising images can help reduce their file size, making them faster to download.
 
 ### Explain the difference between layout, painting, and compositing in relation to web page performance
 
 Layout, painting, and compositing are all processes that are performed by the browser when rendering a web page. These processes work together to create the final image that the user sees on their screen.
 
 - **Layout**: The layout process is responsible for calculating the position and size of all elements on the web page. This includes calculating the dimensions of elements, such as width, height, and position, and determining how elements are laid out on the screen.
-- **Painting**: The painting process is responsible for filling in the pixels of the elements on the screen. This includes applying color, images, and other visual styles to elements.
+- **Painting**: The painting process is responsible for filling in the pixels of the elements on the screen. This includes applying colour, images, and other visual styles to elements.
 - **Compositing**: The compositing process is responsible for combining all of the elements on the screen into a single image. This includes combining elements that are layered on top of each other, such as drop-down menus or modal dialogs, and applying visual effects, such as transparency or 3D transforms.
 
-Optimizing the performance of these three processes can improve the overall performance of a web page. For example, minimizing layout changes can help to reduce the number of paint operations required, and reducing the number of compositing layers can improve the performance of visual effects.
+Optimising the performance of these three processes can improve the overall performance of a web page. For example, minimising layout changes can help to reduce the number of paint operations required, and reducing the number of compositing layers can improve the performance of visual effects.
 
-These processes can be profiled using browser developer tools such as chrome dev tools to understand where the performance bottlenecks are and optimize the page for better performance.
+These processes can be profiled using browser developer tools such as chrome dev tools to understand where the performance bottlenecks are and optimise the page for better performance.
 
 ### Explain the concept of caching and how to use it to enhance the performance of a web page.
 
@@ -656,7 +656,7 @@ By using web workers, developers can improve the performance of a web page by ru
 
 ### How would you measure the performance of a web page?
 
-- Use browser developer tools: Most modern web browsers come with built-in developer tools that can be used to measure the performance of a web page. These tools can provide information on page load times, resource loading times, and more. These tools can be accessed by pressing F12 or Ctrl+Shift+I and provide a set of features for web developers to inspect, debug, and optimize the web pages. Some of the common features that browser developer tools provide to measure the performance of a web page include:
+- Use browser developer tools: Most modern web browsers come with built-in developer tools that can be used to measure the performance of a web page. These tools can provide information on page load times, resource loading times, and more. These tools can be accessed by pressing F12 or Ctrl+Shift+I and provide a set of features for web developers to inspect, debug, and optimise the web pages. Some of the common features that browser developer tools provide to measure the performance of a web page include:
   - Network tab: This tab allows you to view the requests and responses made by the browser to load the web page, and their corresponding timing information like time to first byte, download time, and total time.
   - Performance tab: This tab provides a timeline of the browser's activity during the loading of the web page, including metrics like time to first paint, time to first contentful paint, and time to interactive.
   - Audits tab: This tab allows you to run an automated performance audit of the web page and provide recommendations to improve the performance, accessibility, best practices, and SEO of the web page.
@@ -673,22 +673,22 @@ A performance budget is a set of guidelines and constraints that are put in plac
 - Set realistic and achievable targets for each of the key performance metrics based on the devices and network conditions that the web page will be accessed from.
 - Use tools such as Lighthouse or WebPageTest to measure the current performance of the web page and compare it to the targets set in the performance budget.
 - Identify any areas where the web page is not meeting the targets set in the performance budget.
-- Use optimization techniques to improve the performance of the web page, such as minifying and compressing resources, using browser caching, or optimizing images.
+- Use optimisation techniques to improve the performance of the web page, such as minifying and compressing resources, using browser caching, or optimising images.
 - Continuously monitor the performance of the web page and make adjustments as needed to ensure that it meets the targets set in the performance budget.
 - Use the budget to track the performance of the website through the development and deployment process, and to make informed decisions about what resources should be loaded and when.
 - Use the budget to evaluate the performance of the website after it is deployed, and to make adjustments as needed to ensure that it continues to meet the targets set in the performance budget.
 - Using a performance budget in this way helps to ensure that the web page will perform well on different devices and network conditions, providing a better experience for users.
 
-### How would you optimize the performance of a web page for different network conditions?
+### How would you optimise the performance of a web page for different network conditions?
 
-Optimizing the performance of a web page for different network conditions involves considering the types of resources that are loaded on the page, the size of those resources, and how they are loaded.
+Optimising the performance of a web page for different network conditions involves considering the types of resources that are loaded on the page, the size of those resources, and how they are loaded.
 
-- Resource optimization: Reduce the size of resources, such as images and JavaScript files, by compressing them and using appropriate image formats like JPEG2000, JPEG XR, and WebP.
+- Resource optimisation: Reduce the size of resources, such as images and JavaScript files, by compressing them and using appropriate image formats like JPEG2000, JPEG XR, and WebP.
 - Code splitting: Use code splitting to load only the necessary resources for a specific page, this will not only reduce the time to load the resources but also reduces the data usage.
-- Minimize the number of HTTP requests: Minimize the number of HTTP requests by combining multiple files into one and using browser caching.
+- Minimise the number of HTTP requests: Minimise the number of HTTP requests by combining multiple files into one and using browser caching.
 - Use a Content Delivery Network (CDN): A CDN can help to distribute resources to users based on their geographic location, which can help to improve the performance of a web page for users with slower network connections.
 - Progressive loading: Use progressive loading techniques, such as lazy loading, to load only the necessary resources for the user.
-- Optimize for offline: Use service workers to cache resources, so that they can be accessed offline. This means that if a user visits a page again when they are offline, they will still be able to access the page's content.
+- Optimise for offline: Use service workers to cache resources, so that they can be accessed offline. This means that if a user visits a page again when they are offline, they will still be able to access the page's content.
 
 ### Explain the concept of code splitting and its impact on enhancing the performance of a web page.
 
@@ -727,7 +727,7 @@ Lighthouse: This is an open-source tool that is built into the Chrome Developer 
 - [WebPageTest](https://www.webpagetest.org/): This is an open-source tool that allows you to test the performance of a web page on different devices and network conditions. It provides detailed information about the performance of a web page and includes a performance budget feature that allows you to set targets for key performance metrics.
 - [SpeedCurve](https://www.speedcurve.com/): This is a paid tool that allows you to monitor the performance of a web page over time. It provides detailed information about the performance of a web page and includes a performance budget feature that allows you to set targets for key performance metrics.
 - [Calibre](https://calibreapp.com/): This is a paid tool that allows you to create and manage performance budgets for your web pages. It provides detailed information about the performance of a web page and includes a performance budget feature that allows you to set targets for key performance metrics.
-- [SpeedKit](https://www.speedkit.com/): This is a paid tool that allows you to improve the performance of a web page by optimizing the delivery of resources. It provides detailed information about the performance of a web page and includes a performance budget feature that allows you to set targets for key performance metrics.
+- [SpeedKit](https://www.speedkit.com/): This is a paid tool that allows you to improve the performance of a web page by optimising the delivery of resources. It provides detailed information about the performance of a web page and includes a performance budget feature that allows you to set targets for key performance metrics.
 
 These tools can help you to identify performance bottlenecks, set performance budgets, and monitor the performance of your web pages over time.
 
@@ -740,7 +740,7 @@ These tools can help you to identify performance bottlenecks, set performance bu
 - **Idle**: The browser should use idle time to perform background tasks and prepare for the next user interaction.
 - **Load**: The page should be fully loaded in under 1000ms. This means that the page should be visible and usable in under 1 second.
 
-To improve the performance of a web page using the RAIL model, developers should focus on minimizing the time it takes to respond to user input, ensuring animations run smoothly, making use of idle time, and reducing the time it takes to fully load the page.
+To improve the performance of a web page using the RAIL model, developers should focus on minimising the time it takes to respond to user input, ensuring animations run smoothly, making use of idle time, and reducing the time it takes to fully load the page.
 
 ## Accessibility questions
 

@@ -3,8 +3,8 @@ title: Web Share
 tags:
   - javascript
 emoji: "\U0001F4E4"
-date: 2026-01-20
-link: https://web.dev/web-share/
+date: 2026-07-20
+link: https://web.dev/articles/web-share
 ---
 
 ```js
@@ -56,16 +56,16 @@ navigator.share({ url: url })
 
 <p>
   Here is an image that you can
-  <a class="web-share" href="https://placekitten.com/200/287">share the URL</a>:
+  <a class="web-share" href="https://picsum.photos/200/287">share the URL</a>:
 </p>
 <p>
-  <img src="http://placekitten.com/200/287" alt="Place holder image" />
+  <img src="https://picsum.photos/200/287" alt="Place holder image" />
 </p>
 ```
 
 ```js
 let shareButtons = document.querySelectorAll('a.web-share')
-for (button of shareButtons) {
+for (const button of shareButtons) {
   button.addEventListener('click', function (e) {
     let href = this.getAttribute('href')
     let alt = this.getAttribute('alt')
@@ -81,6 +81,8 @@ for (button of shareButtons) {
 ```
 
 ## Demo
+
+This pen is from 2019 so it may be a bit dated, but the idea still holds.
 
 <iframe height="574" style="width: 100%;" scrolling="no" title="Demo of Web Share button" src="https://codepen.io/makzan/embed/gJRvzR?height=574&theme-id=light&default-tab=js,result" frameborder="no" allowtransparency="true" allowfullscreen="true">
   See the Pen <a href='https://codepen.io/makzan/pen/gJRvzR'>Demo of Web Share button</a> by Thomas Seng Hin Mak

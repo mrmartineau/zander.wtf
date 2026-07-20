@@ -4,10 +4,10 @@ tags:
   - react
   - javascript
 link: https://jjenzz.com/compound-components
-date: 2021-04-22
+date: 2026-07-20
 ---
 
-```tsx
+```jsx
 import React, { useContext } from 'react'
 
 const Context = React.createContext()
@@ -31,11 +31,13 @@ const ListItem = ({ children, ...props }) => {
 export { List, ListItem }
 ```
 
-```tsx
+```jsx
 <List isSmall>
   <ListItem>Cat</ListItem>
   <ListItem>Dog</ListItem>
 </List>
 ```
+
+Note: in React 19 you can render `<Context value={isSmall}>` directly instead of `<Context.Provider value={isSmall}>`, and `use(Context)` is the newer alternative to `useContext`.
 
 Another example: https://egghead.io/lessons/react-write-compound-components

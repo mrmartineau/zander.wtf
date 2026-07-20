@@ -3,7 +3,7 @@ title: Clamp number
 tags:
   - javascript
   - css
-date: 2021-01-06
+date: 2026-07-20
 emoji: 🗜
 ---
 
@@ -19,17 +19,11 @@ const clamp = (value: number, min: number, max: number) => {
 // clamp(80, 20, 50) > 50
 ```
 
+There's a [TC39 proposal for `Math.clamp`](https://github.com/tc39/proposal-math-clamp) that would make this one-liner redundant eventually.
+
 ## CSS
 
-Use this if you only need to support Safari (11.1+) and Chrome (79+)
-
-```css
-html {
-  font-size: min(max(16px, 4vw), 22px);
-}
-```
-
-Or even this if you only support Chrome (79+)
+`clamp()` has been supported everywhere since 2020, so just use it:
 
 ```css
 body {

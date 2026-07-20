@@ -3,7 +3,7 @@ title: CSS Protips
 tags:
   - css
 link: https://github.com/AllThingsSmitty/css-protips
-date: 2023-01-26
+date: 2026-07-20
 ---
 
 A collection of tips to help take your CSS skills pro.
@@ -44,7 +44,7 @@ html {
 }
 ```
 
-This makes it easier to change `box-sizing` in plugins or other components that leverage other behavior.
+This makes it easier to change `box-sizing` in plugins or other components that leverage other behaviour.
 
 [Demo](https://css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice/)
 
@@ -186,7 +186,7 @@ body {
 
 Want to center something else? Vertically, horizontally...anything, anytime, anywhere? CSS-Tricks has [a nice write-up](https://css-tricks.com/centering-css-complete-guide/) on doing all of that.
 
-**Note:** Watch for some [buggy behavior](https://github.com/philipwalton/flexbugs#3-min-height-on-a-flex-container-wont-apply-to-its-flex-items) with flexbox in IE11.
+**Note:** Watch for some [buggy behaviour](https://github.com/philipwalton/flexbugs#3-min-height-on-a-flex-container-wont-apply-to-its-flex-items) with flexbox in IE11.
 
 [Demo](http://codepen.io/AllThingsSmitty/pen/GqmGqZ)
 

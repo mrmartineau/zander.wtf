@@ -5,11 +5,11 @@ tags:
   - javascript
 emoji: 🧪
 link: https://github.com/nock/nock
-date: 2020-05-11
+date: 2026-07-20
 ---
 
 ```js
-const nock = require('nock')
+import nock from 'nock'
 
 const scope = nock('https://api.github.com')
   .get('/repos/atom/atom/license')
@@ -23,3 +23,5 @@ const scope = nock('https://api.github.com')
     },
   })
 ```
+
+Note: nock only intercepts Node's native `fetch` (undici) from v14 (2024) onwards — make sure you're on nock >= 14 if your code uses built-in `fetch`. Worth knowing about the modern alternatives too: [MSW](https://mswjs.io/) (`msw/node`) and undici's built-in `MockAgent`.

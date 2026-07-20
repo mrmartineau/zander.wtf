@@ -6,7 +6,7 @@ tags:
   - javascript
   - typescript
 emoji: 🙅‍♀️
-date: 2020-09-21
+date: 2026-07-20
 ---
 
 ## ESlint
@@ -127,25 +127,75 @@ hello: world
 
 ```ts
 // @ts-ignore
+
+// @ts-expect-error
 ```
 
-### TSLint
+Prefer `// @ts-expect-error` — unlike `@ts-ignore`, it errors if the next line doesn't actually have an error, so stale suppressions don't hang around.
+
+## Biome
+
+[https://biomejs.dev/analyzer/suppressions/](https://biomejs.dev/analyzer/suppressions/)
+
+Biome ignores need the rule name and a reason. The general shape is `// biome-ignore <category>[/<group>/<rule>]: <reason>` where the category is `lint`, `format`, `assist`, or `syntax`.
 
 ```ts
-/* tslint:disable no-console */
-console.log()
-/* tslint:disable no-console */
+// biome-ignore lint/suspicious/noExplicitAny: legacy API shape
+const data: any = getData()
 
-/* tslint:disable */
-/* tslint:enable */
-
-/* tslint:disable:rule */
-/* tslint:enable:rule */
-
-/* tslint:disable-next-line */
-/* tslint:disable-line */
-/* tslint:disable-next-line:rule */
+// suppress a whole group, or all lint rules (less specific = more blunt)
+// biome-ignore lint/suspicious: reason
+// biome-ignore lint: reason
 ```
+
+Skip formatting for the next node:
+
+```ts
+// biome-ignore format: hand-aligned matrix
+matrix(
+  1, 0, 0,
+  0, 1, 0,
+  0, 0, 1
+)
+```
+
+Whole-file suppression — must be at the top of the file:
+
+```ts
+// biome-ignore-all lint/suspicious/noConsole: CLI output
+```
+
+Range suppression:
+
+```ts
+// biome-ignore-start lint/suspicious/noDebugger: local debugging
+debugger
+// biome-ignore-end lint/suspicious/noDebugger: local debugging
+```
+
+## oxfmt
+
+[https://oxc.rs/docs/guide/usage/formatter/ignore-comments.html](https://oxc.rs/docs/guide/usage/formatter/ignore-comments.html)
+
+Oxc's formatter uses `// oxfmt-ignore` on the line before a statement — and it also honours `// prettier-ignore`, so migrating doesn't mean rewriting existing ignores:
+
+```js
+// oxfmt-ignore
+matrix(
+  1, 0, 0,
+  0, 1, 0,
+  0, 0, 1
+)
+```
+
+```jsx
+<div>
+  {/* oxfmt-ignore */}
+  <span     ugly  format=''   />
+</div>
+```
+
+Caveats: no trailing same-line ignores (deliberate, for performance), and no range ignores (`oxfmt-ignore-start`/`end`) yet — both differences from Prettier. For linting, oxlint uses ESLint-style comments (`// oxlint-disable-next-line rule-name`).
 
 ## Stylelint
 

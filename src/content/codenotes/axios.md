@@ -4,7 +4,7 @@ emoji: 🐕
 tags:
   - javascript
 link: https://github.com/axios/axios
-date: 2021-12-06
+date: 2026-07-20
 ---
 
 ## Example requests
@@ -12,7 +12,7 @@ date: 2021-12-06
 ```js
 // GET
 const { data } = await axios({
-  method: 'POST',
+  method: 'GET',
   url: `https://path.to/endpoint`,
 })
 
@@ -76,7 +76,10 @@ const fetchSomeData = async (): Promise<ApiResponse> => {
 
     return data
   } catch (error) {
-    throw new Error(error.message || 'error.unknown')
+    if (axios.isAxiosError(error)) {
+      throw new Error(error.message)
+    }
+    throw new Error('error.unknown')
   }
 }
 ```
@@ -97,6 +100,11 @@ const fetchSomeData = async () => {
       url: `https://path.to/endpoint`,
     })
   )
+
+  if (error || !data) {
+    // handle the error — `data` is undefined here
+    return
+  }
 
   // ℹ️ Axios' default response has a `data` property,
   // so you may prefer to return `data.data`
@@ -150,8 +158,6 @@ try {
 }
 ```
 
-## Redaxios
+## Lightweight alternatives
 
-The Axios API, as an 800 byte Fetch wrapper.
-
-https://github.com/developit/redaxios
+Native `fetch` with `AbortSignal.timeout()` covers most of what I used axios for these days. If I want a nicer API on top, [ky](https://github.com/sindresorhus/ky) or [ofetch](https://github.com/unjs/ofetch) are the modern lightweight choices.

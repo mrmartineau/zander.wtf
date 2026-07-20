@@ -4,7 +4,7 @@ tags:
   - cpp
   - typescript
   - cheatsheet
-date: 2026-01-20
+date: 2026-07-20
 emoji: ⚡
 ---
 
@@ -917,7 +917,7 @@ TEST_CASE("Addition with parameters") {
 4. **Headers vs source** - declarations in `.h`, definitions in `.cpp`
 5. **`#include` is text substitution** - use include guards
 6. **Pass by value copies** - use `const&` for efficiency
-7. **Undefined behavior** - accessing out-of-bounds, null pointers, etc.
+7. **Undefined behaviour** - accessing out-of-bounds, null pointers, etc.
 8. **Iterators not indices** - STL uses iterator pattern
 9. **`std::string` is not `const char*`** - two different types
 10. **No reflection** - no runtime type info like TypeScript

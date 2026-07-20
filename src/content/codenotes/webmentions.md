@@ -4,7 +4,7 @@ tags:
   - javascript
   - html
 emoji: 🗣
-date: 2020-03-26
+date: 2026-07-20
 ---
 
 ## Go to webmention.io
@@ -18,15 +18,20 @@ Add this to your site:
 
 ### Feeds:
 
-- `https://webmention.io/api/mentions.html?token=H1gjIgBV1XU7F6PUO0lUOg`
-- `https://webmention.io/api/mentions.atom?token=H1gjIgBV1XU7F6PUO0lUOg`
+- `https://webmention.io/api/mentions.html?token=YOUR_API_KEY`
+- `https://webmention.io/api/mentions.atom?token=YOUR_API_KEY`
 
 ### API Key
 
-```
-H1gjIgBV1XU7F6PUO0lUOg
-```
+Find your API key on your [webmention.io dashboard](https://webmention.io/settings) — keep it out of your source code.
 
-```
-https://webmention.io/api/mentions?perPage=500&jsonp=parseWebmentions&target={PAGE_URL}
+### Fetching mentions for a page
+
+The `mentions.jf2` endpoint is CORS-enabled, so you can `fetch()` it directly:
+
+```js
+const response = await fetch(
+  `https://webmention.io/api/mentions.jf2?per-page=500&target=${PAGE_URL}`
+)
+const mentions = await response.json()
 ```

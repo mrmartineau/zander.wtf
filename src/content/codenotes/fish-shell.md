@@ -4,7 +4,7 @@ emoji: 🐠
 tags:
   - cli
 link: https://fishshell.com
-date: 2021-11-26
+date: 2026-07-20
 ---
 
 My Fish config: https://github.com/mrmartineau/fish
@@ -68,7 +68,7 @@ alias yad 'yarn add -D'
 
 ### abbr
 
-If you add an [abbreviation](https://fishshell.com/docs/current/cmds/abbr.html) instead of an alias you'll get better auto-complete. In fish abbr more closely matches the behavior of a bash alias.
+If you add an [abbreviation](https://fishshell.com/docs/current/cmds/abbr.html) instead of an alias you'll get better auto-complete. In fish abbr more closely matches the behaviour of a bash alias.
 
 ```sh
 abbr -a gco git checkout

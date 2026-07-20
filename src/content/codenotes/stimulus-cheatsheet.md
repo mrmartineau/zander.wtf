@@ -2,13 +2,15 @@
 title: Stimulus cheatsheet
 tags:
   - javascript
-date: 2020-06-23
+date: 2026-07-20
 ---
 
-- Website: https://stimulusjs.org/
-- GitHub repo: https://github.com/stimulusjs/stimulus
-- Handbook: https://stimulusjs.org/handbook/introduction
-- Discourse: https://discourse.stimulusjs.org/
+Updated for Stimulus 3.x — the package moved to `@hotwired/stimulus` and the old `data-target`/Data APIs are gone.
+
+- Website: https://stimulus.hotwired.dev/
+- GitHub repo: https://github.com/hotwired/stimulus
+- Handbook: https://stimulus.hotwired.dev/handbook/introduction
+- Forum: https://discuss.hotwired.dev/
 
 ## Lifecycle callbacks
 
@@ -26,40 +28,61 @@ The data-action value `click->hello#greet` is called an action descriptor. This 
 
 ### Common Events Have a Shorthand Action Notation
 
-Stimulus defines click as the default event for actions on `<button>` elements. Certain other elements have default events, too. Here’s the full list:
+Stimulus defines click as the default event for actions on `<button>` elements, so `data-action="hello#greet"` is enough. The full list of defaults:
 
 #### Element > Default event
 
 - `a` > `click`
 - `button` > `click`
+- `details` > `toggle`
 - `form` > `submit`
-- `input` > `change`
-- `input` > `type=submit	click`
+- `input` > `input`
+- `input type=submit` > `click`
 - `select` > `change`
-- `textarea` > `change`
+- `textarea` > `input`
 
 ### Multiple Actions
 
-If an element has muliple actions you can separate each one with a space `click->hello#greet click->hello#save`.
+If an element has multiple actions you can separate each one with a space `click->hello#greet click->hello#save`.
 
 The element can even have multiple actions for multiple controllers `click->hello#greet click->history#save`.
 
 ## Targets
 
-The data-target value `hello.name` is called a target descriptor. This particular descriptor says:
+Targets are declared per-controller with `data-<identifier>-target`. So for a `hello` controller: `<input data-hello-target="name" />`. (The old `data-target="hello.name"` syntax was removed in v3.)
 
-- `hello` is the controller identifier
-- `name` is the target name
+When Stimulus loads your controller class, it looks for target name strings in a static array called `targets`. For each target name in the array, Stimulus adds three new properties to your controller. Here, a `source` target name becomes:
 
-When Stimulus loads your controller class, it looks for target name strings in a static array called targets. For each target name in the array, Stimulus adds three new properties to your controller. Here, our `source` target name becomes the following properties:
-
-- `this.sourceTarget` evaluates to the first source target in your controller’s scope. If there is no source target, accessing the property throws an error.
-- `this.sourceTargets` evaluates to an array of all source targets in the controller’s scope.
+- `this.sourceTarget` evaluates to the first source target in your controller's scope. If there is no source target, accessing the property throws an error.
+- `this.sourceTargets` evaluates to an array of all source targets in the controller's scope.
 - `this.hasSourceTarget` evaluates to true if there is a source target or false if not.
 
-### Multiple Targets
+An element can be a target for multiple controllers — just add a target attribute for each: `data-hello-target="name" data-history-target="text"`.
 
-If an element is a target for multiple controllers you can separate each one with a space `hello.name history.text`
+## Values API
+
+The old Data API (`this.data.get/set/has`) is gone; use Values instead. Declare typed values on the controller and Stimulus wires them to `data-<identifier>-<name>-value` attributes:
+
+```js
+export default class extends Controller {
+  static values = { index: Number }
+
+  next() {
+    this.indexValue++ // reads/writes data-slideshow-index-value
+  }
+}
+```
+
+```html
+<div data-controller="slideshow" data-slideshow-index-value="1"></div>
+```
+
+You get `this.indexValue`, `this.hasIndexValue`, and a `indexValueChanged(value, previousValue)` callback that fires on any change. Supported types: `String`, `Number`, `Boolean`, `Array`, `Object`.
+
+## Classes and Outlets
+
+- **Classes API**: `static classes = ['loading']` + `data-hello-loading-class="spinner"` in HTML gives you `this.loadingClass` / `this.hasLoadingClass` — keeps CSS class names out of your JS.
+- **Outlets API**: `static outlets = ['result']` + `data-hello-result-outlet=".result"` gives you `this.resultOutlet(s)` — direct references to *other controllers'* instances, for cross-controller communication.
 
 ## Naming Conventions
 
@@ -71,50 +94,39 @@ If an element is a target for multiple controllers you can separate each one wit
 | Target names         | camelCase              | Map directly to JavaScript controller properties                                                              |
 | Data attributes      | camelCase + kebab-case | Thin wrapper around the HTMLElement.dataSet API; camelCase names in JS, kebab-case attributes in HTML         |
 
-## Data API
-
-Each Stimulus controller has a `this.data` object with `has()`, `get()`, and `set()` methods. These methods provide convenient access to data attributes on the controller’s element, scoped by the controller’s identifier.
-
-For example, in our controller above:
-
-- `this.data.has("index")` returns `true` if the controller’s element has a `data-slideshow-index` attribute
-- `this.data.get("index")` returns the string value of the element’s `data-slideshow-index` attribute
-- `this.data.set("index", index)` sets the element’s `data-slideshow-index` attribute to the string value of index
-
-If your attribute name consists of more than one word, **reference it as camelCase in JavaScript and attribute-case in HTML**. For example, you can read the `data-slideshow-current-class-name` attribute with `this.data.get("currentClassName")`.
-
 ## HTML API
 
 ### Controller `data-controller`
 
-e.g. `<div data-controller="ControllerName">`
+e.g. `<div data-controller="hello">`
 
-e.g. Multiple controllers on the same element: `<div data-controller="ControllerName AnotherControllerName">`
+e.g. Multiple controllers on the same element: `<div data-controller="hello history">`
 
-### Target `data-target`
+### Target `data-<identifier>-target`
 
-e.g. `<input data-target="ControllerName.TargetName"`>
+e.g. `<input data-hello-target="name" />`
+
+### Value `data-<identifier>-<name>-value`
+
+e.g. `<div data-controller="slideshow" data-slideshow-index-value="1">`
 
 ### Action `data-action`
 
-e.g. `<button data-action="eventName->ControllerName#methodName">Click me</button>`
+e.g. `<button data-action="click->hello#greet">Click me</button>`
 
-e.g. Multiple actions on the same element: `<button data-action="eventName->ControllerName#methodName anotherEventName->ControllerName#anotherMethodName">Click me</button>`
+e.g. Multiple actions on the same element: `<button data-action="click->hello#greet mouseover->hello#preload">Click me</button>`
 
 ## Code snippets
 
 ### Empty class
 
 ```js
-import { Controller } from 'stimulus'
+import { Controller } from '@hotwired/stimulus'
 
 export default class extends Controller {
   static targets = []
-
-  // or
-  static get targets() {
-    return []
-  }
+  static values = {}
+  static classes = []
 
   initialize() {}
 
@@ -126,14 +138,14 @@ export default class extends Controller {
 
 ### HTML
 
-Example HTML from the [Stimulus](https://stimulusjs.org/) home page
+Example HTML from the [Stimulus](https://stimulus.hotwired.dev/) home page
 
 ```html
 <div data-controller="hello">
-  <input data-target="hello.name" type="text" />
+  <input data-hello-target="name" type="text" />
 
   <button data-action="click->hello#greet">Greet</button>
 
-  <span data-target="hello.output"> </span>
+  <span data-hello-target="output"></span>
 </div>
 ```

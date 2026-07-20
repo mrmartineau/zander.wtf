@@ -4,23 +4,25 @@ tags:
   - animation
   - react
   - javascript
-link: https://greensock.com/docs/v3/GSAP
-date: 2026-01-20
+link: https://gsap.com/docs/v3/
+date: 2026-07-20
 ---
 
 ## GSAP
 
-- Docs: https://greensock.com/docs/v3/GSAP
-- Cheatsheet: https://greensock.com/cheatsheet/
+- Docs: https://gsap.com/docs/v3/
+- Cheatsheet: https://gsap.com/cheatsheet/
+
+GSAP is now 100% free — including all the formerly-paid plugins (ScrollSmoother, SplitText, MorphSVG, etc.) — since the Webflow acquisition.
 
 ## Eases
 
-https://greensock.com/docs/v3/Eases
+https://gsap.com/docs/v3/Eases
 
 ## ScrollTrigger
 
-- Docs: https://greensock.com/docs/v3/Plugins/ScrollTrigger
-- Demos: https://greensock.com/st-demos/
+- Docs: https://gsap.com/docs/v3/Plugins/ScrollTrigger
+- Demos: https://gsap.com/st-demos/
 
 ```js
 import gsap from 'gsap'
@@ -140,8 +142,8 @@ useEffect(() => {
 
 ## ScrollTo
 
-- Docs: https://greensock.com/docs/v3/Plugins/ScrollToPlugin
-- Demos: https://greensock.com/st-demos/
+- Docs: https://gsap.com/docs/v3/Plugins/ScrollToPlugin
+- Demos: https://gsap.com/st-demos/
 
 ```js
 import gsap from 'gsap'

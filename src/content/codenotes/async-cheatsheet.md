@@ -3,7 +3,7 @@ title: Async cheatsheet
 tags:
   - javascript
   - cheatsheet
-date: 2023-01-20
+date: 2026-07-20
 ---
 
 Pending promises can become either...
@@ -17,42 +17,66 @@ Pending promises can become either...
 Use `all()` to turn an array of promises into a promise to an array.
 
 ```js
-Promise.all([value1, value2, value3])[
-  // ->
-
-  (value1, value2, value3)
-]
+Promise.all([value1, value2, value3]) -> [value1, value2, value3]
 ```
 
 If any promise is rejected, the error will be passed through.
 
 ```js
-Promise.all([?, ?, error])
-
-// -> error
+Promise.all([?, ?, error]) -> error
 ```
 
 Use `race()` instead to pass through the first settled promise.
 
 ```js
-Promise.race([?, ?, value])
+Promise.race([?, ?, value]) -> value
+```
 
-// -> value
-promise.then(onFulfilled, onRejected)
+Use `allSettled()` (ES2020) when you want every outcome — it never rejects, and resolves to an array of `{ status, value }` / `{ status, reason }` objects.
+
+```js
+Promise.allSettled([value, error]) -> [
+  { status: 'fulfilled', value },
+  { status: 'rejected', reason: error },
+]
+```
+
+Use `any()` (ES2021) to get the first *fulfilled* promise — it only rejects (with an `AggregateError`) if every promise rejects.
+
+```js
+Promise.any([error, value]) -> value
+```
+
+`Promise.withResolvers()` (ES2024) gives you a promise plus its `resolve`/`reject` functions without the constructor callback dance.
+
+```js
+const { promise, resolve, reject } = Promise.withResolvers()
+```
+
+`Promise.try()` (ES2025) wraps a function that might return a value, a promise, or throw synchronously — either way you get a promise back.
+
+```js
+Promise.try(() => maybeAsyncMaybeThrows())
 ```
 
 ## Combining promises
 
-### Calls `onFulfilled` once the promise is fulfilled.
+### `promise.then(onFulfilled, onRejected)`
+
+Calls `onFulfilled` once the promise is fulfilled.
 
 ```js
-value.then(value => nextValue, ...) -> nextValue value.then(value => outcome, ...) -> outcome value.then(value => throw error, ...) -> error
+value.then(value => nextValue, ...) -> nextValue
+value.then(value => outcome, ...) -> outcome
+value.then(value => throw error, ...) -> error
 ```
 
 Calls onRejected if the promise is rejected.
 
 ```js
-error.then(..., error => value) -> value error.then(..., error => outcome) -> outcome error.then(..., error => throw nextError) -> nextError
+error.then(..., error => value) -> value
+error.then(..., error => outcome) -> outcome
+error.then(..., error => throw nextError) -> nextError
 ```
 
 Passes errors through if onRejected is undefined.
@@ -104,7 +128,8 @@ new Promise((resolve, reject) => {
 Use `resolve()` or `reject()` to create promises from values.
 
 ```js
-Promise.resolve(value) -> value Promise.reject(error) -> error
+Promise.resolve(value) -> value
+Promise.reject(error) -> error
 ```
 
 If you put a fulfilled promise into a fulfilled promise, they'll collapse into one.
@@ -126,7 +151,9 @@ function delay(milliseconds) {
 **Calling an async function always results in a promise.**
 
 ```js
-(async () => value)() -> value (async () => outcome)() -> outcome (async () => throw error)() -> error
+(async () => value)() -> value
+(async () => outcome)() -> outcome
+(async () => throw error)() -> error
 ```
 
 await waits for a promise to be fulfilled, then returns its value.
