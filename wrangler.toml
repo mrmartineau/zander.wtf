@@ -1,5 +1,4 @@
 name = "zander-wtf"
-account_id = "7fc0d74818901c4359078bfee873c9c9"
 pages_build_output_dir = "./dist"
 compatibility_flags = ["nodejs_compat", "global_fetch_strictly_public"]
 compatibility_date = "2026-03-12"
