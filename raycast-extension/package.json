@@ -5,6 +5,7 @@
   "description": "Search blog posts, code notes, projects, worklog entries and pages on zander.wtf",
   "icon": "icon.png",
   "author": "mrmartineau",
+  "owner": "zbomb",
   "license": "MIT",
   "commands": [
     {
