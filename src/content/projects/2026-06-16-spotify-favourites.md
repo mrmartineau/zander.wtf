@@ -10,6 +10,7 @@ status: active
 tech: TypeScript
 tags:
   - typescript
+type: experiment
 ---
 
 I never trusted Spotify's idea of my "top artists". It just counts plays, so the song you leave on repeat drowns out the artist whose whole back catalogue you've worked through. This tool flips the question: instead of how *often* you played something, it asks how much of it you've *explored* — how many different tracks of each album you've actually listened to. Ten plays of one song counts as one; one play each of ten songs counts as ten.

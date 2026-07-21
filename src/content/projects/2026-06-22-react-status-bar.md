@@ -12,6 +12,7 @@ tags:
   - css
   - typescript
   - react
+type: package
 ---
 
 This is a React component library for building a status bar — the kind you see in VS Code and other code editors: a horizontal bar, usually pinned to the bottom of the window, showing small bits of state and controls. The library gives you the same pattern for your own React apps.

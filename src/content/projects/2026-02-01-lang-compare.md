@@ -12,6 +12,7 @@ tags:
   - astro
   - typescript
   - reference
+type: app
 ---
 
 A reference site for comparing language features side-by-side across multiple programming languages. Structured around topics so you can quickly see how e.g. array destructuring, string interpolation, or async patterns differ between languages.

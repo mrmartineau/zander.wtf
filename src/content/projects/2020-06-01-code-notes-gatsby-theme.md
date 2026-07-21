@@ -10,6 +10,7 @@ tags:
   - gatsby
   - mdx
   - digital-garden
+type: package
 ---
 
 A Gatsby theme for building a digital code garden — TILs, snippets, and notes. The precursor to the code notes section now built into this site. Archived as Gatsby has been superseded.

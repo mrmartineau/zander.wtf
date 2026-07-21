@@ -8,6 +8,7 @@ status: active
 tags:
   - vscode
   - theme
+type: extension
 ---
 
 A VS Code port of the Rigel colour theme — a warm, dark theme with amber and teal accents. Available on the VS Code marketplace.

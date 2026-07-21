@@ -11,6 +11,7 @@ tags:
   - zed
   - extension
   - editor
+type: extension
 ---
 
 A Zed editor extension that brings the `vscode-surround` experience to Zed. Select text, trigger the command, and wrap it with your choice of snippet — brackets, tags, functions, and more.

@@ -1,12 +1,29 @@
 ---
 import { getCollection } from 'astro:content';
 import { SITE_METADATA } from 'src/consts';
-import ToolList from '~/components/ToolList.astro';
+import ProjectCard from '~/components/ProjectCard.astro';
 import ContentLayout from '~/layouts/ContentLayout.astro';
 
 const projects = (await getCollection('projects')).sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+  (a, b) =>
+    Number(b.data.promote) - Number(a.data.promote) ||
+    b.data.date.valueOf() - a.data.date.valueOf(),
 );
+
+const sections = [
+  { type: 'app', label: 'Apps' },
+  { type: 'package', label: 'Packages' },
+  { type: 'extension', label: 'Extensions' },
+  { type: 'raycast-extension', label: 'Raycast extensions' },
+  { type: 'framework', label: 'Frameworks' },
+  { type: 'experiment', label: 'Experiments' },
+]
+  .map((section) => ({
+    ...section,
+    projects: projects.filter((project) => project.data.type === section.type),
+  }))
+  .filter((section) => section.projects.length > 0);
+
 const slug = 'projects';
 ---
 
@@ -15,5 +32,37 @@ const slug = 'projects';
   subtitle={SITE_METADATA[slug].subtitle}
   slug={slug}
 >
-  <ToolList tools={projects} />
+  <div class="zm-project-sections">
+    {
+      sections.map(({ type, label, projects }) => (
+        <section class="zm-project-section" id={type}>
+          <h2>{label}</h2>
+          <div class="zm-project-grid">
+            {projects.map((project) => (
+              <ProjectCard project={project} />
+            ))}
+          </div>
+        </section>
+      ))
+    }
+  </div>
 </ContentLayout>
+
+<style>
+  .zm-project-sections {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+  }
+
+  .zm-project-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-s);
+    margin-block-start: var(--space-s);
+
+    @media screen and (min-width: 550px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>

@@ -10,6 +10,7 @@ tags:
   - cloudflare
   - typescript
   - workers
+type: package
 ---
 
 A Cloudflare Worker that uses `HTMLRewriter` to scrape page metadata and return it as JSON. Lightweight and fast — no puppeteer or headless browsers needed.

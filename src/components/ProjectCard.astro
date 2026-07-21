@@ -1,0 +1,101 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import FormattedDate from './FormattedDate.astro';
+
+type Props = {
+  project: CollectionEntry<'projects'>;
+};
+const { project } = Astro.props;
+const { slug, data } = project;
+const isRetired = data.status === 'archived' || data.status === 'inactive';
+---
+
+<a href={`/projects/${slug}`} class="zm-project-card" transition:persist>
+  {
+    data.image ? (
+      <img
+        src={data.image}
+        alt={`${data.title} preview`}
+        class="image"
+        loading="lazy"
+      />
+    ) : null
+  }
+  <div class="header">
+    <span class="title">{data.title}</span>
+    {isRetired ? <span class="status">{data.status}</span> : null}
+  </div>
+  {data.subtitle ? <div class="subtitle">{data.subtitle}</div> : null}
+  <div class="meta">
+    <FormattedDate date={data.date} monthYearOnly />
+    {data.tech ? <span class="tech">{data.tech}</span> : null}
+  </div>
+</a>
+
+<style>
+  .zm-project-card {
+    --colour-decoration: transparent;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
+    padding: var(--space-s);
+    border-radius: 1rem;
+    background-color: var(--bg-block);
+    text-decoration: none;
+    transition: transform 150ms ease-in-out;
+  }
+
+  .zm-project-card:hover {
+    transform: translateY(-2px);
+  }
+
+  .header {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2xs);
+  }
+
+  .title {
+    font-variation-settings: 'wght' 600;
+    color: var(--colour-text-bright);
+    line-height: 1.2;
+  }
+
+  .zm-project-card:hover .title {
+    color: var(--colour-accent);
+  }
+
+  .status {
+    padding: var(--space-4xs) var(--space-3xs);
+    border-radius: 0.3rem;
+    font-size: var(--step--3);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background-color: color-mix(in srgb, var(--colour-text) 10%, transparent);
+    color: var(--colour-text);
+  }
+
+  .image {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    object-position: top;
+    border-radius: 0.5rem;
+    margin-block-end: var(--space-2xs);
+  }
+
+  .subtitle {
+    opacity: 0.7;
+    font-size: var(--step--1);
+    line-height: 1.3;
+  }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+    opacity: 0.5;
+    font-size: var(--step--2);
+    font-feature-settings: 'tnum' 1;
+  }
+</style>

@@ -9,6 +9,7 @@ tags:
   - design-system
   - css-in-js
   - npm
+type: package
 ---
 
 Design System Utils is a micro framework for standardising design tokens and providing utilities to access them. Compatible with styled-components, emotion, glamorous, or any CSS-in-JS framework. No longer actively maintained as the ecosystem has moved on.
