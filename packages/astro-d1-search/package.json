@@ -22,6 +22,6 @@
     "astro": "^5.0.0"
   },
   "dependencies": {
-    "gray-matter": "^4.0.3"
+    "@11ty/gray-matter": "^2.1.0"
   }
 }

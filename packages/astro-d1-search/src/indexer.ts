@@ -1,7 +1,7 @@
 import { execFileSync } from 'node:child_process';
 import { readdir, readFile, writeFile } from 'node:fs/promises';
 import { basename, join } from 'node:path';
-import matter from 'gray-matter';
+import matter from '@11ty/gray-matter'
 import { type D1SearchOptions, resolveConfig } from './config';
 import { markdownToPlainText, sqlEscape } from './markdown';
 
