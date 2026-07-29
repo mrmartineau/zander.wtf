@@ -44,12 +44,13 @@ Page data that comes from external APIs is fetched at build time inside `.astro`
 
 ### Search
 
-Site-wide full-text search backed by **Cloudflare D1** (SQLite FTS5), database `zander-wtf-search`, bound as `SEARCH_DB` in `wrangler.toml`. Schema lives in `migrations/0001_search_index.sql`.
+Site-wide full-text search backed by **Cloudflare D1** (SQLite FTS5), database `zander-wtf-search`, bound as `SEARCH_DB` in `wrangler.toml`. All search logic lives in the local package **`packages/astro-d1-search/`** (an Astro integration, destined for npm extraction); see its README for full docs.
 
-- **Index build**: `scripts/build-search-index.ts` parses all content collections (blog, codenotes, projects, worklog) plus standalone markdown pages, emits `search-index.sql` (full rebuild: DELETE + batched INSERTs) and executes it via `wrangler d1 execute`. Run `pnpm search:index` (local) / `pnpm search:push` (remote). CI runs `search:push` after each deploy.
-- **API**: `GET /api/search?q=...&limit=...&offset=...&type=blog|note|project|worklog|page` (`src/pages/api/search.ts`, server-rendered). Returns JSON results with `<mark>` snippets, bm25-ranked. Open endpoint, CORS `*` — also consumed by a Raycast extension.
-- **Pages**: `/search` (site-wide, `src/pages/search.astro`) and `/notes/search` (notes-only). Both query D1 directly via `src/utils/search.ts` (`toFtsQuery` sanitizer + `searchIndex`).
-- **Ranking config**: `src/search.config.ts` — bm25 column weights, recency boost (newer docs multiplied up, linear falloff over `windowDays`), snippet size, max query terms.
+- **Config**: `search.config.ts` (repo root) — single source of truth (database, binding, sources → type/URL mapping, ranking weights, recency boost). Consumed by `astro.config.mjs` (integration), `scripts/build-search-index.ts` (thin wrapper) and `src/utils/search.ts` (thin wrapper binding the site config for pages).
+- **Integration** (`astro.config.mjs`): injects the `/api/search` route from the package, exposes config to it via a Vite virtual module (`virtual:astro-d1-search-config`), and validates `wrangler.toml` has the D1 binding at startup.
+- **Index build**: `pnpm search:index` (local) / `pnpm search:push` (remote). The package indexer parses all sources, emits `search-index.sql` (schema `CREATE IF NOT EXISTS` + site-scoped `DELETE` + batched `INSERT`s) and executes it via `wrangler d1 execute`. No separate migration step; `migrations/0001_search_index.sql` is historical. CI runs `search:push` after each deploy.
+- **API**: `GET /api/search?q=...&limit=...&offset=...&type=blog|note|project|worklog|page` (injected route, server-rendered). JSON results with `<mark>` snippets, bm25 × recency ranked, edge-cached with canonicalised keys. Open endpoint, CORS `*` — also consumed by the Raycast extension.
+- **Pages**: `/search` (site-wide, `src/pages/search.astro`) and `/notes/search` (notes-only). Both query D1 directly via `src/utils/search.ts`.
 - **Raycast extension**: `raycast-extension/` — standalone npm package (not part of the pnpm workspace; excluded from root tsconfig and Biome) consuming `/api/search`. `cd raycast-extension && npm install && npm run dev`.
 - Local dev gets the D1 binding via the adapter's `platformProxy`; local data lives in `.wrangler/state/v3/d1`.
 

@@ -4,13 +4,15 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import solidJs from '@astrojs/solid-js';
 import { defineConfig } from 'astro/config';
+import d1Search from './packages/astro-d1-search/src/index.ts';
+import searchConfig from './search.config.ts';
 
 const commitHash = execSync('git rev-parse --short HEAD').toString();
 
 // https://astro.build/config
 export default defineConfig({
   site: 'https://zander.wtf',
-  integrations: [mdx(), sitemap(), solidJs()],
+  integrations: [mdx(), sitemap(), solidJs(), d1Search(searchConfig)],
   prefetch: {
     prefetchAll: true,
   },

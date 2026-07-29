@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
   markdownToPlainText,
   sqlEscape,
-} from '../../scripts/build-search-index';
+} from '../../packages/astro-d1-search/src/markdown';
 import { toFtsQuery } from './search';
 
 describe('toFtsQuery', () => {
