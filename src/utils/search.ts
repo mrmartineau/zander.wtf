@@ -1,11 +1,11 @@
-import { resolveConfig } from '../../packages/astro-d1-search/src/config';
 import {
   type SearchResult as CoreSearchResult,
   searchIndex as coreSearchIndex,
   type D1Like,
+  resolveConfig,
   type SearchOptions,
   toFtsQuery,
-} from '../../packages/astro-d1-search/src/core';
+} from 'astro-d1-search/core';
 import searchConfig from '../../search.config';
 
 const config = resolveConfig(searchConfig);

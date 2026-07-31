@@ -34,6 +34,7 @@
     "@types/markdown-it": "^14.1.2",
     "@types/sanitize-html": "^2.16.0",
     "astro": "^5.16.15",
+    "astro-d1-search": "^1.0.0",
     "color-hash": "^2.0.2",
     "fetch-readme": "^1.0.0",
     "figlet": "^1.10.0",
@@ -48,7 +49,6 @@
     "url-merge": "^0.2.0"
   },
   "devDependencies": {
-    "@11ty/gray-matter": "^2.1.0",
     "@biomejs/biome": "2.3.12",
     "@tailwindcss/postcss": "^4.1.18",
     "@tailwindcss/typography": "^0.5.19",

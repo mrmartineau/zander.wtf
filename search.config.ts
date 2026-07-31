@@ -1,4 +1,4 @@
-import type { D1SearchOptions } from './packages/astro-d1-search/src/config';
+import type { D1SearchOptions } from 'astro-d1-search';
 
 /**
  * Site search configuration, consumed by:

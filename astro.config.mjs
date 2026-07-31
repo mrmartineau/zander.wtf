@@ -4,7 +4,7 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import solidJs from '@astrojs/solid-js';
 import { defineConfig } from 'astro/config';
-import d1Search from './packages/astro-d1-search/src/index.ts';
+import d1Search from 'astro-d1-search';
 import searchConfig from './search.config.ts';
 
 const commitHash = execSync('git rev-parse --short HEAD').toString();

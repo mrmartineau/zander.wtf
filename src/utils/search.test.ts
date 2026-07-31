@@ -1,8 +1,5 @@
+import { markdownToPlainText, sqlEscape } from 'astro-d1-search';
 import { describe, expect, it } from 'vitest';
-import {
-  markdownToPlainText,
-  sqlEscape,
-} from '../../packages/astro-d1-search/src/markdown';
 import { toFtsQuery } from './search';
 
 describe('toFtsQuery', () => {
