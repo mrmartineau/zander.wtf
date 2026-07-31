@@ -17,6 +17,11 @@ on:
     branches:
       - main
   workflow_dispatch:
+    inputs:
+      skip_package_age:
+        description: 'Bypass Aikido safe-chain minimum package age check'
+        type: boolean
+        default: false
 
 jobs:
   Deploy-Production:
@@ -31,7 +36,7 @@ jobs:
         run: curl -fsSL https://github.com/AikidoSec/safe-chain/releases/latest/download/install-safe-chain.sh | sh -s -- --ci
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile ${{ inputs.skip_package_age && '--safe-chain-skip-minimum-package-age' || '' }}
       - name: Build site
         run: pnpm build
       - name: Deploy to Cloudflare
