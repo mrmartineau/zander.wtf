@@ -374,4 +374,4 @@ Belt, braces, and a WAF rule. Given D1's free tier allows five million reads a d
 - **The endpoint is open.** It serves the same data as the public site, so beyond the rate limiting and caching above, I don't care. If you would, check a bearer token in the endpoint.
 - **D1 free tier** gives you 5GB of storage and 5 million reads a day. My index is about 2MB. I am not going to hit those limits, and neither are you.
 
-The whole system boils down to three parts: a table, a script and an endpoint. None of them care what your content is. Blog posts, recipes, bookmarks, a podcast archive: if it has a title and a URL, it can be a row. If you build one for your own site, [let me know](https://toot.cafe/@zander). I'd love to see it.
+The whole system boils down to three parts: a table, a script and an endpoint. None of them care what your content is. Blog posts, recipes, bookmarks, a podcast archive: if it has a title and a URL, it can be a row. If you build one for your own site, [let me know](https://bsky.app/profile/zander.wtf). I'd love to see it.

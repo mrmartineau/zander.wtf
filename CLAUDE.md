@@ -44,7 +44,7 @@ Page data that comes from external APIs is fetched at build time inside `.astro`
 
 ### Search
 
-Site-wide full-text search backed by **Cloudflare D1** (SQLite FTS5), database `zander-wtf-search`, bound as `SEARCH_DB` in `wrangler.toml`. All search logic lives in the **[`astro-d1-search`](https://github.com/mrmartineau/astro-d1-search)** npm package (an Astro integration, extracted from this repo and maintained separately); see its README for full docs. Subpath exports: `astro-d1-search` (integration + everything), `astro-d1-search/core` (query-time search), `astro-d1-search/indexer` (build-time indexing CLI). `packages/astro-d1-search/` is the now-unused local copy, pending deletion.
+Site-wide full-text search backed by **Cloudflare D1** (SQLite FTS5), database `zander-wtf-search`, bound as `SEARCH_DB` in `wrangler.toml`. All search logic lives in the **[`astro-d1-search`](https://github.com/mrmartineau/astro-d1-search)** npm package (an Astro integration, extracted from this repo and maintained separately); see its README for full docs. Subpath exports: `astro-d1-search` (integration + everything), `astro-d1-search/core` (query-time search), `astro-d1-search/indexer` (build-time indexing CLI).
 
 - **Config**: `search.config.ts` (repo root) — single source of truth (database, binding, sources → type/URL mapping, ranking weights, recency boost). Consumed by `astro.config.mjs` (integration), `scripts/build-search-index.ts` (thin wrapper) and `src/utils/search.ts` (thin wrapper binding the site config for pages).
 - **Integration** (`astro.config.mjs`): injects the `/api/search` route from the package, exposes config to it via a Vite virtual module (`virtual:astro-d1-search-config`), and validates `wrangler.toml` has the D1 binding at startup.
