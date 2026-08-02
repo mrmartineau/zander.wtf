@@ -9,14 +9,9 @@ const blog = defineCollection({
     modified: z.date().optional(),
     opengraphImage: z.string().optional(),
     tags: z.array(z.string()).optional(),
-  }),
-});
-
-const worklog = defineCollection({
-  type: 'content',
-  schema: z.object({
-    title: z.string(),
-    date: z.date(),
+    // Worklog entries live in blog/worklog/ and render in full on the /blog
+    // listing rather than as a title-only row.
+    worklog: z.boolean().optional().default(false),
   }),
 });
 
@@ -40,7 +35,9 @@ const projects = defineCollection({
     tags: z.array(z.string()).optional(),
     repo: z.string().optional(),
     link: z.string().optional(),
-    status: z.enum(['active', 'archived', 'inactive', 'ongoing', 'unreleased']).default('active'),
+    status: z
+      .enum(['active', 'archived', 'inactive', 'ongoing', 'unreleased'])
+      .default('active'),
     type: z.enum([
       'app',
       'package',
@@ -72,4 +69,4 @@ const cv = defineCollection({
   }),
 });
 
-export const collections = { blog, worklog, codenotes, projects, cv };
+export const collections = { blog, codenotes, projects, cv };

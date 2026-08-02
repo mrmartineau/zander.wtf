@@ -12,11 +12,21 @@ const searchConfig: D1SearchOptions = {
   binding: 'SEARCH_DB',
   site: 'zander.wtf',
   sources: [
-    { dir: 'src/content/blog', type: 'blog', url: '/blog/:slug' },
+    {
+      dir: 'src/content/blog',
+      type: 'blog',
+      url: '/blog/:slug',
+      // Worklog entries live under blog/ but are indexed as their own type
+      skipDirs: ['Templates', 'worklog'],
+    },
     { dir: 'src/content/codenotes', type: 'note', url: '/notes/:slug' },
     { dir: 'src/content/projects', type: 'project', url: '/projects/:slug' },
-    // Worklog entries all render on the single /worklog page
-    { dir: 'src/content/worklog', type: 'worklog', url: '/worklog' },
+    {
+      dir: 'src/content/blog/worklog',
+      type: 'worklog',
+      url: '/blog/:slug',
+      skipDirs: ['_drafts'],
+    },
     {
       files: [
         'src/pages/about.mdx',

@@ -13,7 +13,7 @@ export const SITE_METADATA: Record<
     title: 'Blog',
     ogTitle: 'My blog',
     subtitle:
-      'Thoughts, ramblings and ideas. Mostly related to web development',
+      'Thoughts, ramblings and ideas, plus my worklog. Mostly related to web development',
   },
   about: {
     title: 'About',
@@ -35,10 +35,6 @@ export const SITE_METADATA: Record<
     title: 'My setup',
     subtitle: `An overview of my hardware and software setup`,
   },
-  worklog: {
-    title: 'Worklog',
-    subtitle: `The changelog.md of my work life.`,
-  },
   now: {
     title: 'Now',
     subtitle: `What I'm up to now`,
@@ -54,7 +50,8 @@ export const SITE_METADATA: Record<
   },
   projects: {
     title: 'Projects',
-    subtitle: 'Side-projects, packages and other things I have made or am making',
+    subtitle:
+      'Side-projects, packages and other things I have made or am making',
   },
 };
 
@@ -89,10 +86,6 @@ export const SITE_FOOTER_ITEMS = [
   {
     text: 'Colophon',
     url: '/colophon',
-  },
-  {
-    text: 'Worklog',
-    url: '/worklog',
   },
   {
     text: 'Now',
@@ -252,4 +245,3 @@ export const JOBS: Jobs = {
     },
   ],
 };
-

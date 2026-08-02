@@ -1,0 +1,3 @@
+# The worklog is now merged into the blog listing. Browsers carry the #fragment
+# across a redirect, so /worklog#<slug> still lands on the right entry.
+/worklog /blog 301

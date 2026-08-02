@@ -6,24 +6,43 @@ type Props = {
   posts: CollectionEntry<'blog'>[];
 };
 const { posts } = Astro.props;
+
+// Worklog entries render in full on the listing, so their content has to be
+// rendered up front — post.render() is async and can't be awaited inside JSX.
+const items = await Promise.all(
+  posts.map(async (post) => ({
+    post,
+    Content: post.data.worklog ? (await post.render()).Content : null,
+  })),
+);
 ---
 
 <div class="zm-blog-items">
   {
-    posts.map(({ slug, data }) => (
-      <div class="zm-blog-item">
+    items.map(({ post, Content }) => (
+      <div
+        class:list={['zm-blog-item', { 'is-worklog': post.data.worklog }]}
+        id={post.data.worklog ? post.slug : undefined}
+      >
         <div class="info">
-          <a href={`/blog/${slug}`} class="title" transition:persist>
-            {data.title}
+          <a href={`/blog/${post.slug}`} class="title" transition:persist>
+            {post.data.title}
           </a>
-          {data?.subtitle ? (
-            <div class="subtitle" transition:persist>
-              {data.subtitle}
+          {Content ? (
+            <div class="flow">
+              <Content />
             </div>
+          ) : post.data?.subtitle ? (
+            <p class="subtitle" transition:persist>
+              {post.data.subtitle}
+            </p>
           ) : null}
         </div>
         <div class="date" transition:persist>
-          <FormattedDate date={data.date} />
+          <FormattedDate date={post.data.date} />
+          <span class="label">
+            {post.data.worklog ? 'worklog' : 'article'}
+          </span>
         </div>
       </div>
     ))
@@ -35,19 +54,26 @@ const { posts } = Astro.props;
     container: blog-item / inline-size;
     display: flex;
     flex-direction: column;
-    gap: var(--space-xs);
+    gap: var(--space-l);
   }
 
   .title {
     line-height: 1.2;
     display: block;
-    margin-block-end: var(--space-3xs);
+    margin-block-end: var(--space-2xs);
+    font-size: var(--step-0);
   }
 
   .subtitle {
-    opacity: 0.7;
     font-size: var(--step--1);
-    line-height: 1.2;
+  }
+
+  .label {
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: var(--step--2);
+    font-family: var(--font-mono);
+    margin-inline-start: var(--space-2xs);
   }
 
   .date {
@@ -79,6 +105,12 @@ const { posts } = Astro.props;
       font-size: unset;
       line-height: 1.2;
       flex-shrink: 0;
+    }
+
+    .label {
+      display: block;
+      margin-inline-start: 0;
+      margin-block-start: var(--space-3xs);
     }
   }
 </style>

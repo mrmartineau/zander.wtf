@@ -6,17 +6,17 @@ import sanitizeHtml from 'sanitize-html';
 const parser = new MarkdownIt();
 
 export const GET = async (context) => {
-  const posts = (await getCollection('worklog')).sort(
+  const posts = (await getCollection('blog', ({ data }) => data.worklog)).sort(
     (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
   );
 
   return rss({
     title: `Zander's Worklog Feed`,
     description: `This is a place where I write what I built, what I made or what I worked on. It's the changelog.md of my work life.`,
-    site: `${context.site}/worklog`,
+    site: `${context.site}/blog`,
     items: posts.map((post) => ({
       ...post.data,
-      link: `/worklog#${post.slug}/`,
+      link: `/blog/${post.slug}/`,
       pubDate: post.data.date,
       description: sanitizeHtml(parser.render(post.body)),
       content: sanitizeHtml(parser.render(post.body)),
