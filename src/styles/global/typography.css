@@ -133,8 +133,34 @@ article {
     }
   }
 
+  dl {
+    display: grid;
+    gap: var(--space-2xs);
+  }
+
+  dt {
+    color: var(--colour-text-bright);
+    font-variation-settings: "wght" 600;
+  }
+
+  dd {
+    border-inline-start: 2px solid var(--hr);
+    color: var(--colour-text);
+    margin-block-end: var(--space-xs);
+    padding-inline-start: 1em;
+  }
+
+  dfn {
+    font-style: normal;
+  }
+
   hr {
     margin-inline: var(--space-l);
+  }
+
+  b,
+  strong {
+    color: var(--colour-text-bright);
   }
 }
 
@@ -166,4 +192,8 @@ hr {
 p,
 blockquote {
   color: var(--colour-text);
+}
+
+b, strong {
+  font-weight: 600;
 }
