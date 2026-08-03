@@ -1,6 +1,7 @@
 ---
 slug: 2026-05-07-zed-stack-starter
 title: zed-stack-starter
+subtitle: "A full-stack React starter — React 19, TanStack Router, Hono, better-auth, Drizzle and ZUI on Cloudflare Workers — so I stop reassembling the same pieces."
 date: 2026-05-07
 worklog: true
 ---

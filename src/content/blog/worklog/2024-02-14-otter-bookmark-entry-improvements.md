@@ -1,6 +1,7 @@
 ---
 slug: 2024-02-14-otter-bookmark-entry-improvements
 title: Otter Bookmark entry improvements
+subtitle: "Improved Otter’s tag matching so partial input matches collection tags, alongside a batch of mobile UI fixes."
 date: 2024-02-14
 worklog: true
 ---

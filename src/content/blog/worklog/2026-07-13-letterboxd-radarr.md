@@ -1,6 +1,7 @@
 ---
 slug: 2026-07-13-letterboxd-radarr
 title: Letterboxd watchlist for Radarr
+subtitle: "A Radarr-compatible endpoint that serves my Letterboxd watchlist as an import list — add a film, and it’s ready to grab."
 date: 2026-07-13
 worklog: true
 ---

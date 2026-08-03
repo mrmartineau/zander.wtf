@@ -1,6 +1,7 @@
 ---
 slug: 2026-07-08-zed-astro-starter
 title: zed-astro-starter
+subtitle: "An opinionated Astro starter with ZUI, Vite+ and GitHub Actions, ready to deploy to Cloudflare Workers."
 date: 2026-07-08
 worklog: true
 ---

@@ -1,6 +1,7 @@
 ---
 slug: 2023-11-04-otter-v2-release
 title: Otter v2.0.0 release
+subtitle: "Weeks of work culminating in a complete rewrite of Otter."
 date: 2023-11-04
 worklog: true
 ---

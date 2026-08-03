@@ -1,6 +1,7 @@
 ---
 slug: 2026-05-19-lab-zander-wtf
 title: Launched lab.zander.wtf
+subtitle: "A home for experiments, tools and demos, kicked off by rescuing old work from lab.martineau.tv and adding the Data Transformation Dojo."
 date: 2026-05-19
 worklog: true
 ---

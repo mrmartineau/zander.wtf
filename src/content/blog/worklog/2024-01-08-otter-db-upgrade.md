@@ -1,6 +1,7 @@
 ---
 slug: 2024-01-08-otter-db-upgrade
 title: Otter database upgrade
+subtitle: "Upgrading Otter’s Postgres to 15 broke inserts, and the pg_net extension turned out to be the culprit."
 date: 2024-01-08
 worklog: true
 ---

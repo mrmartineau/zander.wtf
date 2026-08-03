@@ -1,6 +1,7 @@
 ---
 slug: 2023-10-03-cloudflare-scraper
 title: Cloudflare scraper
+subtitle: "A page metadata scraper built on Cloudflare Workers, using HTMLRewriter to parse pages and pull out their content for Otter."
 date: 2023-10-03
 worklog: true
 ---

@@ -32,6 +32,7 @@ Short "here's what I shipped" notes — the changelog.md of Zander's work life. 
 ---
 slug: YYYY-MM-DD-short-slug   # required — keep the date prefix, it's the historical anchor
 title: What got shipped       # required
+subtitle: One-sentence summary of the entry   # required — see below
 date: YYYY-MM-DD              # required
 worklog: true                 # required — this is what distinguishes them
 tags:                         # optional
@@ -41,7 +42,9 @@ tags:                         # optional
 
 `worklog: true` makes the `/blog` listing render the entry **in full** inline, with an `id={slug}` anchor, instead of as a title-only row. Every entry also gets its own `/blog/:slug` page, and the explicit `slug` keeps that URL flat despite the `worklog/` subdirectory.
 
-Keep them short — a paragraph or three, no headings, no TL;DR. No `subtitle`: the body is the summary.
+`subtitle` is required even though the body is short, because the compact homepage and search cards pass `worklogContent={false}` to `BlogList` and fall back to it — without one, the entry renders as a bare title there. One sentence summarising what shipped and why it matters.
+
+Keep the body short — a paragraph or three, no headings, no TL;DR.
 
 ## Voice and tone
 

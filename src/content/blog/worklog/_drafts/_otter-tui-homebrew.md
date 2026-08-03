@@ -1,6 +1,7 @@
 ---
 slug: otter-tui-homebrew
 title: Otter TUI on Homebrew
+subtitle: "The Otter TUI is now a brew install away, straight from my personal tap."
 worklog: true
 ---
 

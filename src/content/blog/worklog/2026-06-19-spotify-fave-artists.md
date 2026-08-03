@@ -1,6 +1,7 @@
 ---
 slug: 2026-06-19-spotify-fave-artists
 title: Spotify Favourites
+subtitle: "Ranks your real favourite artists by album engagement rather than play count, because one song on repeat shouldn’t crown an artist."
 date: 2026-06-16
 worklog: true
 ---

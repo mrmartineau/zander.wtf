@@ -1,6 +1,7 @@
 ---
 slug: 2026-07-04-fonts-zander-wtf
 title: Launched fonts.zander.wtf
+subtitle: "A curated showcase of free typefaces I’d actually use, with live previews and a font-picker skill so AI agents can pick from the catalogue too."
 date: 2026-07-04
 worklog: true
 ---

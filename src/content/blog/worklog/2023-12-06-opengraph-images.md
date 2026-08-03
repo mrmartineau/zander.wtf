@@ -1,6 +1,7 @@
 ---
 slug: 2023-12-06-opengraph-images
 title: Opengraph images
+subtitle: "Automated Opengraph images for the site, generated with the @vercel/og package."
 date: 2023-12-06
 worklog: true
 ---

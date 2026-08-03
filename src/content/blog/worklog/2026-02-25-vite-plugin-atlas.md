@@ -1,6 +1,7 @@
 ---
 slug: 2026-02-25-vite-plugin-atlas
 title: vite-plugin-atlas
+subtitle: "A convention-driven, zero-config component documentation plugin for Vite and React, built to be AI-agent friendly."
 date: 2026-02-25
 worklog: true
 ---

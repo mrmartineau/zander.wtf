@@ -1,6 +1,7 @@
 ---
 slug: 2024-03-03-otter-raycast-extension
 title: Otter Raycast Extension
+subtitle: "Submitted a new version of the Otter Raycast extension for searching and viewing recent bookmarks."
 date: 2024-03-03
 tags:
   - otter

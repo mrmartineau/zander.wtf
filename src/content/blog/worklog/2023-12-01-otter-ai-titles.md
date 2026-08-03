@@ -1,6 +1,7 @@
 ---
 slug: 2023-12-01-otter-ai-titles
 title: Otter AI titles
+subtitle: "Arc’s AI tab renaming got me thinking Otter should tidy up inconsistent bookmark titles too; the Toast component got replaced with Sonner while I was there."
 date: 2023-12-01
 worklog: true
 ---

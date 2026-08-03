@@ -1,6 +1,7 @@
 ---
 slug: 2023-11-23-otter-raycast-oauth
 title: Otter Raycast OAuth
+subtitle: "Got Raycast’s OAuth flow working with Otter, then found Supabase only supports it for the management APIs, not the data APIs."
 date: 2023-11-23
 worklog: true
 ---

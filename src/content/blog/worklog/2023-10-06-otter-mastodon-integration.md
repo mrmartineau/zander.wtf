@@ -1,6 +1,7 @@
 ---
 slug: 2023-10-06-otter-mastodon-integration
 title: Mastodon to Supabase integration
+subtitle: "A Cloudflare Worker that saves my toots and faved toots into Otter’s Supabase database."
 date: 2023-10-06
 worklog: true
 ---

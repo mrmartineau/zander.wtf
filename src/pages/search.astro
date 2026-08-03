@@ -130,7 +130,7 @@ const latestNotes = hasQuery
           <p class="search-prompt">Search blog posts, code notes, projects and more. In the meantime, here's the latest:</p>
           <div class="empty-state">
             <Block title="Blog">
-              <BlogList posts={latestPosts} />
+              <BlogList posts={latestPosts} worklogContent={false} />
               <a href="/blog" class="zm-block-link">View all articles →</a>
             </Block>
             <Block title="Code Notes">

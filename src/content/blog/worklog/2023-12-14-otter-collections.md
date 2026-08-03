@@ -1,6 +1,7 @@
 ---
 slug: 2023-12-14-otter-collections
 title: Otter Collections
+subtitle: "Collections created implicitly from colon-separated tags, plus a tag management page for renaming and regrouping them."
 date: 2023-12-14
 worklog: true
 ---

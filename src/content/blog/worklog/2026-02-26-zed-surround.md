@@ -1,6 +1,7 @@
 ---
 slug: 2026-02-26-zed-surround
 title: zed-surround
+subtitle: "A Zed extension for wrapping selected text in code snippets, the one thing I missed most from VS Code."
 date: 2026-02-26
 worklog: true
 ---

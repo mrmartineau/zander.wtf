@@ -1,6 +1,7 @@
 ---
 slug: 2024-05-29-home-page-updates
 title: Homepage updates
+subtitle: "Reduced the crop on the big ZANDER wordmark at the top and bottom of the site, and it looks much better for it."
 date: 2024-05-29
 worklog: true
 ---

@@ -1,6 +1,7 @@
 ---
 slug: 2024-02-18-otter-feed-items-collections
 title: Add matching collections to Otter feed items
+subtitle: "Bookmark feed items in Otter now show their matching collections alongside their tags."
 date: 2024-02-18
 worklog: true
 ---

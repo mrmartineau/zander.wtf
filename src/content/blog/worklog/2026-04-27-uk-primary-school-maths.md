@@ -1,6 +1,7 @@
 ---
 slug: 2026-04-27-uk-primary-school-maths
 title: UK Primary School Maths
+subtitle: "A little learning site that explains key maths concepts year by year, with checkable practice activities."
 date: 2026-04-27
 worklog: true
 ---

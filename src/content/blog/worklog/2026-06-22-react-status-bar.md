@@ -1,6 +1,7 @@
 ---
 slug: 2026-06-22-react-status-bar
 title: React Status Bar v1
+subtitle: "A portal-based status bar for React where any component can push UI into a shared bar without re-rendering the producer tree."
 date: 2026-06-22
 worklog: true
 ---

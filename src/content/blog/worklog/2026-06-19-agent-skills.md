@@ -1,6 +1,7 @@
 ---
 slug: 2026-06-19-agent-skills
 title: agent-skills
+subtitle: "One repo for the AI agent skills I use across Claude Code, Amp and Codex, with third-party skills pinned in a lockfile rather than vendored."
 date: 2026-06-04
 worklog: true
 ---

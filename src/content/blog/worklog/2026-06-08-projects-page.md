@@ -1,6 +1,7 @@
 ---
 slug: 2026-06-08-projects-page
 title: Add a projects page
+subtitle: "A projects section pulling together everything I’ve made, from Kickoff and Design System Utils through to Otter, ZUI and xtractr."
 date: 2026-06-08
 worklog: true
 ---

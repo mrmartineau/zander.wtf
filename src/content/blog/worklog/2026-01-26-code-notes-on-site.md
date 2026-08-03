@@ -1,6 +1,7 @@
 ---
 slug: 2026-01-26-code-notes-on-site
 title: Code notes come to the site
+subtitle: "Moved 190-odd TILs and snippets off their separate 11ty site into a content collection here, with full-text search over the lot."
 date: 2026-01-26
 worklog: true
 ---

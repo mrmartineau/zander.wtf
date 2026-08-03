@@ -1,6 +1,7 @@
 ---
 slug: 2026-08-02-astro-d1-search
 title: astro-d1-search released on npm
+subtitle: "My site search is now an Astro integration on npm, and this site runs on the package instead of its own copy of the code."
 date: 2026-08-02
 worklog: true
 ---

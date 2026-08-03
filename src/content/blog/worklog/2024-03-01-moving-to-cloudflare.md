@@ -1,6 +1,7 @@
 ---
 slug: 2024-03-01-moving-to-cloudflare
 title: Moving to Cloudflare
+subtitle: "After a Netlify customer was billed $104K over a DDoS attack, I moved my personal site and as much else as I could to Cloudflare."
 date: 2024-03-01
 worklog: true
 ---

@@ -1,6 +1,7 @@
 ---
 slug: 2026-08-02-otter-native-ios-app
 title: A native iOS app for Otter
+subtitle: "A native SwiftUI app for Otter with no web views anywhere, disk-cached bookmarks, and saving from the share sheet, deep links or Shortcuts."
 date: 2026-07-29
 worklog: true
 ---

@@ -1,6 +1,7 @@
 ---
 slug: 2026-07-20-site-search
 title: Site-wide search + Raycast extension
+subtitle: "Full-text search backed by Cloudflare D1 and FTS5 with no third-party service, plus a Raycast extension built on its JSON API."
 date: 2026-07-20
 worklog: true
 ---

@@ -1,6 +1,7 @@
 ---
 slug: 2026-07-17-lab-and-zui-updates
 title: Lab experiments + ZUI playground
+subtitle: "New lab experiments including an endless, self-generating page, which also became a procedural playground in the ZUI docs."
 date: 2026-07-17
 worklog: true
 ---
