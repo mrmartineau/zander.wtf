@@ -12,7 +12,7 @@ let wasmInitialized = false;
 
 interface Props {
   params: { slug: string };
-  props: { post: CollectionEntry<'blog'> };
+  props: { post: CollectionEntry<'blog'> | CollectionEntry<'projects'> };
 }
 
 export const GET = async ({ props }: Props) => {
@@ -207,6 +207,7 @@ export const GET = async ({ props }: Props) => {
 
 export async function getStaticPaths() {
   const blogPosts = await getCollection('blog');
+  const projects = await getCollection('projects');
   const otherPages = Object.keys(SITE_METADATA).map((item) => {
     return {
       slug: item,
@@ -217,7 +218,10 @@ export async function getStaticPaths() {
     };
   });
 
-  const allPages = [...blogPosts, ...otherPages];
+  // Blog, projects and static pages share this single-segment route, so their
+  // slugs live in one namespace — a duplicate fails the build rather than
+  // silently overwriting.
+  const allPages = [...blogPosts, ...projects, ...otherPages];
   return allPages.map((post) => ({
     params: { slug: post.slug },
     props: { post },

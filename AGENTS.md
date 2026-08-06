@@ -44,8 +44,15 @@ Needed in `.env` locally and as Cloudflare Pages / GitHub Actions secrets in pro
 
 CI also needs `CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_ACCOUNT_ID`; the token needs **both** Pages Edit and D1 Edit scopes, or the deploy succeeds and the search index push fails.
 
-## Writing blog posts
+## Writing content
 
-See `src/content/CLAUDE.md` for post structure, frontmatter, voice and formatting conventions. It lives one level up from `src/content/blog/` deliberately: any `.md` file inside a collection directory is parsed as a collection entry and fails schema validation.
+Two skills carry the authoring conventions — structure, frontmatter, voice, formatting:
+
+- **`zander-wtf-blog`** — blog posts and worklog entries (`src/content/blog/`)
+- **`zander-wtf-projects`** — project entries (`src/content/projects/`)
+
+Both live in `~/code/mrmartineau/agent-skills/skills/` and are symlinked into Claude Code, Amp and Codex. Each ships a scaffold script that writes the correct path and frontmatter, so prefer it over hand-creating files.
+
+Never put a stray `.md` file directly inside a collection directory — it's parsed as a collection entry and fails schema validation.
 
 Posts and worklog entries are **one collection**. Worklog entries live in `src/content/blog/worklog/` with `worklog: true` in their frontmatter; `/blog` renders them in full, inline and date-interleaved with the title-only post rows, and each still gets its own `/blog/:slug` page. `/worklog` is a `public/_redirects` 301 to `/blog` — the fragment survives the redirect, so old `#slug` deep links still resolve. They're indexed as their own `worklog` search type via a second directory source in `search.config.ts` (the blog source skips the `worklog/` subdirectory), because the indexer maps types by directory, not frontmatter.

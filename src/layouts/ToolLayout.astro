@@ -7,8 +7,7 @@ import BaseLayout from './BaseLayout.astro';
 
 type Props = CollectionEntry<'projects'>;
 const { data, slug } = Astro.props;
-const { title, date, subtitle, tags, repo, link, tech, showReadme } =
-  data;
+const { title, date, subtitle, tags, repo, link, tech, showReadme } = data;
 
 // Parse "https://github.com/user/repo" → { user, repo }
 const githubMatch = repo?.match(/github\.com\/([^/]+)\/([^/]+)/);
@@ -16,7 +15,7 @@ const githubUser = githubMatch?.[1];
 const githubRepo = githubMatch?.[2];
 ---
 
-<BaseLayout title={title} subtitle={subtitle} slug={`tools/${slug}`}>
+<BaseLayout title={title} subtitle={subtitle} slug={slug}>
   <article class="zm-contentContainer">
     <PageHeader title={title} subtitle={subtitle} date={date} tags={tags} />
 
@@ -54,7 +53,7 @@ const githubRepo = githubMatch?.[2];
 
     <footer class="tool-footer">
       <span class="mono">&gt;</span>{' '}
-      <a href="/tools">cd ..</a>
+      <a href="/projects">cd ..</a>
     </footer>
   </article>
 </BaseLayout>
