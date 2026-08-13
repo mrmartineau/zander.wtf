@@ -18,6 +18,7 @@ I build a lot of side projects. Most of them have somewhere between one and five
 - Postgres on [Neon](https://neon.com/signup?refcode=NK4UL5YL), with [Drizzle](https://orm.drizzle.team/) as the ORM and [better-auth](https://www.better-auth.com/) for authentication
 - All wrapped up in a template repo: [zed-stack-starter](https://github.com/mrmartineau/zed-stack-starter)
 - [Astro](https://astro.build/) for static sites, with its own template: [zed-astro-starter](https://github.com/mrmartineau/zed-astro-starter)
+- Since writing this there are two more templates — [zed-package-starter](https://github.com/mrmartineau/zed-package-starter) for npm packages and [zed-ios-app-starter](https://github.com/mrmartineau/zed-ios-app-starter) for native iOS apps. They're all written up together on [the Zed Stack page](/zed-stack)
 
 ## Where I came from
 
@@ -76,6 +77,17 @@ None of these steps is hard individually, but together they're enough friction t
 ## And for static sites: Astro
 
 Not everything is an interactive app. For content-driven, mostly-static websites I use [Astro](https://astro.build/) — this site runs on it, as do [fonts.zander.wtf](https://fonts.zander.wtf) and [lab.zander.wtf](https://lab.zander.wtf). And because the template approach worked so well for the app stack, I've now made an Astro equivalent too: [zed-astro-starter](https://github.com/mrmartineau/zed-astro-starter). Same idea — a couple of clicks and a new static site is ready to build on.
+
+---
+
+## And two more, since
+
+The template idea kept spreading. There are now four of them:
+
+- **[zed-package-starter](https://github.com/mrmartineau/zed-package-starter)** for the TypeScript npm packages that fall out of the other projects — dual ESM/CJS output, automated releases from conventional commits, and an Astro docs site that deploys itself. [astro-d1-search](/blog/astro-d1-search-package), the search integration extracted out of this site, was built from it.
+- **[zed-ios-app-starter](https://github.com/mrmartineau/zed-ios-app-starter)** for native iOS apps. SwiftUI and SwiftData, iOS 18+, and — unusually for me — no third-party dependencies at all. It ships the shell I'd otherwise rebuild every time: a tab layout, one SwiftData model wired through list, detail, edit and delete, preferences, onboarding, theming, and accessibility handling, plus optional StoreKit and Claude API modules that are switched off by default.
+
+All four share the same tooling, the same UI library and the same deploy story. I've written the whole family up on [the Zed Stack page](/zed-stack).
 
 ---
 

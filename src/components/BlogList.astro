@@ -12,13 +12,36 @@ type Props = {
 };
 const { posts, worklogContent = true } = Astro.props;
 
+/**
+ * A slight tilt for article cards, seeded from the slug rather than
+ * Math.random() so a card keeps the same angle between builds instead of
+ * shuffling on every deploy.
+ *
+ * Capped at 1.5°: the cards are ~1000px wide, so 2° lifts a corner by ~18px and
+ * two neighbours leaning opposite ways would meet in the middle of the
+ * --space-l gap.
+ */
+const tilt = (slug: string) => {
+  let hash = 0;
+  for (const char of slug) {
+    hash = (hash * 31 + char.charCodeAt(0)) >>> 0;
+  }
+  const degrees = 1 + (hash % 6) / 10; // 1.0° – 1.5°
+  // Sign comes off a different part of the hash to the magnitude, otherwise the
+  // two correlate and only half the twelve possible angles ever appear
+  const leansRight = ((hash >>> 3) & 1) === 1;
+  return `${leansRight ? degrees : -degrees}deg`;
+};
+
 // Worklog entries render in full on the listing, so their content has to be
 // rendered up front — post.render() is async and can't be awaited inside JSX.
 const items = await Promise.all(
   posts.map(async (post) => ({
     post,
     Content:
-      post.data.worklog && worklogContent ? (await post.render()).Content : null,
+      post.data.worklog && worklogContent
+        ? (await post.render()).Content
+        : null,
   })),
 );
 ---
@@ -27,8 +50,21 @@ const items = await Promise.all(
   {
     items.map(({ post, Content }) => (
       <div
-        class:list={['zm-blog-item', { 'is-worklog': Content }]}
+        class:list={[
+          'zm-blog-item',
+          {
+            'is-worklog': Content,
+            // Only on /blog, where worklog entries render in full — the compact
+            // homepage and search cards stay unstyled
+            'is-article': worklogContent && !post.data.worklog,
+          },
+        ]}
         id={Content ? post.slug : undefined}
+        style={
+          worklogContent && !post.data.worklog
+            ? `--tilt: ${tilt(post.slug)}`
+            : undefined
+        }
       >
         <div class="info">
           <a href={`/blog/${post.slug}`} class="title" transition:persist>
@@ -74,6 +110,60 @@ const items = await Promise.all(
     font-size: var(--step--1);
   }
 
+  /*
+   * On /blog the two entry types are styled apart: articles are the substantial
+   * pieces, so they get the card; worklog entries are quick notes that render in
+   * full, so they stay on the page background with a monospace treatment.
+   * Neither class is set on the compact homepage and search cards, which pass
+   * worklogContent={false}.
+   */
+  .is-article {
+    padding: var(--space-s);
+    border-radius: 1rem;
+    background-color: var(--bg-article);
+    /* --tilt is set per card in the frontmatter, seeded from the slug */
+    rotate: var(--tilt, 0deg);
+    transition: rotate 0.2s ease-in-out;
+
+    &:hover {
+      rotate: 0deg;
+    }
+  }
+
+  .is-worklog {
+    /* Monospace runs large next to Mona Sans at the same size */
+    --mono-scale: 0.9;
+    /* Deep links land on #slug; keep the entry clear of the header */
+    scroll-margin-block-start: var(--space-m);
+  }
+
+  .is-worklog .title,
+  .is-worklog .flow {
+    font-family: var(--font-mono);
+  }
+
+  .is-worklog .title {
+    font-size: calc(var(--step-0) * var(--mono-scale));
+  }
+
+  /*
+   * One step below body copy (which is --step--1), so the articles carry more
+   * weight in the listing. No --mono-scale here: a full step down is a bigger
+   * reduction than the mono correction, so applying both double-counts it.
+   */
+  .is-worklog .flow {
+    font-size: var(--step--2);
+  }
+
+  /*
+   * Code blocks set their own 0.875em, which would compound with the scale
+   * above. `.flow`'s children come from <Content /> and carry no scope
+   * attribute, hence :global().
+   */
+  .is-worklog .flow :global(pre.astro-code) {
+    font-size: 0.875rem;
+  }
+
   .label {
     text-transform: uppercase;
     letter-spacing: 0.06em;
@@ -117,6 +207,17 @@ const items = await Promise.all(
       display: block;
       margin-inline-start: 0;
       margin-block-start: var(--space-3xs);
+    }
+
+    /*
+     * Pull the card out into the gutter so its padding doesn't shunt the date
+     * column out of line with the worklog rows above and below. Only safe at
+     * this width — the container is 480px+, so .zm-contentContainer's 5% gutter
+     * is comfortably wider than --space-s. Below it the layout stacks and there
+     * is no column to keep aligned.
+     */
+    .is-article {
+      margin-inline: calc(var(--space-s) * -1);
     }
   }
 </style>

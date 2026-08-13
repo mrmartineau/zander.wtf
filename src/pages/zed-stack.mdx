@@ -1,0 +1,101 @@
+---
+title: The Zed Stack
+subtitle: The starters, tools and automation I use to get from an idea to a deployed project in an afternoon.
+date: 2026-08-13
+layout: ../layouts/MarkdownLayout.astro
+slug: zed-stack
+---
+
+import StarterCard from '~/components/StarterCard.astro';
+import StarterGrid from '~/components/StarterGrid.astro';
+
+I build a lot of side projects. Most of them have between one and five users — and one of those is me — so the thing I optimise for isn't scale, it's the distance between "I've had an idea" and "this is deployed and I'm using it".
+
+The Zed Stack is what closed that distance: a set of template repos that all share the same tooling, the same UI library and the same deploy story, plus a GitHub Actions workflow that stamps out new projects from them. Pick a type, give it a name, and there's a repo with infrastructure wired up a minute later.
+
+## The starters
+
+Each of these is a GitHub template repo, so a new project is a couple of clicks — or one workflow run.
+
+<StarterGrid>
+  <StarterCard
+    title="zed-stack-starter"
+    repo="https://github.com/mrmartineau/zed-stack-starter"
+    icon="ph-stack"
+    tech="React · TanStack · Hono · Drizzle · Cloudflare Workers"
+    description="Full-stack React apps. TanStack Router and Query on the client, a Hono API on Cloudflare Workers, Postgres with Drizzle and better-auth."
+  />
+  <StarterCard
+    title="zed-astro-starter"
+    repo="https://github.com/mrmartineau/zed-astro-starter"
+    icon="ph-rocket-launch"
+    tech="Astro · ZUI · Vite+ · Cloudflare Workers"
+    description="Content-driven, mostly-static sites. Astro with static output, ZUI for styling, and GitHub Actions deploys plus a supply-chain scan."
+  />
+  <StarterCard
+    title="zed-package-starter"
+    repo="https://github.com/mrmartineau/zed-package-starter"
+    icon="ph-package"
+    tech="TypeScript · tsdown · semantic-release · Astro docs"
+    description="TypeScript npm packages. Dual ESM/CJS output, Bun tests, automated releases, and a docs site that deploys itself."
+  />
+  <StarterCard
+    title="zed-ios-app-starter"
+    repo="https://github.com/mrmartineau/zed-ios-app-starter"
+    icon="ph-device-mobile"
+    tech="SwiftUI · SwiftData · iOS 18+ · no dependencies"
+    description="Native iOS apps. A tab shell, SwiftData wired end to end, onboarding, theming, and optional StoreKit and Claude API modules."
+  />
+</StarterGrid>
+
+### zed-stack-starter
+
+The original, and the one most projects start from. It's [React 19](https://react.dev/) with [TanStack Router](https://tanstack.com/router) and [TanStack Query](https://tanstack.com/query) on the client, a [Hono](https://hono.dev/) API, [better-auth](https://www.better-auth.com/) for authentication, and [Drizzle](https://orm.drizzle.team/) over Postgres — [Neon](https://neon.com/signup?refcode=NK4UL5YL) by default, though any Postgres works. The whole thing deploys to [Cloudflare Workers](https://workers.cloudflare.com/), with [Vitest](https://vitest.dev/) for tests and [Biome](https://biomejs.dev/) keeping things tidy.
+
+These are client-side single-page apps rather than isomorphic ones. For what I build that's almost always enough; if I ever genuinely need server rendering I'll reach for [TanStack Start](https://tanstack.com/start).
+
+[Otter](https://otter.zander.wtf) — my bookmarking app, which I use dozens of times a day — was the first project migrated onto this stack. That was deliberate: daily use of my own app was the best way to find the rough edges.
+
+### zed-astro-starter
+
+Not everything needs a database. For content-driven sites there's [Astro](https://astro.build/) with static output, ZUI for styling, [Vite+](https://viteplus.dev) as a single toolchain for formatting, linting, type checking and testing, and GitHub Actions that deploy on push to `main`.
+
+Astro is what I've reached for on every static site I've built for years — [fonts.zander.wtf](https://fonts.zander.wtf), [lab.zander.wtf](https://lab.zander.wtf) and this site included. The starter is that accumulated setup, written down once so the next one begins at the interesting part.
+
+### zed-package-starter
+
+For the npm packages that fall out of the other projects. It's a pnpm monorepo with the package at the root and an Astro docs site alongside it, `tsdown` producing dual ESM and CJS output with matching types, Bun for tests, and `semantic-release` handling versioning from conventional commits. Push a `feat:` and a new minor version publishes itself.
+
+[astro-d1-search](/blog/astro-d1-search-package) — the site search integration extracted out of this website — was built from it.
+
+### zed-ios-app-starter
+
+The newest one. Native iOS apps in SwiftUI with SwiftData, targeting iOS 18+, with no third-party dependencies at all. It ships the shell every app needs and I'd otherwise rebuild each time: a tab layout with its own navigation stacks, one SwiftData model wired through list, detail, edit and delete, an `@Observable` preferences object over `UserDefaults`, a first-launch onboarding walkthrough, an animated splash over a matching launch screen, a theme with spacing and radius scales, and Reduce Motion and VoiceOver handling. In-app purchases via StoreKit 2 and a streaming Claude API chat client are both included but switched off by default — turn one on or delete its folder.
+
+It has a `scaffold.sh` that copies the template to a new directory and renames everything — target, scheme, `@main` struct, bundle identifier, StoreKit product IDs — so the generated project carries its own name throughout. There's a bit more on it in [the worklog entry](/blog/2026-08-12-zed-ios-app-starter).
+
+## ZUI, the layer underneath
+
+All the web starters use [ZUI](https://zui.zander.wtf), my CSS-first UI library. Components are styled with plain CSS and design tokens rather than a runtime, which means the same `--space-*`, `--color-*` and `--step-*` scales work identically in a React app, an Astro site and a docs page. It's the reason the starters feel like one family rather than four unrelated repos.
+
+## Zero, the factory
+
+The starters solve "what do I build on". [Zero](/blog/zero-project-factory) solves the ceremony around them.
+
+It's a single GitHub Actions workflow. I give it a name, a sentence describing the idea, and a project type; it creates a private repo from the matching template, provisions whatever that type needs — a Neon Postgres project and a Cloudflare Hyperdrive config for apps, nothing at all for iOS — sets the deploy secrets, and optionally opens an issue tagging Claude to make the first commits.
+
+Which means ideas no longer have to survive the walk home. I run the workflow from the GitHub mobile app, put my phone away, and there's a scaffolded project waiting by the time I'm at a computer.
+
+## Why it's built this way
+
+Three things drove the choices:
+
+- **Cheap to start.** A new project shouldn't cost anything until it's worth something. Free Postgres, free Workers, a template repo — a dead end costs an afternoon, not a subscription.
+- **Boring and well-trodden.** SQL, Drizzle, React, SwiftUI: all things LLMs understand deeply. Iterating on these stacks with an agent is genuinely fast, and that's now a real factor in what I pick.
+- **One shape.** Same UI library, same linting, same deploy pipeline, same conventions written down in `AGENTS.md`. Moving between my own projects costs nothing because there's nothing new to learn.
+
+## Read more
+
+- [My zero-to-one stack](/blog/zero-to-one-stack) — how I got here, and why I moved off Supabase
+- [Zero: my project factory](/blog/zero-project-factory) — the full workflow, with the YAML
+- [Projects](/projects) — everything else I've made

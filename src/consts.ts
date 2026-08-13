@@ -53,6 +53,12 @@ export const SITE_METADATA: Record<
     subtitle:
       'Side-projects, packages and other things I have made or am making',
   },
+  'zed-stack': {
+    title: 'The Zed Stack',
+    ogTitle: 'The Zed Stack',
+    subtitle:
+      'The starters, tools and automation I use to get from an idea to a deployed project in an afternoon',
+  },
 };
 
 export const SITE_NAV_ITEMS = [
@@ -94,6 +100,10 @@ export const SITE_FOOTER_ITEMS = [
   {
     text: 'Uses',
     url: '/uses',
+  },
+  {
+    text: 'Zed Stack',
+    url: '/zed-stack',
   },
   {
     text: 'Lab',

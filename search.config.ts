@@ -33,6 +33,7 @@ const searchConfig: D1SearchOptions = {
         'src/pages/colophon.md',
         'src/pages/uses.md',
         'src/pages/feeds.md',
+        'src/pages/zed-stack.mdx',
       ],
       type: 'page',
       url: '/:slug',

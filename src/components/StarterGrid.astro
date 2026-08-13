@@ -1,0 +1,15 @@
+<div class="zm-starter-grid">
+  <slot />
+</div>
+
+<style>
+  .zm-starter-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-s);
+
+    @media screen and (min-width: 550px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>

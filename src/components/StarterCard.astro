@@ -1,0 +1,71 @@
+---
+type Props = {
+  title: string;
+  repo: string;
+  icon: string;
+  tech: string;
+  description: string;
+};
+const { title, repo, icon, tech, description } = Astro.props;
+---
+
+<a href={repo} class="zm-starter-card">
+  <div class="header">
+    <i class={`ph-duotone ${icon}`} aria-hidden="true"></i>
+    <span class="title">{title}</span>
+    <i class="ph-duotone ph-arrow-up-right external" aria-hidden="true"></i>
+  </div>
+  <p class="description">{description}</p>
+  <div class="meta">{tech}</div>
+</a>
+
+<style>
+  .zm-starter-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
+    padding: var(--space-s);
+    border-radius: 1rem;
+    background-color: var(--bg-block);
+    text-decoration: none;
+    transition: transform 150ms ease-in-out;
+  }
+
+  .zm-starter-card:hover {
+    transform: translateY(-2px);
+  }
+
+  .header {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2xs);
+  }
+
+  .title {
+    font-family: var(--font-mono);
+    font-variation-settings: 'wght' 600;
+    color: var(--colour-text-bright);
+    line-height: 1.2;
+  }
+
+  .zm-starter-card:hover .title {
+    color: var(--colour-accent);
+  }
+
+  .external {
+    margin-inline-start: auto;
+    opacity: 0.5;
+  }
+
+  .description {
+    margin: 0;
+    opacity: 0.7;
+    font-size: var(--step--1);
+    line-height: 1.4;
+  }
+
+  .meta {
+    opacity: 0.5;
+    font-size: var(--step--2);
+  }
+</style>

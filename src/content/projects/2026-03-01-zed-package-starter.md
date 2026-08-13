@@ -15,3 +15,5 @@ type: package
 ---
 
 A minimal, opinionated starter template for building and publishing TypeScript npm packages. Includes build tooling, type generation, and a SKILL.md for AI-assisted development.
+
+One of four templates that make up [the Zed Stack](/zed-stack).
