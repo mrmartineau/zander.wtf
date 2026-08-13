@@ -32,7 +32,45 @@ Switch to an existing branch
 
 ```sh
 git checkout <branch-name>
+
+# or, since Git 2.23, the clearer switch command
+git switch <branch-name>
 ```
+
+### Switching branches without knowing the name
+
+Git has no built-in interactive branch picker. The closest built-in options are:
+
+```sh
+# toggle back to the previous branch
+git switch -
+
+# shell completion: press tab to list branch names
+git switch <TAB>
+
+# list branches with the most recently committed to first
+git branch --sort=-committerdate
+```
+
+For an actual fuzzy picker, pipe the branch list through [fzf](https://github.com/junegunn/fzf). As a fish function in `~/.config/fish/functions/gsw.fish`:
+
+```fish
+function gsw --description "Fuzzy-switch git branch"
+    set -l branch (
+        git branch --sort=-committerdate \
+            --format='%(refname:short)%09%(committerdate:relative)%09%(contents:subject)' |
+        fzf --ansi --delimiter='\t' \
+            --with-nth=1,2,3 \
+            --preview 'git log --oneline --graph --color=always -20 {1}' |
+        string split -f1 \t
+    )
+    test -n "$branch"; and git switch $branch
+end
+```
+
+Run `gsw`, type a few characters, hit enter. Branches are sorted newest-first and the preview pane shows that branch's recent log. Use `git branch -a` instead to include remote branches.
+
+[lazygit](https://github.com/jesseduffield/lazygit) does the same thing with no config: run it, press `3` for the branches panel, then `space` to check out the highlighted branch.
 
 List all local branches
 
