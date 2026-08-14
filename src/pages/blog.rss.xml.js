@@ -19,6 +19,8 @@ export const GET = async (context) => {
       ...post.data,
       link: `/blog/${post.slug}/`,
       pubDate: post.data.date,
+      description: post.data.subtitle ?? '',
+      categories: post.data.worklog ? ['worklog'] : ['post'],
       content: sanitizeHtml(parser.render(post.body)),
       author: 'Zander Martineau',
     })),
