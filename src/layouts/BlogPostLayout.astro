@@ -5,12 +5,12 @@ import BaseLayout from './BaseLayout.astro';
 
 type Props = CollectionEntry<'blog'>;
 const { data, slug } = Astro.props;
-const { title, date, subtitle, tags } = data;
+const { title, date, subtitle, tags, worklog } = data;
 ---
 
 <BaseLayout title={title} subtitle={subtitle} slug={slug}>
   <article class="zm-contentContainer">
-    <PageHeader title={title} subtitle={subtitle} date={date} tags={tags} />
+    <PageHeader title={title} subtitle={subtitle} date={date} tags={tags} worklog={worklog} />
 
     <div class="flow">
       <slot />

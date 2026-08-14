@@ -128,6 +128,14 @@ const items = await Promise.all(
     &:hover {
       rotate: 0deg;
     }
+
+    .title {
+      font-size: var(--step-2);
+    }
+
+    .subtitle {
+      font-size: var(--step-0);
+    }
   }
 
   .is-worklog {
@@ -135,24 +143,24 @@ const items = await Promise.all(
     --mono-scale: 0.9;
     /* Deep links land on #slug; keep the entry clear of the header */
     scroll-margin-block-start: var(--space-m);
-  }
 
-  .is-worklog .title,
-  .is-worklog .flow {
-    font-family: var(--font-mono);
-  }
+    .title,
+    .flow {
+      font-family: var(--font-mono);
+    }
 
-  .is-worklog .title {
-    font-size: calc(var(--step-0) * var(--mono-scale));
-  }
+    .title {
+      font-size: calc(var(--step-0) * var(--mono-scale));
+    }
 
-  /*
-   * One step below body copy (which is --step--1), so the articles carry more
-   * weight in the listing. No --mono-scale here: a full step down is a bigger
-   * reduction than the mono correction, so applying both double-counts it.
-   */
-  .is-worklog .flow {
-    font-size: var(--step--2);
+    /*
+    * One step below body copy (which is --step--1), so the articles carry more
+    * weight in the listing. No --mono-scale here: a full step down is a bigger
+    * reduction than the mono correction, so applying both double-counts it.
+    */
+    .flow {
+      font-size: var(--step--2);
+    }
   }
 
   /*
@@ -173,6 +181,7 @@ const items = await Promise.all(
   }
 
   .date {
+    font-family: var(--font-mono);
     opacity: 0.7;
     font-feature-settings:
       'calt' 1,
