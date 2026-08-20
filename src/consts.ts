@@ -53,6 +53,10 @@ export const SITE_METADATA: Record<
     subtitle:
       'Side-projects, packages and other things I have made or am making',
   },
+  privacy: {
+    title: 'Privacy policy',
+    subtitle: 'How my iOS apps handle your data',
+  },
   'zed-stack': {
     title: 'The Zed Stack',
     ogTitle: 'The Zed Stack',
