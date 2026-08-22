@@ -22,20 +22,20 @@ I've now cracked it. The answer is a repo called **zero**: a project factory bui
 - `type: ios` scaffolds from [zed-ios-app-starter](https://github.com/mrmartineau/zed-ios-app-starter) and renames the Xcode target, bundle id and `@main` struct to match the project
 - Cloudflare deployment secrets are copied into the new repo automatically (except for iOS, which has nothing to deploy)
 - An optional final step opens an issue with an `@claude build this` mention, so the first commit happens without me
-- Full workflow source is below — take it and adapt it
+- Full workflow source is below; take it and adapt it
 
 ## Four templates, one factory
 
-The factory sits on top of the starter templates that make up [the Zed Stack](/zed-stack). [zed-stack-starter](https://github.com/mrmartineau/zed-stack-starter) is for interactive React applications: TanStack Router and Query, Hono on Cloudflare Workers, Postgres on Neon with Drizzle and better-auth. [zed-astro-starter](https://github.com/mrmartineau/zed-astro-starter) is for content-driven, mostly-static sites. [zed-package-starter](https://github.com/mrmartineau/zed-package-starter) is for TypeScript npm packages, with a docs site attached. And the newest one, [zed-ios-app-starter](https://github.com/mrmartineau/zed-ios-app-starter), is for native iOS apps — SwiftUI and SwiftData, iOS 18+, no third-party dependencies.
+The factory sits on top of the starter templates that make up [the Zed Stack](/zed-stack). [zed-stack-starter](https://github.com/mrmartineau/zed-stack-starter) is for interactive React applications: TanStack Router and Query, Hono on Cloudflare Workers, Postgres on Neon with Drizzle and better-auth. [zed-astro-starter](https://github.com/mrmartineau/zed-astro-starter) is for content-driven, mostly-static sites. [zed-package-starter](https://github.com/mrmartineau/zed-package-starter) is for TypeScript npm packages, with a docs site attached. And the newest one, [zed-ios-app-starter](https://github.com/mrmartineau/zed-ios-app-starter), is for native iOS apps: SwiftUI and SwiftData, iOS 18+, no third-party dependencies.
 
 The three web templates all use [ZUI](https://zui.zander.wtf), my CSS-first UI library, but otherwise these are quite different beasts. One needs a database, auth secrets, and an API. One just needs to exist and deploy. One needs npm and release tooling. And one doesn't touch Cloudflare at all, but does need every occurrence of a placeholder name rewritten before it will even compile.
 
 That difference is exactly what the workflow encodes. The `type` input decides which template to generate from and how much infrastructure to bother with:
 
-- **`app`** — create the repo from zed-stack-starter, create a Neon Postgres project via their API, set `DATABASE_URL` and a freshly generated `BETTER_AUTH_SECRET` as repo secrets, add the Cloudflare deployment secrets, then provision a Hyperdrive config and commit its id into `wrangler.jsonc`.
-- **`astro`** — create the repo from zed-astro-starter, add the Cloudflare secrets, and basically leave it at that.
-- **`package`** — create the repo from zed-package-starter, add the Cloudflare secrets for the docs deploy, and remove `docs/` entirely if I've said I don't want it.
-- **`ios`** — create the repo from zed-ios-app-starter, rename the project throughout, and skip the Cloudflare step. An iOS app has nothing to deploy to a Worker.
+- **`app`**: create the repo from zed-stack-starter, create a Neon Postgres project via their API, set `DATABASE_URL` and a freshly generated `BETTER_AUTH_SECRET` as repo secrets, add the Cloudflare deployment secrets, then provision a Hyperdrive config and commit its id into `wrangler.jsonc`.
+- **`astro`**: create the repo from zed-astro-starter, add the Cloudflare secrets, and basically leave it at that.
+- **`package`**: create the repo from zed-package-starter, add the Cloudflare secrets for the docs deploy, and remove `docs/` entirely if I've said I don't want it.
+- **`ios`**: create the repo from zed-ios-app-starter, rename the project throughout, and skip the Cloudflare step. An iOS app has nothing to deploy to a Worker.
 
 ## The workflow
 
@@ -369,11 +369,11 @@ A few details worth calling out:
 
 The iOS type is the one that needed real work, because an Xcode project can't just be copied and left alone. The template's target is called `AppStarter`, and that name is baked into directory names, file names, the `@main` struct (`struct AppStarterApp`), the bundle identifier and the StoreKit product ids. Leave it and every generated app is called AppStarter.
 
-The template ships a `scaffold.sh` that handles this locally, but it's written for macOS — `sed -i ''` — and copies to a sibling directory, so the workflow does the same substitutions in place instead:
+The template ships a `scaffold.sh` that handles this locally, but it's written for macOS, with its `sed -i ''` quirk, and copies to a sibling directory, so the workflow does the same substitutions in place instead:
 
 - The repo name is coerced into a valid Swift identifier. `my-new-app` becomes `MyNewApp`, because a hyphenated name won't compile as a type, and a name starting with a digit gets an `App` prefix.
 - Paths are renamed depth-first, so renaming a parent directory never invalidates a path still queued for renaming.
-- Then file contents, with the bundle id and display name substituted *before* the bare name — otherwise the generic rule half-rewrites them and you get `wtf.zander.MyNewApp.MyNewApp`.
+- Then file contents, with the bundle id and display name substituted *before* the bare name. Otherwise the generic rule half-rewrites them and you get `wtf.zander.MyNewApp.MyNewApp`.
 - The README's template-only regions, marked with `<!-- template-only:start -->` comments, are stripped out. Documentation about how to use the template is noise inside a project generated from it.
 - `scaffold.sh` deletes itself, since it's just been rewritten to refer to the new project, which makes it useless.
 
@@ -394,7 +394,7 @@ The factory repo itself needs five Actions secrets:
 | `FACTORY_GH_PAT`           | GitHub PAT with permission to create repos, push, set secrets, and open issues in the new repo     |
 | `NEON_API_KEY`             | Neon API key, used to create the Postgres project and the Hyperdrive role (`app` type)             |
 | `CLOUDFLARE_API_TOKEN`     | Used *by the factory* to create Hyperdrive configs, so it needs Hyperdrive:Edit                    |
-| `CLOUDFLARE_DEPLOY_TOKEN`  | Passed through to the new repo for deployments — deploy-scoped only, no Hyperdrive permissions     |
+| `CLOUDFLARE_DEPLOY_TOKEN`  | Passed through to the new repo for deployments; deploy-scoped only, no Hyperdrive permissions      |
 | `CLOUDFLARE_ACCOUNT_ID`    | Passed through to the new repo for deployments                                                     |
 
 Two Cloudflare tokens rather than one is deliberate. The factory needs Hyperdrive:Edit to provision a config; the child repo only ever deploys a Worker. Handing the more powerful token down to every generated project would be giving away permissions none of them use.
@@ -408,10 +408,10 @@ gh workflow run create-project.yml \
   -f type=app
 ```
 
-Swap the templates, owner, and secrets for your own and the whole thing is portable. There's nothing here specific to my stack beyond which template repos it points at — if your starters are different, the factory doesn't care.
+Swap the templates, owner, and secrets for your own and the whole thing is portable. There's nothing here specific to my stack beyond which template repos it points at. If your starters are different, the factory doesn't care.
 
 ---
 
 The thing I like most about this is how little there is to it. It's not a platform, there's no CLI to install, no service to pay for; it's a few hundred lines of YAML gluing together APIs that already existed. But it removes the exact friction that was killing ideas between the thought and the first commit. Zero to one now starts from the sofa.
 
-If you want the rest of the picture — what each of those templates actually contains and why — I've written it all up on [the Zed Stack page](/zed-stack).
+If you want the rest of the picture, what each of those templates actually contains and why, I've written it all up on [the Zed Stack page](/zed-stack).

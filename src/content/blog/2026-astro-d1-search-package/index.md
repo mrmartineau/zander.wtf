@@ -18,11 +18,11 @@ Now you don't have to. I've packaged the entire thing up and published it: [**as
 **TL;DR**
 
 - `pnpm add astro-d1-search`, add the integration to `astro.config.mjs`, describe your content as `sources` (see below), done
-- It's an Astro integration and it needs the [`@astrojs/cloudflare`](https://docs.astro.build/en/guides/integrations-guide/cloudflare/) adapter — the search endpoint is the only server-rendered thing on your site, everything else stays static
+- It's an Astro integration and it needs the [`@astrojs/cloudflare`](https://docs.astro.build/en/guides/integrations-guide/cloudflare/) adapter. The search endpoint is the only server-rendered thing on your site, everything else stays static
 - The integration injects `GET /api/search` for you, and validates your `wrangler.toml` has the D1 binding at startup
 - One config object drives the integration, the index build and your search pages, so ranking can't drift between them
 - Content-type agnostic: anything with a title and a URL is a row. Blog posts, notes, standalone pages, recipes, whatever
-- There's an agent skill too — `npx skills add mrmartineau/astro-d1-search` — so your coding agent can wire it up for you
+- There's an agent skill too, `npx skills add mrmartineau/astro-d1-search`, so your coding agent can wire it up for you
 
 ---
 
@@ -36,7 +36,7 @@ Three moving parts, all of which the package now owns:
 
 ## Setup
 
-Create the database and add the binding — this bit is unavoidably yours, because it's your Cloudflare account:
+Create the database and add the binding. This bit is unavoidably yours, because it's your Cloudflare account:
 
 ```sh
 pnpm add astro-d1-search
@@ -77,7 +77,7 @@ export default defineConfig({
 })
 ```
 
-A source is either a `dir` to walk or an explicit list of `files`, plus a `type` string and a `url` pattern where `:slug` is substituted per document. `type` is a free string — the package has no opinion about what kinds of content you have, it just stores it and lets consumers filter on it. Slugs resolve the way Astro resolves them (frontmatter `slug` wins, otherwise the file or directory name), so your routes and your index can't disagree.
+A source is either a `dir` to walk or an explicit list of `files`, plus a `type` string and a `url` pattern where `:slug` is substituted per document. `type` is a free string. The package has no opinion about what kinds of content you have, it just stores it and lets consumers filter on it. Slugs resolve the way Astro resolves them (frontmatter `slug` wins, otherwise the file or directory name), so your routes and your index can't disagree.
 
 Finally, the index script and its package scripts:
 
@@ -94,7 +94,7 @@ runCli(searchConfig)
 "search:push": "tsx scripts/build-search-index.ts --target=remote"
 ```
 
-`search:index` pushes to the local D1 in `.wrangler/state`, which the dev server reads through the adapter's `platformProxy`. So `pnpm search:index && astro dev` gives you the entire stack — index, endpoint, search page — working offline. `--dry-run` writes the SQL without executing it, for when you want to see what you're about to do.
+`search:index` pushes to the local D1 in `.wrangler/state`, which the dev server reads through the adapter's `platformProxy`. So `pnpm search:index && astro dev` gives you the whole stack working offline: index, endpoint, search page. `--dry-run` writes the SQL without executing it, for when you want to see what you're about to do.
 
 ---
 
@@ -130,7 +130,7 @@ const searchConfig: D1SearchOptions = {
 export default searchConfig
 ```
 
-`astro.config.mjs` passes it to the integration, `scripts/build-search-index.ts` passes it to the indexer, and the search pages pass it to `searchIndex()`. Change a bm25 weight in one place and the endpoint, the `/search` page and the notes-scoped search all move together — there's only one place those numbers can live, so they can't get out of sync.
+`astro.config.mjs` passes it to the integration, `scripts/build-search-index.ts` passes it to the indexer, and the search pages pass it to `searchIndex()`. Change a bm25 weight in one place and the endpoint, the `/search` page and the notes-scoped search all move together. There's nowhere else for those numbers to live.
 
 Internally the integration hands the resolved config to the injected route through a Vite virtual module, which is how a route that lives inside `node_modules` gets to know your database name without you passing it anything.
 
@@ -141,7 +141,7 @@ Everything is optional except `database` and `sources`. The defaults are the one
 | `binding` | `'SEARCH_DB'` | Name of the D1 binding in your wrangler config |
 | `site` | `''` | Stored per row, so several sites can share one database |
 | `apiRoute` | `'/api/search'` | Set to `false` if you only want the query function |
-| `cors` | `true` | Open endpoint by default — it's public data |
+| `cors` | `true` | Open endpoint by default; it's public data |
 | `cacheMaxAge` | `300` | Edge cache duration, in seconds |
 | `weights` | `{ title: 10, description: 5, content: 1, tags: 3 }` | Per-column bm25 weights |
 | `recency` | `{ boost: 0.35, windowDays: 1095 }` | Relevance multiplier by document age |
@@ -150,7 +150,7 @@ Everything is optional except `database` and `sources`. The defaults are the one
 
 ## Building a search page
 
-Two ways, and you can mix them. Hit the endpoint from anywhere with `fetch`, or query D1 directly in Astro frontmatter — which is what I'd recommend for the site's own search page, since fetching your own API over HTTP from inside the same worker is a needless round trip:
+Two ways, and you can mix them. Hit the endpoint from anywhere with `fetch`, or query D1 directly in Astro frontmatter. That's what I'd recommend for the site's own search page, since fetching your own API over HTTP from inside the same worker is a needless round trip:
 
 ```astro
 ---
@@ -177,7 +177,7 @@ Results come back with `title`, `url`, `type`, `date`, `tags`, `emoji`, a `snipp
 
 Scoped search is one parameter: `{ query, type: 'note' }` is how [`/notes/search`](/notes/search) on this site stays inside the notes section.
 
-The subpath exports are split deliberately: `astro-d1-search/core` has zero Node dependencies so it runs on the edge, `astro-d1-search/indexer` is the Node-only filesystem-and-SQL half that only ever runs at build time. The indexer also exports its guts — `gatherDocs()`, `toSql()`, `markdownToPlainText()`, `sqlEscape()`, `SCHEMA_SQL` — for anyone who wants to build a different pipeline out of the same parts.
+The subpath exports are split deliberately: `astro-d1-search/core` has zero Node dependencies so it runs on the edge, `astro-d1-search/indexer` is the Node-only filesystem-and-SQL half that only ever runs at build time. The indexer also exports its guts for anyone who wants to build a different pipeline out of the same parts: `gatherDocs()`, `toSql()`, `markdownToPlainText()`, `sqlEscape()` and `SCHEMA_SQL`.
 
 ---
 
@@ -197,7 +197,7 @@ The repo also ships a [`SKILL.md`](https://github.com/mrmartineau/astro-d1-searc
 npx skills add mrmartineau/astro-d1-search
 ```
 
-That installs it as an [agent skill](https://code.claude.com/docs/en/skills) for Claude Code (and anything else that reads the same format). It covers the architecture, the full options reference, the setup order, how the pieces fit together and the mistakes that are easy to make — the D1 binding, `prerender = false`, deploy-then-index ordering. Ask your agent to add search to your Astro site and it has the actual API in front of it rather than a hallucinated guess at one.
+That installs it as an [agent skill](https://code.claude.com/docs/en/skills) for Claude Code (and anything else that reads the same format). It covers the architecture, the full options reference, the setup order, how the pieces fit together and the mistakes that are easy to make: the D1 binding, `prerender = false`, deploy-then-index ordering. Ask your agent to add search to your Astro site and it has the actual API in front of it rather than a hallucinated guess at one.
 
 I'm increasingly convinced this should be table stakes for a package: a README for humans, a skill for the agents. They're both documentation, they just have different readers.
 

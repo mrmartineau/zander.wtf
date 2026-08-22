@@ -1,7 +1,7 @@
 ---
 slug: zui-modern-css
 title: The modern CSS hiding inside ZUI
-subtitle: A tour of the newer CSS features powering my UI library, from automatic contrast text and a derived colour system to variants without bloat and popovers with no JavaScript.
+subtitle: 'A tour of the newer CSS features powering my UI library: automatic contrast text, a derived colour system, variants without bloat, and popovers with no JavaScript.'
 date: 2026-07-07
 tags:
   - css
@@ -9,14 +9,14 @@ tags:
   - design-systems
 ---
 
-I've been building [ZUI](https://zui.zander.wtf), my CSS-first UI library, for a while now. It powers most of my side projects, and because it's mine (no legacy users, no browser-support committee) it's become a playground for modern CSS and new HTML elements. Stuff that used to need JavaScript, a preprocessor, or a build step is now just… CSS. This post is a tour of my favourite bits.
+I've been building [ZUI](https://zui.zander.wtf), my CSS-first UI library, for a while now. It powers most of my side projects, and because it's mine (no legacy users, no browser-support committee) it's become a playground for modern CSS and new HTML elements. Stuff that used to need JavaScript, a preprocessor, or a build step is now just… CSS.
 
 **TL;DR**
 
 - Button text colour is computed *in CSS* from the background. No JS, no precomputed pairs
 - One base colour token; every hover state, tint, and shadow is derived with `oklch(from …)`, `light-dark()`, and `color-mix()`
 - Component variants only reassign custom properties. CVA is optional sugar on top
-- Tooltips, popovers, and accordions use native primitives: the Popover API, anchor positioning, `@starting-style`, and `<details>`
+- Tooltips, popovers, and accordions use what the platform already gives you: the Popover API, anchor positioning, `@starting-style`, and `<details>`
 - Cascade layers keep the whole thing overridable without specificity fights
 
 ## The party trick: automatic contrast text
@@ -52,7 +52,7 @@ This is exactly the kind of thing you'd previously reach for JavaScript or a Sas
 
 Credit where it's due: I picked this pattern up while digging through the source code of [Graffiti](https://graffiti-ui.com/), Scott Tolinski's UI library, and its auto-color class. Graffiti was a big inspiration for ZUI early on more generally: how it handles its documentation shaped ZUI's doc site, right down to the theme picker. Eventually the native [`contrast-color()`](https://developer.mozilla.org/en-US/docs/Web/CSS/contrast-color) function will do this declaratively, but it's still landing in browsers. This works today.
 
-## The colour engine: one token, infinite derivations
+## The colour engine: one token, everything else derived
 
 Zoom out and the auto-contrast trick is just one expression of a bigger principle in ZUI: **colours are computed, not curated**. There's a small set of base tokens, and everything else (hover states, subtle backgrounds, muted text, even shadow colours) is derived from them in CSS.
 
@@ -62,17 +62,17 @@ The workhorse is OKLCH with [relative colour syntax](https://developer.chrome.co
 /* Darken on hover, keep hue + chroma */
 --zui-btn-accent-hover: oklch(from var(--zui-btn-accent) calc(l - 0.1) c h);
 
-/* Same colour at 15% alpha — for subtle backgrounds */
+/* Same colour at 15% alpha, for subtle backgrounds */
 --zui-btn-accent-subtle-bg: oklch(from var(--zui-btn-accent) l c h / 15%);
 
-/* Muted text from the text colour — no new token needed */
+/* Muted text from the text colour, no new token needed */
 --color-muted: oklch(from var(--color-text) l c h / 70%);
 
 /* Even the shadow colour is derived from the background */
 --shadow-color: oklch(from var(--color-background) calc(l - 0.3) c h);
 ```
 
-ZUI uses this pattern around 57 times. The alternative is minting a new variable for every shade and opacity of every colour, which is how design token systems balloon into hundreds of entries nobody can name.
+ZUI uses this pattern 57 times. The alternative is minting a new variable for every shade and opacity of every colour, which is how design token systems balloon into hundreds of entries nobody can name.
 
 That's not to say there's no palette. ZUI ships a full set of colour tokens that match Tailwind's, defined in OKLCH (e.g. `--color-slate-200: oklch(92.9% 0.013 255.508)`), because most people already know those names, and they make good raw material. But in practice you barely touch them when theming: you pick an accent, a background, and a text colour once, and the OKLCH manipulation derives everything else. You rarely set a colour twice.
 
@@ -125,7 +125,7 @@ There's also [`color-mix()`](https://developer.mozilla.org/en-US/docs/Web/CSS/co
 
 ## Variants without the bloat
 
-ZUI's components have variants: buttons come in `fill`, `subtle`, `outline`, `ghost`, and `link`, in multiple colours and sizes. The framework wrappers (React, Solid etc.) use [Class Variance Authority (CVA)](https://cva.style/) to map props to class names, but CVA isn't the interesting part. The interesting part is that **variants never rewrite CSS rules; they only reassign custom properties**.
+ZUI's components have variants: buttons come in `fill`, `subtle`, `outline`, `ghost`, and `link`, in multiple colours and sizes. The framework wrappers (React, Solid etc.) use [Class Variance Authority (CVA)](https://cva.style/) to map props to class names, but CVA isn't the interesting part. What matters is that **variants never rewrite CSS rules; they only reassign custom properties**.
 
 The base `.zui-button` is written entirely in terms of `--zui-btn-*` variables:
 
@@ -257,9 +257,9 @@ My favourite ratio of lines-of-code to JavaScript-deleted. One property replaces
 
 ---
 
-## The next-gen sprinkles
+## The sprinkles
 
-A few smaller things that earn their place:
+A few smaller things I'd miss if they went:
 
 ### Squircles
 
@@ -312,7 +312,7 @@ So components can respond to the space they're *in*, not the viewport. Form fiel
 }
 ```
 
-And a quick-fire round of solid fundamentals baked in throughout:
+And a quick-fire round of the fundamentals, used throughout:
 
 - logical properties everywhere (`margin-inline`, `padding-block`) for free RTL support; the [lobotomised owl](https://alistapart.com/article/axiomatic-css-and-lobotomized-owls/) flow utility for rhythm
 - `accent-color` to theme native checkboxes and radios in one line; `:focus-visible` focus rings for keyboard users only
@@ -322,4 +322,4 @@ And a quick-fire round of solid fundamentals baked in throughout:
 
 ---
 
-The through-line here: **it's all just CSS.** A few years ago this library would have needed Sass, a positioning engine, an animation library, and a pile of JavaScript for contrast calculation and textarea resizing. Now the platform does all of it, the framework wrappers are thin optional layers, and cascade layers keep the whole thing overridable. If you're curious, [the source is on GitHub](https://github.com/mrmartineau/zui). And if you last looked at what CSS can do more than two years ago, it's worth another look.
+The point of all this: **it's all just CSS.** A few years ago this library would have needed Sass, a positioning engine, an animation library, and a pile of JavaScript for contrast calculation and textarea resizing. Now the platform does all of it, the framework wrappers are thin optional layers, and cascade layers keep the whole thing overridable. If you're curious, [the source is on GitHub](https://github.com/mrmartineau/zui). And if you last looked at what CSS can do more than two years ago, it's worth another look.
