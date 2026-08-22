@@ -8,6 +8,16 @@ import BaseLayout from '~/layouts/BaseLayout.astro';
 import { SITE_METADATA } from '../consts';
 
 const slug = 'home';
+
+// The intro is rendered a letter at a time so each glyph is its own hover
+// target. `name` marks the segment that carries the accent styling + avatar.
+const introSegments = [
+  { text: 'Hi! I’m ' },
+  { text: 'Zander', name: true },
+  { text: ', I make web things' },
+];
+
+const toLetters = (text: string) => [...text];
 ---
 
 <BaseLayout
@@ -16,13 +26,27 @@ const slug = 'home';
   slug={slug}
 >
   <div class="zm-mainContainer">
-    <!-- prettier-ignore -->
     <h1 class="zm-intro">
-      Hi! I’m <span>Zander<img
-          src="/images/avatars/zm-avatar-08-2026.webp"
-          class="avatar"
-          alt="Stylised (pixellated) picture of Zander"
-        /></span>, I make web things
+      {
+        introSegments.map(({ text, name }) => {
+          const letters = toLetters(text).map((char) =>
+            char === ' ' ? ' ' : <span class="letter">{char}</span>,
+          );
+
+          return name ? (
+            <span class="name">
+              {letters}
+              <img
+                src="/images/avatars/zm-avatar-08-2026.webp"
+                class="avatar"
+                alt="Stylised (pixellated) picture of Zander"
+              />
+            </span>
+          ) : (
+            letters
+          );
+        })
+      }
     </h1>
 
     <PromotedProjects />
@@ -39,7 +63,7 @@ const slug = 'home';
 <style>
   .zm-intro {
     --avatarSize: min(8vw, 180px);
-    font-family: var(--font-mona);
+    font-family: var(--font-headings);
     font-variation-settings:
       'wght' 900,
       'wdth' 75,
@@ -49,10 +73,13 @@ const slug = 'home';
     color: var(--colour-text-bright);
     padding-block-start: 4vh;
     margin-block-end: var(--space-xl);
-    /* padding-top: var(--avatarSize); */
 
-    span {
-      font-variation-settings:
+    .letter:hover {
+      font-feature-settings: 'ss03' 1;
+    }
+
+    .name {
+      font-feature-settings:
         'wght' 900,
         'wdth' 125,
         'ital' 10;
