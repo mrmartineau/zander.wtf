@@ -10,12 +10,20 @@ import { SITE_METADATA } from '../consts';
 const slug = 'home';
 
 // The intro is rendered a letter at a time so each glyph is its own hover
-// target. `name` marks the segment that carries the accent styling + avatar.
+// target. `name` marks the segment that carries the accent styling + avatar;
+// `rotates` marks the slot that cycles through ROTATING_WORDS.
+const ROTATING_WORDS = ['web', 'iOS'];
+
 const introSegments = [
   { text: 'Hi! I’m ' },
   { text: 'Zander', name: true },
-  { text: ', I make web things' },
+  { text: ', I make ' },
+  { text: ROTATING_WORDS[0], rotates: true },
+  { text: ' things' },
 ];
+
+// Read out in full, so the sentence doesn't depend on which word is showing.
+const introLabel = `Hi! I’m Zander, I make ${ROTATING_WORDS.join(' and ')} things`;
 
 const toLetters = (text: string) => [...text];
 ---
@@ -26,27 +34,25 @@ const toLetters = (text: string) => [...text];
   slug={slug}
 >
   <div class="zm-mainContainer">
-    <h1 class="zm-intro">
-      {
-        introSegments.map(({ text, name }) => {
-          const letters = toLetters(text).map((char) =>
-            char === ' ' ? ' ' : <span class="letter">{char}</span>,
-          );
+    <!-- prettier-ignore -->
+    <h1 class="zm-intro" aria-label={introLabel}>
+      {introSegments.map(({ text, name, rotates }) => {
+        // Elements stay on one line: `.name` is `white-space: pre`, so any
+        // whitespace the template introduces would render as a real space.
+        const letters = toLetters(text).map((char) =>
+          char === ' ' ? ' ' : <span class="letter">{char}</span>
+        );
 
-          return name ? (
-            <span class="name">
-              {letters}
-              <img
-                src="/images/avatars/zm-avatar-08-2026.webp"
-                class="avatar"
-                alt="Stylised (pixellated) picture of Zander"
-              />
-            </span>
-          ) : (
-            letters
-          );
-        })
-      }
+        if (rotates) {
+          return <span class="rotator" data-words={JSON.stringify(ROTATING_WORDS)}>{letters}</span>;
+        }
+
+        if (name) {
+          return <span class="name">{letters}<img src="/images/avatars/zm-avatar-08-2026.webp" class="avatar" alt="Stylised (pixellated) picture of Zander" /></span>;
+        }
+
+        return letters;
+      })}
     </h1>
 
     <PromotedProjects />
@@ -59,6 +65,107 @@ const toLetters = (text: string) => [...text];
     </div>
   </div>
 </BaseLayout>
+
+<script>
+  // Cycles the intro's rotating word, glitching through Alpha Lyrae's
+  // stylistic sets on the way. The word swap happens at the midpoint, while
+  // the text is maximally scrambled, so the reflow lands under cover.
+  const GLITCH_SETS = ['ss01', 'ss02', 'ss03', 'ss04', 'ss05'];
+  const DWELL_MS = 4000;
+  const GLITCH_MS = 400;
+  const FRAME_MS = 55;
+
+  const rotator = document.querySelector<HTMLElement>('.rotator');
+  const words: string[] = JSON.parse(rotator?.dataset.words ?? '[]');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  if (rotator && words.length > 1) {
+    let index = 0;
+    let onScreen = true;
+    let timer: number | undefined;
+
+    const letters = () => [...rotator.children] as HTMLElement[];
+
+    const render = (word: string) => {
+      rotator.replaceChildren(
+        ...[...word].map((char) => {
+          const span = document.createElement('span');
+          span.className = 'letter';
+          span.textContent = char;
+          return span;
+        }),
+      );
+    };
+
+    // Scramble most letters, leave a few alone — a uniform swap reads as a
+    // second font rather than as breakage.
+    const scramble = () => {
+      for (const letter of letters()) {
+        const set = GLITCH_SETS[Math.floor(Math.random() * GLITCH_SETS.length)];
+        letter.style.fontFeatureSettings =
+          Math.random() < 0.7 ? `'${set}' 1` : '';
+      }
+    };
+
+    const settle = () => {
+      for (const letter of letters()) letter.style.fontFeatureSettings = '';
+    };
+
+    const advance = () => {
+      const started = performance.now();
+      let swapped = false;
+
+      const step = () => {
+        const elapsed = performance.now() - started;
+
+        if (elapsed >= GLITCH_MS) {
+          settle();
+          schedule(DWELL_MS);
+          return;
+        }
+
+        if (!swapped && elapsed >= GLITCH_MS / 2) {
+          index = (index + 1) % words.length;
+          render(words[index]);
+          swapped = true;
+        }
+
+        scramble();
+        timer = window.setTimeout(step, FRAME_MS);
+      };
+
+      step();
+    };
+
+    const schedule = (delay: number) => {
+      window.clearTimeout(timer);
+      if (!onScreen || document.hidden || reduced.matches) return;
+      timer = window.setTimeout(advance, delay);
+    };
+
+    const stop = () => {
+      window.clearTimeout(timer);
+      settle();
+    };
+
+    const sync = () => {
+      if (onScreen && !document.hidden && !reduced.matches) {
+        schedule(DWELL_MS);
+      } else {
+        stop();
+      }
+    };
+
+    // Don't animate in the corner of someone's eye while they read the page.
+    new IntersectionObserver(([entry]) => {
+      onScreen = entry.isIntersecting;
+      sync();
+    }).observe(rotator);
+
+    document.addEventListener('visibilitychange', sync);
+    reduced.addEventListener('change', sync);
+  }
+</script>
 
 <style>
   .zm-intro {
