@@ -34,6 +34,7 @@ const searchConfig: D1SearchOptions = {
         'src/pages/uses.md',
         'src/pages/feeds.md',
         'src/pages/privacy.md',
+        'src/pages/terms.md',
         'src/pages/zed-stack.mdx',
       ],
       type: 'page',

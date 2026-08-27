@@ -57,6 +57,10 @@ export const SITE_METADATA: Record<
     title: 'Privacy policy',
     subtitle: 'How my iOS apps handle your data',
   },
+  terms: {
+    title: 'Terms & conditions',
+    subtitle: 'The terms for using my iOS apps',
+  },
   'zed-stack': {
     title: 'The Zed Stack',
     ogTitle: 'The Zed Stack',
