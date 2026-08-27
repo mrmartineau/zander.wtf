@@ -1,0 +1,69 @@
+---
+type Screenshot = {
+  src: string;
+  alt?: string;
+};
+
+type Props = {
+  screenshots: Screenshot[];
+  title: string;
+};
+
+const { screenshots, title } = Astro.props;
+---
+
+{
+  screenshots?.length ? (
+    <div
+      class="zm-screenshots"
+      role="group"
+      aria-label={`${title} screenshots`}
+      tabindex="0"
+    >
+      {screenshots.map(({ src, alt }, i) => (
+        <img
+          src={src}
+          alt={alt ?? `${title} screenshot ${i + 1}`}
+          loading="lazy"
+          decoding="async"
+        />
+      ))}
+    </div>
+  ) : null
+}
+
+<style>
+  .zm-screenshots {
+    display: flex;
+    gap: var(--space-s);
+    margin-block: var(--space-m);
+    padding-block-end: var(--space-2xs);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline-start: var(--space-3xs);
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .zm-screenshots img {
+    /* The brief: never wider than 250px. Sources are 500px for 2x screens. */
+    width: min(250px, 62vw);
+    flex: 0 0 auto;
+    height: auto;
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    scroll-snap-align: start;
+  }
+
+  /* Keyboard users can scroll the strip, so it needs a visible focus ring. */
+  .zm-screenshots:focus-visible {
+    outline: 2px solid var(--colour-accent);
+    outline-offset: 4px;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .zm-screenshots {
+      scroll-behavior: smooth;
+    }
+  }
+</style>

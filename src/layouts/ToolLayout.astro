@@ -2,12 +2,14 @@
 import type { CollectionEntry } from 'astro:content';
 import GithubReadme from '~/components/GithubReadme.astro';
 import PageHeader from '~/components/PageHeader.astro';
+import ProjectScreenshots from '~/components/ProjectScreenshots.astro';
 import ShortUrl from '~/components/ShortUrl.astro';
 import BaseLayout from './BaseLayout.astro';
 
 type Props = CollectionEntry<'projects'>;
 const { data, slug } = Astro.props;
-const { title, date, subtitle, tags, repo, link, tech, showReadme } = data;
+const { title, date, subtitle, tags, repo, link, tech, showReadme, screenshots } =
+  data;
 
 // Parse "https://github.com/user/repo" → { user, repo }
 const githubMatch = repo?.match(/github\.com\/([^/]+)\/([^/]+)/);
@@ -37,6 +39,12 @@ const githubRepo = githubMatch?.[2];
       }
       {tech ? <span class="tool-tech">{tech}</span> : null}
     </div>
+
+    {
+      screenshots?.length ? (
+        <ProjectScreenshots screenshots={screenshots} title={title} />
+      ) : null
+    }
 
     <article class="flow">
       <slot />

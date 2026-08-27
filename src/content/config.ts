@@ -39,6 +39,7 @@ const projects = defineCollection({
       .enum(['active', 'archived', 'inactive', 'ongoing', 'unreleased'])
       .default('active'),
     type: z.enum([
+      'ios-app',
       'app',
       'package',
       'extension',
@@ -52,6 +53,16 @@ const projects = defineCollection({
     bgColour: z.string().optional(),
     fgColour: z.string().optional(),
     image: z.string().optional(),
+    // Public-root absolute paths, same convention as `image`. Rendered as a
+    // horizontally scrolling, snapping strip on the project detail page.
+    screenshots: z
+      .array(
+        z.object({
+          src: z.string(),
+          alt: z.string().optional(),
+        }),
+      )
+      .optional(),
   }),
 });
 

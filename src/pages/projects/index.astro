@@ -11,6 +11,7 @@ const projects = (await getCollection('projects')).sort(
 );
 
 const sections = [
+  { type: 'ios-app', label: 'iOS apps' },
   { type: 'app', label: 'Apps' },
   { type: 'package', label: 'Packages' },
   { type: 'extension', label: 'Extensions' },
@@ -32,6 +33,17 @@ const slug = 'projects';
   subtitle={SITE_METADATA[slug].subtitle}
   slug={slug}
 >
+  <nav class="zm-project-nav" aria-label="Jump to a section">
+    {
+      sections.map(({ type, label, projects }) => (
+        <a href={`#${type}`}>
+          {label}
+          <span class="zm-project-nav__count">{projects.length}</span>
+        </a>
+      ))
+    }
+  </nav>
+
   <div class="zm-project-sections">
     {
       sections.map(({ type, label, projects }) => (
@@ -49,6 +61,43 @@ const slug = 'projects';
 </ContentLayout>
 
 <style>
+  .zm-project-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+    margin-block-end: var(--space-l);
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+  }
+
+  .zm-project-nav a {
+    display: inline-flex;
+    align-items: baseline;
+    gap: var(--space-2xs);
+    padding: var(--space-3xs) var(--space-xs);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    text-decoration: none;
+    color: var(--colour-text);
+
+    &:hover,
+    &:focus-visible {
+      border-color: currentcolor;
+      background-color: var(--bg-block);
+    }
+  }
+
+  .zm-project-nav__count {
+    opacity: 0.6;
+    font-size: var(--step--2);
+  }
+
+  /* The anchor sits on the section, not its heading, so it needs its own
+     offset — the h2 rule in typography.css never applies here. */
+  .zm-project-section {
+    scroll-margin-top: var(--space-m);
+  }
+
   .zm-project-sections {
     display: flex;
     flex-direction: column;
