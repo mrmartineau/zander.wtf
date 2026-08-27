@@ -8,8 +8,19 @@ import BaseLayout from './BaseLayout.astro';
 
 type Props = CollectionEntry<'projects'>;
 const { data, slug } = Astro.props;
-const { title, date, subtitle, tags, repo, link, tech, showReadme, screenshots } =
-  data;
+const {
+  title,
+  date,
+  subtitle,
+  tags,
+  repo,
+  link,
+  tech,
+  showReadme,
+  screenshots,
+  appStore,
+  testFlight,
+} = data;
 
 // Parse "https://github.com/user/repo" → { user, repo }
 const githubMatch = repo?.match(/github\.com\/([^/]+)\/([^/]+)/);
@@ -26,6 +37,32 @@ const githubRepo = githubMatch?.[2];
         link ? (
           <a href={link} target="_blank" rel="noopener noreferrer" class="tool-link">
             <ShortUrl url={link} />
+          </a>
+        ) : null
+      }
+      {
+        appStore ? (
+          <a
+            href={appStore}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="tool-link"
+          >
+            <i class="ph-duotone ph-app-store-logo" />
+            App Store
+          </a>
+        ) : null
+      }
+      {
+        testFlight ? (
+          <a
+            href={testFlight}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="tool-link"
+          >
+            <i class="ph-duotone ph-paper-plane-tilt" />
+            TestFlight
           </a>
         ) : null
       }

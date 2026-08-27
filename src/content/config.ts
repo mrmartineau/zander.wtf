@@ -35,6 +35,10 @@ const projects = defineCollection({
     tags: z.array(z.string()).optional(),
     repo: z.string().optional(),
     link: z.string().optional(),
+    // iOS apps only, and only once each exists — an app can be on
+    // TestFlight long before it has an App Store page, or vice versa.
+    appStore: z.string().optional(),
+    testFlight: z.string().optional(),
     status: z
       .enum(['active', 'archived', 'inactive', 'ongoing', 'unreleased'])
       .default('active'),
