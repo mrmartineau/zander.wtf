@@ -11,28 +11,6 @@ When working from my home office I like to use good quality products that make m
 
 ℹ️ I change aspects of my setup fairly often so this page will serve as a living document and a place to point curious developers to when I get asked.
 
-## Hardware
-
-### Computer
-
-14" Apple M1 Max MacBook Pro 💻. I love this little thing and it's still going strong.
-
-### Monitor
-
-[MSI Prestige PS341WU Creator Monitor 34"](https://www.msi.com/Content-Creation-Monitor/Prestige-PS341WU). Great wide-screen monitor without being too pricey.
-
-### Keyboard
-
-[Keychron Q1 version 2](https://www.keychron.com/products/keychron-q1-qmk-custom-mechanical-keyboard). I bought the barebones ISO version, Gateron Oil King switches and PBTFans Resonance keycaps from [Mech Mods](https://www.mechmods.co.uk/). What's not to love?
-
-### Mouse
-
-The [Logitech MX Master 4](https://amzn.eu/d/goOteiW) is great, but if you have the MX Master 3S and it's still working well, I wouldn't bother upgrading.
-
-### Desk and chair
-
-[Autonomous Smart Desk 2](https://www.autonomous.ai/standing-desks/smartdesk-2-home). An amazing and affordable standing desk. For the chair, it's the [Herman Miller Aeron](https://www.hermanmiller.com/en_gb/products/seating/office-chairs/aeron-chairs/) — you need to invest in a good chair if you're going to be sitting in it for hours on end.
-
 ## Software
 
 ### IDE
@@ -352,13 +330,11 @@ A copy of my VS Code `settings.json` can be found [here](https://gist.github.com
 
 ### AI
 
-I use [Claude](https://claude.ai/) and its models exclusively - Fable is a game-changer.
+I use [Claude](https://claude.ai/) and its models exclusively.
 
 To give me better insight of my usage, I use [OpenUsage](https://www.openusage.ai/), a fantastic tool that gives me a breakdown of my usage across all the AI tools I use.
 
-### Other apps
-
-#### [Raycast](https://raycast.com/)
+### [Raycast](https://raycast.com/)
 
 I use it in nearly every aspect of my work. I use it for searching the web with its custom web searches (e.g. npm, JIRA, bundlephobia, MDN and many more); searching npm with the [npm extension](https://www.raycast.com/mrmartineau/search-npm) (that I created), and loads more. It truly is a massive productivity booster.
 
@@ -368,35 +344,53 @@ FYI I also created the [GitHub Stars extension](https://www.raycast.com/mrmartin
 - [JIRA](https://www.raycast.com/raycast/jira) - Necessary evil to interact with JIRA
 - [Set Audio Device](https://www.raycast.com/benvp/audio-device) - Set the input/output audio device
 
-#### [1Password](https://1password.com/)
+### Terminal
 
-I never need to worry about passwords anymore. It integrates with my browser (via their extension) and it copies one-time passwords to the clipboard automatically. It's also great on the iPhone.
-
-#### [Obsidian](https://obsidian.md/)
-
-I moved to Obsidian a while back and haven't looked back.
-
-#### Terminal
-
-I mostly use [cmux](https://www.cmux.dev/) but also [iTerm2](https://www.iterm2.com/) and [Ghostty](https://ghostty.org/). I've been trialling [Solo](https://soloterm.com/) recently and it looks promising.
+I use [Ghostty](https://ghostty.org/) with [herdr](https://herdr.dev). Before that I used [cmux](https://www.cmux.dev/).
 
 Instead of bash/zsh, I use [Fish Shell](https://fishshell.com/) and the excellent [TIDE](https://github.com/IlanCosman/tide) prompt.
 
 I also use a few other CLI apps to make the experience better, in particular, [ni](https://github.com/antfu/ni) by [Anthony Fu](https://antfu.me) and [Worktrunk](https://worktrunk.dev/). "ni" is great for installing npm packages and running npm scripts. I bounce from project to project a lot and they often use different package managers. This tool makes it easy to install packages and run scripts without having to remember which package manager to use. Worktrunk takes the pain out of creating, switching and cleaning up git worktrees.
 
-#### [NextDNS](https://www.nextdns.io/)
+### [1Password](https://1password.com/)
 
-A cloud-based private DNS service that gives you full control over what is allowed and what is blocked on the internet. There are Mac and iPhone apps that essentially block ads, malicious code and more.
+I never need to worry about passwords anymore. It integrates with my browser (via their extension) and it copies one-time passwords to the clipboard automatically. It's also great on the iPhone.
+
+### [Obsidian](https://obsidian.md/)
+
+I moved to Obsidian a while back and haven't looked back.
 
 ### And the rest:
 
+- [NextDNS](https://www.nextdns.io/): A cloud-based private DNS service that gives you full control over what is allowed and what is blocked on the internet. There are Mac and iPhone apps that essentially block ads, malicious code and more.
 - [DevUtils](https://devutils.app/?ref=zander): This app is a recent addition and is an indispensable tool for my workflow.
 - [Granola](https://www.granola.ai/): AI meeting notes. It transcribes calls and turns my rough notes into something actually useful afterwards.
 - [Superkey](https://superkey.app/): "Keyboard superpower on macOS". I use this mainly for its "hyperkey" functionality (where caps lock is converted to a "hyper key", with all these four modifiers combined: `⌃⌥⌘⇧`). FYI Raycast now has hyperkey functionality built-in, but I found it buggy so I still use this.
-- [Rectangle Pro](https://rectangleapp.com/): Window snapping and positioning
 - [Vivid](https://www.getvivid.app/): Double brightness system-wide
 - [Ice](https://icemenubar.app/): Hide some of those pesky menubar items.
 - [Shottr](https://shottr.cc): A small, fast screenshot app built for people who care about pixels. My go-to for screenshots and quick annotations.
 - [AudioSwitcher](https://apps.apple.com/gb/app/audioswitcher/id561712678): A menu bar app for quickly switching between all available input and output devices.
 
 This page is featured on [uses.tech](https://uses.tech/). If you're reading this and want to see others like it, head on over there to find out more.
+
+## Hardware
+
+### Computer
+
+14" Apple M1 Max MacBook Pro 💻. I love this little thing and it's still going strong.
+
+### Monitor
+
+[MSI Prestige PS341WU Creator Monitor 34"](https://www.msi.com/Content-Creation-Monitor/Prestige-PS341WU). Great wide-screen monitor without being too pricey.
+
+### Keyboard
+
+[Keychron Q1 version 2](https://www.keychron.com/products/keychron-q1-qmk-custom-mechanical-keyboard). I bought the barebones ISO version, Gateron Oil King switches and PBTFans Resonance keycaps from [Mech Mods](https://www.mechmods.co.uk/). What's not to love?
+
+### Mouse
+
+The [Logitech MX Master 4](https://amzn.eu/d/goOteiW) is great, but if you have the MX Master 3S and it's still working well, I wouldn't bother upgrading.
+
+### Desk and chair
+
+[Autonomous Smart Desk 2](https://www.autonomous.ai/standing-desks/smartdesk-2-home). An amazing and affordable standing desk. For the chair, it's the [Herman Miller Aeron](https://www.hermanmiller.com/en_gb/products/seating/office-chairs/aeron-chairs/) — you need to invest in a good chair if you're going to be sitting in it for hours on end.
