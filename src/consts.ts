@@ -61,6 +61,10 @@ export const SITE_METADATA: Record<
     title: 'Terms & conditions',
     subtitle: 'The terms for using my iOS apps',
   },
+  support: {
+    title: 'Support',
+    subtitle: 'Help with my iOS apps',
+  },
   'zed-stack': {
     title: 'The Zed Stack',
     ogTitle: 'The Zed Stack',
