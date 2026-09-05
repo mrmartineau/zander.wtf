@@ -12,9 +12,18 @@ type Props = {
   isSection?: boolean;
   worklog?: boolean;
   tags?: string[];
+  showType?: boolean;
 };
 
-const { title, subtitle, date, isSection = false, tags, worklog } = Astro.props;
+const {
+  title,
+  subtitle,
+  date,
+  isSection = false,
+  tags,
+  worklog,
+  showType = true,
+} = Astro.props;
 ---
 
 <header>
@@ -35,7 +44,7 @@ const { title, subtitle, date, isSection = false, tags, worklog } = Astro.props;
             <FormattedDate date={date} />
           </div>
         ) : null}
-        <div class="uppercase">{worklog ? 'worklog' : 'article'}</div>
+        {showType ? <div class="uppercase">{worklog ? 'worklog' : 'article'}</div> : null}
         {tags?.length ? (
           <div class="flex gap-x-xs gap-y-3xs flex-wrap">
             {tags.map((item) => {

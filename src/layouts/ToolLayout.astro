@@ -12,7 +12,6 @@ const {
   title,
   date,
   subtitle,
-  tags,
   repo,
   link,
   tech,
@@ -30,7 +29,7 @@ const githubRepo = githubMatch?.[2];
 
 <BaseLayout title={title} subtitle={subtitle} slug={slug}>
   <article class="zm-contentContainer">
-    <PageHeader title={title} subtitle={subtitle} date={date} tags={tags} />
+    <PageHeader title={title} subtitle={subtitle} date={date} showType={false} />
 
     <div class="tool-meta">
       {
@@ -49,7 +48,7 @@ const githubRepo = githubMatch?.[2];
             class="tool-link"
           >
             <i class="ph-duotone ph-app-store-logo" />
-            App Store
+            Download on the App Store
           </a>
         ) : null
       }
