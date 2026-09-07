@@ -173,6 +173,15 @@ html:not(.desktop) body:not([data-slug="home"]) #greeting {
   opacity: 0.6;
 }
 
+.menu-label {
+  padding: var(--space-3xs) var(--space-xs) 0;
+  font-family: var(--font-headings);
+  font-size: var(--step--3);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.6;
+}
+
 .menu-rule {
   border: 0;
   border-top: var(--win-border);
@@ -201,8 +210,7 @@ html:not(.desktop) body:not([data-slug="home"]) #greeting {
     padding-inline: 0;
   }
   .menubar-hire,
-  .menubar-clock,
-  .menu-recent {
+  .menubar-clock {
     display: none;
   }
 }

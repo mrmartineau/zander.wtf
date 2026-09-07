@@ -43,24 +43,28 @@ export function MenuBar(props: {
           Z
         </MenuTrigger>
         <MenuContent>
+          <Show when={state.recent.length}>
+            <div class="menu-label">Recent</div>
+            <For each={state.recent}>
+              {(r) => (
+                <MenuItem onClick={() => open(r.url, r.title)}>
+                  {r.title}
+                </MenuItem>
+              )}
+            </For>
+            <hr class="menu-rule" />
+          </Show>
+          <MenuItem onClick={() => topWin() && close(topWin().id)}>
+            Close window <kbd class="zui-kbd">⌘W</kbd>
+          </MenuItem>
+          <MenuItem onClick={closeAll}>Close all</MenuItem>
+          <hr class="menu-rule" />
           <MenuItem onClick={() => setUiMode('tui', topWin()?.url ?? '/')}>
             Switch to terminal
           </MenuItem>
           <MenuItem onClick={() => setUiMode('classic', topWin()?.url ?? '/')}>
             Switch to the website
           </MenuItem>
-        </MenuContent>
-      </Menu>
-
-      <Menu>
-        <MenuTrigger variant="ghost" size="sm">
-          File
-        </MenuTrigger>
-        <MenuContent>
-          <MenuItem onClick={() => topWin() && close(topWin().id)}>
-            Close window <kbd class="zui-kbd">⌘W</kbd>
-          </MenuItem>
-          <MenuItem onClick={closeAll}>Close all</MenuItem>
         </MenuContent>
       </Menu>
 
@@ -107,23 +111,6 @@ export function MenuBar(props: {
           </For>
         </MenuContent>
       </Menu>
-
-      <Show when={state.recent.length}>
-        <Menu class="menu-recent">
-          <MenuTrigger variant="ghost" size="sm">
-            Recent
-          </MenuTrigger>
-          <MenuContent>
-            <For each={state.recent}>
-              {(r) => (
-                <MenuItem onClick={() => open(r.url, r.title)}>
-                  {r.title}
-                </MenuItem>
-              )}
-            </For>
-          </MenuContent>
-        </Menu>
-      </Show>
 
       <span class="menubar-spacer" />
 
