@@ -3,7 +3,8 @@ slug: rigel-vscode
 title: Rigel VS Code theme
 subtitle: Port of the Rigel colour theme for VS Code.
 date: 2020-08-01
-link: 'https://github.com/mrmartineau/rigel-vscode'
+repo: 'https://github.com/mrmartineau/rigel-vscode'
+link: https://marketplace.visualstudio.com/items?itemName=mrmartineau.rigel-vscode
 status: active
 tags:
   - vscode
