@@ -27,7 +27,7 @@
 .desktop #greeting:not(.greeting *),
 .desktop .site-header,
 .desktop footer,
-.desktop #status-banner {
+html.desktop #status-banner {
   display: none;
 }
 

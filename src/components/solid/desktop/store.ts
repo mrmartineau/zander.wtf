@@ -52,13 +52,15 @@ export const topWin = () =>
 
 export const byUrl = (url: string) => state.wins.find((w) => w.url === url);
 
-export type Size = 'page' | 'block' | 'wide';
+export type Size = 'page' | 'block';
 
 const SIZES: Record<Size, [number, number]> = {
   page: [960, 0.78],
   block: [460, 0.62],
-  wide: [720, 0.5],
 };
+
+/** Home-page blocks (`/#about`) get a small window; whole pages a big one. */
+const sizeFor = (url: string): Size => (url.includes('#') ? 'block' : 'page');
 
 function defaultRect(n: number, size: Size) {
   const vw = innerWidth;
@@ -79,7 +81,7 @@ export function open(
   url: string,
   title = '',
   content: HTMLElement | null = null,
-  size: Size = 'page',
+  size: Size = sizeFor(url),
 ): Win {
   const existing = byUrl(url);
   if (existing) {

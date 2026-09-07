@@ -4,13 +4,13 @@ import { MenuBar, type NavItem } from './MenuBar';
 import { adopt, cleanTitle, isPageLink, seedHead, split } from './page';
 import { Spotlight } from './Spotlight';
 import { play } from './sound';
-import { close, isMobile, open, state, tile, topWin } from './store';
+import { close, isMobile, open, type Size, state, tile, topWin } from './store';
 import { Window } from './Window';
 
-type Icon = NavItem & { icon: string; img?: string };
+/** `size` overrides the window size the URL would otherwise get. */
+type Icon = NavItem & { icon: string; img?: string; size?: Size };
 
 const ICONS: Icon[] = [
-  { text: 'Home', url: '/', icon: 'ph-house' },
   { text: 'Blog', url: '/blog', icon: 'ph-article' },
   { text: 'Projects', url: '/projects', icon: 'ph-cube' },
   { text: 'Links', url: '/links', icon: 'ph-link' },
@@ -40,7 +40,7 @@ export default function Desktop(props: { nav: NavItem[]; more: NavItem[] }) {
     const main = adopt(page);
     const parts = split(main, url);
     if (parts) {
-      for (const p of parts) open(p.url, p.title, p.node, p.size);
+      for (const p of parts) open(p.url, p.title, p.node);
     } else {
       open(url, cleanTitle(document.title), main);
     }
@@ -108,7 +108,7 @@ export default function Desktop(props: { nav: NavItem[]; more: NavItem[] }) {
   });
 
   const launch = (i: Icon) => {
-    open(i.url, i.text);
+    open(i.url, i.text, null, i.size);
     setSelected('');
   };
 

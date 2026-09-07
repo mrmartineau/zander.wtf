@@ -81,28 +81,30 @@ export function isPageLink(a: HTMLAnchorElement) {
   return true;
 }
 
-export type Part = {
-  url: string;
-  title: string;
-  node: HTMLElement;
-  size: 'block' | 'wide';
-};
+/** Open every home-page block when someone lands on `/`. Off: they see the
+ * greeting and the icons, and open what they want. */
+export const OPEN_HOME_ON_LOAD = false;
+
+export type Part = { url: string; title: string; node: HTMLElement };
 
 /**
  * Pages made of `[data-window]` sections (the home page) open as one window
- * per section. A `#hash` in the URL picks a single section.
+ * per section. A `#hash` in the URL picks a single section; without one,
+ * OPEN_HOME_ON_LOAD decides between all of them and none.
+ * Returns null for ordinary pages.
  */
 export function split(main: HTMLElement, url: string): Part[] | null {
   const sections = [...main.querySelectorAll<HTMLElement>('[data-window]')];
   if (!sections.length) return null;
-  const path = url.split('#')[0];
-  const hash = url.split('#')[1];
-  return sections
-    .filter((s) => !hash || s.id === hash)
-    .map((s) => ({
-      url: `${path}#${s.id}`,
-      title: s.dataset.window ?? s.id,
-      node: s,
-      size: s.dataset.size === 'wide' ? 'wide' : 'block',
-    }));
+  const [path, hash] = url.split('#');
+  const wanted = hash
+    ? sections.filter((s) => s.id === hash)
+    : OPEN_HOME_ON_LOAD
+      ? sections
+      : [];
+  return wanted.map((s) => ({
+    url: `${path}#${s.id}`,
+    title: s.dataset.window ?? s.id,
+    node: s,
+  }));
 }

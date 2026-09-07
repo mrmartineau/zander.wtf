@@ -61,10 +61,13 @@ export function Window(props: { win: Win }) {
     try {
       const page = await fetchPage(props.win.url);
       const parts = split(page.main, props.win.url);
-      if (parts) {
-        // This placeholder becomes several windows, one per section.
+      if (parts?.length === 1 && parts[0].url === props.win.url) {
+        // One section, already sized for it: keep this window.
+        setContent(props.win.id, parts[0].title, parts[0].node);
+      } else if (parts) {
+        // This placeholder becomes one window per section (or none).
         close(props.win.id, true);
-        for (const p of parts) open(p.url, p.title, p.node, p.size);
+        for (const p of parts) open(p.url, p.title, p.node);
       } else {
         setContent(props.win.id, page.title, page.main);
       }

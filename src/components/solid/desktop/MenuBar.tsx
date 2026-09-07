@@ -43,8 +43,10 @@ export function MenuBar(props: {
           Z
         </MenuTrigger>
         <MenuContent>
-          <MenuItem onClick={() => open('/', 'Home')}>Home</MenuItem>
-          <MenuItem onClick={() => open('/about', 'About')}>
+          <MenuItem onClick={() => open('/#about', 'About me')}>
+            About me
+          </MenuItem>
+          <MenuItem onClick={() => open('/about', 'About this site')}>
             About this site
           </MenuItem>
           <For each={props.more}>{item}</For>
@@ -60,7 +62,6 @@ export function MenuBar(props: {
           File
         </MenuTrigger>
         <MenuContent>
-          <MenuItem onClick={() => open('/', 'Home')}>New window</MenuItem>
           <MenuItem onClick={() => topWin() && close(topWin().id)}>
             Close window <kbd class="zui-kbd">⌘W</kbd>
           </MenuItem>
