@@ -21,6 +21,10 @@ Site-wide full-text search on Cloudflare D1 (SQLite FTS5), bound as `SEARCH_DB`.
 - `raycast-extension/` is a standalone npm package: **not** in the pnpm workspace, excluded from the root tsconfig and Biome. Use `npm` inside it, not `pnpm`.
 - Local dev gets the D1 binding from the adapter's `platformProxy`; local data lives in `.wrangler/state/v3/d1`.
 
+### Desktop shell
+
+Every page renders through `BaseLayout.astro` as a plain `<main id="page">`, then a Solid island (`src/components/solid/desktop/`, `client:only`) mounts a classic-Mac style desktop over it and adopts that `<main>` as the first window. Pages stay ordinary Astro pages: links inside a window are intercepted, the target page is fetched, its `<main>`, stylesheets and hoisted scripts are pulled out of the response (`page.ts`) and shown in a new window. `store.ts` owns window state and keeps `history`/`document.title` pointing at the front window, so every URL still deep-links and works without JS (a `<noscript>` nav replaces the header). Spotlight (`⌘K`) uses `/api/search`. Sounds are synthesised with Web Audio (`sound.ts`), off by default. Styles live in `src/styles/components/desktop.css`; ZUI's semantic tokens are pointed at the site palette there and `--radius-scale` is zeroed for hard corners.
+
 ### Styling
 
 Tailwind v3 through PostCSS — **not** the Astro Tailwind integration. Custom CSS lives in `src/styles/`, composed in `src/styles/index.css`, where the Tailwind `base` / `components` / `utilities` imports are interleaved with the custom layers. Add new CSS files to the matching section of that file rather than importing them ad-hoc, or they land in the wrong cascade layer.

@@ -1,9 +1,10 @@
 ---
+import '@phosphor-icons/web/regular';
 import '@phosphor-icons/web/duotone';
 import '@phosphor-icons/web/fill';
 import BaseHead from '~/components/BaseHead.astro';
-import Footer from '~/components/Footer.astro';
-import Header from '~/components/Header.astro';
+import Desktop from '~/components/solid/desktop/Desktop';
+import { SITE_FOOTER_ITEMS, SITE_NAV_ITEMS } from '../consts';
 
 const { title, subtitle, image, slug } = Astro.props;
 ---
@@ -11,12 +12,19 @@ const { title, subtitle, image, slug } = Astro.props;
 <html lang="en">
   <head>
     <BaseHead title={title} description={subtitle} image={image} slug={slug} />
+    <script is:inline>document.documentElement.classList.add('js');</script>
   </head>
   <body>
-    <Header />
-    <main>
+    <noscript>
+      <nav class="nojs-nav">
+        <a href="/">Home</a>
+        {SITE_NAV_ITEMS.map((item) => <a href={item.url}>{item.text}</a>)}
+        {SITE_FOOTER_ITEMS.map((item) => <a href={item.url}>{item.text}</a>)}
+      </nav>
+    </noscript>
+    <main id="page">
       <slot />
     </main>
-    <Footer />
+    <Desktop client:only="solid-js" nav={SITE_NAV_ITEMS} more={SITE_FOOTER_ITEMS} />
   </body>
 </html>
