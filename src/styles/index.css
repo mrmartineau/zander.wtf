@@ -1,4 +1,5 @@
 @import "tailwindcss/base";
+@import "@mrmartineau/zui/css";
 
 @import "global/vars.css";
 @import "global/utopia.css";
@@ -14,6 +15,8 @@
 @import "components/code.css";
 @import "components/copy.css";
 @import "components/layout.css";
+@import "components/desktop.css";
+@import "components/tui.css";
 
 @import "utilities/hidden.css";
 

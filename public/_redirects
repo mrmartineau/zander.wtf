@@ -1,3 +1,13 @@
 # The worklog is now merged into the blog listing. Browsers carry the #fragment
 # across a redirect, so /worklog#<slug> still lands on the right entry.
 /worklog /blog 301
+
+# The desktop shell and the terminal UI are the same pages under a prefix;
+# the page reads the prefix and picks the front end. See src/utils/uiMode.ts.
+# The trailing slash on the target avoids the 308 that would drop the prefix.
+/desktop / 200
+/desktop/ / 200
+/desktop/* /:splat/ 200
+/tui / 200
+/tui/ / 200
+/tui/* /:splat/ 200

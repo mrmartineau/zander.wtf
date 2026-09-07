@@ -37,7 +37,7 @@ export const SITE_METADATA: Record<
   },
   now: {
     title: 'Now',
-    subtitle: `What I'm up to now`,
+    subtitle: `Films, TV, books, podcasts…and other things I'm currently enjoying`,
   },
   notes: {
     title: 'Code Notes',
@@ -144,7 +144,7 @@ type Job = {
   url: string;
   name: string;
   description?: string;
-  type: 'contract' | 'employed';
+  type?: 'contract' | 'employed';
   projects?: {
     name: string;
     description: string;
@@ -158,12 +158,18 @@ interface Jobs {
 }
 export const JOBS: Jobs = {
   current: {
-    name: 'Dare',
-    url: 'https://dare.global',
-    description: `Staff Software Engineer and web team lead. I maintained and evolved Dare's core ETRM (Energy Trading and Risk Management) platform — a complex, data-intensive system — and built a new component library from the ground up, bringing visual and functional consistency across the product suite.`,
-    type: 'employed',
+    name: 'Available for work',
+    url: ABOUT_ME.email,
+    description:
+      'Taking a break while I look for a new role. If you think I could be a good fit for your team, get in touch.',
   },
   previous: [
+    {
+      name: 'Dare',
+      url: 'https://dare.global',
+      description: `Staff Software Engineer and web team lead. I maintained and evolved Dare's core ETRM (Energy Trading and Risk Management) platform — a complex, data-intensive system — and built a new component library from the ground up, bringing visual and functional consistency across the product suite.`,
+      type: 'employed',
+    },
     {
       name: 'Fathom',
       description:

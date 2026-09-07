@@ -1,0 +1,557 @@
+/* The desktop shell: menu bar, icons, windows, Spotlight.
+   Hard corners everywhere — ZUI's radius scale is zeroed inside the shell. */
+
+:root {
+  /* Point ZUI's semantic tokens at the site palette */
+  --color-background: var(--bg);
+  --color-surface: var(--bg-block);
+  --color-text: var(--colour-text-bright);
+  --color-theme: var(--colour-yellow);
+  --color-accent: var(--colour-pink);
+  --color-border: hsl(214 14% 35%);
+  --radius-scale: 0;
+
+  --menubar-h: 2rem;
+  --win-border: 1px var(--border-style) var(--color-border);
+  --win-bar-h: 2rem;
+  --desktop-bg: hsl(214 20% 12%);
+}
+
+/* Desktop mode: the classic header/footer go away, and the page is hidden
+   until the shell adopts it into a window. Classic mode (html without
+   .desktop) shows the greeting on the home page only. */
+.desktop body {
+  overflow: hidden;
+}
+.desktop #page,
+.desktop #greeting:not(.greeting *),
+.desktop .site-header,
+.desktop footer,
+html.desktop #status-banner {
+  display: none;
+}
+
+html.classic #greeting {
+  margin: 0 auto;
+  width: 90%;
+  max-width: 1700px;
+  padding-block-start: 4vh;
+}
+html:not(.desktop) body:not([data-slug="home"]) #greeting {
+  display: none;
+}
+
+/* ---------- Greeting (behind the windows) ---------- */
+
+.greeting {
+  position: absolute;
+  inset: var(--menubar-h) 0 0 0;
+  display: grid;
+  place-items: center;
+  padding: var(--space-lg) var(--space-lg) var(--space-lg) 8rem;
+  text-align: center;
+  user-select: none;
+  /* A full-size layer; only the text itself should catch the pointer */
+  pointer-events: none;
+}
+
+.greeting > * {
+  pointer-events: auto;
+}
+
+@media (max-width: 767px) {
+  .greeting {
+    padding: var(--space-xl) var(--space-sm) 0;
+    align-items: end;
+  }
+}
+
+.nojs-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  padding: var(--space-xs);
+  font-family: var(--font-headings);
+  text-transform: uppercase;
+}
+
+.desktop {
+  position: fixed;
+  inset: 0;
+  background-color: var(--desktop-bg);
+  /* A faint dither, like a 1-bit desktop pattern */
+  background-image: radial-gradient(
+    oklch(from var(--colour-text-bright) l c h / 0.07) 1px,
+    transparent 1px
+  );
+  background-size: 6px 6px;
+  font-family: var(--font-headings);
+  isolation: isolate;
+}
+
+/* ---------- Menu bar ---------- */
+
+.menubar {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: var(--menubar-h);
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  padding-inline: var(--space-2xs);
+  background-color: var(--color-surface);
+  border-bottom: var(--win-border);
+  z-index: var(--z-9);
+  font-size: var(--step--2);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.menubar .zui-menu-trigger,
+.menubar-btn,
+.menubar-hire {
+  --zui-btn-radius: 0;
+  --zui-btn-fg: var(--color-text);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3xs);
+  height: 100%;
+  padding-inline: var(--space-xs);
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: var(--color-text);
+  background: none;
+  border: 0;
+  cursor: default;
+}
+
+.menubar .zui-menu-trigger:hover,
+.menubar .zui-menu-trigger[aria-expanded="true"],
+.menubar-btn:hover,
+.menubar-hire:hover {
+  --zui-btn-fg: var(--bg);
+  --zui-btn-bg: var(--color-theme);
+  background-color: var(--color-theme);
+  color: var(--bg);
+  font-feature-settings: "ss02" 1;
+}
+
+.menu-z .zui-menu-trigger {
+  font-size: var(--step-0);
+  font-feature-settings: "ss03" 1;
+  padding-inline: var(--space-sm);
+}
+
+.menubar .zui-menu-content {
+  --zui-menu-radius: 0;
+  border-radius: 0;
+  border: var(--win-border);
+  box-shadow: 4px 4px 0 oklch(0 0 0 / 0.5);
+  background-color: var(--color-surface);
+  min-width: 14rem;
+  padding: var(--space-3xs);
+  font-family: var(--font-body);
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.menubar .zui-menu-item {
+  --zui-btn-radius: 0;
+  --zui-btn-fg: var(--color-text);
+  justify-content: space-between;
+  width: 100%;
+  /* Same inset for buttons, links and the section label */
+  padding: var(--space-3xs) var(--space-xs);
+  font-size: var(--step--2);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.menubar .zui-menu-item:hover,
+.menubar .zui-menu-item:focus-visible,
+.menubar .zui-menu-item[data-highlighted] {
+  --zui-btn-fg: var(--bg);
+  --zui-btn-bg: var(--color-theme);
+  color: var(--bg);
+  background-color: var(--color-theme);
+}
+
+.menubar .zui-menu-item .zui-kbd {
+  opacity: 0.6;
+}
+
+.menu-label {
+  padding: var(--space-3xs) var(--space-xs) 0;
+  font-family: var(--font-headings);
+  font-size: var(--step--3);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.6;
+}
+
+.menu-rule {
+  border: 0;
+  border-top: var(--win-border);
+  margin: var(--space-3xs) 0;
+}
+
+.menubar-spacer {
+  flex: 1;
+}
+
+.menubar-hire {
+  color: var(--color-theme);
+}
+
+.menubar-clock {
+  display: inline-flex;
+  align-items: center;
+  padding-inline: var(--space-xs);
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+}
+
+@media (max-width: 767px) {
+  .menubar {
+    padding-inline: 0;
+  }
+  .menubar-hire,
+  .menubar-clock {
+    display: none;
+  }
+}
+
+/* ---------- Desktop icons ---------- */
+
+.icons {
+  position: absolute;
+  top: calc(var(--menubar-h) + var(--space-sm));
+  left: var(--space-sm);
+  display: grid;
+  gap: var(--space-xs);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.icon {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-3xs);
+  width: 5.5rem;
+  padding: var(--space-2xs) var(--space-3xs);
+  background: none;
+  border: 1px var(--border-style) transparent;
+  color: var(--color-text);
+  font: inherit;
+  font-size: var(--step--2);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  text-align: center;
+  cursor: default;
+}
+
+.icon i {
+  font-size: 2.25rem;
+  color: var(--color-theme);
+}
+
+.icon img {
+  width: 2.25rem;
+  height: 2.25rem;
+  image-rendering: pixelated;
+}
+
+.icon:hover {
+  font-feature-settings: "ss02" 1;
+}
+
+.icon[aria-pressed="true"] {
+  background-color: oklch(from var(--color-theme) l c h / 0.2);
+  border-color: var(--color-theme);
+}
+
+.icon:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+@media (max-width: 767px) {
+  .icons {
+    left: 50%;
+    translate: -50% 0;
+    grid-template-columns: repeat(3, auto);
+  }
+}
+
+/* ---------- Windows ---------- */
+
+.wins {
+  position: absolute;
+  inset: var(--menubar-h) 0 0 0;
+  pointer-events: none;
+}
+
+.win {
+  pointer-events: auto;
+}
+
+.win {
+  position: absolute;
+  display: grid;
+  grid-template-rows: var(--win-bar-h) 1fr;
+  background-color: var(--bg);
+  border: var(--win-border);
+  box-shadow: 6px 6px 0 oklch(0 0 0 / 0.45);
+  min-width: 320px;
+  min-height: 200px;
+  max-width: 100vw;
+  animation: var(--animation-fade-in);
+  animation-duration: 120ms;
+}
+
+.win.is-top {
+  border-color: var(--color-theme);
+}
+
+.win.is-max {
+  inset: 0 !important;
+  width: auto !important;
+  height: auto !important;
+  box-shadow: none;
+}
+
+.win-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3xs);
+  padding-inline: var(--space-3xs);
+  background-color: var(--color-surface);
+  border-bottom: var(--win-border);
+  /* Classic title-bar stripes, drawn faint so the type still reads */
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0 3px,
+    oklch(from var(--colour-text-bright) l c h / 0.08) 3px 4px
+  );
+  user-select: none;
+  touch-action: none;
+  cursor: default;
+}
+
+.win.is-top .win-bar {
+  background-color: oklch(from var(--color-theme) l c h / 0.18);
+}
+
+.win-title {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+  font-size: var(--step--2);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-text);
+  background-color: var(--color-surface);
+  padding-inline: var(--space-2xs);
+}
+
+.win.is-top .win-title {
+  background-color: transparent;
+}
+
+.win-btns {
+  display: inline-flex;
+  gap: var(--space-3xs);
+}
+
+.win-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 1.375rem;
+  height: 1.375rem;
+  background-color: var(--color-surface);
+  border: var(--win-border);
+  color: var(--color-text);
+  font-size: var(--step--1);
+  cursor: default;
+  touch-action: auto;
+}
+
+.win-btn:hover {
+  background-color: var(--color-theme);
+  border-color: var(--color-theme);
+  color: var(--bg);
+}
+
+.win-body {
+  overflow: hidden auto;
+  overscroll-behavior: contain;
+  padding: var(--space-md) var(--space-sm) var(--space-xl);
+  scrollbar-color: var(--color-border) transparent;
+}
+
+.win-body .page {
+  container-type: inline-size;
+}
+
+/* Page containers were sized for a full viewport; inside a window, fill it. */
+.win-body .zm-mainContainer,
+.win-body .zm-contentContainer {
+  width: 100%;
+}
+
+/* Home blocks were cards; the window is the card now. */
+.win .win-body .zm-block {
+  --block-radius: 0;
+  --block-bg: transparent;
+  --block-padding: 0;
+}
+
+.win-loading {
+  position: absolute;
+  inset: var(--win-bar-h) 0 0 0;
+  display: grid;
+  place-items: center;
+  font-size: var(--step--1);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  animation: var(--animation-pulse);
+}
+
+.win-resize {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 1rem;
+  height: 1rem;
+  cursor: nwse-resize;
+  touch-action: none;
+  background-image: linear-gradient(
+    135deg,
+    transparent 0 50%,
+    var(--color-border) 50% 60%,
+    transparent 60% 75%,
+    var(--color-border) 75% 85%,
+    transparent 85%
+  );
+}
+
+.win.is-max .win-resize {
+  display: none;
+}
+
+/* Phones: one window at a time, full screen */
+@media (max-width: 767px) {
+  .win {
+    inset: 0 !important;
+    width: auto !important;
+    height: auto !important;
+    min-width: 0;
+    box-shadow: none;
+    border-inline: 0;
+  }
+  .win:not(.is-top),
+  .win-resize,
+  .win-btns {
+    display: none;
+  }
+}
+
+/* ---------- Spotlight ---------- */
+
+.spotlight {
+  --zui-dialog-radius: 0;
+  border-radius: 0;
+  border: 1px var(--border-style) var(--color-theme);
+  box-shadow: 8px 8px 0 oklch(0 0 0 / 0.5);
+  background-color: var(--color-surface);
+  padding: 0;
+  width: min(36rem, 92vw);
+  margin-top: 12vh;
+}
+
+.spotlight-field {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: var(--space-3xs) var(--space-xs);
+  border-bottom: var(--win-border);
+  font-size: var(--step-0);
+}
+
+.spotlight-field .zui-input {
+  --zui-input-radius: 0;
+  flex: 1;
+  border: 0;
+  background: none;
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+}
+
+.spotlight-esc {
+  --zui-btn-radius: 0;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  text-transform: uppercase;
+}
+
+.spotlight-list button {
+  font-size: var(--step--1);
+}
+
+.spotlight-field .zui-input:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.spotlight-list {
+  list-style: none;
+  margin: 0;
+  padding: var(--space-3xs);
+  max-height: 50vh;
+  overflow: auto;
+}
+
+.spotlight-list:empty {
+  display: none;
+}
+
+.spotlight-list button {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-2xs) var(--space-xs);
+  background: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: default;
+}
+
+.spotlight-list button.is-active {
+  background-color: var(--color-theme);
+  color: var(--bg);
+}
+
+.spotlight-title {
+  font-family: var(--font-body);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.spotlight-type {
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  text-transform: uppercase;
+  opacity: 0.7;
+  flex-shrink: 0;
+}

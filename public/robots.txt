@@ -6,6 +6,9 @@ Allow: /
 Disallow: /notes/search
 Disallow: /opengraph/
 Disallow: /scraper-test.html
+# Same pages under another front end; index the plain ones only
+Disallow: /desktop
+Disallow: /tui
 
 # Block common AI training / scraping bots
 User-agent: CCBot

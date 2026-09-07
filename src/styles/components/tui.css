@@ -1,0 +1,375 @@
+/* Terminal mode: a whiptail / raspi-config style text UI. A fixed retro
+   palette, on purpose independent of the site theme. */
+
+html.tui body {
+  overflow: hidden;
+}
+html.tui #page,
+html.tui #greeting,
+html.tui .site-header,
+html.tui footer,
+html.tui #status-banner {
+  display: none;
+}
+
+.tui {
+  --t-blue: #0000a8;
+  --t-face: #b8b8b8;
+  --t-hi: #ededed;
+  --t-lo: #6d6d6d;
+  --t-sel: #0000a8;
+  --t-red: #a80000;
+  --t-amber: #ffb000;
+  position: fixed;
+  inset: 0;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  font-family: var(--font-mono);
+  font-size: clamp(0.78rem, 0.6rem + 0.5vw, 0.95rem);
+  line-height: 1.45;
+  background: #050505;
+  color: #fff;
+  cursor: default;
+}
+
+.tui-bar {
+  display: flex;
+  font: inherit;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: var(--space-2xs) var(--space-sm);
+  background: #000;
+  color: var(--t-amber);
+  min-height: 2.25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tui-crt {
+  position: relative;
+  overflow: auto;
+  background: var(--t-blue);
+  padding: clamp(1rem, 4vw, 3rem) clamp(0.75rem, 4vw, 3rem);
+  text-shadow: 0 0 2px rgb(255 255 255 / 0.15);
+  scrollbar-color: var(--t-face) transparent;
+}
+
+/* faint scanlines for the CRT feel */
+.tui-crt::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgb(0 0 0 / 0.12) 0,
+    rgb(0 0 0 / 0.12) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  mix-blend-mode: multiply;
+}
+@media (prefers-reduced-motion: reduce) {
+  .tui-crt::after {
+    display: none;
+  }
+}
+
+.tui-window {
+  width: min(100%, 60rem);
+  margin: 0 auto;
+  background: var(--t-face);
+  color: #000;
+  border-top: 2px solid var(--t-hi);
+  border-left: 2px solid var(--t-hi);
+  border-right: 2px solid var(--t-lo);
+  border-bottom: 2px solid var(--t-lo);
+  box-shadow: 5px 3px 0 rgb(0 0 0 / 0.45);
+  padding: 0.85rem 1rem 1rem;
+  text-shadow: none;
+}
+
+.tui-title {
+  text-align: center;
+  color: var(--t-red);
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+}
+
+.tui-blurb {
+  margin-bottom: 0.5rem;
+}
+
+.tui-list {
+  margin: 0.25rem 0 0.6rem;
+}
+
+.tui-row {
+  width: 100%;
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  text-align: left;
+  cursor: default;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 3ch;
+  padding: 0.05rem 0.4rem;
+  white-space: nowrap;
+}
+.tui-row .lbl {
+  flex: 0 0 auto;
+}
+.tui-row .hint {
+  margin-left: auto;
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  opacity: 0.55;
+}
+.tui-row.is-sel {
+  background: var(--t-sel);
+  color: #fff;
+}
+.tui-row.is-sel .hint {
+  opacity: 0.8;
+}
+.tui-row .arrow {
+  flex: 0 0 1.5ch;
+  margin-left: 1ch;
+  text-align: right;
+  font-weight: 700;
+}
+
+.tui-input {
+  display: block;
+  width: 100%;
+  margin: 0.25rem 0 0.6rem;
+  padding: 0.1rem 0.4rem;
+  font: inherit;
+  color: #fff;
+  background: var(--t-sel);
+  border: 0;
+  outline: none;
+  caret-color: #fff;
+}
+.tui-input::placeholder {
+  color: rgb(255 255 255 / 0.5);
+}
+
+.tui-note {
+  margin: 0 0 0.5rem;
+  font-style: italic;
+}
+
+.tui-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 2ch;
+  margin-top: 0.5rem;
+}
+.tui-btn {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0 0.3ch;
+  cursor: default;
+}
+.tui-btn.is-default {
+  color: var(--t-red);
+}
+.tui-btn.is-sel {
+  background: var(--t-sel);
+  color: #fff;
+}
+
+/* ---------- Page content inside the box ---------- */
+
+.tui-body {
+  margin: 0.25rem 0 0.6rem;
+  font-family: inherit;
+  color: #000;
+}
+
+/* Everything becomes monochrome text. */
+.tui-body * {
+  font-family: inherit !important;
+  font-size: inherit !important;
+  line-height: inherit !important;
+  color: inherit !important;
+  background: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+  rotate: none !important;
+}
+
+.tui-body h1,
+.tui-body h2,
+.tui-body h3,
+.tui-body h4 {
+  font-weight: 700;
+  margin: 0.8em 0 0.2em;
+}
+.tui-body h1::before,
+.tui-body h2::before,
+.tui-body h3::before {
+  content: "# ";
+}
+.tui-body h2::before {
+  content: "## ";
+}
+.tui-body h3::before {
+  content: "### ";
+}
+
+.tui-body p,
+.tui-body ul,
+.tui-body ol,
+.tui-body pre,
+.tui-body blockquote,
+.tui-body table {
+  margin: 0.4em 0;
+}
+
+.tui-body ul,
+.tui-body ol {
+  padding-left: 3ch;
+}
+
+.tui-body a {
+  color: var(--t-blue) !important;
+  text-decoration: underline;
+  cursor: default;
+}
+.tui-body a.is-sel {
+  background: var(--t-sel) !important;
+  color: #fff !important;
+  text-decoration: none;
+  outline: 2px solid var(--t-sel);
+}
+
+.tui-body pre,
+.tui-body code {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+/* code.css paints code blocks dark with !important; out-specify it. The
+   block sits above the scanline overlay (z-index) so it is a flat, solid
+   pale grey. */
+.tui-body pre,
+.tui-body pre.astro-code {
+  position: relative;
+  z-index: 1;
+  background: var(--t-hi) !important;
+  background-color: var(--t-hi) !important;
+  color: #000 !important;
+  border: 0;
+  padding: 0.5ch 1ch;
+  margin-top: 1.2em;
+}
+.tui-body pre.astro-code code,
+.tui-body pre[data-language]::before {
+  background: none !important;
+  background-color: transparent !important;
+  color: #000 !important;
+}
+.tui-body pre[data-language]::before {
+  position: static !important;
+  display: block;
+  padding: 0 !important;
+  margin-bottom: 0.2em;
+  opacity: 0.6;
+}
+
+.tui-body img,
+.tui-body video,
+.tui-body iframe,
+.tui-body svg {
+  max-width: 24rem;
+  height: auto;
+  filter: grayscale(1) contrast(1.2);
+  image-rendering: pixelated;
+}
+
+.tui-body hr {
+  border: 0;
+  border-top: 1px dashed var(--t-lo);
+}
+
+.tui-body table {
+  border-collapse: collapse;
+}
+.tui-body td,
+.tui-body th {
+  border: 1px solid var(--t-lo);
+  padding: 0 1ch;
+}
+
+/* Icon fonts do not survive the mono override; a text UI has no icons. */
+.tui-body i[class*="ph-"],
+.tui-body .ph {
+  display: none !important;
+}
+
+/* Emoji keep the system emoji font */
+.tui-body .emoji {
+  font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji",
+    sans-serif !important;
+}
+
+/* Form fields inside pages (the notes search): a plain boxed field with a
+   placeholder dark enough to read on the grey box. */
+.tui-body input,
+.tui-body textarea,
+.tui-body select {
+  border: 1px solid var(--t-lo) !important;
+  padding: 0.1rem 0.5ch !important;
+  color: #000 !important;
+}
+.tui-body input::placeholder,
+.tui-body textarea::placeholder {
+  color: #000 !important;
+  opacity: 0.65;
+}
+
+/* Layout wrappers made for the big site: let them flow. */
+.tui-body .zm-mainContainer,
+.tui-body .zm-contentContainer,
+.tui-body .note-main,
+.tui-body .zm-block-grid,
+.tui-body .zm-promoted-grid,
+.tui-body [class*="grid"] {
+  display: block !important;
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.tui-keys {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  justify-content: center;
+  padding: var(--space-2xs) var(--space-sm);
+  background: #000;
+  color: #9a9a9a;
+}
+.tui-keys b {
+  color: #fff;
+  font-weight: 600;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .tui-keys {
+    display: none;
+  }
+}

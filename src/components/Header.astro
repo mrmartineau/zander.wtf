@@ -6,7 +6,7 @@ const pathname = new URL(Astro.request.url).pathname;
 const currentPath = pathname.slice(1); // remove the first "/"
 ---
 
-<header>
+<header class="site-header">
   <BigName />
   <nav>
     <a href="/" class:list={[{ active: pathname === '/' }]}>Home</a>
@@ -109,6 +109,8 @@ const currentPath = pathname.slice(1); // remove the first "/"
 </style>
 
 <script>
+  import { uiMode } from '~/utils/uiMode';
+
   function isFormField(element: EventTarget | null) {
     if (!(element instanceof HTMLElement)) {
       return false;
@@ -128,6 +130,7 @@ const currentPath = pathname.slice(1); // remove the first "/"
   // otherwise go to the search page.
   document.addEventListener('keydown', (event) => {
     if (
+      uiMode() !== 'classic' ||
       event.key !== '/' ||
       event.metaKey ||
       event.ctrlKey ||
