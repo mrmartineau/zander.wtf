@@ -271,7 +271,7 @@ html.tui #status-banner {
   background: var(--t-hi) !important;
   background-color: var(--t-hi) !important;
   color: #000 !important;
-  border: 1px solid var(--t-lo);
+  border: 0;
   padding: 0.5ch 1ch;
   margin-top: 1.2em;
 }
