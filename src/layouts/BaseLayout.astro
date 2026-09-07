@@ -7,6 +7,7 @@ import Footer from '~/components/Footer.astro';
 import Greeting from '~/components/Greeting.astro';
 import Header from '~/components/Header.astro';
 import Desktop from '~/components/solid/desktop/Desktop';
+import Tui from '~/components/solid/tui/Tui';
 import { SITE_FOOTER_ITEMS, SITE_NAV_ITEMS } from '../consts';
 
 const { title, subtitle, image, slug } = Astro.props;
@@ -16,10 +17,11 @@ const { title, subtitle, image, slug } = Astro.props;
   <head>
     <BaseHead title={title} description={subtitle} image={image} slug={slug} />
     <script is:inline>
-      // Keep in sync with UI_MODE_KEY in src/utils/uiMode.ts
-      if (localStorage.getItem('zm:ui') !== 'classic') {
-        document.documentElement.classList.add('desktop');
-      }
+      // Keep in sync with UI_MODE_KEY / UI_MODES in src/utils/uiMode.ts
+      var zmMode = localStorage.getItem('zm:ui');
+      document.documentElement.classList.add(
+        zmMode === 'classic' || zmMode === 'tui' ? zmMode : 'desktop',
+      );
     </script>
   </head>
   <body data-slug={slug}>
@@ -37,5 +39,6 @@ const { title, subtitle, image, slug } = Astro.props;
     </main>
     <Footer />
     <Desktop client:only="solid-js" nav={SITE_NAV_ITEMS} more={SITE_FOOTER_ITEMS} />
+    <Tui client:only="solid-js" nav={SITE_NAV_ITEMS} more={SITE_FOOTER_ITEMS} />
   </body>
 </html>

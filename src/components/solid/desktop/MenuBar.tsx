@@ -51,6 +51,9 @@ export function MenuBar(props: {
           </MenuItem>
           <For each={props.more}>{item}</For>
           <hr class="menu-rule" />
+          <MenuItem onClick={() => setUiMode('tui')}>
+            Switch to terminal
+          </MenuItem>
           <MenuItem onClick={() => setUiMode('classic')}>
             Switch to classic site
           </MenuItem>

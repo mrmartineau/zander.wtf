@@ -30,9 +30,6 @@ const currentPath = pathname.slice(1); // remove the first "/"
       <i class="ph-duotone ph-magnifying-glass" aria-hidden="true"></i>
       <kbd aria-hidden="true">/</kbd>
     </a>
-    <button type="button" class="ui-switch" title="Switch to the desktop">
-      <i class="ph-duotone ph-desktop" aria-hidden="true"></i> Desktop
-    </button>
   </nav>
 </header>
 
@@ -88,22 +85,6 @@ const currentPath = pathname.slice(1); // remove the first "/"
     }
   }
 
-  .ui-switch {
-    font: inherit;
-    letter-spacing: inherit;
-    text-transform: inherit;
-    background: none;
-    border: 0;
-    padding: 0 0.5ex;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-2xs);
-    &:hover {
-      color: var(--colour-accent);
-    }
-  }
-
   .search-link kbd {
     display: none;
   }
@@ -128,11 +109,7 @@ const currentPath = pathname.slice(1); // remove the first "/"
 </style>
 
 <script>
-  import { isDesktop, setUiMode } from '~/utils/uiMode';
-
-  document
-    .querySelector('.ui-switch')
-    ?.addEventListener('click', () => setUiMode('desktop'));
+  import { uiMode } from '~/utils/uiMode';
 
   function isFormField(element: EventTarget | null) {
     if (!(element instanceof HTMLElement)) {
@@ -153,7 +130,7 @@ const currentPath = pathname.slice(1); // remove the first "/"
   // otherwise go to the search page.
   document.addEventListener('keydown', (event) => {
     if (
-      isDesktop() ||
+      uiMode() !== 'classic' ||
       event.key !== '/' ||
       event.metaKey ||
       event.ctrlKey ||

@@ -16,6 +16,7 @@
 @import "components/copy.css";
 @import "components/layout.css";
 @import "components/desktop.css";
+@import "components/tui.css";
 
 @import "utilities/hidden.css";
 

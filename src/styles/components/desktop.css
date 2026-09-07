@@ -31,7 +31,7 @@ html.desktop #status-banner {
   display: none;
 }
 
-html:not(.desktop) #greeting {
+html.classic #greeting {
   margin: 0 auto;
   width: 90%;
   max-width: 1700px;

@@ -3,6 +3,7 @@ import BlockAbout from '~/components/BlockAbout.astro';
 import BlockBlog from '~/components/BlockBlog.astro';
 import BlockLinks from '~/components/BlockLinks.astro';
 import BlockNotes from '~/components/BlockNotes.astro';
+import ModeCard from '~/components/ModeCard.astro';
 import PromotedProjects from '~/components/PromotedProjects.astro';
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import { SITE_METADATA } from '../consts';
@@ -17,10 +18,11 @@ const slug = 'home';
   subtitle={SITE_METADATA[slug].subtitle}
   slug={slug}
 >
-  <div class="zm-mainContainer zm-block-grid">
+  <div class="zm-mainContainer zm-home">
     <section id="projects" data-window="Projects">
       <PromotedProjects />
     </section>
+    <ModeCard />
     <section id="about" data-window="About me">
       <BlockAbout />
     </section>
@@ -37,7 +39,7 @@ const slug = 'home';
 </BaseLayout>
 
 <style>
-  .zm-block-grid {
+  .zm-home {
     display: grid;
     grid-template-columns: 1fr;
     gap: var(--space-l);
@@ -46,6 +48,12 @@ const slug = 'home';
     @media screen and (min-width: 950px) {
       gap: var(--space-2xl);
       grid-template-columns: 1fr 1fr;
+
+      /* Projects and the mode card span the row; the blocks pair up */
+      > #projects,
+      > :global(.zm-modes) {
+        grid-column: 1 / -1;
+      }
     }
   }
 </style>
