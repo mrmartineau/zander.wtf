@@ -261,9 +261,26 @@ html.tui #status-banner {
   white-space: pre-wrap;
   word-break: break-word;
 }
+/* code.css paints code blocks dark with !important; out-specify it */
+.tui-body pre,
+.tui-body pre.astro-code,
+.tui-body pre.astro-code code,
+.tui-body pre[data-language]::before {
+  background: none !important;
+  background-color: transparent !important;
+  color: #000 !important;
+}
 .tui-body pre {
   border: 1px solid var(--t-lo);
   padding: 0.5ch 1ch;
+  margin-top: 1.2em;
+}
+.tui-body pre[data-language]::before {
+  position: static !important;
+  display: block;
+  padding: 0 !important;
+  margin-bottom: 0.2em;
+  opacity: 0.6;
 }
 
 .tui-body img,
@@ -290,9 +307,17 @@ html.tui #status-banner {
   padding: 0 1ch;
 }
 
+/* The code-notes tag sidebar is a long list of links; the menu covers it. */
+.tui-body .note-sidebar-wrapper,
+.tui-body .note-sidebar-toggle {
+  display: none !important;
+}
+
 /* Layout wrappers made for the big site: let them flow. */
 .tui-body .zm-mainContainer,
 .tui-body .zm-contentContainer,
+.tui-body .note-layout,
+.tui-body .note-main,
 .tui-body .zm-block-grid,
 .tui-body .zm-promoted-grid,
 .tui-body [class*="grid"] {
