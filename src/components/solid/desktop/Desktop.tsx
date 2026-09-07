@@ -142,7 +142,10 @@ export default function Desktop(props: { nav: NavItem[]; more: NavItem[] }) {
       <div class="wins">
         <For each={state.wins}>
           {(w) => (
-            <Window win={w} initial={w.id === initialId ? initial : undefined} />
+            <Window
+              win={w}
+              initial={w.id === initialId ? initial : undefined}
+            />
           )}
         </For>
       </div>

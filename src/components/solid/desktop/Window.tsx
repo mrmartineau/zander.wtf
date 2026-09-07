@@ -85,8 +85,10 @@ export function Window(props: { win: Win; initial?: HTMLElement }) {
     }
   };
 
+  const onButton = (e: Event) => !!(e.target as Element).closest('button');
+
   const startMove = (e: PointerEvent) => {
-    if (props.win.max) return;
+    if (props.win.max || onButton(e)) return;
     const { x, y } = props.win;
     drag(e, {
       onMove: (dx, dy) => move(props.win.id, x + dx, Math.max(0, y + dy)),
@@ -122,7 +124,7 @@ export function Window(props: { win: Win; initial?: HTMLElement }) {
       <header
         class="win-bar"
         onPointerDown={startMove}
-        onDblClick={() => toggleMax(props.win.id)}
+        onDblClick={(e) => !onButton(e) && toggleMax(props.win.id)}
       >
         <Show
           when={state.wins.length > 1 && isMobile()}
@@ -146,11 +148,7 @@ export function Window(props: { win: Win; initial?: HTMLElement }) {
             <i class="ph ph-arrow-left" aria-hidden="true" />
           </button>
         </Show>
-        <span
-          class="win-title"
-          ref={title}
-          onPointerEnter={() => glitch(title)}
-        >
+        <span class="win-title" ref={title}>
           {props.win.title}
         </span>
         <span class="win-btns">
