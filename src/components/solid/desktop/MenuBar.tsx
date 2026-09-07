@@ -43,14 +43,6 @@ export function MenuBar(props: {
           Z
         </MenuTrigger>
         <MenuContent>
-          <MenuItem onClick={() => open('/#about', 'About me')}>
-            About me
-          </MenuItem>
-          <MenuItem onClick={() => open('/about', 'About this site')}>
-            About this site
-          </MenuItem>
-          <For each={props.more}>{item}</For>
-          <hr class="menu-rule" />
           <MenuItem onClick={() => setUiMode('tui', topWin()?.url ?? '/')}>
             Switch to terminal
           </MenuItem>
@@ -82,6 +74,15 @@ export function MenuBar(props: {
             Code Notes
           </MenuItem>
           <MenuItem onClick={() => open('/search', 'Search')}>Search</MenuItem>
+        </MenuContent>
+      </Menu>
+
+      <Menu>
+        <MenuTrigger variant="ghost" size="sm">
+          More
+        </MenuTrigger>
+        <MenuContent>
+          <For each={props.more}>{item}</For>
         </MenuContent>
       </Menu>
 

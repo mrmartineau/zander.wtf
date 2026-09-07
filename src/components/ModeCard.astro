@@ -1,23 +1,25 @@
 ---
-// Shown on the website home page: the three ways to view this site. The
-// current one is marked; the others are plain links (see src/utils/uiMode.ts).
+// The three ways to view this site, shown on the website (home page and
+// footer). The current one is marked; the others link to the same page in
+// that front end (see src/utils/uiMode.ts).
+const here = Astro.url.pathname;
 const modes = [
   {
     label: 'Website',
-    href: '/',
+    href: here,
     icon: 'ph-browser',
     blurb: 'The ordinary site. You are here.',
     current: true,
   },
   {
     label: 'Desktop',
-    href: '/desktop/',
+    href: `/desktop${here === '/' ? '/' : here}`,
     icon: 'ph-app-window',
     blurb: 'Windows, a menu bar and Spotlight, like an old Mac.',
   },
   {
     label: 'Terminal',
-    href: '/tui/',
+    href: `/tui${here === '/' ? '/' : here}`,
     icon: 'ph-terminal-window',
     blurb: 'Keyboard only. Arrow keys, Enter and Esc.',
   },
