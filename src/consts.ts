@@ -37,7 +37,7 @@ export const SITE_METADATA: Record<
   },
   now: {
     title: 'Now',
-    subtitle: `What I'm up to now`,
+    subtitle: `Films, TV, books, podcasts…and other things I'm currently enjoying`,
   },
   notes: {
     title: 'Code Notes',
@@ -160,7 +160,8 @@ export const JOBS: Jobs = {
   current: {
     name: 'Available for work',
     url: ABOUT_ME.email,
-    description: 'Taking a break while I look for a new role. If you think I could be a good fit for your team, get in touch.',
+    description:
+      'Taking a break while I look for a new role. If you think I could be a good fit for your team, get in touch.',
   },
   previous: [
     {

@@ -159,6 +159,8 @@ html:not(.desktop) body:not([data-slug="home"]) #greeting {
   --zui-btn-fg: var(--color-text);
   justify-content: space-between;
   width: 100%;
+  /* Same inset for buttons, links and the section label */
+  padding: var(--space-3xs) var(--space-xs);
   font-size: var(--step--2);
   text-align: left;
   white-space: nowrap;
