@@ -130,6 +130,8 @@ html:not(.desktop) body:not([data-slug="home"]) #greeting {
 .menubar .zui-menu-trigger[aria-expanded="true"],
 .menubar-btn:hover,
 .menubar-hire:hover {
+  --zui-btn-fg: var(--bg);
+  --zui-btn-bg: var(--color-theme);
   background-color: var(--color-theme);
   color: var(--bg);
   font-feature-settings: "ss02" 1;
@@ -166,8 +168,12 @@ html:not(.desktop) body:not([data-slug="home"]) #greeting {
   white-space: nowrap;
 }
 
-.menubar .zui-menu-item:hover {
+.menubar .zui-menu-item:hover,
+.menubar .zui-menu-item:focus-visible,
+.menubar .zui-menu-item[data-highlighted] {
   --zui-btn-fg: var(--bg);
+  --zui-btn-bg: var(--color-theme);
+  color: var(--bg);
   background-color: var(--color-theme);
 }
 
