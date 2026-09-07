@@ -261,19 +261,25 @@ html.tui #status-banner {
   white-space: pre-wrap;
   word-break: break-word;
 }
-/* code.css paints code blocks dark with !important; out-specify it */
+/* code.css paints code blocks dark with !important; out-specify it. The
+   block sits above the scanline overlay (z-index) so it is a flat, solid
+   pale grey. */
 .tui-body pre,
-.tui-body pre.astro-code,
+.tui-body pre.astro-code {
+  position: relative;
+  z-index: 1;
+  background: var(--t-hi) !important;
+  background-color: var(--t-hi) !important;
+  color: #000 !important;
+  border: 1px solid var(--t-lo);
+  padding: 0.5ch 1ch;
+  margin-top: 1.2em;
+}
 .tui-body pre.astro-code code,
 .tui-body pre[data-language]::before {
   background: none !important;
   background-color: transparent !important;
   color: #000 !important;
-}
-.tui-body pre {
-  border: 1px solid var(--t-lo);
-  padding: 0.5ch 1ch;
-  margin-top: 1.2em;
 }
 .tui-body pre[data-language]::before {
   position: static !important;
@@ -305,6 +311,18 @@ html.tui #status-banner {
 .tui-body th {
   border: 1px solid var(--t-lo);
   padding: 0 1ch;
+}
+
+/* Icon fonts do not survive the mono override; a text UI has no icons. */
+.tui-body i[class*="ph-"],
+.tui-body .ph {
+  display: none !important;
+}
+
+/* Emoji keep the system emoji font */
+.tui-body .emoji {
+  font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji",
+    sans-serif !important;
 }
 
 /* Form fields inside pages (the notes search): a plain boxed field with a
