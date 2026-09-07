@@ -322,16 +322,9 @@ html.tui #status-banner {
   opacity: 0.65;
 }
 
-/* The code-notes tag sidebar is a long list of links; the menu covers it. */
-.tui-body .note-sidebar-wrapper,
-.tui-body .note-sidebar-toggle {
-  display: none !important;
-}
-
 /* Layout wrappers made for the big site: let them flow. */
 .tui-body .zm-mainContainer,
 .tui-body .zm-contentContainer,
-.tui-body .note-layout,
 .tui-body .note-main,
 .tui-body .zm-block-grid,
 .tui-body .zm-promoted-grid,
