@@ -307,6 +307,21 @@ html.tui #status-banner {
   padding: 0 1ch;
 }
 
+/* Form fields inside pages (the notes search): a plain boxed field with a
+   placeholder dark enough to read on the grey box. */
+.tui-body input,
+.tui-body textarea,
+.tui-body select {
+  border: 1px solid var(--t-lo) !important;
+  padding: 0.1rem 0.5ch !important;
+  color: #000 !important;
+}
+.tui-body input::placeholder,
+.tui-body textarea::placeholder {
+  color: #000 !important;
+  opacity: 0.65;
+}
+
 /* The code-notes tag sidebar is a long list of links; the menu covers it. */
 .tui-body .note-sidebar-wrapper,
 .tui-body .note-sidebar-toggle {
