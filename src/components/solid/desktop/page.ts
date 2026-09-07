@@ -80,3 +80,29 @@ export function isPageLink(a: HTMLAnchorElement) {
   if (/\.[a-z0-9]+$/i.test(url.pathname)) return false; // feeds, files
   return true;
 }
+
+export type Part = {
+  url: string;
+  title: string;
+  node: HTMLElement;
+  size: 'block' | 'wide';
+};
+
+/**
+ * Pages made of `[data-window]` sections (the home page) open as one window
+ * per section. A `#hash` in the URL picks a single section.
+ */
+export function split(main: HTMLElement, url: string): Part[] | null {
+  const sections = [...main.querySelectorAll<HTMLElement>('[data-window]')];
+  if (!sections.length) return null;
+  const path = url.split('#')[0];
+  const hash = url.split('#')[1];
+  return sections
+    .filter((s) => !hash || s.id === hash)
+    .map((s) => ({
+      url: `${path}#${s.id}`,
+      title: s.dataset.window ?? s.id,
+      node: s,
+      size: s.dataset.size === 'wide' ? 'wide' : 'block',
+    }));
+}

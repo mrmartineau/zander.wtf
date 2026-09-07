@@ -5,6 +5,7 @@ import {
   MenuTrigger,
 } from '@mrmartineau/zui/solid';
 import { createSignal, For, onCleanup, Show } from 'solid-js';
+import { setUiMode } from '~/utils/uiMode';
 import { setSound, soundOn } from './sound';
 import { close, closeAll, focus, open, state, tile, topWin } from './store';
 
@@ -47,6 +48,10 @@ export function MenuBar(props: {
             About this site
           </MenuItem>
           <For each={props.more}>{item}</For>
+          <hr class="menu-rule" />
+          <MenuItem onClick={() => setUiMode('classic')}>
+            Switch to classic site
+          </MenuItem>
         </MenuContent>
       </Menu>
 

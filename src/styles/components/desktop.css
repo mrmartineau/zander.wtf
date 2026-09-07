@@ -17,13 +17,53 @@
   --desktop-bg: hsl(214 20% 12%);
 }
 
-/* Before the shell mounts the page renders plainly; once it is adopted into a
-   window it is shown again. */
-.js body {
+/* Desktop mode: the classic header/footer go away, and the page is hidden
+   until the shell adopts it into a window. Classic mode (html without
+   .desktop) shows the greeting on the home page only. */
+.desktop body {
   overflow: hidden;
 }
-.js #page {
+.desktop #page,
+.desktop #greeting:not(.greeting *),
+.desktop .site-header,
+.desktop footer,
+.desktop #status-banner {
   display: none;
+}
+
+html:not(.desktop) #greeting {
+  margin: 0 auto;
+  width: 90%;
+  max-width: 1700px;
+  padding-block-start: 4vh;
+}
+html:not(.desktop) body:not([data-slug="home"]) #greeting {
+  display: none;
+}
+
+/* ---------- Greeting (behind the windows) ---------- */
+
+.greeting {
+  position: absolute;
+  inset: var(--menubar-h) 0 0 0;
+  display: grid;
+  place-items: center;
+  padding: var(--space-lg) var(--space-lg) var(--space-lg) 8rem;
+  text-align: center;
+  user-select: none;
+  /* A full-size layer; only the text itself should catch the pointer */
+  pointer-events: none;
+}
+
+.greeting > * {
+  pointer-events: auto;
+}
+
+@media (max-width: 767px) {
+  .greeting {
+    padding: var(--space-xl) var(--space-sm) 0;
+    align-items: end;
+  }
 }
 
 .nojs-nav {
@@ -62,9 +102,9 @@
   background-color: var(--color-surface);
   border-bottom: var(--win-border);
   z-index: var(--z-9);
-  font-size: var(--step--1);
+  font-size: var(--step--2);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
 }
 
 .menubar .zui-menu-trigger,
@@ -96,7 +136,7 @@
 }
 
 .menu-z .zui-menu-trigger {
-  font-size: var(--step-1);
+  font-size: var(--step-0);
   font-feature-settings: "ss03" 1;
   padding-inline: var(--space-sm);
 }
@@ -119,7 +159,7 @@
   --zui-btn-fg: var(--color-text);
   justify-content: space-between;
   width: 100%;
-  font-size: var(--step--1);
+  font-size: var(--step--2);
   text-align: left;
   white-space: nowrap;
 }
@@ -200,6 +240,12 @@
 .icon i {
   font-size: 2.25rem;
   color: var(--color-theme);
+}
+
+.icon img {
+  width: 2.25rem;
+  height: 2.25rem;
+  image-rendering: pixelated;
 }
 
 .icon:hover {
@@ -343,6 +389,13 @@
   width: 100%;
 }
 
+/* Home blocks were cards; the window is the card now. */
+.win .win-body .zm-block {
+  --block-radius: 0;
+  --block-bg: transparent;
+  --block-padding: 0;
+}
+
 .win-loading {
   position: absolute;
   inset: var(--win-bar-h) 0 0 0;
@@ -410,9 +463,9 @@
   display: flex;
   align-items: center;
   gap: var(--space-2xs);
-  padding: var(--space-2xs) var(--space-xs);
+  padding: var(--space-3xs) var(--space-xs);
   border-bottom: var(--win-border);
-  font-size: var(--step-1);
+  font-size: var(--step-0);
 }
 
 .spotlight-field .zui-input {
@@ -420,10 +473,19 @@
   flex: 1;
   border: 0;
   background: none;
-  font-family: var(--font-headings);
-  font-size: var(--step-1);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+}
+
+.spotlight-esc {
+  --zui-btn-radius: 0;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+}
+
+.spotlight-list button {
+  font-size: var(--step--1);
 }
 
 .spotlight-field .zui-input:focus {

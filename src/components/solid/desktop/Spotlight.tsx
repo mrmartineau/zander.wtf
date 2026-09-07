@@ -1,4 +1,4 @@
-import { Dialog, Input, Kbd } from '@mrmartineau/zui/solid';
+import { Button, Dialog, Input } from '@mrmartineau/zui/solid';
 import { createEffect, createSignal, For, on } from 'solid-js';
 import type { NavItem } from './MenuBar';
 import { play } from './sound';
@@ -106,7 +106,15 @@ export function Spotlight(props: {
           onInput={(e) => setQ(e.currentTarget.value)}
           onKeyDown={onKey}
         />
-        <Kbd>esc</Kbd>
+        <Button
+          variant="ghost"
+          size="xs"
+          class="spotlight-esc"
+          onClick={props.onClose}
+          title="Close (Esc)"
+        >
+          esc
+        </Button>
       </div>
       <ul class="spotlight-list">
         <For each={results()}>

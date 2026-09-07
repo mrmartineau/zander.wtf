@@ -52,22 +52,35 @@ export const topWin = () =>
 
 export const byUrl = (url: string) => state.wins.find((w) => w.url === url);
 
-function defaultRect(n: number) {
+export type Size = 'page' | 'block' | 'wide';
+
+const SIZES: Record<Size, [number, number]> = {
+  page: [960, 0.78],
+  block: [460, 0.62],
+  wide: [720, 0.5],
+};
+
+function defaultRect(n: number, size: Size) {
   const vw = innerWidth;
   const vh = innerHeight - MENUBAR;
-  const w = Math.min(960, vw - 48);
-  const h = Math.min(Math.round(vh * 0.78), vh - 48);
+  const [maxW, ratio] = SIZES[size];
+  const w = Math.min(maxW, vw - 48);
+  const h = Math.min(Math.round(vh * ratio), vh - 48);
   const step = (n % 8) * CASCADE;
-  return {
-    x: Math.max(16, Math.round((vw - w) / 2) + step),
-    y: 16 + step,
-    w,
-    h,
-  };
+  // Pages cascade from the centre; home blocks stack in from the right so
+  // the greeting behind them stays visible.
+  const x =
+    size === 'page' ? Math.round((vw - w) / 2) + step : vw - w - 24 - step;
+  return { x: Math.max(16, x), y: 16 + step, w, h };
 }
 
 /** Open a window for `url`, or focus it if one already shows that URL. */
-export function open(url: string, title = ''): Win {
+export function open(
+  url: string,
+  title = '',
+  content: HTMLElement | null = null,
+  size: Size = 'page',
+): Win {
   const existing = byUrl(url);
   if (existing) {
     focus(existing.id, true);
@@ -78,15 +91,17 @@ export function open(url: string, title = ''): Win {
     id,
     url,
     title: title || url,
-    ...defaultRect(state.wins.length),
+    ...defaultRect(state.wins.length, size),
     z: nextZ(),
     min: false,
     max: false,
-    loading: true,
-    content: null,
+    loading: !content,
+    content,
   };
   setState('wins', (w) => [...w, win]);
+  if (content) remember({ url, title });
   play('open');
+  syncTitle();
   return win;
 }
 
@@ -98,8 +113,9 @@ export function setContent(id: number, title: string, content: HTMLElement) {
 
 const byUrl_ = (id: number) => state.wins.find((w) => w.id === id);
 
-export function close(id: number) {
+export function close(id: number, silent = false) {
   setState('wins', (w) => w.filter((x) => x.id !== id));
+  if (silent) return;
   play('close');
   syncTitle();
 }
@@ -190,7 +206,7 @@ function syncTitle() {
   const top = topWin();
   const url = top?.url ?? '/';
   if (top?.title) document.title = `${top.title} | Zander Martineau`;
-  if (location.pathname + location.search !== url) {
+  if (location.pathname + location.search + location.hash !== url) {
     history.pushState(null, '', url);
   }
 }

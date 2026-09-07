@@ -1,5 +1,5 @@
 import { createEffect, onMount, Show } from 'solid-js';
-import { fetchPage } from './page';
+import { fetchPage, split } from './page';
 import { play } from './sound';
 import {
   close,
@@ -7,6 +7,7 @@ import {
   isMobile,
   minimise,
   move,
+  open,
   resize,
   setContent,
   state,
@@ -47,7 +48,7 @@ function drag(e: PointerEvent, d: Drag) {
   el.addEventListener('pointerup', onUp);
 }
 
-export function Window(props: { win: Win; initial?: HTMLElement }) {
+export function Window(props: { win: Win }) {
   let body!: HTMLDivElement;
   let title!: HTMLSpanElement;
   let lastScroll = 0;
@@ -56,13 +57,17 @@ export function Window(props: { win: Win; initial?: HTMLElement }) {
 
   onMount(async () => {
     glitch(title);
-    if (props.initial) {
-      setContent(props.win.id, props.win.title, props.initial);
-      return;
-    }
+    if (props.win.content) return;
     try {
       const page = await fetchPage(props.win.url);
-      setContent(props.win.id, page.title, page.main);
+      const parts = split(page.main, props.win.url);
+      if (parts) {
+        // This placeholder becomes several windows, one per section.
+        close(props.win.id, true);
+        for (const p of parts) open(p.url, p.title, p.node, p.size);
+      } else {
+        setContent(props.win.id, page.title, page.main);
+      }
       for (const s of page.scripts) document.head.appendChild(s);
     } catch {
       const err = document.createElement('main');
