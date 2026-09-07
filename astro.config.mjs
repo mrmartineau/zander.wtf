@@ -9,10 +9,30 @@ import searchConfig from './search.config.ts';
 
 const commitHash = execSync('git rev-parse --short HEAD').toString();
 
+// Dev stand-in for the /desktop/* and /tui/* rewrites in public/_redirects:
+// serve the plain page, keep the URL. See src/utils/uiMode.ts.
+const uiModeRewrites = {
+  name: 'ui-mode-rewrites',
+  hooks: {
+    'astro:server:setup': ({ server }) => {
+      server.middlewares.use((req, _res, next) => {
+        req.url = req.url.replace(/^\/(desktop|tui)(?=\/|$)/, '') || '/';
+        next();
+      });
+    },
+  },
+};
+
 // https://astro.build/config
 export default defineConfig({
   site: 'https://zander.wtf',
-  integrations: [mdx(), sitemap(), solidJs(), d1Search(searchConfig)],
+  integrations: [
+    mdx(),
+    sitemap(),
+    solidJs(),
+    d1Search(searchConfig),
+    uiModeRewrites,
+  ],
   prefetch: {
     prefetchAll: true,
   },

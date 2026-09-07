@@ -207,6 +207,8 @@ html.tui #status-banner {
   text-shadow: none !important;
   animation: none !important;
   transition: none !important;
+  transform: none !important;
+  rotate: none !important;
 }
 
 .tui-body h1,

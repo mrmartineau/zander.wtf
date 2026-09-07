@@ -1,4 +1,5 @@
 import { createStore, produce } from 'solid-js/store';
+import { modeUrl, stripPrefix } from '~/utils/uiMode';
 import { play } from './sound';
 
 export type Win = {
@@ -208,7 +209,6 @@ function syncTitle() {
   const top = topWin();
   const url = top?.url ?? '/';
   if (top?.title) document.title = `${top.title} | Zander Martineau`;
-  if (location.pathname + location.search + location.hash !== url) {
-    history.pushState(null, '', url);
-  }
+  const here = stripPrefix(location.pathname + location.search + location.hash);
+  if (here !== url) history.pushState(null, '', modeUrl('desktop', url));
 }

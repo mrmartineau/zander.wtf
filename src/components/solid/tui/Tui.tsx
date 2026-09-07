@@ -8,7 +8,10 @@ import {
 } from 'solid-js';
 import { createStore } from 'solid-js/store';
 import {
+  modeUrl,
+  servedPageMatches,
   setUiMode,
+  stripPrefix,
   UI_MODE_LABELS,
   UI_MODES,
   type UiMode,
@@ -45,7 +48,7 @@ type Screen = {
   buttons: string[];
 };
 
-const TITLE = 'zander.wtf — Site Configuration Tool (zander-config)';
+const TITLE = 'zander.wtf · text mode';
 
 export default function Tui(props: { nav: NavItem[]; more: NavItem[] }) {
   if (uiMode() !== 'tui') return null;
@@ -71,6 +74,19 @@ export default function Tui(props: { nav: NavItem[]; more: NavItem[] }) {
         )
       : [];
 
+  const here = () =>
+    stripPrefix(location.pathname + location.search + location.hash);
+  const visit = (url: string) => {
+    if (here() !== url) history.pushState(null, '', modeUrl('tui', url));
+  };
+
+  // Start on the first link in the content, not in a sidebar or nav.
+  const firstContentLink = () =>
+    Math.max(
+      0,
+      links().findIndex((a) => !a.closest('aside, [class*="sidebar"]')),
+    );
+
   const rowCount = () =>
     current()?.kind === 'page' ? links().length : (current()?.rows.length ?? 0);
 
@@ -92,7 +108,8 @@ export default function Tui(props: { nav: NavItem[]; more: NavItem[] }) {
           : m === 'tui'
             ? 'This one'
             : 'The ordinary website',
-      action: () => m !== uiMode() && setUiMode(m as UiMode),
+      action: () =>
+        m !== uiMode() && setUiMode(m as UiMode, current().url ?? '/'),
     })),
     buttons: ['Select', 'Back'],
   });
@@ -159,9 +176,7 @@ export default function Tui(props: { nav: NavItem[]; more: NavItem[] }) {
     setNote('');
     if (s.url) {
       document.title = `${s.title} | Zander Martineau`;
-      if (location.pathname + location.search + location.hash !== s.url) {
-        history.pushState(null, '', s.url);
-      }
+      visit(s.url);
     }
     crt.scrollTop = 0;
   };
@@ -172,10 +187,7 @@ export default function Tui(props: { nav: NavItem[]; more: NavItem[] }) {
     setRow(0);
     setBtn(0);
     setNote('');
-    const url = current().url ?? '/';
-    if (location.pathname + location.search + location.hash !== url) {
-      history.pushState(null, '', url);
-    }
+    visit(current().url ?? '/');
   };
 
   const home = () => {
@@ -183,7 +195,7 @@ export default function Tui(props: { nav: NavItem[]; more: NavItem[] }) {
     setZone('list');
     setRow(0);
     setBtn(0);
-    if (location.pathname !== '/') history.pushState(null, '', '/');
+    visit('/');
     document.title = 'Zander Martineau';
   };
 
@@ -206,8 +218,11 @@ export default function Tui(props: { nav: NavItem[]; more: NavItem[] }) {
         buttons: ['Open', 'Back', 'Main menu'],
       });
       for (const s of page.scripts) document.head.appendChild(s);
-      // Land on the first link if there is one.
-      queueMicrotask(() => setZone(links().length ? 'list' : 'buttons'));
+      // Land on the first content link if there is one.
+      queueMicrotask(() => {
+        setRow(firstContentLink());
+        setZone(links().length ? 'list' : 'buttons');
+      });
     } catch {
       setNote(`Could not load ${label}.`);
     }
@@ -218,13 +233,27 @@ export default function Tui(props: { nav: NavItem[]; more: NavItem[] }) {
     if (s.kind === 'page') {
       const a = links()[row()];
       if (!a) return;
+      const u = new URL(a.href);
+      // Relative links resolve under /tui/…; the page URLs never carry it.
+      const path = stripPrefix(u.pathname + u.search);
+      // Same-page anchor (the filters on /projects): scroll there and move the
+      // highlight to the first link in that section.
+      if (u.hash && path === (s.url ?? '').split('#')[0]) {
+        const target = body.querySelector(u.hash);
+        if (target) {
+          target.scrollIntoView({ block: 'start' });
+          const i = links().findIndex(
+            (l) =>
+              target.contains(l) ||
+              target.compareDocumentPosition(l) &
+                Node.DOCUMENT_POSITION_FOLLOWING,
+          );
+          if (i >= 0) setRow(i);
+        }
+        return;
+      }
       if (isPageLink(a))
-        openUrl(
-          new URL(a.href).pathname +
-            new URL(a.href).search +
-            new URL(a.href).hash,
-          a.textContent?.trim() || a.href,
-        );
+        openUrl(path + u.hash, a.textContent?.trim() || a.href);
       else window.open(a.href, '_blank', 'noopener');
       return;
     }
@@ -384,7 +413,7 @@ export default function Tui(props: { nav: NavItem[]; more: NavItem[] }) {
   });
 
   const onPop = () => {
-    const url = location.pathname + location.search + location.hash;
+    const url = here();
     if (url === '/') home();
     else openUrl(url);
   };
@@ -393,8 +422,12 @@ export default function Tui(props: { nav: NavItem[]; more: NavItem[] }) {
     seedHead();
     setStack([MAIN]);
     const page = document.getElementById('page');
-    const url = location.pathname + location.search + location.hash;
-    if (page && url !== '/') {
+    const url = here();
+    if (page && url !== '/' && !servedPageMatches(url)) {
+      // The host handed us the home page for this URL; fetch the real one.
+      page.remove();
+      openUrl(url);
+    } else if (page && url !== '/') {
       const main = adopt(page);
       const hash = url.split('#')[1];
       const section = hash
@@ -408,7 +441,10 @@ export default function Tui(props: { nav: NavItem[]; more: NavItem[] }) {
         node: section ?? main,
         buttons: ['Open', 'Back', 'Main menu'],
       });
-      queueMicrotask(() => setZone(links().length ? 'list' : 'buttons'));
+      queueMicrotask(() => {
+        setRow(firstContentLink());
+        setZone(links().length ? 'list' : 'buttons');
+      });
     } else if (page) {
       page.remove();
     }

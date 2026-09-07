@@ -17,11 +17,9 @@ const { title, subtitle, image, slug } = Astro.props;
   <head>
     <BaseHead title={title} description={subtitle} image={image} slug={slug} />
     <script is:inline>
-      // Keep in sync with UI_MODE_KEY / UI_MODES in src/utils/uiMode.ts
-      var zmMode = localStorage.getItem('zm:ui');
-      document.documentElement.classList.add(
-        zmMode === 'classic' || zmMode === 'tui' ? zmMode : 'desktop',
-      );
+      // The URL prefix picks the front end. Keep in sync with src/utils/uiMode.ts
+      var zmMode = (location.pathname.match(/^\/(desktop|tui)(?=\/|$)/) || [])[1];
+      document.documentElement.classList.add(zmMode || 'classic');
     </script>
   </head>
   <body data-slug={slug}>

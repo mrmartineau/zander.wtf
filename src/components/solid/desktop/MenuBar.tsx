@@ -51,11 +51,11 @@ export function MenuBar(props: {
           </MenuItem>
           <For each={props.more}>{item}</For>
           <hr class="menu-rule" />
-          <MenuItem onClick={() => setUiMode('tui')}>
+          <MenuItem onClick={() => setUiMode('tui', topWin()?.url ?? '/')}>
             Switch to terminal
           </MenuItem>
-          <MenuItem onClick={() => setUiMode('classic')}>
-            Switch to classic site
+          <MenuItem onClick={() => setUiMode('classic', topWin()?.url ?? '/')}>
+            Switch to the website
           </MenuItem>
         </MenuContent>
       </Menu>

@@ -1,42 +1,60 @@
 ---
-// Shown on the classic home page only: the other two ways to view the site.
+// Shown on the website home page: the three ways to view this site. The
+// current one is marked; the others are plain links (see src/utils/uiMode.ts).
+const modes = [
+  {
+    label: 'Website',
+    href: '/',
+    icon: 'ph-browser',
+    blurb: 'The ordinary site. You are here.',
+    current: true,
+  },
+  {
+    label: 'Desktop',
+    href: '/desktop/',
+    icon: 'ph-app-window',
+    blurb: 'Windows, a menu bar and Spotlight, like an old Mac.',
+  },
+  {
+    label: 'Terminal',
+    href: '/tui/',
+    icon: 'ph-terminal-window',
+    blurb: 'Keyboard only. Arrow keys, Enter and Esc.',
+  },
+];
 ---
 
-<section class="zm-modes" aria-label="Other ways to view this site">
+<section class="zm-modes" aria-label="Ways to view this site">
   <p class="zm-modes-title">This site comes in three flavours.</p>
   <div class="zm-modes-options">
-    <button type="button" class="zm-mode" data-mode="desktop">
-      <i class="ph-duotone ph-app-window" aria-hidden="true"></i>
-      <span>
-        <strong>Desktop mode</strong>
-        Windows, a menu bar and Spotlight, like an old Mac.
-      </span>
-    </button>
-    <button type="button" class="zm-mode" data-mode="tui">
-      <i class="ph-duotone ph-terminal-window" aria-hidden="true"></i>
-      <span>
-        <strong>Terminal mode</strong>
-        Keyboard only. Arrow keys, Enter and Esc.
-      </span>
-    </button>
+    {
+      modes.map((m) =>
+        m.current ? (
+          <div class="zm-mode is-current" aria-current="true">
+            <i class={`ph-duotone ${m.icon}`} aria-hidden="true" />
+            <span>
+              <strong>{m.label}</strong>
+              {m.blurb}
+            </span>
+          </div>
+        ) : (
+          <a class="zm-mode" href={m.href}>
+            <i class={`ph-duotone ${m.icon}`} aria-hidden="true" />
+            <span>
+              <strong>{m.label}</strong>
+              {m.blurb}
+            </span>
+          </a>
+        ),
+      )
+    }
   </div>
 </section>
 
-<script>
-  import { setUiMode, type UiMode } from '~/utils/uiMode';
-
-  for (const button of document.querySelectorAll<HTMLButtonElement>('.zm-mode')) {
-    button.addEventListener('click', () =>
-      setUiMode(button.dataset.mode as UiMode),
-    );
-  }
-</script>
-
 <style>
   .zm-modes {
-    margin-block: var(--space-l);
-    border-block: 1px dashed var(--border);
     padding-block: var(--space-m);
+    border-block: 1px dashed var(--border);
   }
 
   .zm-modes-title {
@@ -52,7 +70,7 @@
     grid-template-columns: 1fr;
 
     @media screen and (min-width: 700px) {
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(3, 1fr);
     }
   }
 
@@ -65,12 +83,15 @@
     color: var(--colour-text);
     border: 1px solid transparent;
     text-align: left;
-    font: inherit;
-    cursor: pointer;
     transition: border-color 150ms ease-in-out;
 
     &:hover {
       border-color: var(--colour-accent);
+    }
+
+    &.is-current {
+      border-color: var(--colour-accent);
+      background-color: transparent;
     }
 
     i {

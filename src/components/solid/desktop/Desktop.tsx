@@ -1,5 +1,5 @@
 import { createSignal, For, onCleanup, onMount } from 'solid-js';
-import { isDesktop } from '~/utils/uiMode';
+import { isDesktop, servedPageMatches, stripPrefix } from '~/utils/uiMode';
 import { MenuBar, type NavItem } from './MenuBar';
 import { adopt, cleanTitle, isPageLink, seedHead, split } from './page';
 import { Spotlight } from './Spotlight';
@@ -36,13 +36,21 @@ export default function Desktop(props: { nav: NavItem[]; more: NavItem[] }) {
   const page = document.getElementById('page');
   if (page) {
     seedHead();
-    const url = location.pathname + location.search + location.hash;
-    const main = adopt(page);
-    const parts = split(main, url);
-    if (parts) {
-      for (const p of parts) open(p.url, p.title, p.node);
+    const url = stripPrefix(
+      location.pathname + location.search + location.hash,
+    );
+    if (!servedPageMatches(url)) {
+      // The host handed us the home page for this URL; fetch the real one.
+      page.remove();
+      open(url);
     } else {
-      open(url, cleanTitle(document.title), main);
+      const main = adopt(page);
+      const parts = split(main, url);
+      if (parts) {
+        for (const p of parts) open(p.url, p.title, p.node);
+      } else {
+        open(url, cleanTitle(document.title), main);
+      }
     }
   }
 
@@ -52,8 +60,10 @@ export default function Desktop(props: { nav: NavItem[]; more: NavItem[] }) {
     const a = (e.target as Element).closest('a');
     if (!a || !isPageLink(a)) return;
     const url = new URL(a.href);
+    // Relative links resolve under /desktop/…; window URLs never carry it.
+    const path = stripPrefix(url.pathname + url.search);
     // Same-page anchors scroll inside the window they live in.
-    if (url.hash && url.pathname + url.search === topWin()?.url) {
+    if (url.hash && path === topWin()?.url) {
       e.preventDefault();
       a.closest('.win-body')
         ?.querySelector(url.hash)
@@ -61,7 +71,7 @@ export default function Desktop(props: { nav: NavItem[]; more: NavItem[] }) {
       return;
     }
     e.preventDefault();
-    open(url.pathname + url.search, a.textContent?.trim() || url.pathname);
+    open(path, a.textContent?.trim() || path);
   };
 
   // GET forms (the search page) open their results in a window too.
@@ -92,7 +102,8 @@ export default function Desktop(props: { nav: NavItem[]; more: NavItem[] }) {
     }
   };
 
-  const onPop = () => open(location.pathname + location.search + location.hash);
+  const onPop = () =>
+    open(stripPrefix(location.pathname + location.search + location.hash));
 
   onMount(() => {
     document.addEventListener('click', onClick);
