@@ -2,7 +2,7 @@
 slug: 2026-09-08-shotframe
 title: shotframe
 subtitle: 'A small CLI that turns raw simulator captures into App Store screenshots: a device frame, a heading and a line of copy, at exactly the size the store wants.'
-date: 2026-09-08
+date: 2026-08-22
 worklog: true
 tags:
   - ios
