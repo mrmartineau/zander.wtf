@@ -37,7 +37,7 @@ html.classic #greeting {
   max-width: 1700px;
   padding-block-start: 4vh;
 }
-html:not(.desktop) body:not([data-slug="home"]) #greeting {
+html:not(.desktop) body:not([data-slug='home']) #greeting {
   display: none;
 }
 
@@ -127,19 +127,19 @@ html:not(.desktop) body:not([data-slug="home"]) #greeting {
 }
 
 .menubar .zui-menu-trigger:hover,
-.menubar .zui-menu-trigger[aria-expanded="true"],
+.menubar .zui-menu-trigger[aria-expanded='true'],
 .menubar-btn:hover,
 .menubar-hire:hover {
   --zui-btn-fg: var(--bg);
   --zui-btn-bg: var(--color-theme);
   background-color: var(--color-theme);
   color: var(--bg);
-  font-feature-settings: "ss02" 1;
+  font-feature-settings: 'ss02' 1;
 }
 
 .menu-z .zui-menu-trigger {
   font-size: var(--step-0);
-  font-feature-settings: "ss03" 1;
+  font-feature-settings: 'ss03' 1;
   padding-inline: var(--space-sm);
 }
 
@@ -265,10 +265,10 @@ html:not(.desktop) body:not([data-slug="home"]) #greeting {
 }
 
 .icon:hover {
-  font-feature-settings: "ss02" 1;
+  font-feature-settings: 'ss02' 1;
 }
 
-.icon[aria-pressed="true"] {
+.icon[aria-pressed='true'] {
   background-color: oklch(from var(--color-theme) l c h / 0.2);
   border-color: var(--color-theme);
 }
@@ -478,6 +478,8 @@ html:not(.desktop) body:not([data-slug="home"]) #greeting {
 
 .files .icon span {
   overflow-wrap: anywhere;
+  font-size: var(--step--4);
+  font-family: var(--font-mono);
 }
 
 .file-image {
