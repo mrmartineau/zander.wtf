@@ -70,7 +70,7 @@ export function openFile(f: File) {
   } else {
     const pre = document.createElement('pre');
     pre.textContent = f.text ?? 'Loading…';
-    node.append(pre);
+    node.appendChild(pre);
     if (f.url) {
       fetch(f.url)
         .then((r) => r.text())
