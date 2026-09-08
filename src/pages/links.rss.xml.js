@@ -6,7 +6,7 @@ export const GET = async (context) => {
   try {
     links = await fetchLinks(50);
   } catch (_err) {
-    links = []
+    links = [];
   }
 
   return rss({

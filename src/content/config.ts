@@ -12,6 +12,10 @@ const blog = defineCollection({
     // Worklog entries live in blog/worklog/ and render in full on the /blog
     // listing rather than as a title-only row.
     worklog: z.boolean().optional().default(false),
+    // Hidden from production builds, the feeds and the OG images; still
+    // renders in dev so it can be previewed. Keep drafts in blog/_drafts/
+    // too: the search indexer skips by directory, not frontmatter.
+    draft: z.boolean().optional().default(false),
   }),
 });
 

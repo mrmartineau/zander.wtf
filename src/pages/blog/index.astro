@@ -1,10 +1,10 @@
 ---
-import { getCollection } from 'astro:content';
 import { SITE_METADATA } from 'src/consts';
 import BlogList from '~/components/BlogList.astro';
 import ContentLayout from '~/layouts/ContentLayout.astro';
+import { getBlog } from '~/utils/blog';
 
-const posts = (await getCollection('blog')).sort(
+const posts = (await getBlog()).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
 );
 const slug = 'blog';

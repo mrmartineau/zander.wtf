@@ -1,12 +1,12 @@
-import { getCollection } from 'astro:content';
 import rss from '@astrojs/rss';
 import MarkdownIt from 'markdown-it';
 import sanitizeHtml from 'sanitize-html';
+import { getBlog } from '~/utils/blog';
 
 const parser = new MarkdownIt();
 
 export const GET = async (context) => {
-  const posts = (await getCollection('blog', ({ data }) => data.worklog)).sort(
+  const posts = (await getBlog(({ data }) => data.worklog)).sort(
     (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
   );
 

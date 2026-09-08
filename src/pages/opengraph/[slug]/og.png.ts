@@ -4,6 +4,7 @@ import { resolve } from 'node:path';
 import { initWasm, Resvg } from '@resvg/resvg-wasm';
 import satori from 'satori';
 import { SITE_METADATA } from 'src/consts';
+import { getBlog } from '~/utils/blog';
 
 export const prerender = true;
 
@@ -206,7 +207,7 @@ export const GET = async ({ props }: Props) => {
 };
 
 export async function getStaticPaths() {
-  const blogPosts = await getCollection('blog');
+  const blogPosts = await getBlog();
   const projects = await getCollection('projects');
   const otherPages = Object.keys(SITE_METADATA).map((item) => {
     return {

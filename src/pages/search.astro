@@ -10,6 +10,7 @@ import NoteListBlock from '~/components/NoteListBlock.astro';
 import NoteTag from '~/components/NoteTag.astro';
 import SearchForm from '~/components/SearchForm.astro';
 import ContentLayout from '~/layouts/ContentLayout.astro';
+import { getBlog } from '~/utils/blog';
 import {
   SEARCH_TYPES,
   type SearchResult,
@@ -57,7 +58,7 @@ const filterUrl = (t?: SearchType) => {
 const hasQuery = query.length >= 2;
 const latestPosts = hasQuery
   ? []
-  : (await getCollection('blog'))
+  : (await getBlog())
       .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
       .slice(0, 2);
 const latestNotes = hasQuery

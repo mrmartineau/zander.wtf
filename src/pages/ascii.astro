@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import { getBlog } from '~/utils/blog';
 import { ABOUT_ME, JOBS, SITE_FOOTER_ITEMS } from '../consts';
 import { fetchLinks } from '../fetching/links';
 import {
@@ -16,7 +17,7 @@ import {
 
 // ── Fetch data ────────────────────────────────────────────
 
-const posts = (await getCollection('blog'))
+const posts = (await getBlog())
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, 5);
 
