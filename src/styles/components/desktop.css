@@ -302,6 +302,8 @@ html:not(.desktop) body:not([data-slug="home"]) #greeting {
   position: absolute;
   display: grid;
   grid-template-rows: var(--win-bar-h) 1fr;
+  /* Never let a long title or wide content grow the window */
+  grid-template-columns: minmax(0, 1fr);
   background-color: var(--bg);
   border: var(--win-border);
   box-shadow: 6px 6px 0 oklch(0 0 0 / 0.45);
@@ -325,6 +327,7 @@ html:not(.desktop) body:not([data-slug="home"]) #greeting {
 
 .win-bar {
   display: flex;
+  min-width: 0;
   align-items: center;
   gap: var(--space-3xs);
   padding-inline: var(--space-3xs);
@@ -460,6 +463,55 @@ html:not(.desktop) body:not([data-slug="home"]) #greeting {
   .win-btns {
     display: none;
   }
+}
+
+/* ---------- Files ---------- */
+
+.files {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 5.5rem);
+  gap: var(--space-xs);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.files .icon span {
+  overflow-wrap: anywhere;
+}
+
+.file-image {
+  display: grid;
+  place-items: center;
+  height: 100%;
+}
+
+.file-image img {
+  max-width: 100%;
+  max-height: 100%;
+  image-rendering: pixelated;
+}
+
+.file-pdf {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  gap: var(--space-xs);
+  height: 100%;
+}
+
+.file-pdf iframe {
+  width: 100%;
+  height: 100%;
+  min-height: 24rem;
+  border: var(--win-border);
+  background: #fff;
+}
+
+.file-text pre {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 
 /* ---------- Spotlight ---------- */

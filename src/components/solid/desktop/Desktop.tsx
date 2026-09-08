@@ -1,5 +1,6 @@
 import { createSignal, For, onCleanup, onMount } from 'solid-js';
 import { isDesktop, servedPageMatches, stripPrefix } from '~/utils/uiMode';
+import { openFolder } from './Files';
 import { MenuBar, type NavItem } from './MenuBar';
 import { adopt, cleanTitle, isPageLink, seedHead, split } from './page';
 import { Spotlight } from './Spotlight';
@@ -7,8 +8,14 @@ import { play } from './sound';
 import { close, isMobile, open, type Size, state, tile, topWin } from './store';
 import { Window } from './Window';
 
-/** `size` overrides the window size the URL would otherwise get. */
-type Icon = NavItem & { icon: string; img?: string; size?: Size };
+/** `size` overrides the window size the URL would otherwise get; `action`
+ * replaces opening the URL. */
+type Icon = NavItem & {
+  icon: string;
+  img?: string;
+  size?: Size;
+  action?: () => void;
+};
 
 const ICONS: Icon[] = [
   { text: 'Blog', url: '/blog', icon: 'ph-article' },
@@ -23,6 +30,7 @@ const ICONS: Icon[] = [
     img: '/images/avatars/zm-avatar-08-2026.webp',
   },
   { text: 'CV', url: '/cv', icon: 'ph-file-text' },
+  { text: 'Files', url: '/#folder', icon: 'ph-folder', action: openFolder },
 ];
 
 export default function Desktop(props: { nav: NavItem[]; more: NavItem[] }) {
@@ -119,7 +127,8 @@ export default function Desktop(props: { nav: NavItem[]; more: NavItem[] }) {
   });
 
   const launch = (i: Icon) => {
-    open(i.url, i.text, null, i.size);
+    if (i.action) i.action();
+    else open(i.url, i.text, null, i.size);
     setSelected('');
   };
 
@@ -174,7 +183,7 @@ export default function Desktop(props: { nav: NavItem[]; more: NavItem[] }) {
       <Spotlight
         open={search()}
         onClose={() => setSearch(false)}
-        apps={ICONS}
+        apps={ICONS.filter((i) => !i.action)}
       />
     </div>
   );
