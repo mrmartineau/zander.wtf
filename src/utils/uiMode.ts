@@ -2,25 +2,28 @@
 //   /cv          the website (classic)
 //   /desktop/cv  the desktop shell
 //   /tui/cv      the terminal UI
+//   /txt/cv      plain text: the page with no stylesheets at all
 // The host rewrites /desktop/* and /tui/* to the same HTML (public/_redirects;
 // src/middleware.ts does it in dev). An inline script in BaseLayout reads the
 // prefix before first paint and sets `html.desktop|tui|classic`.
-export const UI_MODES = ['desktop', 'tui', 'classic'] as const;
+export const UI_MODES = ['desktop', 'tui', 'txt', 'classic'] as const;
 export type UiMode = (typeof UI_MODES)[number];
 
 export const UI_MODE_LABELS: Record<UiMode, string> = {
   desktop: 'Desktop',
   tui: 'Terminal',
+  txt: 'Plain text',
   classic: 'Website',
 };
 
 export const UI_PREFIX: Record<UiMode, string> = {
   desktop: '/desktop',
   tui: '/tui',
+  txt: '/txt',
   classic: '',
 };
 
-const PREFIX_RE = /^\/(desktop|tui)(?=\/|$)/;
+const PREFIX_RE = /^\/(desktop|tui|txt)(?=\/|$)/;
 
 /** Mode named by a path: `/tui/cv` → `tui`, `/cv` → `classic`. */
 export const modeFromPath = (path: string): UiMode =>

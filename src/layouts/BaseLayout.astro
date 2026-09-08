@@ -18,8 +18,36 @@ const { title, subtitle, image, slug } = Astro.props;
     <BaseHead title={title} description={subtitle} image={image} slug={slug} />
     <script is:inline>
       // The URL prefix picks the front end. Keep in sync with src/utils/uiMode.ts
-      var zmMode = (location.pathname.match(/^\/(desktop|tui)(?=\/|$)/) || [])[1];
+      var zmMode = (location.pathname.match(/^\/(desktop|tui|txt)(?=\/|$)/) || [])[1];
       document.documentElement.classList.add(zmMode || 'classic');
+      if (zmMode === 'txt') {
+        // Plain text: no stylesheets, ever — the browser's own styles only.
+        var zmStrip = function (root) {
+          root.querySelectorAll('link[rel="stylesheet"], style').forEach(function (el) {
+            el.remove();
+          });
+        };
+        zmStrip(document);
+        new MutationObserver(function (records) {
+          records.forEach(function (r) {
+            r.addedNodes.forEach(function (n) {
+              if (n.nodeType !== 1) return;
+              if (n.matches('link[rel="stylesheet"], style')) n.remove();
+              else zmStrip(n);
+            });
+          });
+        }).observe(document.documentElement, { childList: true, subtree: true });
+        document.addEventListener('DOMContentLoaded', function () {
+          // The greeting belongs to the home page only
+          if (document.body.dataset.slug !== 'home') document.getElementById('greeting')?.remove();
+          // Stay in plain text: site links get the prefix
+          document.querySelectorAll('a[href^="/"]').forEach(function (a) {
+            var href = a.getAttribute('href');
+            if (/^\/(desktop|tui|txt)(\/|$)/.test(href) || /\.[a-z0-9]+$/i.test(href.split(/[?#]/)[0])) return;
+            a.setAttribute('href', '/txt' + (href === '/' ? '/' : href));
+          });
+        });
+      }
     </script>
   </head>
   <body data-slug={slug}>

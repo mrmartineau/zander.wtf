@@ -9,6 +9,7 @@ Disallow: /scraper-test.html
 # Same pages under another front end; index the plain ones only
 Disallow: /desktop
 Disallow: /tui
+Disallow: /txt
 
 # Block common AI training / scraping bots
 User-agent: CCBot

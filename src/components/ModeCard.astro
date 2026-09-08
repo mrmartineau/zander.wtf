@@ -23,11 +23,17 @@ const modes = [
     icon: 'ph-terminal-window',
     blurb: 'Keyboard only. Arrow keys, Enter and Esc.',
   },
+  {
+    label: 'Plain text',
+    href: `/txt${here === '/' ? '/' : here}`,
+    icon: 'ph-text-aa',
+    blurb: 'No stylesheets. Just the browser defaults.',
+  },
 ];
 ---
 
 <section class="zm-modes" aria-label="Ways to view this site">
-  <p class="zm-modes-title">This site comes in three flavours.</p>
+  <p class="zm-modes-title">This site comes in four flavours.</p>
   <div class="zm-modes-options">
     {
       modes.map((m) =>
@@ -72,7 +78,10 @@ const modes = [
     grid-template-columns: 1fr;
 
     @media screen and (min-width: 700px) {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @media screen and (min-width: 1100px) {
+      grid-template-columns: repeat(4, 1fr);
     }
   }
 

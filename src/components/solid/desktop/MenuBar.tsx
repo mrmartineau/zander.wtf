@@ -62,6 +62,9 @@ export function MenuBar(props: {
           <MenuItem onClick={() => setUiMode('tui', topWin()?.url ?? '/')}>
             Switch to terminal
           </MenuItem>
+          <MenuItem onClick={() => setUiMode('txt', topWin()?.url ?? '/')}>
+            Switch to plain text
+          </MenuItem>
           <MenuItem onClick={() => setUiMode('classic', topWin()?.url ?? '/')}>
             Switch to the website
           </MenuItem>

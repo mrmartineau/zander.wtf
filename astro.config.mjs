@@ -16,7 +16,7 @@ const uiModeRewrites = {
   hooks: {
     'astro:server:setup': ({ server }) => {
       server.middlewares.use((req, _res, next) => {
-        req.url = req.url.replace(/^\/(desktop|tui)(?=\/|$)/, '') || '/';
+        req.url = req.url.replace(/^\/(desktop|tui|txt)(?=\/|$)/, '') || '/';
         next();
       });
     },

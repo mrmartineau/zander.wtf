@@ -11,3 +11,6 @@
 /tui / 200
 /tui/ / 200
 /tui/* /:splat/ 200
+/txt / 200
+/txt/ / 200
+/txt/* /:splat/ 200

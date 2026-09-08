@@ -162,7 +162,10 @@ export default function Desktop(props: { nav: NavItem[]; more: NavItem[] }) {
         </For>
       </ul>
 
-      <div class="greeting" ref={(el) => greeting && el.appendChild(greeting)} />
+      <div
+        class="greeting"
+        ref={(el) => greeting && el.appendChild(greeting)}
+      />
 
       <div class="wins">
         <For each={state.wins}>{(w) => <Window win={w} />}</For>

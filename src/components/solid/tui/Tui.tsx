@@ -107,7 +107,9 @@ export default function Tui(props: { nav: NavItem[]; more: NavItem[] }) {
           ? 'Windows, menu bar, Spotlight'
           : m === 'tui'
             ? 'This one'
-            : 'The ordinary website',
+            : m === 'txt'
+              ? 'No stylesheets at all'
+              : 'The ordinary website',
       action: () =>
         m !== uiMode() && setUiMode(m as UiMode, current().url ?? '/'),
     })),
