@@ -9,27 +9,34 @@ const currentPath = pathname.slice(1); // remove the first "/"
 <header class="site-header">
   <BigName />
   <nav>
-    <a href="/" class:list={[{ active: pathname === '/' }]}>Home</a>
-    {
-      SITE_NAV_ITEMS.map((item) => {
-        const itemPath = item.url.slice(1);
-        const isActive = currentPath.startsWith(itemPath);
-        return (
-          <a href={item.url} class:list={[{ active: isActive }]}>
-            {item.text}
-          </a>
-        );
-      })
-    }
-    <a
-      href="/search"
-      class:list={['search-link', { active: currentPath.startsWith('search') }]}
-      aria-label="Search"
-      title="Search (press / anywhere)"
-    >
-      <i class="ph-duotone ph-magnifying-glass" aria-hidden="true"></i>
-      <kbd aria-hidden="true">/</kbd>
-    </a>
+    <ul>
+      <li><a href="/" class:list={[{ active: pathname === '/' }]}>Home</a></li>
+      {
+        SITE_NAV_ITEMS.map((item) => {
+          const itemPath = item.url.slice(1);
+          const isActive = currentPath.startsWith(itemPath);
+          return (
+            <li>
+              <a href={item.url} class:list={[{ active: isActive }]}>
+                {item.text}
+              </a>
+            </li>
+          );
+        })
+      }
+      <li>
+        <a
+          href="/search"
+          class:list={['search-link', { active: currentPath.startsWith('search') }]}
+          aria-label="Search"
+          title="Search (press / anywhere)"
+        >
+          <i class="ph-duotone ph-magnifying-glass" aria-hidden="true"></i>
+          <span class="sr-only">Search</span>
+          <kbd aria-hidden="true">/</kbd>
+        </a>
+      </li>
+    </ul>
   </nav>
 </header>
 
@@ -40,7 +47,7 @@ const currentPath = pathname.slice(1); // remove the first "/"
     color: var(--colour-text-bright);
   }
 
-  nav {
+  nav ul {
     display: flex;
     align-items: center;
     justify-content: space-around;
@@ -48,6 +55,8 @@ const currentPath = pathname.slice(1); // remove the first "/"
     margin-top: 2vh;
     margin-top: 2dvh;
     row-gap: 1vh;
+    list-style: none;
+    padding: 0;
   }
   a {
     position: relative;

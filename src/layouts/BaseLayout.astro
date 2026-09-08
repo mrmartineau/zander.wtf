@@ -40,6 +40,8 @@ const { title, subtitle, image, slug } = Astro.props;
         document.addEventListener('DOMContentLoaded', function () {
           // The greeting belongs to the home page only
           if (document.body.dataset.slug !== 'home') document.getElementById('greeting')?.remove();
+          // The big name is a full-width SVG; without CSS it swallows the page
+          document.querySelectorAll('.zm-bigname').forEach(function (el) { el.remove(); });
           // Stay in plain text: site links get the prefix
           document.querySelectorAll('a[href^="/"]').forEach(function (a) {
             var href = a.getAttribute('href');

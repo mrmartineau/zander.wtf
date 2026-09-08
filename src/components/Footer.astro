@@ -11,18 +11,22 @@ const today = new Date();
 
 <footer class="zm-contentContainer">
   <div class="grid gap-l">
-    <nav class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2xs">
-      {
-        SITE_FOOTER_ITEMS.map((item) => {
-          return (
-            <a href={item.url} rel={item.rel}>
-              {item.text}
-              {item.external ? <i class="ph-duotone ph-arrow-up-right" /> : null}
-            </a>
-          );
-        })
-      }
-      <a href="/ascii">ASCII mode <i class="ph-duotone ph-terminal" /></a>
+    <nav>
+      <ul class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2xs">
+        {
+          SITE_FOOTER_ITEMS.map((item) => {
+            return (
+              <li>
+                <a href={item.url} rel={item.rel}>
+                  {item.text}
+                  {item.external ? <i class="ph-duotone ph-arrow-up-right" /> : null}
+                </a>
+              </li>
+            );
+          })
+        }
+        <li><a href="/ascii">ASCII mode <i class="ph-duotone ph-terminal" /></a></li>
+      </ul>
     </nav>
     <div>
       <p>
