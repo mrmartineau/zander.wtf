@@ -48,6 +48,27 @@ const { title, subtitle, image, slug } = Astro.props;
             if (/^\/(desktop|tui|txt)(\/|$)/.test(href) || /\.[a-z0-9]+$/i.test(href.split(/[?#]/)[0])) return;
             a.setAttribute('href', '/txt' + (href === '/' ? '/' : href));
           });
+          // The mode card was built for the website; here, plain text is
+          // current and the website is a link back
+          var plain = location.pathname.replace(/^\/txt(?=\/|$)/, '') || '/';
+          document.querySelectorAll('.zm-modes').forEach(function (card) {
+            var site = card.querySelector('.zm-mode.is-current');
+            var txt = card.querySelector('a.zm-mode[href^="/txt"]');
+            var here = card.querySelector('.zm-mode-here');
+            if (!site || !txt) return;
+            var link = document.createElement('a');
+            link.className = 'zm-mode';
+            link.href = plain;
+            link.innerHTML = site.innerHTML;
+            link.querySelector('.zm-mode-here')?.remove();
+            site.replaceWith(link);
+            var current = document.createElement('div');
+            current.className = 'zm-mode is-current';
+            current.setAttribute('aria-current', 'true');
+            current.innerHTML = txt.innerHTML;
+            if (here) current.querySelector('div, span').append(here);
+            txt.replaceWith(current);
+          });
         });
       }
     </script>

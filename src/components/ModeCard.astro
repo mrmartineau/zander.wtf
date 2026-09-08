@@ -44,15 +44,16 @@ const modes = [
               <div>
                 <strong>{m.label}</strong>
                 <span>{m.blurb}</span>
+                <span class="zm-mode-here"> You are here.</span>
               </div>
             </div>
           ) : (
             <a class="zm-mode" href={m.href}>
               <i class={`ph-duotone ${m.icon}`} aria-hidden="true" />
-              <span>
+              <div>
                 <strong>{m.label}</strong>
                 <span>{m.blurb}</span>
-              </span>
+              </div>
             </a>
           )}
         </li>
