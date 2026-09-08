@@ -34,17 +34,17 @@ const modes = [
         m.current ? (
           <div class="zm-mode is-current" aria-current="true">
             <i class={`ph-duotone ${m.icon}`} aria-hidden="true" />
-            <span>
+            <div>
               <strong>{m.label}</strong>
-              {m.blurb}
-            </span>
+              <span>{m.blurb}</span>
+            </div>
           </div>
         ) : (
           <a class="zm-mode" href={m.href}>
             <i class={`ph-duotone ${m.icon}`} aria-hidden="true" />
             <span>
               <strong>{m.label}</strong>
-              {m.blurb}
+              <span>{m.blurb}</span>
             </span>
           </a>
         ),
@@ -78,7 +78,7 @@ const modes = [
 
   .zm-mode {
     display: flex;
-    align-items: center;
+    align-items: start;
     gap: var(--space-s);
     padding: var(--space-s) var(--space-m);
     background-color: var(--bg-block);
@@ -97,7 +97,7 @@ const modes = [
     }
 
     i {
-      font-size: var(--step-4);
+      font-size: var(--step-2);
       color: var(--colour-accent);
       flex-shrink: 0;
     }
@@ -106,6 +106,12 @@ const modes = [
       display: block;
       font-family: var(--font-headings);
       color: var(--colour-text-bright);
+      font-size: var(--step--1);
+    }
+
+    span {
+      font-family: var(--font-body);
+      font-size: var(--step--2);
     }
   }
 </style>
