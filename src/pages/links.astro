@@ -7,8 +7,10 @@ import { type Bookmark, fetchLinks } from '../fetching/links';
 let links: Bookmark[];
 try {
   links = await fetchLinks();
-} catch (_err) {
-  links = []
+  console.log(`[links] fetched ${links.length} bookmarks`);
+} catch (err) {
+  console.warn('[links] fetchLinks threw; rendering an empty page', err);
+  links = [];
 }
 const slug = 'links';
 ---
