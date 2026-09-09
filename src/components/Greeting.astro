@@ -5,7 +5,13 @@
 // The intro is rendered a letter at a time so each glyph is its own hover
 // target. `name` marks the segment that carries the accent styling + avatar;
 // `rotates` marks the slot that cycles through ROTATING_WORDS.
-const ROTATING_WORDS = ['web things', 'iOS apps'];
+const ROTATING_WORDS = [
+  'web apps',
+  'iOS apps',
+  'design systems',
+  'npm packages',
+  'Raycast extensions',
+];
 
 const introSegments = [
   { text: 'Hi! I’m ' },
@@ -52,6 +58,14 @@ const toLetters = (text: string) => [...text];
 
   const rotator = document.querySelector<HTMLElement>('.rotator');
   const words: string[] = JSON.parse(rotator?.dataset.words ?? '[]');
+
+  // Shuffle every word after the first (Fisher-Yates). words[0] is already
+  // on screen, so it stays put and the rest cycle in a random order.
+  for (let i = words.length - 1; i > 1; i--) {
+    const j = 1 + Math.floor(Math.random() * i);
+    [words[i], words[j]] = [words[j], words[i]];
+  }
+
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   if (rotator && words.length > 1) {

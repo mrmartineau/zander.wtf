@@ -13,7 +13,7 @@ export const SITE_METADATA: Record<
     title: 'Blog',
     ogTitle: 'My blog',
     subtitle:
-      'Thoughts, ramblings and ideas, plus my worklog. Mostly related to web development',
+      'Writing about web development, AI tools, self-hosting and side projects, with a worklog of what I have shipped in between',
   },
   about: {
     title: 'About',
