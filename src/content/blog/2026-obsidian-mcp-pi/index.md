@@ -29,7 +29,16 @@ That now works. The pieces are a Raspberry Pi that already runs my home NAS, the
 
 I did, and I still do. But Claude Code needs a laptop, a terminal and the vault folder. The Claude app on my phone can't see a folder on my Mac. What it *can* see is a remote MCP server with a URL, as long as that URL is reachable from Anthropic's side and speaks OAuth.
 
-So the job became: get a copy of the vault somewhere that's always on, put an MCP server in front of it, and make the login boring and safe. The Pi was already on, already running Docker, already on my [Tailscale](https://tailscale.com) network. Done deal.
+I went round the houses before landing on that. Every time I asked Claude or Codex how to get at my notes from the phone, I got one of the same few answers, and I didn't like any of them:
+
+- **Leave the laptop open.** Run something on the Mac and keep it awake so the phone can reach it. No. The laptop goes in a bag.
+- **Use Claude Code's remote connection.** Start a session on the Mac, drive it from the Claude app. Same problem, plus I'm now steering a coding agent when all I want is to look something up in a note.
+- **Ditch Obsidian Sync for Git.** Sync the vault as a repo, then let Claude Code in the Claude app clone it and edit it. This one actually works, but it swaps a sync I never think about for one I have to think about, and it still means talking to a coding agent about a note.
+- **An AI plugin inside Obsidian.** There are plenty, and some are good. But they talk to the model through the API, so you pay per token on top of the subscription you already have. On a phone, chatting away about your notes, that adds up fast.
+
+The thread running through the first three: they make the notes a coding task. I didn't want that. I wanted Obsidian Sync to keep doing what it already does, and I wanted to use Claude's *normal chat* to reference or update a note, the same way I'd ask it anything else. That rules out everything except a proper MCP connector. And a connector runs inside the Claude app, on the subscription I already pay for. There's no API key anywhere in this setup and no per-token bill at the end of the month.
+
+So the job became: get a copy of the vault somewhere that's always on, put an MCP server in front of it, and make the login boring and safe. The Pi was already on, already running Docker, already on my [Tailscale](https://tailscale.com) network. It runs my NAS and a pile of other containers around the clock, so adding one more service was a few lines of compose and a `docker compose up`. Very little friction. Done deal.
 
 ## The vault copy: obsidian-sync
 
@@ -200,4 +209,4 @@ And because it's plain Streamable HTTP with standard OAuth, Cursor, VS Code and 
 
 I ask in plain words and Claude picks the tools. "What did I write about the Deco mesh?" is a `search_notes` then a `read_note`. "Add today's interview notes to Work/Jobs/Acme.md" is a `read_note` then a `write_note`. The edit lands on the Pi as user `pi`, obsidian-sync pushes it to Obsidian Sync within seconds, and it's on my laptop before I've put the phone down.
 
-The whole thing is one Python file, one Dockerfile, two compose services and a GitHub OAuth app. If you have Obsidian Sync and something at home that's always on, [the gist](https://gist.github.com/mrmartineau/475dc3e8ffc6908f1493a05989a116ff) has the full README with the step-by-step and a troubleshooting table for every way I broke it while setting it up.
+The whole thing is one Python file, one Dockerfile, two compose services and a GitHub OAuth app. If you have Obsidian Sync and something at home that's always on, a media centre, a home server, a Raspberry Pi in a cupboard, this will work for you too. [The gist](https://gist.github.com/mrmartineau/475dc3e8ffc6908f1493a05989a116ff) has the full README with the step-by-step and a troubleshooting table for every way I broke it while setting it up.
