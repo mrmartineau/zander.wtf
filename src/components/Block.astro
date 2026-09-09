@@ -15,7 +15,6 @@ const { title, subtitle, class: className } = Astro.props;
 
 <style>
   .zm-block {
-    --block-radius: 2rem;
     --block-bg: var(--bg-block);
     --block-padding: var(--space-m-l);
     --block-colour: var(--colour-text);
@@ -23,6 +22,7 @@ const { title, subtitle, class: className } = Astro.props;
     border-radius: var(--block-radius);
     background-color: var(--block-bg);
     padding: var(--block-padding);
+    height: 100%;
 
     a {
       --colour: var(--colour-text-bright);

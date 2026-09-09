@@ -60,11 +60,6 @@ const items = await Promise.all(
           },
         ]}
         id={Content ? post.slug : undefined}
-        style={
-          worklogContent && !post.data.worklog
-            ? `--tilt: ${tilt(post.slug)}`
-            : undefined
-        }
       >
         <div class="info">
           <a href={`/blog/${post.slug}`} class="title" transition:persist>

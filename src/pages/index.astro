@@ -23,37 +23,52 @@ const slug = 'home';
       <PromotedProjects />
     </section>
     <ModeCard />
-    <section id="about" data-window="About me">
-      <BlockAbout />
-    </section>
-    <section id="blog" data-window="Latest posts">
-      <BlockBlog />
-    </section>
-    <section id="links" data-window="Latest links">
-      <BlockLinks />
-    </section>
-    <section id="notes" data-window="Latest notes">
-      <BlockNotes />
-    </section>
+    <div class="zm-home-grid1">
+      <section id="blog" data-window="Latest posts">
+        <BlockBlog />
+      </section>
+      <section id="about" data-window="About me">
+        <BlockAbout />
+      </section>
+    </div>
+    <div class="zm-home-grid2">
+      <section id="links" data-window="Latest links">
+        <BlockLinks />
+      </section>
+      <section id="notes" data-window="Latest notes">
+        <BlockNotes />
+      </section>
+    </div>
   </div>
 </BaseLayout>
 
 <style>
   .zm-home {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-l);
+    margin-block-start: var(--space-l);
+  }
+
+  .zm-home-grid1 {
     display: grid;
     grid-template-columns: 1fr;
     gap: var(--space-l);
-    margin-block-start: var(--space-l);
+
+    @media screen and (min-width: 1150px) {
+      /* gap: var(--space-2xl); */
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .zm-home-grid2 {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-l);
 
     @media screen and (min-width: 950px) {
-      gap: var(--space-2xl);
+      /* gap: var(--space-2xl); */
       grid-template-columns: 1fr 1fr;
-
-      /* Projects and the mode card span the row; the blocks pair up */
-      > #projects,
-      > :global(.zm-modes) {
-        grid-column: 1 / -1;
-      }
     }
   }
 

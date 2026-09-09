@@ -58,6 +58,7 @@
   --colour-accent: var(--colour-yellow);
   --hr: #ddd;
   --tag: var(--colour-link-decoration);
+  --block-radius: 2rem;
 
   /* Sizes */
   --sidebar-width: 250px;
@@ -67,7 +68,7 @@
   --font-alphaLyrae: Alpha Lyrae, var(--font-mona);
   --font-mozillaText: Mozilla Text, system-ui, sans-serif;
   --font-mono:
-    Geist Mono,Recursive Mono Casual Static, Recursive Mono Casual,
+    Geist Mono, Recursive Mono Casual Static, Recursive Mono Casual,
     Recursive Mono, Comic Code, JetBrains Mono, SF Mono, Menlo, Monaco,
     Courier New, monospace;
   --font-headings: var(--font-alphaLyrae);

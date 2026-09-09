@@ -4,8 +4,11 @@ import Block from './Block.astro';
 import BlogList from './BlogList.astro';
 
 const posts = (await getBlog())
+  .filter(({ data }) => {
+    return data?.worklog !== true;
+  })
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, 5);
+  .slice(0, 3);
 ---
 
 <Block title="Blog">
