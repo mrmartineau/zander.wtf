@@ -2,7 +2,7 @@ body {
   font-family: var(--font-body);
   font-size: var(--step--1);
   line-height: 1.6;
-  font-variation-settings: "wght" 200;
+  font-variation-settings: 'wght' 200;
 }
 
 ul,
@@ -36,9 +36,9 @@ h1,
 h2,
 h3 {
   font-variation-settings:
-    "wght" 250,
-    "wdth" 100,
-    "ital" 0;
+    'wght' 250,
+    'wdth' 100,
+    'ital' 0;
   line-height: 1.1;
   text-wrap: balance;
   font-family: var(--font-headings);
@@ -47,9 +47,9 @@ h3 {
 
 h4 {
   font-variation-settings:
-    "wght" 500,
-    "wdth" 125,
-    "ital" 0;
+    'wght' 500,
+    'wdth' 125,
+    'ital' 0;
   line-height: 1.1;
   text-wrap: balance;
   font-family: var(--font-headings);
@@ -113,7 +113,7 @@ article {
     font-family: var(--font-mono);
     &::before,
     &::after {
-      content: "`";
+      content: '`';
     }
   }
 
@@ -141,7 +141,7 @@ article {
 
   dt {
     color: var(--colour-text-bright);
-    font-variation-settings: "wght" 600;
+    font-variation-settings: 'wght' 600;
   }
 
   dd {
@@ -166,7 +166,7 @@ article {
 }
 
 .zm-block-link {
-  font-variation-settings: "wght" 500;
+  font-variation-settings: 'wght' 500;
   margin-top: var(--space-s);
   display: inline-block;
 
@@ -193,10 +193,11 @@ hr {
 p,
 blockquote {
   color: var(--colour-text);
-  font-variation-settings: "wght" 200;
+  font-variation-settings: 'wght' 200;
 }
 
 b,
 strong {
   font-weight: 600;
+  font-variation-settings: 'wght' 600;
 }
