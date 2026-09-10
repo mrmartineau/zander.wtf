@@ -19,6 +19,9 @@ const {
   screenshots,
   appStore,
   testFlight,
+  pricing,
+  image,
+  type,
 } = data;
 
 // Parse "https://github.com/user/repo" → { user, repo }
@@ -29,6 +32,11 @@ const githubRepo = githubMatch?.[2];
 
 <BaseLayout title={title} subtitle={subtitle} slug={slug}>
   <article class="zm-contentContainer">
+    {
+      type === 'ios-app' && image ? (
+        <img src={image} alt="" class="tool-icon" width="96" height="96" />
+      ) : null
+    }
     <PageHeader title={title} subtitle={subtitle} date={date} showType={false} />
 
     <div class="tool-meta">
@@ -90,6 +98,8 @@ const githubRepo = githubMatch?.[2];
       <slot />
     </article>
 
+    {pricing ? <p class="tool-pricing my-m"><b>Pricing:</b> {pricing}</p> : null}
+
     {showReadme && githubUser && githubRepo ? (
       <details class="collapsible mt-l">
         <summary class="collapsible-trigger">Project README</summary>
@@ -114,6 +124,15 @@ const githubRepo = githubMatch?.[2];
     gap: var(--space-xs) var(--space-s);
     margin-block-end: var(--space-l);
     font-size: var(--step--1);
+  }
+
+  .tool-icon {
+    width: 96px;
+    height: 96px;
+    margin-block-end: var(--space-s);
+    border: none;
+    border-radius: 22px;
+    box-shadow: 0 12px 32px -8px rgb(0 0 0 / 0.5);
   }
 
   .tool-badge img {
@@ -157,6 +176,11 @@ const githubRepo = githubMatch?.[2];
     gap: var(--space-3xs);
   }
 
+  .tool-pricing {
+    font-size: var(--step--1);
+    color: var(--colour-text-bright);
+    /* font-variation-settings: 'wght' 600; */
+  }
   .tool-tech {
     opacity: 0.6;
   }

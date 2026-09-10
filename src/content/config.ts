@@ -43,6 +43,8 @@ const projects = defineCollection({
     // TestFlight long before it has an App Store page, or vice versa.
     appStore: z.string().optional(),
     testFlight: z.string().optional(),
+    // One line, shown above the screenshots. Omit for free things.
+    pricing: z.string().optional(),
     status: z
       .enum(['active', 'archived', 'inactive', 'ongoing', 'unreleased'])
       .default('active'),

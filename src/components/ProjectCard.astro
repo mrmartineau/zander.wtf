@@ -7,13 +7,27 @@ type Props = {
 };
 const { project } = Astro.props;
 const { slug, data } = project;
-const isRetired = data.status === 'archived' || data.status === 'inactive';
+// Retired projects and apps not yet on the App Store get a label.
+const showStatus = ['archived', 'inactive', 'unreleased'].includes(
+  data.status,
+);
 // iOS apps use their square app icon as `image`; everything else uses a 16:9
 // screenshot, so the two can't share a crop.
 const isAppIcon = data.type === 'ios-app';
 ---
 
-<a href={`/projects/${slug}`} class="zm-project-card" transition:persist>
+<a
+  href={`/projects/${slug}`}
+  class:list={['zm-project-card', { 'zm-project-card--app': isAppIcon }]}
+  transition:persist
+>
+  {
+    data.image && isAppIcon ? (
+      <div class="glow" aria-hidden="true">
+        <img src={data.image} alt="" loading="lazy" />
+      </div>
+    ) : null
+  }
   {
     data.image ? (
       <img
@@ -26,7 +40,7 @@ const isAppIcon = data.type === 'ios-app';
   }
   <div class="header">
     <span class="title">{data.title}</span>
-    {isRetired ? <span class="status">{data.status}</span> : null}
+    {showStatus ? <span class="status">{data.status}</span> : null}
   </div>
   {data.subtitle ? <div class="subtitle">{data.subtitle}</div> : null}
   <div class="meta">
@@ -74,6 +88,7 @@ const isAppIcon = data.type === 'ios-app';
     font-size: var(--step--3);
     text-transform: uppercase;
     letter-spacing: 0.05em;
+    font-variation-settings: 'wght' 600;
     background-color: color-mix(in srgb, var(--colour-text) 10%, transparent);
     color: var(--colour-text);
   }
@@ -87,11 +102,65 @@ const isAppIcon = data.type === 'ios-app';
     margin-block-end: var(--space-2xs);
   }
 
+  /* App cards: the icon sits centred and half above the card, over a blurred
+     copy of itself, so each card takes its colour from its own icon. */
+  .zm-project-card--app {
+    --icon: 96px;
+    position: relative;
+    align-items: center;
+    text-align: center;
+    margin-block-start: calc(var(--icon) / 2);
+    padding-block-start: calc(var(--icon) / 2 + var(--space-xs));
+  }
+
+  .zm-project-card--app .header {
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-3xs);
+  }
+
+  .zm-project-card--app .meta {
+    justify-content: center;
+  }
+
+  .glow {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    border-radius: inherit;
+    pointer-events: none;
+  }
+
+  .glow img {
+    position: absolute;
+    inset: -30% -30% auto;
+    width: 160%;
+    height: 90%;
+    object-fit: cover;
+    filter: blur(48px) saturate(1.4);
+    opacity: 0.4;
+    border: none;
+    border-radius: 0;
+    transition: opacity 150ms ease-in-out;
+  }
+
+  .zm-project-card--app:hover .glow img {
+    opacity: 0.6;
+  }
+
   .image--icon {
-    width: 64px;
+    position: relative;
+    width: var(--icon);
     aspect-ratio: 1;
     object-fit: contain;
-    border-radius: 14px;
+    margin-block: calc(-1 * (var(--icon) + var(--space-xs))) var(--space-2xs);
+    border-radius: 22px;
+    box-shadow: 0 12px 32px -8px rgb(0 0 0 / 0.5);
+    transition: transform 150ms ease-in-out;
+  }
+
+  .zm-project-card--app:hover .image--icon {
+    transform: scale(1.05);
   }
 
   .subtitle {
