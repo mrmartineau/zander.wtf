@@ -2,42 +2,59 @@
 import { getCollection } from 'astro:content';
 import ShortUrl from './ShortUrl.astro';
 
-
 const allProjects = await getCollection('projects');
 
 const promoted = allProjects
-.filter((project) => project.data?.promote)
-.sort(
-    (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
-  );
+  .filter((project) => project.data?.promote)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 
 <div class="zm-promoted">
-  <div class="zm-promoted-grid">
+  <div class="zm-promoted-grid" role="group" aria-label="Promoted projects" tabindex="0">
     {
       promoted.map((item) => {
 
-        const { title, subtitle, link, repo, image, bgColour, fgColour } = item.data;
+        const { title, subtitle, link, repo, image, bgColour, fgColour, type, appStore } = item.data;
+        // iOS apps use their square icon as `image`; show it whole, not cropped.
+        const isAppIcon = type === 'ios-app';
         // Prefer the live link, fall back to the repo, otherwise don't link.
         const href = link || repo;
         return (
           <div
-            class="zm-promoted-card"
+            class:list={['zm-promoted-card', { 'zm-promoted-card--app': isAppIcon }]}
             style={`--card-bg: ${bgColour}; --card-fg: ${fgColour};`}
           >
-            {image ? (
+            {image && isAppIcon ? (
+              <>
+                <div class="zm-promoted-glow" aria-hidden="true">
+                  <img src={image} alt="" loading="lazy" />
+                </div>
+                <img src={image} alt={`${title} icon`} class="zm-promoted-icon" width="96" height="96" />
+              </>
+            ) : image ? (
               <div class="zm-promoted-image">
                 <img src={image} alt={`${title} preview`} />
               </div>
             ) : null}
             <div class="zm-promoted-body">
+              {isAppIcon ? <span class="zm-promoted-kind">iPhone app</span> : null}
               <h3 class="zm-promoted-title">{title}</h3>
               <p class="zm-promoted-description">{subtitle}</p>
-              {href ? (
-                <a href={href} class="zm-promoted-link" target="_blank" rel="noopener noreferrer">
-                  ➤ <ShortUrl url={href} />
+              {appStore ? (
+                <a href={appStore} class="zm-promoted-badge" target="_blank" rel="noopener noreferrer">
+                  <img src="/images/download-on-the-app-store.svg" alt="Download on the App Store" width="120" height="40" />
                 </a>
               ) : null}
+              <div class="zm-promoted-links">
+                {href && !appStore ? (
+                  <a href={href} class="zm-promoted-link" target="_blank" rel="noopener noreferrer">
+                    ➤ <ShortUrl url={href} />
+                  </a>
+                ) : null}
+                <a href={`/projects/${item.slug}`} class="zm-promoted-link">
+                  More info
+                </a>
+              </div>
             </div>
           </div>
         );
@@ -54,20 +71,44 @@ const promoted = allProjects
 
 <style>
   .zm-promoted {
-    margin-block: var(--space-3xl);
+    /* margin-block: var(--space-3xl); */
     display: flex;
     flex-direction: column;
     gap: var(--space-l);
   }
 
+  /* Under 500px the cards are a snapping strip, like the screenshots on a
+     project page: each card is 3/5 of the width so the next one shows. */
   .zm-promoted-grid {
-    --grid-count: 1;
-    display: grid;
-    grid-template-columns: repeat(var(--grid-count), 1fr);
-    gap: var(--space-l);
+    display: flex;
+    gap: var(--space-s);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    padding-block-end: var(--space-2xs);
+    -webkit-overflow-scrolling: touch;
 
-    @media screen and (min-width: 550px) {
+    > * {
+      flex: 0 0 max(60%, 250px);
+      scroll-snap-align: start;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--colour-accent);
+      outline-offset: 4px;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      scroll-behavior: smooth;
+    }
+
+    @media screen and (min-width: 500px) {
       --grid-count: 2;
+      display: grid;
+      grid-template-columns: repeat(var(--grid-count), minmax(250px, 1fr));
+      gap: var(--space-l);
+      overflow: visible;
+      padding-block-end: 0;
     }
     @media screen and (min-width: 1350px) {
       --grid-count: 4;
@@ -110,6 +151,50 @@ const promoted = allProjects
     padding: var(--space-m);
   }
 
+  /* iOS apps: same treatment as the cards on /projects. The icon sits centred
+     and half above the card, over a blurred copy of itself. */
+  .zm-promoted-card--app {
+    --icon: 96px;
+    position: relative;
+    overflow: visible;
+    align-items: center;
+    text-align: center;
+    margin-block-start: calc(var(--icon) / 2);
+    padding-block-start: calc(var(--icon) / 2 + var(--space-xs));
+  }
+
+  .zm-promoted-glow {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    border-radius: inherit;
+    pointer-events: none;
+
+    img {
+      position: absolute;
+      inset: -30% -30% auto;
+      width: 160%;
+      height: 90%;
+      object-fit: cover;
+      filter: blur(48px) saturate(1.4);
+      opacity: 0.4;
+    }
+  }
+
+  .zm-promoted-icon {
+    position: relative;
+    width: var(--icon);
+    aspect-ratio: 1;
+    margin-block-start: calc(-1 * (var(--icon) + var(--space-xs)));
+    border-radius: 22px;
+    box-shadow: 0 12px 32px -8px rgb(0 0 0 / 0.5);
+  }
+
+  .zm-promoted-card--app .zm-promoted-body {
+    position: relative;
+    padding-block-start: var(--space-xs);
+  }
+
   .zm-promoted-title {
     font-variation-settings: 'wght' 600;
     font-size: var(--step-1);
@@ -122,8 +207,41 @@ const promoted = allProjects
     opacity: 0.8;
   }
 
-  .zm-promoted-link {
+  .zm-promoted-kind {
+    display: block;
+    margin-block-end: var(--space-3xs);
+    font-family: var(--font-mono);
+    font-size: var(--step--3);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0.7;
+  }
+
+  .zm-promoted-badge {
+    display: inline-block;
+    margin-block-start: var(--space-xs);
+
+    img {
+      display: block;
+      height: 40px;
+      width: auto;
+      border: none;
+      border-radius: 0;
+    }
+  }
+
+  .zm-promoted-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs) var(--space-s);
     margin-block-start: var(--space-2xs);
+  }
+
+  .zm-promoted-card--app .zm-promoted-links {
+    justify-content: center;
+  }
+
+  .zm-promoted-link {
     font-size: var(--step--2);
     opacity: 0.8;
   }

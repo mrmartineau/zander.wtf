@@ -32,11 +32,12 @@ html.desktop #status-banner {
 }
 
 html.classic #greeting {
-  margin: 0 auto;
+  margin: 3vh auto;
   width: 90%;
   max-width: 1700px;
-  padding-block-start: 4vh;
+  /* padding-block-start: 4vh; */
 }
+
 html:not(.desktop) body:not([data-slug='home']) #greeting {
   display: none;
 }

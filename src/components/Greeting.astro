@@ -27,25 +27,34 @@ const toLetters = (text: string) => [...text];
 ---
 
 <!-- prettier-ignore -->
-<h1 class="zm-intro" id="greeting" aria-label={introLabel}>
-  {introSegments.map(({ text, name, rotates }) => {
-    // Elements stay on one line: `.name` is `white-space: pre`, so any
-    // whitespace the template introduces would render as a real space.
-    const letters = toLetters(text).map((char) =>
-      char === ' ' ? ' ' : <span class="letter">{char}</span>
-    );
+<div id="greeting" class="zm-greeting">
+  <h1 class="zm-intro" aria-label={introLabel}>
+    {introSegments.map(({ text, name, rotates }) => {
+      // Elements stay on one line: `.name` is `white-space: pre`, so any
+      // whitespace the template introduces would render as a real space.
+      // Each letter is hidden from assistive tech: the h1's aria-label reads
+      // the whole sentence, so the per-glyph spans would only be noise.
+      const letters = toLetters(text).map((char) =>
+        char === ' ' ? ' ' : <span class="letter" aria-hidden="true">{char}</span>
+      );
 
-    if (rotates) {
-      return <span class="rotator" data-words={JSON.stringify(ROTATING_WORDS)}>{letters}</span>;
-    }
+      if (rotates) {
+        return <span class="rotator" data-words={JSON.stringify(ROTATING_WORDS)}>{letters}</span>;
+      }
 
-    if (name) {
-      return <span class="name">{letters}<img src="/images/avatars/zm-avatar-08-2026.webp" class="avatar" width="180" height="180" alt="Stylised (pixellated) picture of Zander" /></span>;
-    }
+      if (name) {
+        return <span class="name">{letters}<img src="/images/avatars/zm-avatar-08-2026.webp" class="avatar" width="180" height="180" alt="Stylised (pixellated) picture of Zander" /></span>;
+      }
 
-    return letters;
-  })}
-</h1>
+      return letters;
+    })}
+  </h1>
+  <!-- Announces each new word. Polite, so it waits for the reader to pause. -->
+  <p class="visually-hidden" aria-live="polite" aria-atomic="true" data-live></p>
+  <button type="button" class="zm-intro-pause" aria-pressed="false" aria-label="Pause the rotating words" hidden>
+    <i class="ph-fill ph-pause" aria-hidden="true"></i>
+  </button>
+</div>
 
 <script>
   // Cycles the intro's rotating word, glitching through Alpha Lyrae's
@@ -57,6 +66,8 @@ const toLetters = (text: string) => [...text];
   const FRAME_MS = 55;
 
   const rotator = document.querySelector<HTMLElement>('.rotator');
+  const live = document.querySelector<HTMLElement>('#greeting [data-live]');
+  const pause = document.querySelector<HTMLButtonElement>('.zm-intro-pause');
   const words: string[] = JSON.parse(rotator?.dataset.words ?? '[]');
 
   // Shuffle every word after the first (Fisher-Yates). words[0] is already
@@ -71,6 +82,7 @@ const toLetters = (text: string) => [...text];
   if (rotator && words.length > 1) {
     let index = 0;
     let onScreen = true;
+    let paused = false;
     let timer: number | undefined;
 
     const letters = () => [...rotator.children] as HTMLElement[];
@@ -80,6 +92,7 @@ const toLetters = (text: string) => [...text];
         ...[...word].map((char) => {
           const span = document.createElement('span');
           span.className = 'letter';
+          span.setAttribute('aria-hidden', 'true');
           span.textContent = char;
           return span;
         }),
@@ -116,6 +129,7 @@ const toLetters = (text: string) => [...text];
         if (!swapped && elapsed >= GLITCH_MS / 2) {
           index = (index + 1) % words.length;
           render(words[index]);
+          if (live) live.textContent = `I make ${words[index]}`;
           swapped = true;
         }
 
@@ -128,7 +142,7 @@ const toLetters = (text: string) => [...text];
 
     const schedule = (delay: number) => {
       window.clearTimeout(timer);
-      if (!onScreen || document.hidden || reduced.matches) return;
+      if (!onScreen || document.hidden || reduced.matches || paused) return;
       timer = window.setTimeout(advance, delay);
     };
 
@@ -138,7 +152,7 @@ const toLetters = (text: string) => [...text];
     };
 
     const sync = () => {
-      if (onScreen && !document.hidden && !reduced.matches) {
+      if (onScreen && !document.hidden && !reduced.matches && !paused) {
         schedule(DWELL_MS);
       } else {
         stop();
@@ -153,6 +167,23 @@ const toLetters = (text: string) => [...text];
 
     document.addEventListener('visibilitychange', sync);
     reduced.addEventListener('change', sync);
+
+    // WCAG 2.2.2: anything that moves for more than five seconds needs a
+    // way to stop it. The button only appears when the words actually cycle.
+    if (pause) {
+      pause.hidden = false;
+      pause.addEventListener('click', () => {
+        paused = !paused;
+        pause.setAttribute('aria-pressed', String(paused));
+        pause.setAttribute(
+          'aria-label',
+          paused ? 'Play the rotating words' : 'Pause the rotating words',
+        );
+        pause.querySelector('i')?.classList.toggle('ph-pause', !paused);
+        pause.querySelector('i')?.classList.toggle('ph-play', paused);
+        sync();
+      });
+    }
   }
 </script>
 
@@ -197,6 +228,35 @@ const toLetters = (text: string) => [...text];
     }
     @media screen and (min-width: 750px) {
       text-align: center;
+    }
+  }
+
+  .zm-greeting {
+    position: relative;
+  }
+
+  .zm-intro-pause {
+    position: absolute;
+    inset-block-end: -1.5em;
+    inset-inline-end: 0;
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    background: none;
+    color: var(--colour-text);
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    opacity: 0.6;
+    cursor: pointer;
+
+    &:hover,
+    &:focus-visible {
+      opacity: 1;
+      border-color: currentcolor;
     }
   }
 </style>
