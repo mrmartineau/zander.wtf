@@ -8,9 +8,7 @@ type Props = {
 const { project } = Astro.props;
 const { slug, data } = project;
 // Retired projects and apps not yet on the App Store get a label.
-const showStatus = ['archived', 'inactive', 'unreleased'].includes(
-  data.status,
-);
+const showStatus = ['archived', 'inactive', 'unreleased'].includes(data.status);
 // iOS apps use their square app icon as `image`; everything else uses a 16:9
 // screenshot, so the two can't share a crop.
 const isAppIcon = data.type === 'ios-app';
@@ -111,6 +109,7 @@ const isAppIcon = data.type === 'ios-app';
     text-align: center;
     margin-block-start: calc(var(--icon) / 2);
     padding-block-start: calc(var(--icon) / 2 + var(--space-xs));
+    box-shadow: inset 1px 1px 0.5px hsl(214 14% 100% / 0.25);
   }
 
   .zm-project-card--app .header {

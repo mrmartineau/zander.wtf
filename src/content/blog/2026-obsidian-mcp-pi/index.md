@@ -3,6 +3,7 @@ slug: obsidian-mcp-pi
 title: "Claude, meet my Obsidian vault"
 subtitle: How I gave the Claude app on my phone read and write access to my Obsidian notes, using a Raspberry Pi, Obsidian Sync, a 100-line MCP server and Tailscale Funnel.
 date: 2026-09-09
+modified: 2026-09-12
 tags:
   - obsidian
   - ai
@@ -11,6 +12,8 @@ tags:
   - self-hosting
 ---
 
+> **Update, 12 September 2026:** a Reddit reader pointed out a prompt-injection loop in the first version: Claude reads the vault and writes to it, so a clipped web page can steer it. I've changed the server. The short version: the clippings folder is read-only for Claude and search returns no text from it, plus a filter for hidden text and a daily scan. Details in [the new section below](#update-prompt-injection-and-what-changed). The code snippets in this post are the original; the gist has the current version.
+
 My notes live in [Obsidian](https://obsidian.md). For a while now I've been letting Claude and Codex loose on them: job application notes, meeting notes, the odd bit of research. That worked, but only through Claude Code in a terminal, on the laptop, with the vault folder open. Powerful, but not exactly "on the go". What I actually wanted was to open the Claude app on my phone on the train and say "add these interview notes to the Acme file", and have it just happen.
 
 That now works. The pieces are a Raspberry Pi that already runs my home NAS, the official Obsidian Sync headless client, a tiny [MCP](https://modelcontextprotocol.io) server, and Tailscale Funnel to put a login page on the internet. Everything is in [a gist](https://gist.github.com/mrmartineau/475dc3e8ffc6908f1493a05989a116ff): the server, the Dockerfile, the compose services, an `.env` example and the full setup notes. This post is the how and the why.
@@ -18,7 +21,8 @@ That now works. The pieces are a Raspberry Pi that already runs my home NAS, the
 **TL;DR**
 
 - **obsidian-sync**: the official `obsidian-headless` client in a Docker container joins Obsidian Sync as one more device, so the Pi always has a live copy of the vault
-- **obsidian-mcp**: a ~100-line Python server on [FastMCP](https://gofastmcp.com) with four tools: `list_notes`, `read_note`, `write_note`, `search_notes`
+- **obsidian-mcp**: a ~100-line Python server on [FastMCP](https://gofastmcp.com) with five tools: `list_notes`, `read_note`, `search_notes`, `write_note`, `append_note`
+- **Read broad, write narrow** (added later): reads cover the whole vault, replacing a note only works in a few folders, appending works anywhere, and hidden text is stripped on read and refused on write
 - **Login is GitHub OAuth**, and exactly one GitHub account is allowed past it
 - **Tailscale Funnel** gives it a public HTTPS URL, which the Claude phone app needs because Anthropic's servers do the connecting, not the phone
 - Add it once as a custom connector in Claude and it's on every surface: Mac app, claude.ai, phone, Claude Code
@@ -134,6 +138,8 @@ Every tool starts with `_path()`, and `_path()` does three things:
 
 I deliberately didn't build an "append" or "patch" tool. `write_note` replaces the whole file, and in practice Claude reads first and writes the merged result. Obsidian Sync's version history has every previous state if it ever gets that wrong.
 
+> **Update:** that paragraph aged badly. There is now an `append_note` tool, `write_note` is refused in the clippings folder, and `search_notes` returns no text from there. Why is [below](#update-prompt-injection-and-what-changed).
+
 The Dockerfile is `python:3.12-slim` plus `pip install fastmcp`. The one non-obvious bit: FastMCP keeps OAuth client registrations and tokens under `$FASTMCP_HOME`, and that has to be a named Docker volume owned by the same uid the container runs as, or every Claude logs in again after each rebuild.
 
 ```yaml
@@ -207,6 +213,81 @@ And because it's plain Streamable HTTP with standard OAuth, Cursor, VS Code and 
 
 ## What it's like to use
 
-I ask in plain words and Claude picks the tools. "What did I write about the Deco mesh?" is a `search_notes` then a `read_note`. "Add today's interview notes to Work/Jobs/Acme.md" is a `read_note` then a `write_note`. The edit lands on the Pi as user `pi`, obsidian-sync pushes it to Obsidian Sync within seconds, and it's on my laptop before I've put the phone down.
+I ask in plain words and Claude picks the tools. "What did I write about the Deco mesh?" is a `search_notes` then a `read_note`. "Add today's interview notes to Work/Jobs/Acme.md" is a `read_note` then a `write_note` (now a single `append_note`, see below). The edit lands on the Pi as user `pi`, obsidian-sync pushes it to Obsidian Sync within seconds, and it's on my laptop before I've put the phone down.
+
+## Update: prompt injection, and what changed
+
+I posted this to Reddit and a reader spotted something I'd walked straight past. Claude reads the vault to answer me. Claude also writes to the vault. That's a loop. My vault holds clipped web pages, pasted job ads and meeting transcripts, all of it third-party text. If any of that reads like an instruction, a later Claude turn can act on it, because a model can't fully tell my data from a command when both arrive in the same context. With `write_note` allowed everywhere, the worst case was a rewritten note in a folder I'd never think to check.
+
+So the vault is not a trusted source, and the server now assumes that. I got there in two goes, and the first one was wrong in an instructive way.
+
+**First attempt: read broad, write narrow.** Reading everywhere costs nothing, writing is where damage happens, so constrain the writes. `write_note` only worked inside an allowlist of folders (`Scratchpad,Work/Jobs,Daily`), and everything else was read-only. That capped the blast radius nicely. It also made the vault annoying to use. The whole point was "edit my notes from my phone", and now most of my notes were off limits, and every time I added a folder I'd have to remember to add it to a list on the Pi.
+
+Then I noticed the guard was pointed at the wrong thing. The third-party text isn't spread evenly across the vault. It lives in one folder: `Clippings/`, where the Obsidian Web Clipper puts things. Job ads and meeting transcripts get pasted in by me, so I've at least looked at them. The clippings I often haven't read at all, which is exactly why I clipped them. So the rule became: **aim both guards at the folder where the untrusted text actually lives.**
+
+What the server does now, in order of how much it matters:
+
+1. **The clippings folder is read-only.** `UNTRUSTED_FOLDERS` is a comma-separated list in `.env`, default `Clippings`. `write_note` refuses to create or replace anything there. Everywhere else is writable. The backstops for a bad rewrite elsewhere are the permission prompt in the Claude app, which shows the path on every write, and Obsidian Sync's version history, which means a rewritten note is something I notice and undo, not something I lose.
+2. **Search returns no text from those folders.** This one took me a while to see. `read_note` shows me the path before I approve it, so if Claude wants to read a clipping I know. `search_notes` doesn't work like that: it pulls matching lines from every note and I never see which notes fed the answer. It's the one path where note text reaches Claude with no human look at where it came from. So for hits in `Clippings/` the search now returns the path and line number only. I can still find a clipping. Reading it is a visible `read_note` call.
+3. **Append anywhere.** A new `append_note` tool adds text to the end of any existing note. It can't lose what's there, so the worst case is a junk line. `CLAUDE.md` and `AGENTS.md` are the exception: neither tool will touch them, because a Claude Code session reads those as instructions. A line added there is a standing order, not junk.
+4. **Hidden text is the main trick, so handle it at both edges.** Clipped pages carry zero-width, bidi-override and Unicode "tag" characters: text the model sees and you don't. The server strips them from everything Claude reads, and search runs on the cleaned line so a zero-width character inside a word can't dodge a query. On the write side it refuses them outright, along with chat-template markers like `<|im_start|>`. Claude never types those on purpose, so a refusal means a note just tried to copy itself through the MCP.
+5. **A daily scan with no AI in it.** A cron job on the Pi runs a plain-Python script over the vault every night looking for the ways pages hide instructions: invisible Unicode, HTML comments, CSS-hidden text, chat markup, "ignore previous instructions" phrasing, long encoded blobs. No LLM in the loop, because a checker that reads the notes can be tricked by the same text it's looking for. The report lists note, line and label only, never the matching text, so it can't carry a payload into a chat when `search_notes` reads it.
+
+The folder check is two more lines in `_path()`, and the search change is a conditional on the hit:
+
+```python
+# Folders holding third-party text (web clippings). Not writable, and search returns no text from them.
+UNTRUSTED = [f.strip().strip("/") for f in os.environ.get("UNTRUSTED_FOLDERS", "Clippings").split(",") if f.strip()]
+
+
+def _untrusted(inside: str) -> bool:
+    return any(inside == f or inside.startswith(f + "/") for f in UNTRUSTED)
+
+
+def _path(rel: str = "", write: bool = False) -> Path:
+    # ...the login, escape and dot-folder checks from before...
+    inside = p.relative_to(VAULT).as_posix()
+    if write and _untrusted(inside):
+        raise ToolError(f"not writable: {rel}. Untrusted folders ({', '.join(UNTRUSTED)}) are read-only")
+    if write and p.name.upper() in ("CLAUDE.MD", "AGENTS.MD"):
+        raise ToolError(f"not writable: {rel}. Instruction files are edited by hand, not by Claude")
+    return p
+
+
+# inside search_notes, for each matching line:
+hit = {"path": rel, "line": n}
+if not _untrusted(rel):
+    hit["text"] = line.strip()[:200]
+hits.append(hit)
+```
+
+And the two edges for hidden text:
+
+```python
+# Zero-width, invisible, bidi-override and Unicode "tag" characters.
+HIDDEN = re.compile("[\u200b\u200c\u2060-\u2064\u206a-\u206f\u202a-\u202e\u2066-\u2069\ufeff\U000e0000-\U000e007f]")
+CHAT_MARKUP = re.compile(r"<\|im_(start|end)\|>|\[/?INST\]|<<SYS>>|<\|(system|user|assistant)\|>", re.I)
+
+
+def _clean(text: str) -> str:
+    # What Claude reads: hidden characters removed.
+    return HIDDEN.sub("", text)
+
+
+def _check_write(content: str) -> None:
+    # What Claude writes: refuse the two things it never types on purpose.
+    if HIDDEN.search(content):
+        raise ToolError("refused: content has invisible characters")
+    if CHAT_MARKUP.search(content):
+        raise ToolError("refused: content has LLM chat-template markers")
+```
+
+Now the honest limit. None of this can tell a *visible* instruction inside a note from my own instruction. Nothing can, from inside one context. If a clipped page says, in plain text, "append this line to every note", and Claude reads it while I'm asking about something else, the model might try. What covers that gap is the permission prompt in the Claude app, which shows the path on every write, and the nightly scan, which flags notes that read like orders. I approve writes one at a time and I read the path. "Always allow" on a write tool removes the last human check, so I don't.
+
+It also doesn't protect other paths into the same vault, and this is the bit worth being honest about. The way I use my notes with AI most of the time is not this MCP at all. It's Claude Code in a terminal with the vault folder open, and I've done that for months. That path is worse on every count. It reads the vault with plain file tools and searches it with grep, so the same clipped page goes into context. There's no folder rule and no character filter. Its write tools reach every note, and its Bash tool reaches the rest of my laptop. And like a lot of people I run it with permission prompts mostly off, because tapping "yes" forty times an hour is how you stop reading what you're tapping yes to. The MCP has none of that. Five tools, a vault-shaped box, one login, and the Claude app asks before every write and shows the path. So the phone setup, the one that looked like the risky new thing, is now the *safest* way I have of letting a model near my notes. The Remote Control session on the Pi is Claude Code again, so I've switched it from `acceptEdits` to `default`: every edit asks for a tap, because the tap is the only guard it has. And Dataview JS or Templater would turn a written note into code that runs inside Obsidian. Both are off in my vault and they're staying off.
+
+Thanks to the reader who raised it. The full table of what's guarded, where it sits in the code and why, is in the gist README. The lesson I'm keeping: the first fix constrained the thing that was easy to constrain. The second one constrained the thing that was actually untrusted.
+
+---
 
 The whole thing is one Python file, one Dockerfile, two compose services and a GitHub OAuth app. If you have Obsidian Sync and something at home that's always on, a media centre, a home server, a Raspberry Pi in a cupboard, this will work for you too. [The gist](https://gist.github.com/mrmartineau/475dc3e8ffc6908f1493a05989a116ff) has the full README with the step-by-step and a troubleshooting table for every way I broke it while setting it up.
