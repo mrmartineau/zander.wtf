@@ -4,7 +4,8 @@ title: Time Tutor
 subtitle: Learn the 24-hour clock on a single face — the hours you say and the hours you write, sharing the same hands.
 date: 2026-07-26
 type: ios-app
-status: unreleased
+status: active
+appStore: https://apps.apple.com/us/app/time-tutor/id6798621006
 image: '/images/projects/time-tutor/icon.webp'
 screenshots:
   - src: '/images/projects/time-tutor/01-face.webp'

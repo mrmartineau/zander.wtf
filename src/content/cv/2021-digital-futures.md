@@ -24,4 +24,4 @@ tech:
   - CI/CD with GitHub Actions
 ---
 
-Led a small team to ship two full applications in nine months on a GraphQL/Hasura + Firebase backend with a React front-end, owning architectural decisions across the stack.
+Set up and built most of the front-end for two full applications, shipped in nine months on a GraphQL/Hasura + Firebase backend with React, owning architectural decisions across the stack. Both are still in use today.

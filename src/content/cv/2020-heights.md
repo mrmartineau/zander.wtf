@@ -14,7 +14,10 @@ tech:
   - React Query
   - Storybook
   - Contentful
+  - GreenSock (GSAP)
   - CI/CD with CircleCI
 ---
 
-Built a bespoke component library and migrated the platform from Shopify to Gatsby in seven weeks, delivering the relaunch ahead of a successful crowdfunding round.
+Migrated the platform from Shopify to Gatsby in seven weeks, delivering the relaunch ahead of a successful crowdfunding round.
+
+Built a bespoke component library and rolled it out across the product pages of the main site. Built custom GreenSock animations for the homepage and product pages.

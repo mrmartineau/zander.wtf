@@ -19,4 +19,4 @@ tech:
   - CI/CD with GitHub Actions & CircleCI
 ---
 
-Built two core internal platforms — a clinician/patient management tool and a consultation interface used by NHS GPs — and led their migration to a micro-frontend architecture with single-spa.
+Contributed to two core internal front-end applications — a clinician/patient management tool and a consultation interface used by NHS GPs — and led their migration to a micro-frontend architecture with single-spa.

@@ -68,12 +68,14 @@ const isAppIcon = data.type === 'ios-app';
     display: flex;
     align-items: baseline;
     gap: var(--space-2xs);
+    position: relative;
   }
 
   .title {
     font-variation-settings: 'wght' 600;
     color: var(--colour-text-bright);
     line-height: 1.2;
+    position: relative;
   }
 
   .zm-project-card:hover .title {
@@ -166,6 +168,7 @@ const isAppIcon = data.type === 'ios-app';
     opacity: 0.7;
     font-size: var(--step--1);
     line-height: 1.3;
+    position: relative;
   }
 
   .meta {
@@ -175,5 +178,6 @@ const isAppIcon = data.type === 'ios-app';
     opacity: 0.5;
     font-size: var(--step--2);
     font-feature-settings: 'tnum' 1;
+    position: relative;
   }
 </style>
