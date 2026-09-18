@@ -1,0 +1,100 @@
+---
+import { getCollection } from 'astro:content';
+import { getBlog } from '~/utils/blog';
+
+interface Props {
+  /** The URL of the current page, e.g. `/projects/moons` */
+  href: string;
+}
+const { href } = Astro.props;
+
+const [posts, projects, notes] = await Promise.all([
+  getBlog(),
+  getCollection('projects'),
+  getCollection('codenotes'),
+]);
+
+const pages = [
+  ...posts.map((entry) => ({ ...entry, url: `/blog/${entry.slug}` })),
+  ...projects.map((entry) => ({ ...entry, url: `/projects/${entry.slug}` })),
+  ...notes.map((entry) => ({ ...entry, url: `/notes/${entry.slug}` })),
+];
+
+// A code note has no date, so it sorts last.
+const byDate = (a: (typeof pages)[number], b: (typeof pages)[number]) =>
+  (b.data.date?.valueOf() ?? 0) - (a.data.date?.valueOf() ?? 0);
+
+// Pages that link to this one. `/blog/moons` must not match `/blog/moons-2`.
+const mentionsThisPage = new RegExp(`${href}(?![\\w-])`);
+const backlinks = pages
+  .filter((entry) => entry.url !== href && mentionsThisPage.test(entry.body))
+  .sort(byDate);
+
+// Pages this one links to. Matches `](/blog/slug)` and `](/projects/slug#bit)`.
+const body = pages.find((entry) => entry.url === href)?.body ?? '';
+const linked = new Set(
+  [...body.matchAll(/\]\((\/(?:blog|projects|notes)\/[\w-]+)[^)]*\)/g)].map(
+    (match) => match[1],
+  ),
+);
+const mentions = pages
+  .filter((entry) => entry.url !== href && linked.has(entry.url))
+  .sort(byDate);
+
+// A mutual link belongs in one list only, so it is not named twice.
+const lists = [
+  { title: 'Mentions', items: mentions },
+  { title: 'Mentioned in', items: backlinks.filter((e) => !linked.has(e.url)) },
+].filter((list) => list.items.length);
+---
+
+{
+  lists.length ? (
+    <aside class="related">
+      {lists.map((list) => (
+        <section>
+          <h2 class="related-title">{list.title}</h2>
+          <ul class="related-list">
+            {list.items.map((entry) => (
+              <li>
+                <a href={entry.url}>{entry.data.title}</a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </aside>
+  ) : null
+}
+
+<style lang="postcss">
+  .related {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-m) var(--space-l);
+    margin-block-start: var(--space-l);
+    padding-block-start: var(--space-m);
+    border-block-start: 1px solid var(--colour-border);
+  }
+
+  .related > section {
+    flex: 1 1 14rem;
+  }
+
+  .related-title {
+    margin-block-end: var(--space-2xs);
+    font-size: var(--step--1);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0.7;
+  }
+
+  .related-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
+  }
+</style>

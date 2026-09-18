@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import RelatedLinks from '~/components/RelatedLinks.astro';
 import GithubReadme from '~/components/GithubReadme.astro';
 import PageHeader from '~/components/PageHeader.astro';
 import ProjectScreenshots from '~/components/ProjectScreenshots.astro';
@@ -108,6 +109,8 @@ const githubRepo = githubMatch?.[2];
         </div>
       </details>
     ) : null}
+
+    <RelatedLinks href={`/projects/${slug}`} />
 
     <footer class="tool-footer">
       <span class="mono">&gt;</span>{' '}

@@ -4,6 +4,7 @@ import { SITE_METADATA } from 'src/consts';
 import FormattedDate from '~/components/FormattedDate.astro';
 import NoteTagLink from '~/components/NoteTagLink.astro';
 import PageTitle from '~/components/PageTitle.astro';
+import RelatedLinks from '~/components/RelatedLinks.astro';
 import TableOfContents from '~/components/TableOfContents.astro';
 import NoteLayout from '~/layouts/NoteLayout.astro';
 
@@ -69,6 +70,8 @@ const pageTitle = SITE_METADATA.notes.title;
 
       <Content />
     </div>
+
+    <RelatedLinks href={`/notes/${note.slug}`} />
 
     <footer class="note-footer">
       <span class="mono">&gt;</span>{' '}
