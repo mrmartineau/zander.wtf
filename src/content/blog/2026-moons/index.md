@@ -77,7 +77,7 @@ That was the last big piece. From here I expect refinements, not features. Moons
 
 ## What it costs
 
-Three people are free, which is enough to find out whether the orbit works for you. One payment of £1.99, or $1.99, opens all twelve. No subscription.
+Three people are free, which is enough to find out whether the orbit works for you. One payment of £2.99, or $2.99, opens all twelve. No subscription.
 
 Groups are a separate purchase. Another £1.99 if you've already paid for twelve, or £4.99 for the lot if you're still on the free tier.
 
