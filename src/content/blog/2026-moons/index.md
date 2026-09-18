@@ -12,8 +12,8 @@ tags:
 I've shipped my first iOS app! 🥳 [Moons](/projects/moons) went live on the App Store this week and I'm really excited about it. I've built so many things over the years, but this is the first one you can find by searching an app store, and that feels different.
 
 <div class="flex flex-col items-center gap-4 my-8">
-  <a href="https://apps.apple.com/gb/app/moons-keep-in-touch/id6805814733" target="_blank" rel="noopener noreferrer"><img src="/images/projects/moons/moons-icon2.webp" alt="Moons on the App Store" width="128" height="128" class="border-none rounded-[28px] shadow-xl" /></a>
-  <a href="https://apps.apple.com/gb/app/moons-keep-in-touch/id6805814733" target="_blank" rel="noopener noreferrer"><img src="/images/download-on-the-app-store.svg" alt="Download Moons on the App Store" width="120" height="40" class="inline rounded-none border-none" /></a>
+  <a href="https://apps.apple.com/app/moons-keep-in-touch/id6805814733" target="_blank" rel="noopener noreferrer"><img src="/images/projects/moons/moons-icon2.webp" alt="Moons on the App Store" width="128" height="128" class="border-none rounded-[28px] shadow-xl" /></a>
+  <a href="https://apps.apple.com/app/moons-keep-in-touch/id6805814733" target="_blank" rel="noopener noreferrer"><img src="/images/download-on-the-app-store.svg" alt="Download Moons on the App Store" width="120" height="40" class="inline rounded-none border-none" /></a>
 </div>
 
 ## Why I built it
@@ -81,4 +81,4 @@ Three people are free, which is enough to find out whether the orbit works for y
 
 Groups are a separate purchase. Another £1.99 if you've already paid for twelve, or £4.99 for the lot if you're still on the free tier.
 
-Go and [put twelve people in orbit](https://apps.apple.com/gb/app/moons-keep-in-touch/id6805814733).
+Go and [put twelve people in orbit](https://apps.apple.com/app/moons-keep-in-touch/id6805814733).

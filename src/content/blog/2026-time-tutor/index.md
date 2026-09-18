@@ -13,8 +13,8 @@ tags:
 [Time Tutor](/projects/time-tutor) is on the App Store. It's my second iOS app to get through review, a week after [Moons](/blog/moons), and of the two this is the one that's closest to my heart. It's a small app. It does one thing. But I built it for my son, and he's the reason it exists at all.
 
 <div class="flex flex-col items-center gap-4 my-8">
-  <a href="https://apps.apple.com/gb/app/time-tutor/id6798621006" target="_blank" rel="noopener noreferrer"><img src="/images/projects/time-tutor/icon.webp" alt="Time Tutor on the App Store" width="128" height="128" class="border-none rounded-[28px] shadow-xl" /></a>
-  <a href="https://apps.apple.com/gb/app/time-tutor/id6798621006" target="_blank" rel="noopener noreferrer"><img src="/images/download-on-the-app-store.svg" alt="Download Time Tutor on the App Store" width="120" height="40" class="inline rounded-none border-none" /></a>
+  <a href="https://apps.apple.com/app/time-tutor/id6798621006" target="_blank" rel="noopener noreferrer"><img src="/images/projects/time-tutor/icon.webp" alt="Time Tutor on the App Store" width="128" height="128" class="border-none rounded-[28px] shadow-xl" /></a>
+  <a href="https://apps.apple.com/app/time-tutor/id6798621006" target="_blank" rel="noopener noreferrer"><img src="/images/download-on-the-app-store.svg" alt="Download Time Tutor on the App Store" width="120" height="40" class="inline rounded-none border-none" /></a>
 </div>
 
 ## It started as a web page
@@ -49,10 +49,10 @@ What's in it:
 
 No account, no network, no ads. It works on a plane and in a classroom with no wifi.
 
-This was my first proper app in Swift. I'd written [a native app for Otter](/blog/2026-08-02-otter-native-ios-app) before this, but that wasn't a full application when I started, more a client for an API I already had. Time Tutor was the first time I built the whole thing, screen by screen, and had to make it feel like it belonged on the phone. It taught me most of what I then used on Moons.
+This was my first proper app in Swift. I'd written [a native app for Otter](/blog/2026-08-02-otter-native-ios-app) before this, but that wasn't a full application when I started, more a client for an API I already had. Time Tutor was the first time I built the whole thing from scratch, one screen and every state it can be in, and had to make it feel like it belonged on the phone. It taught me most of what I then used on Moons.
 
 ## What it costs
 
 £0.99, or $0.99, once. No subscription, no in-app purchases. I don't expect to make much money from this, and that's fine. But it's worth saying that the web version made nothing at all. A web page is very hard to charge for, and an app on the App Store isn't, so even a tiny amount of money is some return on the time it took to build. It scratched an itch, it helped my son, and if it helps a few other kids learn the time then it's done its job.
 
-Go and [have a play with it](https://apps.apple.com/gb/app/time-tutor/id6798621006), and let me know what you think. I'd love to hear if it works for your kids too.
+Go and [have a play with it](https://apps.apple.com/app/time-tutor/id6798621006), and let me know what you think. I'd love to hear if it works for your kids too.

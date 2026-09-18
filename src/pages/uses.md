@@ -369,7 +369,7 @@ I moved to Obsidian a while back and haven't looked back.
 - [Vivid](https://www.getvivid.app/): Double brightness system-wide
 - [Ice](https://icemenubar.app/): Hide some of those pesky menubar items.
 - [Shottr](https://shottr.cc): A small, fast screenshot app built for people who care about pixels. My go-to for screenshots and quick annotations.
-- [AudioSwitcher](https://apps.apple.com/gb/app/audioswitcher/id561712678): A menu bar app for quickly switching between all available input and output devices.
+- [AudioSwitcher](https://apps.apple.com/app/audioswitcher/id561712678): A menu bar app for quickly switching between all available input and output devices.
 
 This page is featured on [uses.tech](https://uses.tech/). If you're reading this and want to see others like it, head on over there to find out more.
 

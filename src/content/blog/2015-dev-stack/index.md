@@ -24,7 +24,7 @@ I use a Mac so some apps may not work on your platform :(
 - [xScope](http://xscopeapp.com) - Measure everything, extremely useful
 - [Glyphs](http://www.glyphsapp.com) - for creating & editing fonts
 - [Sip](http://theolabrothers.com/) - Colour picker
-- [Breezy](https://itunes.apple.com/gb/app/breezy/id627880733?mt=12) - Drag & drop images to base64 encode them. Super useful.
+- [Breezy](https://itunes.apple.com/app/breezy/id627880733?mt=12) - Drag & drop images to base64 encode them. Super useful.
 
 ## Other useful apps
 
@@ -35,7 +35,7 @@ These apps are not specifically for development but they definitely help me get 
   _ caniuse, for searching caniuse.com from within Alfred + [MDN search](http://www.alfredforum.com/topic/1989-mdn-search-mozilla-developer-network) + [SourceTree](https://github.com/zhaocai/alfred2-sourcetree-workflow) - Workflow to list, search, & open SourceTree repositories in Alfred
 - [Simplenote](http://simplenote.com)
 - [Wunderlist](http://wunderlist.com) ✨
-- [BetterSnapTool](https://itunes.apple.com/gb/app/bettersnaptool/id417375580?mt=12) - Window management tool
+- [BetterSnapTool](https://itunes.apple.com/app/bettersnaptool/id417375580?mt=12) - Window management tool
 - [Divvy](http://mizage.com/divvy) ✨ - Another window management tool, has different features to BetterSnapTool & extremely useful when trying to position more than one app on a screen
 - [Palua](http://www.molowa.com/mac-os-x/palua/palua-3-0/) - Auto-switches my Mac's function keys. Especially useful when using apps that make use of the function keys, like Sublime Text
 - [1Password](https://agilebits.com/onepassword) ✨ - Password management
