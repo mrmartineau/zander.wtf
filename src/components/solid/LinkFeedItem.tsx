@@ -31,7 +31,7 @@ export function LinkFeedItem({
           {description}
         </div>
       ) : null}
-      <div class="flex items-center gap-2 text-xs">
+      <div class="flex flex-wrap items-center gap-2 text-xs min-w-0">
         {url ? (
           <>
             <Favicon url={url} />
@@ -39,8 +39,11 @@ export function LinkFeedItem({
           </>
         ) : null}
         {type ? <LinkType type={type} setSearchQuery={setSearchQuery} /> : null}
-        {tags?.length
-          ? tags
+        {tags?.length ? (
+          // One row that runs out in an ellipsis, so a long tag list never
+          // widens the page.
+          <div class="min-w-0 truncate">
+            {tags
               .filter(
                 (tag) =>
                   !['IFTTT', 'TwitterLike', 'instapaper', 'public'].includes(
@@ -49,15 +52,18 @@ export function LinkFeedItem({
               )
               .map((tag) => (
                 <button
-                  class="hover:opacity-60"
+                  class="hover:opacity-60 mr-2 last:mr-0"
                   onClick={() => setSearchQuery(tag)}
                   type="button"
                 >
                   #{tag}
                 </button>
-              ))
-          : null}
-        <time datetime={date}>{new Date(date).toLocaleDateString()}</time>
+              ))}
+          </div>
+        ) : null}
+        <time class="shrink-0" datetime={date}>
+          {new Date(date).toLocaleDateString()}
+        </time>
       </div>
     </div>
   );
