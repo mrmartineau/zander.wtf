@@ -31,6 +31,7 @@
     "@phosphor-icons/web": "^2.1.2",
     "@resvg/resvg-wasm": "^2.6.2",
     "@spotify/web-api-ts-sdk": "^1.2.0",
+    "@tanstack/solid-virtual": "^3.13.40",
     "@types/color-hash": "^2.0.0",
     "@types/markdown-it": "^14.1.2",
     "@types/sanitize-html": "^2.16.0",
