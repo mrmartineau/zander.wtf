@@ -15,6 +15,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const { title, description, image = '/opengraph.jpg', slug } = Astro.props;
 
 const theTitle = slug === 'home' ? title : `${title} | Zander Martineau`;
+const ogImage = slug
+  ? new URL(`/opengraph/${slug}/og.png`, Astro.url)
+  : new URL(image, Astro.url);
 ---
 
 <!-- Global Metadata -->
@@ -37,15 +40,21 @@ const theTitle = slug === 'home' ? title : `${title} | Zander Martineau`;
 
 <link rel="me" href="https://github.com/mrmartineau" type="text/html" />
 
-<!-- Open Graph -->
-<meta name="og:type" content="website" />
-<meta name="og:url" content={Astro.url} />
-<meta
-  property="og:image"
-  content={slug
-    ? new URL(`/opengraph/${slug}/og.png`, Astro.url)
-    : new URL(image, Astro.url)}
-/>
+<!-- Open Graph. These are `property`, not `name` — Facebook, LinkedIn and
+     Slack ignore the `name` spelling, so the share card came out untitled. -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content={Astro.url} />
+<meta property="og:site_name" content="Zander Martineau" />
+<meta property="og:locale" content="en_GB" />
+<meta property="og:title" content={theTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={ogImage} />
+
+<!-- Twitter / X -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={theTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
 
 <link
   rel="preload"

@@ -10,12 +10,19 @@ import Desktop from '~/components/solid/desktop/Desktop';
 import Tui from '~/components/solid/tui/Tui';
 import { SITE_FOOTER_ITEMS, SITE_NAV_ITEMS } from '../consts';
 
-const { title, subtitle, image, slug } = Astro.props;
+// `subtitle` is the visible strapline and doubles as the meta description;
+// `description` overrides it where a page needs the two to differ.
+const { title, subtitle, description, image, slug } = Astro.props;
 ---
 
 <html lang="en">
   <head>
-    <BaseHead title={title} description={subtitle} image={image} slug={slug} />
+    <BaseHead
+      title={title}
+      description={description ?? subtitle}
+      image={image}
+      slug={slug}
+    />
     <script is:inline>
       // The URL prefix picks the front end. Keep in sync with src/utils/uiMode.ts
       var zmMode = (location.pathname.match(/^\/(desktop|tui|txt)(?=\/|$)/) || [])[1];
@@ -82,7 +89,7 @@ const { title, subtitle, image, slug } = Astro.props;
       </nav>
     </noscript>
     <Header />
-    <Greeting />
+    <Greeting isHome={slug === 'home'} />
     <main id="page">
       <slot />
     </main>

@@ -1,12 +1,13 @@
 ---
 import { type CollectionEntry, getCollection } from 'astro:content';
-import { SITE_METADATA } from 'src/consts';
 import FormattedDate from '~/components/FormattedDate.astro';
 import NoteTagLink from '~/components/NoteTagLink.astro';
 import PageTitle from '~/components/PageTitle.astro';
 import RelatedLinks from '~/components/RelatedLinks.astro';
+import SearchForm from '~/components/SearchForm.astro';
 import TableOfContents from '~/components/TableOfContents.astro';
-import NoteLayout from '~/layouts/NoteLayout.astro';
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import { excerpt } from '~/utils/excerpt';
 
 export async function getStaticPaths() {
   const notes = await getCollection('codenotes');
@@ -22,10 +23,20 @@ const note = Astro.props;
 const { Content, headings } = await note.render();
 const { title, date, tags, emoji, link } = note.data;
 
-const pageTitle = SITE_METADATA.notes.title;
+// The note's own title and an excerpt of its body: every note used to share
+// the section's title and carry no description at all. Notes that are pure
+// code have no prose to excerpt, so the title and tags stand in.
+const description =
+  excerpt(note.body) ||
+  `A code snippet${tags?.length ? ` for ${tags.join(', ')}` : ''}: ${title}.`;
 ---
-<NoteLayout title={pageTitle} slug="notes">
-  <article>
+<BaseLayout title={title} subtitle={description} slug="notes">
+  <div class="zm-contentContainer">
+  <div class="note-main">
+    <div class="mb-6">
+      <SearchForm placeholder="Search notes..." />
+    </div>
+    <article>
     <header class="note-header">
       <PageTitle transition:persist>
         {emoji ? <span class="emoji">{emoji}</span> : null}
@@ -77,10 +88,17 @@ const pageTitle = SITE_METADATA.notes.title;
       <span class="mono">&gt;</span>{' '}
       <a href="/notes">cd ..</a>
     </footer>
-  </article>
-</NoteLayout>
+    </article>
+  </div>
+  </div>
+</BaseLayout>
 
 <style>
+  .note-main {
+    min-width: 0;
+    max-width: 1000px;
+  }
+
   .note-header {
     margin-block-end: var(--space-l);
   }

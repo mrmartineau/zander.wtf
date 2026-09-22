@@ -24,15 +24,25 @@ const introSegments = [
 const introLabel = `Hi! I’m Zander, I make ${ROTATING_WORDS.join(' and ')}`;
 
 const toLetters = (text: string) => [...text];
+
+// The greeting is in the DOM on every page but only shown on the home page, so
+// only there is it the page's heading. Elsewhere it is letter art: `role="img"`
+// lets the aria-label read as one phrase without claiming to be an <h1>.
+interface Props {
+  isHome?: boolean;
+}
+
+const { isHome = false } = Astro.props;
+const Intro = isHome ? 'h1' : 'div';
 ---
 
 <!-- prettier-ignore -->
 <div id="greeting" class="zm-greeting">
-  <h1 class="zm-intro" aria-label={introLabel}>
+  <Intro class="zm-intro" role={isHome ? undefined : 'img'} aria-label={introLabel}>
     {introSegments.map(({ text, name, rotates }) => {
       // Elements stay on one line: `.name` is `white-space: pre`, so any
       // whitespace the template introduces would render as a real space.
-      // Each letter is hidden from assistive tech: the h1's aria-label reads
+      // Each letter is hidden from assistive tech: the aria-label above reads
       // the whole sentence, so the per-glyph spans would only be noise.
       const letters = toLetters(text).map((char) =>
         char === ' ' ? ' ' : <span class="letter" aria-hidden="true">{char}</span>
@@ -48,7 +58,7 @@ const toLetters = (text: string) => [...text];
 
       return letters;
     })}
-  </h1>
+  </Intro>
   <!-- Announces each new word. Polite, so it waits for the reader to pause. -->
   <p class="visually-hidden" aria-live="polite" aria-atomic="true" data-live></p>
   <button type="button" class="zm-intro-pause" aria-pressed="false" aria-label="Pause the rotating words" hidden>

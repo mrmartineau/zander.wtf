@@ -1,10 +1,10 @@
 ---
 import { getCollection } from 'astro:content';
-import { SITE_METADATA } from 'src/consts';
 import NoteList from '~/components/NoteList.astro';
 import NoteTagDot from '~/components/NoteTagDot.astro';
 import PageTitle from '~/components/PageTitle.astro';
-import NoteLayout from '~/layouts/NoteLayout.astro';
+import SearchForm from '~/components/SearchForm.astro';
+import BaseLayout from '~/layouts/BaseLayout.astro';
 
 const tag = Astro.params.tag;
 const notes = (await getCollection('codenotes'))
@@ -31,22 +31,36 @@ export async function getStaticPaths() {
   }));
 }
 
-const slug = 'notes';
-const title = SITE_METADATA[slug].title;
-const subtitle = `Notes tagged with "${tag}"`;
+// Every tag page used to be titled "Code Notes", so all 45 of them looked like
+// one duplicated page. The tag is what makes each one distinct.
+const title = `Notes tagged “${tag}”`;
+const subtitle = `${notes.length} code note${notes.length === 1 ? '' : 's'} tagged “${tag}” — TILs and snippets from my digital code garden.`;
 ---
 
-<NoteLayout title={title} subtitle={subtitle} slug={slug}>
-  <header class="note-header">
-    <PageTitle transition:persist>
-      <NoteTagDot tag={tag} /> {tag}
-    </PageTitle>
-  </header>
+<BaseLayout title={title} subtitle={subtitle} slug="notes">
+  <div class="zm-contentContainer">
+    <div class="note-main">
+      <div class="mb-6">
+        <SearchForm placeholder="Search notes..." />
+      </div>
 
-  <NoteList notes={notes} />
-</NoteLayout>
+      <header class="note-header">
+        <PageTitle transition:persist>
+          <NoteTagDot tag={tag} /> {tag}
+        </PageTitle>
+      </header>
+
+      <NoteList notes={notes} />
+    </div>
+  </div>
+</BaseLayout>
 
 <style>
+  .note-main {
+    min-width: 0;
+    max-width: 1000px;
+  }
+
   .note-header {
     margin-block-end: var(--space-l);
   }

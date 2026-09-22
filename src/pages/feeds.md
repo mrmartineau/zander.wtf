@@ -1,5 +1,6 @@
 ---
 title: Feeds
+subtitle: Every RSS and Atom feed on this site — blog posts, worklog entries and links.
 layout: ../layouts/MarkdownLayout.astro
 slug: feeds
 ---
