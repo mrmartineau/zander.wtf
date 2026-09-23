@@ -1,0 +1,100 @@
+---
+slug: green-claws
+title: Green Claws now available on the App Store
+subtitle: My third iOS app is out. How a plant list I made because I'm a bad gardener turned into a microsite anyone can generate, and then into Green Claws, an iOS gardening app for the UK.
+date: 2026-09-23
+tags:
+  - ios
+  - swiftui
+  - astro
+  - ai
+  - side-project
+---
+
+import ProjectScreenshots from '~/components/ProjectScreenshots.astro';
+
+I'm not a good gardener, but our garden always looks great. That's down to my wife, who loves it and spends hours planting and looking after everything. My jobs are the mowing, the cutting back and the weeding, and past that I'm lost.
+
+We have a lot of plants, in the house and out of it, and I can never remember what most of them are called. I don't know how to prune them, when they want water or how much, or which ones need lifting before the first frost. This year's hot summer and drought showed me how little I knew. Someone in this house knows all that in July, and nobody knows it in October.
+
+So I did what I do with everything I can't remember. I wrote it down.
+
+## Lo-fi solution
+
+It started with my phone. I walked round the garden taking a photo of every plant, then uploaded each one to ChatGPT to identify it and write out its care information as markdown. It all went into one table, with columns for the name, light, water, when it flowers and what to do in winter. It wasn't clever, but it was the first time all of that lived in one place.
+
+The table got long and unreadable, so I turned it into a site.
+
+## Flora
+
+[Flora](/projects/flora) is that table as an Astro site, at [flora.zander.wtf](https://flora.zander.wtf). Every plant is a markdown file, and its frontmatter holds all the data. There's a page per plant with light, water, hardiness and a strip showing which months it's in flower. There's a view of what's in flower this month, a dry-spell page for what to water first, and a winter page grouped by job. Reference data comes from the [RHS](https://www.rhs.org.uk), and the care notes are how we look after each plant here.
+
+I love the site, but I'm really pleased with the two agent skills that ship with it.
+
+[`add-plant`](https://github.com/mrmartineau/flora.zander.wtf/tree/main/.claude/skills/add-plant) takes a photo or a name and does the whole job. It identifies the plant with an honest confidence rating, finds a reference URL, writes the frontmatter and the body, and reindexes search. Adding a plant takes one sentence instead of an afternoon.
+
+[`make-your-own-flora`](https://github.com/mrmartineau/flora.zander.wtf/tree/main/.claude/skills/make-your-own-flora) turns a fork into somebody else's site. Give it some photos and it identifies the plants, creates the Astro project, connects it to your Cloudflare account and deploys it. So anyone can have their own Flora for their own garden without touching a config file. There's a [make your own](https://flora.zander.wtf/make-your-own) page on the site that walks through it: fork it, point a coding agent at it, deploy it. If you'd rather have a website than an app, Flora is still there and the skills will build you one.
+
+That second skill changed the direction of the project. Once other people could generate their own site, I started to ask why they'd need a site at all when they already carry a phone.
+
+## Green Claws
+
+[Green Claws](/projects/green-claws) is the same idea as Flora, taken a lot further, as an iOS app. It's at [greenclaws.app](https://greenclaws.app).
+
+<div class="flex flex-col items-center gap-4 my-8">
+  <a href="https://apps.apple.com/gb/app/green-claws-plant-diary/id6803198490" target="_blank" rel="noopener noreferrer"><img src="/images/projects/green-claws/icon.webp" alt="Green Claws on the App Store" width="128" height="128" class="border-none rounded-[28px] shadow-xl" /></a>
+  <a href="https://apps.apple.com/gb/app/green-claws-plant-diary/id6803198490" target="_blank" rel="noopener noreferrer"><img src="/images/download-on-the-app-store.svg" alt="Download Green Claws on the App Store" width="120" height="40" class="inline rounded-none border-none" /></a>
+</div>
+
+Most plant apps are identifiers. You point your phone at a plant, it gives you a name, and that's the end of it. In Green Claws, identification is only the first step. What you get back is an almanac of the plants you own, and it changes as the year does:
+
+- What's in flower this month, and what's about to be
+- This month's jobs, filtered to your plants. It works out from the photo whether something lives indoors or outside, so a job written for a border is never offered for a windowsill
+- Watering that follows the rainfall where you are rather than a fixed schedule
+- A page per plant: light, shelter, hardiness, eventual size, and whether it's toxic to pets or children
+- Publish your garden as a website, so you can share it with other people
+- Two home screen widgets, so this month's jobs are there without opening anything
+
+<ProjectScreenshots
+  title="Green Claws"
+  screenshots={[
+    { src: '/images/projects/green-claws/01-garden.webp', alt: 'The garden view listing every plant in the collection' },
+    { src: '/images/projects/green-claws/02-in-flower.webp', alt: 'What is in flower this month' },
+    { src: '/images/projects/green-claws/03-plant.webp', alt: 'A single plant page with light, hardiness and size' },
+    { src: '/images/projects/green-claws/04-care.webp', alt: "This month's care jobs for the plants owned" },
+    { src: '/images/projects/green-claws/05-watering.webp', alt: 'Watering guidance based on recent local rainfall' },
+    { src: '/images/projects/green-claws/06-review.webp', alt: 'Confirming an identification against reference photographs' },
+  ]}
+/>
+
+There are no daily reminders and no streaks. Most garden jobs come round once a month or once a year, so there's no reason for the app to nag you every morning.
+
+OpenAI models do the identification and write the plant content, and RHS data fills in the reference information the same way it does for Flora. Identification runs in the background and nothing gets filed under a name you haven't agreed to. Your location is rounded to about 10km before it leaves the phone, and if you decline it the only thing you lose is the rainfall.
+
+## UK only, for now
+
+Green Claws is on the UK App Store and nowhere else. The reason is the plant data, not licensing or a staged launch.
+
+The UK sits inside RHS hardiness H4 to H6, which is a narrow enough band that one set of month-by-month jobs is roughly right from Cornwall to Aberdeen. "Feed the roses in March" holds everywhere here. The US spans USDA zones 3 to 11, and that same sentence is right in Virginia, a month early in Minnesota and a month late in Georgia. The same plant on the east coast and on the west coast is two different jobs. One fixed calendar would give the wrong month for most of the country.
+
+Hardiness itself means something different over there. An RHS rating describes the plant: H5 means it survives −15 °C. A USDA zone describes the place: zone 6b means the coldest night of an average winter falls between −20 °C and −18 °C, and a plant is listed as "zones 5 to 9". So the UK needs one number where the US needs two. One is the plant's range, the other is the zone your garden is in. On top of that, the UK pipeline uses the [RHS](https://www.rhs.org.uk) Plant Finder for its citations and its hardiness overrides, and there's no straight American equivalent with terms I've checked.
+
+Getting one country right felt more useful than getting every country vaguely wrong, and it's the country I can test in.
+
+## What's next
+
+Publishing a garden is the first sharing feature, and there are more coming. Wish lists, so you can keep track of the plants you want as well as the ones you have. And shared gardens, so two people in the same house can look after one garden together instead of each keeping their own copy.
+
+Then the US. None of it is built yet, but I've written the plan, and the groundwork turned out to be there already: the backend stores care data per region, the API hands the app a region with every plant, and the app renders whichever block it's given. A second country needs some backend work and a second prompt, not a rewrite.
+
+The climate is the interesting part. Writing a separate care calendar for each of nine zones means nine sets of prose to check, so the plan is to write one for a reference garden around zone 6b to 7a and shift the months by the gap between your garden's frost dates and its own. Your zone and those dates come from thirty years of Open-Meteo history: take the coldest night of each winter, average them, and bin the result. That's the USDA definition itself, not an approximation of it. Then there are the smaller changes: "Fall" instead of "Autumn", inches instead of millimetres, and watering based on what the ground lost rather than on counting dry days, because counting dry days puts Phoenix on "water now" from May to September.
+
+## It's out
+
+Sixteen TestFlight builds got it here. Thank you to everyone who installed it, added their plants and told me what was broken. It's a much better app because of you.
+
+It's free for five plants, which is enough to see whether you like it. Unlimited plants, publishing your garden as a website and the widgets are £19.99 a year, or £49 for lifetime access if you'd rather never think about it again.
+
+If you've got a windowsill of houseplants you keep killing, or a garden you're not sure what to do with in October, it was built for you. More on the [project page](/projects/green-claws).
+
+<a href="https://apps.apple.com/gb/app/green-claws-plant-diary/id6803198490" target="_blank" rel="noopener noreferrer"><img src="/images/download-on-the-app-store.svg" alt="Download Green Claws on the App Store" width="120" height="40" class="inline rounded-none border-none" /></a>

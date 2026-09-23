@@ -4,8 +4,12 @@ title: Green Claws
 subtitle: A plant diary that turns photographs of what you already own into an almanac that changes as the year does.
 date: 2026-08-12
 type: ios-app
-status: unreleased
+status: active
 link: 'https://greenclaws.app'
+# The short, country-less form 404s while the app is UK + Ireland only: Apple
+# sends it to /us/, which has no page. Switch it when the US store opens.
+appStore: https://apps.apple.com/gb/app/green-claws-plant-diary/id6803198490
+pricing: Five plants free. £19.99 a year for unlimited, or £49 for lifetime access.
 image: '/images/projects/green-claws/icon.webp'
 screenshots:
   - src: '/images/projects/green-claws/01-garden.webp'
