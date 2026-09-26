@@ -253,7 +253,9 @@ const jsonLd = {
                 aria-label="A live Moons orbit. Swipe sideways, or use the arrow keys, to spin to the next group. Tap a face to open that person."
               >
                 <svg class="rings" aria-hidden="true"></svg>
-                <div class="you" aria-hidden="true">you</div>
+                <div class="you" aria-hidden="true">
+                  <img src="/images/avatars/zm-avatar-08-2026.webp" alt="" draggable="false" width="180" height="180" />
+                </div>
                 {
                   orbits.map((orbit, o) =>
                     orbit.people.map((person, i) => (
@@ -1082,8 +1084,9 @@ const jsonLd = {
     background: var(--self-fill);
     color: var(--self-text);
     border: 1.5px solid rgb(181 176 165 / 0.35);
-    font-size: calc(17 * var(--pt));
+    overflow: hidden;
   }
+  .you img { width: 100%; height: 100%; object-fit: cover; }
   .moon {
     position: absolute;
     top: 0;
