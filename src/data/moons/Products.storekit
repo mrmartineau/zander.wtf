@@ -1,0 +1,86 @@
+{
+  "identifier" : "A1000001-0000-0000-0000-000000000001",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+    {
+      "displayPrice" : "2.99",
+      "familyShareable" : true,
+      "internalID" : "A1000002-0000-0000-0000-000000000002",
+      "localizations" : [
+        {
+          "description" : "Room for all twelve people, once and for good.",
+          "displayName" : "The full orbit",
+          "locale" : "en_GB"
+        }
+      ],
+      "offerCodes" : [
+        {
+          "internalID" : "29056ED5-A830-4419-81CC-AA156A04D5F5",
+          "paymentMode" : "free",
+          "referenceName" : "FRIENDS"
+        }
+      ],
+      "productID" : "wtf.zander.Moons.fullorbit",
+      "referenceName" : "Full orbit",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "4.99",
+      "familyShareable" : true,
+      "internalID" : "A1000004-0000-0000-0000-000000000004",
+      "localizations" : [
+        {
+          "description" : "Four orbits of twelve, the full orbit included.",
+          "displayName" : "Four orbits",
+          "locale" : "en_GB"
+        }
+      ],
+      "offerCodes" : [
+        {
+          "internalID" : "FC24363B-162E-4979-8B5D-F4FD24DB9A7C",
+          "paymentMode" : "free",
+          "referenceName" : "4ORBS"
+        }
+      ],
+      "productID" : "wtf.zander.Moons.fourorbits",
+      "referenceName" : "Four orbits",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "1.99",
+      "familyShareable" : true,
+      "internalID" : "A1000005-0000-0000-0000-000000000005",
+      "localizations" : [
+        {
+          "description" : "Three more orbits, on top of the full orbit you own.",
+          "displayName" : "Four orbits upgrade",
+          "locale" : "en_GB"
+        }
+      ],
+      "offerCodes" : [
+        {
+          "internalID" : "7F57D662-E1BF-4784-B112-39A9F04861EE",
+          "paymentMode" : "free",
+          "referenceName" : "FORBSUP"
+        }
+      ],
+      "productID" : "wtf.zander.Moons.fourorbits.upgrade",
+      "referenceName" : "Four orbits upgrade",
+      "type" : "NonConsumable"
+    }
+  ],
+  "settings" : {
+    "_applicationInternalID" : "A1000003-0000-0000-0000-000000000003",
+    "_developerTeamID" : "C49QLB3U49",
+    "_lastSynchronizedDate" : 0
+  },
+  "subscriptionGroups" : [
+
+  ],
+  "version" : {
+    "major" : 4,
+    "minor" : 0
+  }
+}

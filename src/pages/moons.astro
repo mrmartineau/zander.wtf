@@ -1,0 +1,1234 @@
+---
+// A bespoke landing page for the Moons iOS app. It deliberately skips
+// BaseLayout/BaseHead and the site stylesheet: nothing from the rest of the
+// site should show here.
+//
+// Content comes from two files copied verbatim from the Moons repo — re-copy
+// them when the app changes:
+//   src/data/moons/shotframe.config.jsonc ← tools/screenshot-frames/
+//   src/data/moons/Products.storekit      ← Moons/Store/
+// Screens (public/moons/screens) are the raw shotframe sources, and the faces
+// (public/moons/faces) are Moons/DemoAvatars in filename order, as DemoMode
+// deals them out.
+import { getCollection } from 'astro:content';
+import storekitRaw from '../data/moons/Products.storekit?raw';
+import shotframeRaw from '../data/moons/shotframe.config.jsonc?raw';
+
+type Panel = {
+  slug: string;
+  source: string;
+  eyebrow: string;
+  heading: string;
+  body: string;
+};
+type Product = {
+  productID: string;
+  displayPrice: string;
+  localizations: { displayName: string; description: string }[];
+};
+
+// Every comment in that file is a whole line, so dropping them is enough.
+const { panels }: { panels: Panel[] } = JSON.parse(
+  shotframeRaw.replace(/^\s*\/\/.*$/gm, ''),
+);
+const { products }: { products: Product[] } = JSON.parse(storekitRaw);
+const product = (id: string) => {
+  const p = products.find((p) => p.productID === id);
+  if (!p) throw new Error(`Moons: no product ${id} in Products.storekit`);
+  return {
+    price: `£${p.displayPrice}`,
+    name: p.localizations[0].displayName,
+    description: p.localizations[0].description,
+  };
+};
+const fullOrbit = product('wtf.zander.Moons.fullorbit');
+const fourOrbits = product('wtf.zander.Moons.fourorbits');
+const upgrade = product('wtf.zander.Moons.fourorbits.upgrade');
+
+const project = (await getCollection('projects')).find(
+  (p) => p.slug === 'moons',
+);
+if (!project?.data.appStore) throw new Error('Moons: project entry missing');
+const { appStore, subtitle, pricing, screenshots = [] } = project.data;
+
+const altFor = (panel: Panel) =>
+  screenshots.find((s) => s.src.includes(panel.slug))?.alt ?? panel.heading;
+
+// The demo's groups. The first uses DemoMode's names, and its faces in the
+// same order; once the faces run out people keep their initials, as they do
+// in the app. `progress` is how far through their rhythm someone is: under
+// 0.5 fresh, under 1 drifting, past 1 due (Theme.Status). `fan` is where they
+// sit across the fan, 0 far left to 1 far right (OrbitMath.fanFraction).
+type Row = [
+  name: string,
+  progress: number,
+  interval: number,
+  note: string,
+  fan: number,
+];
+const groups: { name: string; people: Row[] }[] = [
+  {
+    name: 'Friends & family',
+    people: [
+      ['Riley Chen', 1.2, 14, 'Ask how the new flat is going', 0.3],
+      ['Sam Okafor', 0.3, 7, 'Five-a-side on Thursday?', 0.75],
+      ['Priya Desai', 0.8, 30, 'Her sister’s wedding in June', 0.15],
+      ['Jordan Blake', 1.08, 21, 'Return the camping stove', 0.62],
+      ['Noor Hassan', 0.62, 14, 'Recommend that podcast', 0.88],
+      ['Theo Larsen', 0.12, 7, 'The hip op went well', 0.4],
+      ['Ana Bianchi', 1.25, 30, 'Started the new job last month', 0.85],
+      ['Kofi Mensah', 0.9, 21, 'Drinks a flat white, no sugar', 0.45],
+      ['Ivy Nakamura', 0.4, 14, 'Kids: Hana and Sora', 0.1],
+      ['Leo Fontaine', 1.15, 60, 'Back from Lisbon in May', 0.05],
+      ['Maya Novak', 0.7, 30, 'Lend her the Le Guin books', 0.55],
+      ['Dev Patel', 0.55, 14, 'Ask about the marathon', 0.95],
+    ],
+  },
+  {
+    name: 'Work',
+    people: [
+      ['Grace Tan', 1.1, 14, 'Intro her to the design team', 0.6],
+      ['Kate Doyle', 1.3, 30, 'Coffee near Old Street', 0.05],
+      ['Marcus Webb', 1.05, 21, 'Congratulate him on the promotion', 0.3],
+      ['Nina Carter', 1.2, 30, 'Send the conference slides', 0.45],
+      ['Tom Lee', 0.85, 14, 'Ask how the launch went', 0.85],
+      ['Paul Ortiz', 0.6, 21, 'Lunch when he is back in London', 0.5],
+      ['Sofia Varga', 0.5, 30, 'Her talk is in March', 0.2],
+      ['Ben Hughes', 0.75, 14, 'Return his bike lights', 0.9],
+      ['Ella Ford', 0.3, 14, 'Starts parental leave in spring', 0.7],
+      ['Raj Shah', 0.2, 7, 'Pub quiz team on Tuesday', 0.25],
+      ['Jo Park', 0.15, 7, 'Recommend a Seoul itinerary', 0.4],
+      ['Amy Moss', 0.05, 14, 'Thank her for the reference', 0.75],
+    ],
+  },
+  {
+    name: 'Client A',
+    people: [
+      ['Hana Ito', 0.45, 30, 'Renewal is due in May', 0.3],
+      ['Oscar Reid', 0.9, 30, 'Prefers a call to email', 0.7],
+      ['Lucy Grant', 1.1, 60, 'Ask about the new office', 0.5],
+      ['Finn Kaur', 0.2, 30, 'Loves a good spreadsheet', 0.85],
+    ],
+  },
+];
+
+const statusOf = (p: number) =>
+  p < 0.5 ? 'fresh' : p < 1 ? 'drifting' : 'due';
+const labels = {
+  fresh: 'just caught up',
+  drifting: 'drifting',
+  due: 'due a catch-up',
+};
+
+let facesDealt = 0;
+const orbits = groups.map((group) => ({
+  name: group.name,
+  people: group.people.map(([name, progress, interval, note, fan]) => ({
+    name,
+    progress,
+    interval,
+    note,
+    fan,
+    initials: name
+      .split(' ')
+      .map((w) => w[0])
+      .join(''),
+    face:
+      facesDealt < 13
+        ? `/moons/faces/${String(++facesDealt).padStart(2, '0')}.webp`
+        : null,
+  })),
+}));
+
+const title = 'Moons: Keep in Touch';
+const description =
+  subtitle ??
+  'Twelve people, one screen. A quiet iPhone app for staying in touch.';
+const canonical = new URL('/moons', Astro.site);
+const ogImage = new URL('/images/projects/moons/01-orbit.webp', Astro.site);
+const ringFactor = 1 / (2 * Math.tan(Math.PI / panels.length));
+
+const appleLogo =
+  '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.37 12.6c-.02-2.3 1.88-3.4 1.96-3.46-1.07-1.56-2.73-1.78-3.32-1.8-1.41-.14-2.76.83-3.47.83-.72 0-1.82-.81-2.99-.79-1.54.02-2.96.9-3.75 2.27-1.6 2.78-.41 6.89 1.15 9.14.76 1.1 1.67 2.34 2.86 2.3 1.15-.05 1.58-.74 2.97-.74 1.38 0 1.77.74 2.98.72 1.23-.02 2.01-1.12 2.76-2.23.87-1.28 1.23-2.52 1.25-2.58-.03-.01-2.39-.92-2.4-3.66zM14.1 5.86c.63-.77 1.06-1.83.94-2.89-.91.04-2.01.61-2.66 1.37-.58.67-1.1 1.76-.96 2.8 1.01.08 2.05-.52 2.68-1.28z"/></svg>';
+const storeButton = `<a class="store" href="${appStore}">${appleLogo}<span><small>Download on the</small>App Store</span></a>`;
+
+const actions = [
+  ['WhatsApp', 'M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.9A8 8 0 1 1 21 12z'],
+  [
+    'Call',
+    'M5 4h3l2 5-2.5 1.5a11 11 0 0 0 6 6L15 14l5 2v3a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z',
+  ],
+  ['FaceTime', 'M3 7h12v10H3zM15 10l6-3v10l-6-3z'],
+  ['Message', 'M4 5h16v11H8l-4 4z'],
+  ['Email', 'M3 6h18v12H3zM3 6l9 7 9-7'],
+];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: title,
+  operatingSystem: 'iOS',
+  applicationCategory: 'LifestyleApplication',
+  description,
+  url: canonical.href,
+  downloadUrl: appStore,
+  image: new URL('/moons/icon.webp', Astro.site).href,
+  author: { '@type': 'Person', name: 'Zander Martineau', url: Astro.site },
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'GBP' },
+};
+---
+
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/webp" href="/moons/icon.webp" />
+    <link rel="apple-touch-icon" href="/moons/icon.webp" />
+    <meta name="theme-color" content="#1b1d2c" />
+    <meta name="apple-itunes-app" content="app-id=6805814733" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content="Zander Martineau" />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <link rel="preload" as="image" href={orbits[0].people[0].face} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <header class="bar">
+      <a class="brand" href="#top">
+        <img src="/moons/icon.webp" alt="" width="32" height="32" />
+        Moons
+      </a>
+      <a class="bar-cta" href={appStore}>Get the app</a>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="hero-copy">
+          <img class="hero-icon" src="/moons/icon.webp" alt="The Moons app icon" width="112" height="112" />
+          <p class="eyebrow">An iPhone app</p>
+          <h1>Stay close to twelve people</h1>
+          <p class="lede">{description}</p>
+          <div class="cta-row">
+            <Fragment set:html={storeButton} />
+            <span class="cta-note">Three people free. No subscription.</span>
+          </div>
+        </div>
+
+        <div class="hero-demo">
+          <div class="phone" id="phone">
+            <div class="screen" id="screen">
+              <div class="notch" aria-hidden="true"></div>
+              <span class="clock" aria-hidden="true">09:41</span>
+              <div class="orbit-top">
+                <span class="round" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" /><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1" /></svg>
+                </span>
+                <span class="orbit-name">
+                  <span data-orbit-name aria-live="polite">{orbits[0].name}</span>
+                  <span class="orbit-dots" aria-hidden="true">
+                    {orbits.map((_, i) => <i data-dot={i} />)}
+                  </span>
+                </span>
+                <span class="round" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" /></svg>
+                </span>
+              </div>
+              <div
+                class="orbit"
+                id="orbit"
+                role="group"
+                tabindex="0"
+                aria-label="A live Moons orbit. Swipe sideways, or use the arrow keys, to spin to the next group. Tap a face to open that person."
+              >
+                <svg class="rings" aria-hidden="true"></svg>
+                <div class="you" aria-hidden="true">you</div>
+                {
+                  orbits.map((orbit, o) =>
+                    orbit.people.map((person, i) => (
+                      <button
+                        class="moon"
+                        type="button"
+                        data-o={o}
+                        data-i={i}
+                        data-s={statusOf(person.progress)}
+                        tabindex={o === 0 ? 0 : -1}
+                        aria-label={`${person.name}, ${labels[statusOf(person.progress)]}`}
+                      >
+                        {person.face ? (
+                          <img src={person.face} alt="" draggable="false" width="120" height="120" />
+                        ) : (
+                          <span>{person.initials}</span>
+                        )}
+                      </button>
+                    )),
+                  )
+                }
+              </div>
+
+              <div class="person" id="person" hidden>
+                <div class="person-top">
+                  <button type="button" class="round" data-close aria-label="Back to the orbit">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" /></svg>
+                  </button>
+                  <span data-first></span>
+                  <span class="round ghost" aria-hidden="true">•••</span>
+                </div>
+                <div class="person-face" data-face></div>
+                <h2 data-name></h2>
+                <p class="since" data-since></p>
+                <p class="chip" data-chip></p>
+                <div class="actions">
+                  {
+                    actions.map(([label, d]) => (
+                      <button type="button" data-action={label}>
+                        <span class="round">
+                          <svg viewBox="0 0 24 24" aria-hidden="true"><path d={d} /></svg>
+                        </span>
+                        {label}
+                      </button>
+                    ))
+                  }
+                </div>
+                <dl class="card">
+                  <div><dt>Rhythm</dt><dd data-rhythm></dd></div>
+                  <div><dt>Next time</dt><dd data-note></dd></div>
+                </dl>
+                <p class="toast" data-toast role="status"></p>
+              </div>
+            </div>
+          </div>
+          <p class="hint">Swipe sideways to spin to the next group. Tap a face.</p>
+          <ul class="legend">
+            <li data-s="fresh">just caught up</li>
+            <li data-s="drifting">drifting</li>
+            <li data-s="due">due a catch-up</li>
+          </ul>
+        </div>
+      </section>
+
+      <section
+        class="screens"
+        id="screens"
+        style={`--n:${panels.length};--rf:${ringFactor}`}
+        aria-label="Screens from the app"
+      >
+        <div class="screens-sticky">
+          <div class="captions" aria-live="polite">
+            {
+              panels.map((panel, i) => (
+                <article class="cap" data-i={i}>
+                  <p class="eyebrow">{panel.eyebrow}</p>
+                  <h2>{panel.heading}</h2>
+                  <p>{panel.body}</p>
+                </article>
+              ))
+            }
+          </div>
+          <div class="stage">
+            <div class="carousel" id="carousel">
+              {
+                panels.map((panel, i) => (
+                  <figure class="rphone" style={`--i:${i}`} data-i={i}>
+                    <img
+                      src={`/moons/screens/${panel.source.replace(/\.png$/, '.webp')}`}
+                      alt={altFor(panel)}
+                      width="660"
+                      height="1434"
+                      loading="lazy"
+                      draggable="false"
+                    />
+                  </figure>
+                ))
+              }
+            </div>
+          </div>
+          <div class="dots">
+            {
+              panels.map((panel, i) => (
+                <button type="button" data-i={i} aria-label={panel.eyebrow} />
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <section class="values">
+        <p class="eyebrow">It does not watch you</p>
+        <h2>Quiet by design</h2>
+        <div class="grid">
+          <article>
+            <h3>Data Not Collected</h3>
+            <p>Everything stays on your iPhone. No account, no server, no analytics, no adverts.</p>
+          </article>
+          <article>
+            <h3>It never reads a message</h3>
+            <p>Moons records that you reached out. What you said stays between the two of you.</p>
+          </article>
+          <article>
+            <h3>No streaks, no scores</h3>
+            <p>No red badges on human beings. Missing someone by a few days is not a failure.</p>
+          </article>
+          <article>
+            <h3>Widget and Siri</h3>
+            <p>A home-screen widget for any group, and “Log a catch-up in Moons” when your hands are full.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="pricing" aria-labelledby="pricing-title">
+        <p class="eyebrow">Pricing</p>
+        <h2 id="pricing-title">Pay once, if you want more</h2>
+        {pricing && <p class="lede">{pricing}</p>}
+        <div class="tiers">
+          <article>
+            <h3>Free</h3>
+            <p class="price">£0</p>
+            <p>Three people, for as long as you like.</p>
+          </article>
+          <article class="featured">
+            <h3>{fullOrbit.name}</h3>
+            <p class="price">{fullOrbit.price}</p>
+            <p>{fullOrbit.description}</p>
+          </article>
+          <article>
+            <h3>{fourOrbits.name}</h3>
+            <p class="price">{fourOrbits.price}</p>
+            <p>{fourOrbits.description}</p>
+          </article>
+        </div>
+        <p class="fine">Already have {fullOrbit.name.toLowerCase()}? The other three orbits are {upgrade.price}. No subscription, ever.</p>
+      </section>
+
+      <section class="final">
+        <img src="/moons/icon.webp" alt="" width="128" height="128" loading="lazy" />
+        <h2>Who is due a call?</h2>
+        <p class="lede">Find out in one glance.</p>
+        <Fragment set:html={storeButton} />
+      </section>
+    </main>
+
+    <footer class="foot">
+      <span>Made by <a href="/">Zander Martineau</a></span>
+      <a href="/projects/moons">The write-up</a>
+      <a href="/privacy">Privacy</a>
+      <a href="/support">Support</a>
+    </footer>
+
+    <script is:inline type="application/json" id="orbits" set:html={JSON.stringify(orbits)} />
+  </body>
+</html>
+
+<script>
+  type Person = {
+    name: string;
+    progress: number;
+    interval: number;
+    note: string;
+    fan: number;
+    initials: string;
+    face: string | null;
+  };
+  type Moon = Person & {
+    el: HTMLButtonElement;
+    o: number;
+    // Where the layout puts them (angle, radius) and where they are drawn
+    // this frame, easing towards it.
+    a: number;
+    r: number;
+    sa: number;
+    sr: number;
+  };
+
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const statusOf = (p: number) => (p < 0.5 ? 'fresh' : p < 1 ? 'drifting' : 'due');
+  const labels = {
+    fresh: 'just caught up',
+    drifting: 'drifting',
+    due: 'due a catch-up',
+  };
+  const $ = <T extends Element>(sel: string, root: Pick<ParentNode, 'querySelector'> = document) =>
+    root.querySelector(sel) as T;
+  const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
+
+  // ---- The orbit ----------------------------------------------------------
+  // A port of the app's fan: Shared/OrbitMath.swift and Shared/OrbitFan.swift,
+  // and the swipe in OrbitView.swift. Distances are in the app's reference
+  // units; `scale` turns them into pixels. Keep the numbers in step with it.
+
+  const INNER = 56; // progress 0, in the bottom-anchored fan
+  const RIM = 200; // progress 1: due, and the outer ring
+  const OVERDUE = 214; // nobody is drawn past this
+  const DRIFT = 228; // what the layout scales against
+  const EDGE = 26;
+  const YOU = 88;
+  const NODE = 64;
+  const MAX_SWING = 1.3;
+  const SWEEP_SPAN = 1.7;
+  const UP = -Math.PI / 2;
+
+  const radiusFor = (p: number) =>
+    p <= 1 ? INNER + (RIM - INNER) * p : RIM + (OVERDUE - RIM) * (1 - Math.exp(-(p - 1)));
+  const domeHeight = (r: number) => 1 - 0.5 * Math.min(Math.max(r, 0) / DRIFT, 1) ** 2;
+  const domeScale = (r: number) => 1 - 0.3 * (1 - domeHeight(r));
+  const parallaxDepth = (r: number) => {
+    const base = domeHeight(DRIFT);
+    return 5 + (14 * (domeHeight(r) - base)) / (1 - base);
+  };
+
+  const orbit = $<HTMLElement>('#orbit');
+  const screen = $<HTMLElement>('#screen');
+  const rings = $<SVGSVGElement>('.rings', orbit);
+  const you = $<HTMLElement>('.you', orbit);
+  const orbitName = $<HTMLElement>('[data-orbit-name]');
+  const orbitDots = [...document.querySelectorAll<HTMLElement>('[data-dot]')];
+  const data: { name: string; people: Person[] }[] = JSON.parse($('#orbits').textContent ?? '[]');
+  const moons: Moon[] = [...orbit.querySelectorAll<HTMLButtonElement>('.moon')].map((el) => {
+    const o = Number(el.dataset.o);
+    return { ...data[o].people[Number(el.dataset.i)], el, o, a: UP, r: INNER, sa: UP, sr: INNER };
+  });
+  const pages = data.map((_, o) => moons.filter((m) => m.o === o));
+
+  let W = 0;
+  let H = 0;
+  let pt = 1; // one iPhone point, in pixels: the screen is 440pt wide
+  let cx = 0;
+  let cy = 0;
+  let scale = 1;
+  let halfWidth = 0;
+
+  // How far either side of straight up an arc stays on screen.
+  const swing = (r: number) => {
+    const reach = r * scale;
+    return reach > halfWidth ? Math.min(Math.asin(halfWidth / reach), MAX_SWING) : MAX_SWING;
+  };
+  const clampAngle = (a: number, s: number) => Math.min(Math.max(a, UP - s), UP + s);
+
+  // OrbitMath.separatedPositions: ease overlapping faces apart, sideways
+  // while the fan has room, then in or out once it hasn't.
+  const arrange = (page: Moon[]) => {
+    const A: number[] = [];
+    const R: number[] = [];
+    for (const m of page) {
+      const r = radiusFor(m.progress);
+      R.push(r);
+      A.push(UP + (m.fan * 2 - 1) * swing(r));
+    }
+    const minSep = ((NODE + 6) * pt) / scale;
+    const separate = (i: number, push: number, nx: number, ny: number, outward: boolean) => {
+      const radial = push * (nx * Math.cos(A[i]) + ny * Math.sin(A[i]));
+      const along = push * (-nx * Math.sin(A[i]) + ny * Math.cos(A[i]));
+      R[i] = Math.min(Math.max(R[i] + radial, INNER), OVERDUE);
+      const wanted = A[i] + along / Math.max(R[i], 1);
+      A[i] = clampAngle(wanted, swing(R[i]));
+      let step = Math.abs(wanted - A[i]) * R[i] * (outward ? 1 : -1);
+      if (!step) return;
+      if (R[i] + step > OVERDUE || R[i] + step < INNER) step = -step;
+      R[i] = Math.min(Math.max(R[i] + step, INNER), OVERDUE);
+    };
+    for (let pass = 0; pass < 120; pass++) {
+      for (let i = 0; i < page.length; i++) {
+        for (let j = i + 1; j < page.length; j++) {
+          let nx = Math.cos(A[i]) * R[i] - Math.cos(A[j]) * R[j];
+          let ny = Math.sin(A[i]) * R[i] - Math.sin(A[j]) * R[j];
+          let d = Math.hypot(nx, ny);
+          if (d < 0.001) {
+            nx = -Math.sin(A[i]);
+            ny = Math.cos(A[i]);
+            d = 0.001;
+          } else {
+            if (d >= minSep) continue;
+            nx /= d;
+            ny /= d;
+          }
+          const push = (minSep - d) * 0.25;
+          const outer = R[i] >= R[j];
+          separate(i, push, nx, ny, outer);
+          separate(j, -push, nx, ny, !outer);
+        }
+      }
+      for (let i = 0; i < page.length; i++) A[i] = clampAngle(A[i], swing(R[i]));
+    }
+    page.forEach((m, i) => {
+      m.a = A[i];
+      m.r = R[i];
+    });
+  };
+
+  let laidOut = false;
+  const layout = () => {
+    W = orbit.clientWidth;
+    H = orbit.clientHeight;
+    pt = W / 440;
+    cx = W / 2;
+    cy = H - (YOU / 2 + 8) * pt;
+    scale = (cy - EDGE * pt) / DRIFT;
+    halfWidth = Math.max(W / 2 - (NODE * pt) / 2 - 6 * pt, (NODE * pt) / 2);
+    orbit.style.setProperty('--pt', `${pt}px`);
+    rings.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    rings.innerHTML = [0, 0.5, 1]
+      .map((p) => `<circle cx="${cx}" cy="${cy}" r="${radiusFor(p) * scale}" stroke-width="${2 * pt}" stroke-dasharray="${0.5 * pt} ${8 * pt}" />`)
+      .join('');
+    pages.forEach(arrange);
+    if (!laidOut) {
+      for (const m of moons) {
+        m.sa = m.a;
+        m.sr = m.r;
+      }
+      laidOut = true;
+    }
+  };
+  new ResizeObserver(layout).observe(orbit);
+  layout();
+
+  // The swipe. `sweep` is how far the current page has turned, in pages:
+  // negative is towards the next one. The neighbour being pulled in sits a
+  // page further round and turns with it.
+  let page = 0;
+  let sweep = 0;
+  let settleTo: number | null = null;
+  let settleDir = 0;
+  let paused = false;
+  let visible = false;
+  let bloomStart: number | null = reduceMotion ? 0 : null;
+  let tilt = { x: 0, y: 0 };
+  const shown = { x: 0, y: 0 };
+
+  const land = (dir: number) => {
+    page = (page + dir + pages.length) % pages.length;
+    sweep = 0;
+    settleTo = null;
+    settleDir = 0;
+    orbitName.textContent = data[page].name;
+    orbitDots.forEach((d, i) => d.classList.toggle('on', i === page));
+    for (const m of moons) m.el.tabIndex = m.o === page ? 0 : -1;
+  };
+  land(0);
+
+  const settle = (dir: number) => {
+    if (reduceMotion) return dir ? land(dir) : (sweep = 0);
+    settleDir = dir;
+    settleTo = -dir;
+  };
+
+  // The arrival: out of you, growing into place, the outer ones a beat later.
+  const bloom = (now: number, r: number) => {
+    if (bloomStart === null) return 0;
+    const t = clamp01((now - bloomStart - (r / DRIFT) * 200) / 550);
+    const c = 1.2;
+    return 1 + (c + 1) * (t - 1) ** 3 + c * (t - 1) ** 2;
+  };
+
+  const frame = (now: number) => {
+    if (visible && !paused) {
+      if (settleTo !== null) {
+        sweep += (settleTo - sweep) * 0.16;
+        if (Math.abs(settleTo - sweep) < 0.002) settleDir ? land(settleDir) : ((sweep = 0), (settleTo = null));
+      }
+      shown.x += (tilt.x - shown.x) * 0.08;
+      shown.y += (tilt.y - shown.y) * 0.08;
+      screen.style.setProperty('--lx', shown.x.toFixed(3));
+      screen.style.setProperty('--ly', shown.y.toFixed(3));
+
+      const pull = sweep < 0 ? 1 : -1;
+      const neighbour = (page + pull + pages.length) % pages.length;
+      for (const m of moons) {
+        const rel = m.o === page ? 0 : m.o === neighbour && sweep !== 0 && pages.length > 1 ? pull : null;
+        const travel = rel === null ? 1 : rel + sweep;
+        if (Math.abs(travel) >= 1) {
+          m.el.style.visibility = 'hidden';
+          continue;
+        }
+        m.sa += (m.a - m.sa) * 0.08;
+        m.sr += (m.r - m.sr) * 0.08;
+        const angle = m.sa + travel * SWEEP_SPAN;
+        const b = bloom(now, m.sr);
+        const x = cx + Math.cos(angle) * m.sr * scale * b;
+        const y = cy + Math.sin(angle) * m.sr * scale * b;
+        // Faded out as they cross the screen edge, and by how far their page
+        // has travelled: the leaving page is gone by 0.7, the arriving one
+        // solid from 0.3 in.
+        const edge = 1 - clamp01((Math.abs(x - cx) - halfWidth) / (NODE * pt));
+        const fade = 1 - clamp01((Math.abs(travel) - 0.3) / ((rel ? 1 : 0.7) - 0.3));
+        const depth = parallaxDepth(m.sr) * pt;
+        const size = domeScale(m.sr) * Math.max(fade, 0.01) * (0.4 + 0.6 * b);
+        m.el.style.visibility = 'visible';
+        m.el.style.opacity = String(edge * fade * clamp01(b));
+        m.el.style.transform = `translate(${x + shown.x * depth}px, ${y + shown.y * depth}px) translate(-50%, -50%) scale(${size})`;
+      }
+      const youDepth = parallaxDepth(0) * pt;
+      you.style.transform = `translate(${cx + shown.x * youDepth}px, ${cy + shown.y * youDepth}px) translate(-50%, -50%)`;
+      rings.style.transform = `translate(${shown.x * parallaxDepth(RIM) * pt}px, ${shown.y * parallaxDepth(RIM) * pt}px)`;
+    }
+    requestAnimationFrame(frame);
+  };
+  new IntersectionObserver(([e]) => {
+    visible = e.isIntersecting;
+    if (visible && bloomStart === null) bloomStart = performance.now();
+  }).observe(orbit);
+  requestAnimationFrame(frame);
+
+  // Follows the pointer one-to-one at the rim, then lets go onto whichever
+  // page won. A mostly vertical drag is left to scroll the page.
+  let start: { x: number; y: number } | null = null;
+  let swiping = false;
+  let moved = false;
+  let last = { x: 0, t: 0, v: 0 };
+  orbit.addEventListener('pointerdown', (e) => {
+    if (settleTo !== null) settleDir ? land(settleDir) : ((sweep = 0), (settleTo = null));
+    start = { x: e.clientX, y: e.clientY };
+    last = { x: e.clientX, t: e.timeStamp, v: 0 };
+    swiping = moved = false;
+  });
+  orbit.addEventListener('pointermove', (e) => {
+    if (!start) return;
+    const dx = e.clientX - start.x;
+    const dy = e.clientY - start.y;
+    if (!swiping) {
+      if (Math.hypot(dx, dy) < 12) return;
+      moved = true;
+      if (Math.abs(dx) <= Math.abs(dy)) {
+        start = null;
+        return;
+      }
+      swiping = true;
+      orbit.setPointerCapture(e.pointerId);
+      orbit.classList.add('grabbing');
+    }
+    sweep = Math.max(-1, Math.min(1, dx / (RIM * scale * SWEEP_SPAN)));
+    const dt = Math.max(e.timeStamp - last.t, 1);
+    last = { x: e.clientX, t: e.timeStamp, v: (e.clientX - last.x) / dt };
+  });
+  const endSwipe = (e: PointerEvent) => {
+    if (swiping && start) {
+      const dragged = e.clientX - start.x;
+      const flung = last.v * 200;
+      if (dragged < -56 * pt || flung < -110 * pt) settle(1);
+      else if (dragged > 56 * pt || flung > 110 * pt) settle(-1);
+      else settle(0);
+    }
+    start = null;
+    swiping = false;
+    orbit.classList.remove('grabbing');
+  };
+  orbit.addEventListener('pointerup', endSwipe);
+  orbit.addEventListener('pointercancel', endSwipe);
+  orbit.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight') settle(1);
+    if (e.key === 'ArrowLeft') settle(-1);
+  });
+
+  // The phone tilting under a mouse: the dome's parallax, as under the
+  // accelerometer in the app.
+  const phone = $<HTMLElement>('#phone');
+  phone.addEventListener('pointermove', (e) => {
+    if (e.pointerType !== 'mouse') return;
+    const box = phone.getBoundingClientRect();
+    tilt = {
+      x: ((e.clientX - box.left) / box.width - 0.5) * 2,
+      y: ((e.clientY - box.top) / box.height - 0.5) * 2,
+    };
+  });
+  phone.addEventListener('pointerleave', () => {
+    tilt = { x: 0, y: 0 };
+  });
+
+  // ---- A person's page: the face grows out of the orbit -------------------
+
+  const view = $<HTMLElement>('#person');
+  const face = $<HTMLElement>('[data-face]', view);
+  const toast = $<HTMLElement>('[data-toast]', view);
+  let current: Moon | null = null;
+
+  const since = (m: Moon) => {
+    const days = Math.round(m.progress * m.interval);
+    if (days === 0) return 'spoke today';
+    if (days === 1) return 'spoke yesterday';
+    if (days < 14) return `spoke ${days} days ago`;
+    return `spoke ${Math.round(days / 7)} weeks ago`;
+  };
+  const rhythm = (days: number) =>
+    days === 7 ? 'Every week' : days < 28 ? `Every ${days / 7} weeks` : days === 30 ? 'Every month' : `Every ${Math.round(days / 30)} months`;
+
+  const fill = (m: Moon) => {
+    const s = statusOf(m.progress);
+    $('[data-first]', view).textContent = m.name.split(' ')[0];
+    $('[data-name]', view).textContent = m.name;
+    $('[data-since]', view).textContent = since(m);
+    $('[data-rhythm]', view).textContent = rhythm(m.interval);
+    $('[data-note]', view).textContent = m.note;
+    const chip = $<HTMLElement>('[data-chip]', view);
+    chip.textContent = labels[s];
+    chip.dataset.s = s;
+    view.dataset.s = s;
+    if (m.face) {
+      const img = new Image();
+      img.src = m.face;
+      img.alt = '';
+      face.replaceChildren(img);
+    } else {
+      face.textContent = m.initials;
+    }
+  };
+
+  const transition = (update: () => void) =>
+    'startViewTransition' in document && !reduceMotion
+      ? document.startViewTransition(update).finished
+      : Promise.resolve(update());
+
+  const open = (m: Moon) => {
+    current = m;
+    paused = true;
+    fill(m);
+    toast.textContent = '';
+    m.el.style.viewTransitionName = 'face';
+    transition(() => {
+      m.el.style.viewTransitionName = '';
+      face.style.viewTransitionName = 'face';
+      view.hidden = false;
+      orbit.inert = true;
+    }).then(() => $<HTMLElement>('[data-close]', view).focus());
+  };
+
+  const close = () => {
+    const m = current;
+    if (!m) return;
+    current = null;
+    const s = statusOf(m.progress);
+    transition(() => {
+      face.style.viewTransitionName = '';
+      m.el.style.viewTransitionName = 'face';
+      m.el.dataset.s = s;
+      m.el.setAttribute('aria-label', `${m.name}, ${labels[s]}`);
+      view.hidden = true;
+      orbit.inert = false;
+    }).then(() => {
+      m.el.style.viewTransitionName = '';
+      // Re-laid out after the face is back in its old place, so the move
+      // towards you happens where it can be seen.
+      arrange(pages[m.o]);
+      paused = false;
+      m.el.focus({ preventScroll: true });
+    });
+  };
+
+  orbit.addEventListener('click', (e) => {
+    const el = (e.target as Element).closest<HTMLButtonElement>('.moon');
+    if (moved || !el) return;
+    const m = moons.find((m) => m.el === el);
+    if (m) open(m);
+  });
+  $('[data-close]', view).addEventListener('click', close);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') close();
+  });
+
+  // Reaching out logs the catch-up, same as the app: they go back to fresh,
+  // and drift in towards you once the orbit comes back.
+  for (const btn of view.querySelectorAll<HTMLButtonElement>('[data-action]')) {
+    btn.addEventListener('click', () => {
+      const m = current;
+      if (!m) return;
+      m.progress = 0.02;
+      fill(m);
+      toast.textContent = `${btn.dataset.action} opens, and the catch-up is logged.`;
+      setTimeout(() => current === m && close(), 1400);
+    });
+  }
+
+  // ---- The screens: a ring of phones that turns as you scroll -------------
+
+  const section = $<HTMLElement>('#screens');
+  const carousel = $<HTMLElement>('#carousel');
+  const caps = [...section.querySelectorAll<HTMLElement>('.cap')];
+  const phones = [...section.querySelectorAll<HTMLElement>('.rphone')];
+  const dots = [...section.querySelectorAll<HTMLButtonElement>('.dots button')];
+  const n = caps.length;
+  const step = 360 / n;
+  let active = -1;
+
+  const scrollSpan = () => section.offsetHeight - innerHeight;
+  const update = () => {
+    const box = section.getBoundingClientRect();
+    const p = Math.min(1, Math.max(0, -box.top / scrollSpan()));
+    const f = p * (n - 1);
+    // Hold on each screen for a moment, then turn to the next.
+    const whole = Math.floor(f);
+    const t = Math.min(1, Math.max(0, (f - whole - 0.3) / 0.4));
+    const eased = whole + t * t * (3 - 2 * t);
+    carousel.style.setProperty('--rot', `${-eased * step}deg`);
+    const i = Math.round(eased);
+    if (i === active) return;
+    active = i;
+    caps.forEach((c, j) => c.classList.toggle('on', j === i));
+    phones.forEach((c, j) => c.classList.toggle('on', j === i));
+    dots.forEach((c, j) => c.setAttribute('aria-current', String(j === i)));
+  };
+  let queued = false;
+  const onScroll = () => {
+    if (queued) return;
+    queued = true;
+    requestAnimationFrame(() => {
+      queued = false;
+      update();
+    });
+  };
+  addEventListener('scroll', onScroll, { passive: true });
+  addEventListener('resize', onScroll);
+  update();
+
+  const goTo = (i: number) =>
+    scrollTo({
+      top: section.offsetTop + (i / (n - 1)) * scrollSpan(),
+      behavior: reduceMotion ? 'auto' : 'smooth',
+    });
+  dots.forEach((d, i) => d.addEventListener('click', () => goTo(i)));
+  phones.forEach((ph, i) => ph.addEventListener('click', () => goTo(i)));
+</script>
+
+<style is:global>
+  :root {
+    color-scheme: dark;
+    /* The icon's night sky. */
+    --night: #1b1d2c;
+    --night-deep: #121320;
+    /* Theme.swift, dark appearance. */
+    --canvas: #171613;
+    --ring: #716d5f;
+    --self-fill: #262521;
+    --self-text: #b5b0a5;
+    --dome: #38352d;
+    --fresh-fill: #223b30;
+    --fresh: #8cc7a9;
+    --drifting-fill: #2b2a26;
+    --drifting: #a29d92;
+    --due-fill: #402a20;
+    --due: #dd9070;
+    /* The icon's amber moon. */
+    --amber: #ca8d34;
+    --text: #f3f1ea;
+    --muted: #a6a8b8;
+    --line: rgb(255 255 255 / 0.08);
+    --font: ui-rounded, 'SF Pro Rounded', -apple-system, BlinkMacSystemFont,
+      'Segoe UI', system-ui, sans-serif;
+  }
+
+  [data-s='fresh'] { --fill: var(--fresh-fill); --tint: var(--fresh); }
+  [data-s='drifting'] { --fill: var(--drifting-fill); --tint: var(--drifting); }
+  [data-s='due'] { --fill: var(--due-fill); --tint: var(--due); }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: auto; }
+  body {
+    margin: 0;
+    background: radial-gradient(120% 60% at 50% 0%, #25283c 0%, var(--night) 45%, var(--night-deep) 100%) fixed;
+    background-color: var(--night);
+    color: var(--text);
+    font-family: var(--font);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+  }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; }
+  h1, h2, h3 { margin: 0; line-height: 1.1; letter-spacing: -0.02em; text-wrap: balance; }
+  p { margin: 0; text-wrap: pretty; }
+  button { font: inherit; color: inherit; }
+  :focus-visible { outline: 2px solid var(--fresh); outline-offset: 3px; }
+
+  .eyebrow {
+    color: var(--muted);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+  .lede { color: var(--muted); font-size: clamp(1.05rem, 1rem + 0.4vw, 1.25rem); max-width: 34rem; }
+
+  /* ---- Bar ---- */
+  .bar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem max(1rem, env(safe-area-inset-left));
+    background: rgb(27 29 44 / 0.7);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+  .brand { display: flex; align-items: center; gap: 0.6rem; font-weight: 700; text-decoration: none; }
+  .brand img { border-radius: 22%; }
+  .bar-cta {
+    background: var(--text);
+    color: var(--night);
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 0.45rem 1rem;
+    border-radius: 999px;
+    text-decoration: none;
+  }
+
+  /* ---- Store button ---- */
+  .store {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: #000;
+    color: #fff;
+    border: 1px solid #a6a6a6;
+    border-radius: 12px;
+    padding: 0.55rem 1.2rem 0.55rem 0.9rem;
+    text-decoration: none;
+    font-size: 1.35rem;
+    font-weight: 600;
+    line-height: 1;
+    transition: transform 0.2s ease;
+  }
+  .store:hover { transform: translateY(-2px); }
+  .store svg { width: 1.9rem; height: 1.9rem; }
+  .store small { display: block; font-size: 0.65rem; font-weight: 500; margin-bottom: 0.15rem; }
+
+  /* ---- Hero ---- */
+  .hero {
+    display: grid;
+    gap: 3rem;
+    align-items: center;
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: clamp(2.5rem, 6vw, 5rem) 1rem 4rem;
+  }
+  @media (min-width: 900px) {
+    .hero { grid-template-columns: 1.1fr 1fr; }
+  }
+  .hero-icon { width: clamp(80px, 12vw, 112px); height: auto; border-radius: 22%; margin-bottom: 1.5rem; box-shadow: 0 20px 50px rgb(0 0 0 / 0.4); }
+  .hero h1 { font-size: clamp(2.6rem, 1.6rem + 4.5vw, 4.75rem); margin-bottom: 1.25rem; }
+  .cta-row { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.25rem; margin-top: 2rem; }
+  .cta-note { color: var(--muted); font-size: 0.95rem; }
+
+  .hero-demo { display: grid; justify-items: center; gap: 1rem; }
+  .hint { color: var(--muted); font-size: 0.9rem; }
+  .legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem 1.2rem; list-style: none; margin: 0; padding: 0; font-size: 0.85rem; color: var(--tint); }
+  .legend li { color: var(--tint); display: flex; align-items: center; gap: 0.4rem; }
+  .legend li::before { content: ''; width: 0.8rem; height: 0.8rem; border-radius: 50%; background: var(--fill); border: 1.5px solid var(--tint); }
+
+  /* ---- Phone ---- */
+  .phone {
+    width: min(340px, 78vw, 37svh);
+    aspect-ratio: 1320 / 2868;
+    padding: 3.2%;
+    border-radius: 15% / 7%;
+    background: linear-gradient(145deg, #4b4c55, #232329 40%, #3b3c44);
+    box-shadow: 0 40px 90px rgb(0 0 0 / 0.55), inset 0 0 0 1px rgb(255 255 255 / 0.12);
+  }
+  .screen {
+    position: relative;
+    height: 100%;
+    border-radius: 12% / 5.6%;
+    overflow: hidden;
+    background: radial-gradient(80% 50% at calc(50% + var(--lx, 0) * 8%) calc(78% + var(--ly, 0) * 6%), var(--dome), var(--canvas) 100%);
+    container-type: inline-size;
+  }
+  .notch { position: absolute; z-index: 3; top: 2.4%; left: 50%; width: 30%; height: 3.4%; translate: -50%; background: #000; border-radius: 999px; }
+
+  .clock { position: absolute; z-index: 3; top: 4.6cqw; left: 13cqw; font-size: 4cqw; font-weight: 600; }
+
+  /* The screen is 440pt wide, so 1cqw is 4.4pt. The toolbar sits under the
+     status bar; the orbit canvas runs from below it to above the home
+     indicator, as in the app. */
+  .orbit-top {
+    position: absolute;
+    z-index: 2;
+    top: 13.9cqw;
+    left: 4cqw;
+    right: 4cqw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    pointer-events: none;
+  }
+  .orbit-top .round { width: 10cqw; color: var(--text); }
+  .orbit-name { display: grid; justify-items: center; gap: 1cqw; font-size: 3.6cqw; font-weight: 600; }
+  .orbit-dots { display: flex; gap: 1.2cqw; }
+  .orbit-dots i { width: 1.4cqw; height: 1.4cqw; border-radius: 50%; background: var(--ring); transition: background 0.3s; }
+  .orbit-dots i.on { background: var(--text); }
+
+  .orbit { position: absolute; inset: 25cqw 0 7.7cqw; z-index: 1; touch-action: pan-y; cursor: grab; user-select: none; -webkit-user-select: none; }
+  .orbit:focus-visible { outline-offset: -4px; }
+  .orbit.grabbing { cursor: grabbing; }
+  .rings { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; fill: none; stroke: var(--ring); stroke-linecap: round; pointer-events: none; }
+  .you {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(88 * var(--pt));
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--self-fill);
+    color: var(--self-text);
+    border: 1.5px solid rgb(181 176 165 / 0.35);
+    font-size: calc(17 * var(--pt));
+  }
+  .moon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(64 * var(--pt));
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    padding: 0;
+    border-radius: 50%;
+    border: 1.5px solid var(--tint);
+    background: var(--fill);
+    color: var(--tint);
+    font-size: calc(22 * var(--pt));
+    font-weight: 600;
+    overflow: hidden;
+    cursor: pointer;
+    visibility: hidden;
+    will-change: transform, opacity;
+    transition: border-color 0.6s ease, background-color 0.6s ease, color 0.6s ease;
+  }
+  .moon img { width: 100%; height: 100%; object-fit: cover; transition: filter 0.6s ease, opacity 0.6s; }
+  .moon[data-s='drifting'] img { filter: saturate(0.7); }
+  .moon[data-s='due'] img { filter: sepia(0.45) saturate(1.1); opacity: 0.85; }
+  .moon:hover { z-index: 2; }
+
+  /* ---- Person ---- */
+  .person {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    background: var(--canvas);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12cqw 6cqw 6cqw;
+    font-size: 4cqw;
+    text-align: center;
+    overflow-y: auto;
+  }
+  .person[hidden] { display: none; }
+  .person-top { align-self: stretch; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 4.6cqw; }
+  .round {
+    display: grid;
+    place-items: center;
+    width: 11cqw;
+    aspect-ratio: 1;
+    padding: 0;
+    border-radius: 50%;
+    background: #232220;
+    border: 1px solid var(--line);
+    cursor: pointer;
+  }
+  .round.ghost { font-size: 3cqw; color: var(--self-text); cursor: default; }
+  .round svg { width: 50%; height: 50%; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .person-face { width: 40cqw; aspect-ratio: 1; flex: none; display: grid; place-items: center; overflow: hidden; border-radius: 50%; border: 3px solid var(--tint); background: var(--fill); color: var(--tint); font-size: 14cqw; font-weight: 600; margin: 8cqw 0 4cqw; }
+  .person-face img { width: 100%; height: 100%; object-fit: cover; }
+  .person h2 { font-size: 8cqw; }
+  .since { color: var(--self-text); margin-top: 1.5cqw; }
+  .chip { margin-top: 3cqw; padding: 1cqw 3.5cqw; border-radius: 999px; background: var(--fill); color: var(--tint); font-weight: 600; font-size: 3.6cqw; transition: all 0.4s; }
+  .actions { display: flex; justify-content: space-between; align-self: stretch; margin-top: 6cqw; }
+  .actions button { display: grid; justify-items: center; gap: 1.5cqw; background: none; border: 0; padding: 0; font-size: 2.8cqw; color: var(--self-text); cursor: pointer; }
+  .actions .round { width: 13cqw; color: var(--fresh); transition: transform 0.15s; }
+  .actions button:active .round { transform: scale(0.92); }
+  .card { align-self: stretch; margin: 6cqw 0 0; padding: 4cqw 5cqw; border-radius: 5cqw; background: #201f1c; text-align: left; }
+  .card div + div { border-top: 1px solid var(--line); margin-top: 3cqw; padding-top: 3cqw; }
+  .card dt { color: var(--self-text); font-size: 3.2cqw; }
+  .card dd { margin: 0; }
+  .toast { position: absolute; left: 6cqw; right: 6cqw; bottom: 6cqw; padding: 3cqw; border-radius: 4cqw; background: var(--fresh-fill); color: var(--fresh); font-size: 3.4cqw; opacity: 0; translate: 0 20%; transition: all 0.3s ease; }
+  .toast:not(:empty) { opacity: 1; translate: 0; }
+
+  ::view-transition-group(face) { animation-duration: 0.5s; animation-timing-function: cubic-bezier(0.2, 0.9, 0.2, 1); }
+  ::view-transition-old(face), ::view-transition-new(face) { border-radius: 50%; overflow: hidden; }
+
+  /* ---- Screens ---- */
+  .screens { height: calc(var(--n) * 85svh); position: relative; }
+  .screens-sticky {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: 5rem 1rem 1.5rem;
+    overflow: hidden;
+  }
+  .captions { display: grid; max-width: 40rem; margin: 0 auto; text-align: center; }
+  .cap { grid-area: 1 / 1; opacity: 0; translate: 0 0.75rem; transition: opacity 0.15s ease, translate 0.15s ease; }
+  .cap.on { opacity: 1; translate: 0; transition-duration: 0.45s; transition-delay: 0.1s; }
+  .cap h2 { font-size: clamp(1.8rem, 1.2rem + 2.5vw, 3rem); margin-bottom: 0.75rem; }
+  .cap p:last-child { color: var(--muted); font-size: 1.05rem; }
+  .stage { --w: min(250px, 42vw, 22svh); perspective: 1400px; display: grid; place-items: center; min-height: 0; }
+  .carousel { position: relative; width: var(--w); aspect-ratio: 1320 / 2868; transform-style: preserve-3d; transform: translateZ(calc(var(--w) * var(--rf) * -1 - 2rem)) rotateY(var(--rot, 0deg)); }
+  .rphone {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    padding: 3.2%;
+    border-radius: 15% / 7%;
+    background: linear-gradient(145deg, #4b4c55, #232329 40%, #3b3c44);
+    transform: rotateY(calc(var(--i) * 360deg / var(--n))) translateZ(calc(var(--w) * var(--rf) + 2rem));
+    filter: brightness(0.4);
+    transition: filter 0.4s ease;
+    cursor: pointer;
+  }
+  .rphone.on { filter: none; cursor: default; }
+  .rphone img { width: 100%; height: 100%; object-fit: cover; border-radius: 12% / 5.6%; }
+  .dots { display: flex; justify-content: center; gap: 0.6rem; }
+  .dots button { width: 0.6rem; height: 0.6rem; padding: 0; border: 0; border-radius: 50%; background: var(--ring); cursor: pointer; transition: all 0.3s; }
+  .dots button[aria-current='true'] { width: 1.6rem; border-radius: 999px; background: var(--fresh); }
+  @media (min-height: 700px) {
+    .stage { --w: min(270px, 42vw, 30svh); }
+  }
+
+  /* ---- Values ---- */
+  .values, .pricing { max-width: 64rem; margin: 0 auto; padding: 6rem 1rem 2rem; text-align: center; }
+  .values h2, .pricing h2 { font-size: clamp(2rem, 1.4rem + 2.5vw, 3.25rem); margin-bottom: 1rem; }
+  .pricing .lede { margin: 0 auto; }
+  .grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); margin-top: 3rem; text-align: left; }
+  .grid article, .tiers article { padding: 1.5rem; border-radius: 1.5rem; background: rgb(255 255 255 / 0.04); border: 1px solid var(--line); }
+  .grid h3 { font-size: 1.15rem; margin-bottom: 0.5rem; }
+  .grid article:nth-child(1) h3 { color: var(--fresh); }
+  .grid article:nth-child(2) h3 { color: var(--amber); }
+  .grid article:nth-child(3) h3 { color: var(--due); }
+  .grid article:nth-child(4) h3 { color: var(--self-text); }
+  .grid p, .tiers p { color: var(--muted); }
+
+  /* ---- Pricing ---- */
+  .tiers { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); margin-top: 3rem; text-align: left; }
+  .tiers h3 { font-size: 1.1rem; }
+  .tiers .price { color: var(--text); font-size: 2.5rem; font-weight: 700; letter-spacing: -0.02em; margin: 0.25rem 0 0.5rem; }
+  .tiers .featured { background: var(--fresh-fill); border-color: rgb(140 199 169 / 0.4); }
+  .tiers .featured h3, .tiers .featured .price { color: var(--fresh); }
+  .fine { color: var(--muted); font-size: 0.95rem; margin-top: 1.5rem; }
+
+  /* ---- Final ---- */
+  .final { display: grid; justify-items: center; gap: 1rem; padding: 6rem 1rem; text-align: center; }
+  .final img { width: 112px; height: auto; border-radius: 22%; box-shadow: 0 20px 60px rgb(202 141 52 / 0.2); }
+  .final h2 { font-size: clamp(2.2rem, 1.5rem + 3vw, 3.75rem); margin-top: 1rem; }
+  .final .store { margin-top: 1rem; }
+
+  .foot { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem 1.5rem; padding: 2rem 1rem calc(2rem + env(safe-area-inset-bottom)); border-top: 1px solid var(--line); color: var(--muted); font-size: 0.9rem; }
+  .foot a { text-decoration-color: var(--ring); text-underline-offset: 3px; }
+  .foot a:hover { color: var(--text); }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, ::view-transition-group(*) { transition: none !important; animation: none !important; }
+  }
+</style>

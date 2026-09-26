@@ -1,0 +1,74 @@
+{
+  "$schema": "../../node_modules/@mrmartineau/shotframe/schema.json",
+
+  // 1320 × 2868, which is what App Store Connect wants for a 6.9" display.
+  // Nothing here is resampled, so shoot on an iPhone 17 Pro Max simulator at
+  // its natural size. Shoot the whole set in one appearance, light or dark: a
+  // light capture among five dark ones reads as a mistake.
+  "device": "iphone-6.9",
+  "sources": "sources",
+  "out": "../../fastlane/screenshots/en-GB",
+
+  // Deliberately left at shotframe's neutral dark default. Replace these with
+  // your own tokens from Support/Theme.swift and change them together — a
+  // blue app with a green listing is the failure this default avoids.
+  //
+  // "theme": {
+  //   "background": "linear-gradient(180deg, #1d4527 0%, #0b1c10 100%)",
+  //   "fonts": {
+  //     "display": "\"SF Pro Rounded\", -apple-system, sans-serif",
+  //     "text": "\"SF Pro Text\", -apple-system, sans-serif"
+  //   },
+  //   "colors": { "eyebrow": "#9cd19d", "heading": "#f0faef", "body": "#c2e6c2" }
+  // },
+
+  // In upload order, and the order matters twice: the store shows the first
+  // three in search results, and `deliver` uploads in filename order, which is
+  // why the slugs are numbered.
+  //
+  // Keep `heading` under about 40 characters and `body` under about 110. Each
+  // gets two lines whether it uses them or not, and that reservation is what
+  // holds the phone at the same height across the set. A third line pushes the
+  // phone out of the frame, so `pnpm screenshots` fails the build instead.
+  //
+  // Give every panel an eyebrow or none, and a body or none. Mixing them makes
+  // the phone jump as someone swipes through.
+  //
+  "panels": [
+    {
+      "slug": "01-orbit",
+      "source": "orbit.png",
+      "eyebrow": "The orbit",
+      "heading": "One glance tells you who is due",
+      "body": "Twelve people, one screen. They drift outward as the weeks pass, and their colour follows."
+    },
+    {
+      "slug": "02-groups",
+      "source": "overview.png",
+      "eyebrow": "Groups",
+      "heading": "A client, a team, the school run",
+      "body": "Up to four groups, each its own orbit of twelve. Pinch in to see them all around you at once."
+    },
+    {
+      "slug": "03-dates",
+      "source": "dates.png",
+      "eyebrow": "Dates",
+      "heading": "The dates worth remembering",
+      "body": "Anniversaries, the day you met, whatever matters. Each gets a quiet nudge a week before."
+    },
+    {
+      "slug": "04-swipe",
+      "source": "work.png",
+      "eyebrow": "Between groups",
+      "heading": "Swipe sideways to spin to the next",
+      "body": "Everyone stays where they were. The widget can show whichever group you choose."
+    },
+    {
+      "slug": "05-person",
+      "source": "person.png",
+      "eyebrow": "One tap",
+      "heading": "Reaching out logs the catch-up",
+      "body": "Call, FaceTime, message, email or WhatsApp. Moons opens the right app and records it for you."
+    }
+  ]
+}
