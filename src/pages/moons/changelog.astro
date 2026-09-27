@@ -1,0 +1,97 @@
+---
+// Every Moons release, newest first, read from the App Store listing when
+// the site builds (the 12-hourly rebuild picks up new versions).
+import { getCollection } from 'astro:content';
+import { getAppVersions } from '../../fetching/appStoreVersions';
+import './_moons.css';
+
+const project = (await getCollection('projects')).find(
+  (p) => p.slug === 'moons',
+);
+if (!project?.data.appStore) throw new Error('Moons: project entry missing');
+const { appStore } = project.data;
+
+const versions = await getAppVersions(appStore);
+
+const title = 'What’s new in Moons';
+const description = 'Every Moons release, newest first.';
+const canonical = new URL('/moons/changelog', Astro.site);
+const formatDate = (date: Date) =>
+  date.toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
+---
+
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/webp" href="/moons/icon.webp" />
+    <link rel="apple-touch-icon" href="/moons/icon.webp" />
+    <meta name="theme-color" content="#1b1d2c" />
+    <meta name="apple-itunes-app" content="app-id=6805814733" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content="Zander Martineau" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL('/images/projects/moons/01-orbit.webp', Astro.site)} />
+  </head>
+  <body>
+    <header class="bar">
+      <a class="brand" href="/moons">
+        <img src="/moons/icon.webp" alt="" width="32" height="32" />
+        Moons
+      </a>
+      <a class="bar-cta" href={appStore}>Get the app</a>
+    </header>
+
+    <main class="changelog">
+      <p class="eyebrow">Changelog</p>
+      <h1>What’s new</h1>
+      {
+        versions.length ? (
+          versions.map(({ version, date, notes }) => (
+            <article id={`v${version}`}>
+              <h2>
+                <a href={`#v${version}`}>Version {version}</a>
+              </h2>
+              <time datetime={date.toISOString()}>{formatDate(date)}</time>
+              {notes.length ? notes.map((note) => <p>{note}</p>) : <p>The first release.</p>}
+            </article>
+          ))
+        ) : (
+          <p>
+            The release notes are on <a href={appStore}>the App Store</a>.
+          </p>
+        )
+      }
+    </main>
+
+    <footer class="foot">
+      <span>Made by <a href="/">Zander Martineau</a></span>
+      <a href="/moons">Moons</a>
+      <a href="/privacy">Privacy</a>
+      <a href="/support">Support</a>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  .changelog { max-width: 40rem; margin: 0 auto; padding: clamp(2.5rem, 6vw, 5rem) 1rem 4rem; }
+  .changelog h1 { font-size: clamp(2.6rem, 1.6rem + 4.5vw, 4rem); margin-bottom: 1rem; }
+  .changelog article { padding-block: 2.5rem; border-bottom: 1px solid var(--line); }
+  .changelog article:last-child { border-bottom: 0; }
+  .changelog h2 { font-size: 1.5rem; }
+  .changelog h2 a { text-decoration: none; }
+  .changelog h2 a:hover { color: var(--fresh); }
+  .changelog time { display: block; color: var(--muted); font-size: 0.9rem; margin: 0.4rem 0 1rem; }
+  .changelog article p { color: var(--muted); }
+  .changelog article p + p { margin-top: 1rem; }
+</style>

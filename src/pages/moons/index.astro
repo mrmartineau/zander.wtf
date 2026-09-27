@@ -11,8 +11,9 @@
 // (public/moons/faces) are Moons/DemoAvatars in filename order, as DemoMode
 // deals them out.
 import { getCollection } from 'astro:content';
-import storekitRaw from '../data/moons/Products.storekit?raw';
-import shotframeRaw from '../data/moons/shotframe.config.jsonc?raw';
+import './_moons.css';
+import storekitRaw from '../../data/moons/Products.storekit?raw';
+import shotframeRaw from '../../data/moons/shotframe.config.jsonc?raw';
 
 type Panel = {
   slug: string;
@@ -426,6 +427,7 @@ const jsonLd = {
     <footer class="foot">
       <span>Made by <a href="/">Zander Martineau</a></span>
       <a href="/projects/moons">The write-up</a>
+      <a href="/moons/changelog">What’s new</a>
       <a href="/privacy">Privacy</a>
       <a href="/support">Support</a>
     </footer>
@@ -902,110 +904,6 @@ const jsonLd = {
 </script>
 
 <style is:global>
-  :root {
-    color-scheme: dark;
-    /* The icon's night sky. */
-    --night: #1b1d2c;
-    --night-deep: #121320;
-    /* Theme.swift, dark appearance. */
-    --canvas: #171613;
-    --ring: #716d5f;
-    --self-fill: #262521;
-    --self-text: #b5b0a5;
-    --dome: #38352d;
-    --fresh-fill: #223b30;
-    --fresh: #8cc7a9;
-    --drifting-fill: #2b2a26;
-    --drifting: #a29d92;
-    --due-fill: #402a20;
-    --due: #dd9070;
-    /* The icon's amber moon. */
-    --amber: #ca8d34;
-    --text: #f3f1ea;
-    --muted: #a6a8b8;
-    --line: rgb(255 255 255 / 0.08);
-    --font: ui-rounded, 'SF Pro Rounded', -apple-system, BlinkMacSystemFont,
-      'Segoe UI', system-ui, sans-serif;
-  }
-
-  [data-s='fresh'] { --fill: var(--fresh-fill); --tint: var(--fresh); }
-  [data-s='drifting'] { --fill: var(--drifting-fill); --tint: var(--drifting); }
-  [data-s='due'] { --fill: var(--due-fill); --tint: var(--due); }
-
-  *, *::before, *::after { box-sizing: border-box; }
-  html { scroll-behavior: auto; }
-  body {
-    margin: 0;
-    background: radial-gradient(120% 60% at 50% 0%, #25283c 0%, var(--night) 45%, var(--night-deep) 100%) fixed;
-    background-color: var(--night);
-    color: var(--text);
-    font-family: var(--font);
-    line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
-    overflow-x: clip;
-  }
-  img { display: block; max-width: 100%; }
-  a { color: inherit; }
-  h1, h2, h3 { margin: 0; line-height: 1.1; letter-spacing: -0.02em; text-wrap: balance; }
-  p { margin: 0; text-wrap: pretty; }
-  button { font: inherit; color: inherit; }
-  :focus-visible { outline: 2px solid var(--fresh); outline-offset: 3px; }
-
-  .eyebrow {
-    color: var(--muted);
-    font-size: 0.8rem;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    margin-bottom: 0.75rem;
-  }
-  .lede { color: var(--muted); font-size: clamp(1.05rem, 1rem + 0.4vw, 1.25rem); max-width: 34rem; }
-
-  /* ---- Bar ---- */
-  .bar {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.75rem max(1rem, env(safe-area-inset-left));
-    background: rgb(27 29 44 / 0.7);
-    backdrop-filter: blur(14px);
-    border-bottom: 1px solid var(--line);
-  }
-  .brand { display: flex; align-items: center; gap: 0.6rem; font-weight: 700; text-decoration: none; }
-  .brand img { border-radius: 22%; }
-  .bar-cta {
-    background: var(--text);
-    color: var(--night);
-    font-weight: 600;
-    font-size: 0.9rem;
-    padding: 0.45rem 1rem;
-    border-radius: 999px;
-    text-decoration: none;
-  }
-
-  /* ---- Store button ---- */
-  .store {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.6rem;
-    background: #000;
-    color: #fff;
-    border: 1px solid #a6a6a6;
-    border-radius: 12px;
-    padding: 0.55rem 1.2rem 0.55rem 0.9rem;
-    text-decoration: none;
-    font-size: 1.35rem;
-    font-weight: 600;
-    line-height: 1;
-    transition: transform 0.2s ease;
-  }
-  .store:hover { transform: translateY(-2px); }
-  .store svg { width: 1.9rem; height: 1.9rem; }
-  .store small { display: block; font-size: 0.65rem; font-weight: 500; margin-bottom: 0.15rem; }
-
   /* ---- Hero ---- */
   .hero {
     display: grid;
@@ -1230,10 +1128,6 @@ const jsonLd = {
   .final img { width: 112px; height: auto; border-radius: 22%; box-shadow: 0 20px 60px rgb(202 141 52 / 0.2); }
   .final h2 { font-size: clamp(2.2rem, 1.5rem + 3vw, 3.75rem); margin-top: 1rem; }
   .final .store { margin-top: 1rem; }
-
-  .foot { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem 1.5rem; padding: 2rem 1rem calc(2rem + env(safe-area-inset-bottom)); border-top: 1px solid var(--line); color: var(--muted); font-size: 0.9rem; }
-  .foot a { text-decoration-color: var(--ring); text-underline-offset: 3px; }
-  .foot a:hover { color: var(--text); }
 
   .embed .bar, .embed .hero-copy, .embed main > section:not(.hero), .embed .foot { display: none; }
   .embed .hero { display: block; padding: 1.5rem 1rem; }
