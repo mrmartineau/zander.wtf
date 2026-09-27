@@ -11,6 +11,8 @@ tags:
 
 I've shipped my first iOS app! 🥳 [Moons](/projects/moons) went live on the App Store this week and I'm really excited about it. I've built so many things over the years, but this is the first one you can find by searching an app store, and that feels different.
 
+> **Update, 26 September 2026:** Moons now has [its own page](/moons), with a live copy of the orbit you can play with. I've put that demo [in the orbit section below](#the-orbit) too.
+
 <div class="flex flex-col items-center gap-4 my-8">
   <a href="https://apps.apple.com/app/moons-keep-in-touch/id6805814733" target="_blank" rel="noopener noreferrer"><img src="/images/projects/moons/moons-icon2.webp" alt="Moons on the App Store" width="128" height="128" class="border-none rounded-[28px] shadow-xl" /></a>
   <a href="https://apps.apple.com/app/moons-keep-in-touch/id6805814733" target="_blank" rel="noopener noreferrer"><img src="/images/download-on-the-app-store.svg" alt="Download Moons on the App Store" width="120" height="40" class="inline rounded-none border-none" /></a>
@@ -33,6 +35,10 @@ So Moons has a hard limit of twelve. You pick people from your contacts. For eac
 ## The orbit
 
 Then the app draws them. You're at the bottom of the screen and each person is a moon in orbit around you. The distance is how long it's been since you spoke, measured against the rhythm you set. Speak to someone and they pull in close. Go quiet and they drift outward, and their colour changes with them.
+
+This is a live copy of it, the same one that's on [the Moons page](/moons). Swipe sideways to spin to the next group, and tap a face to open that person.
+
+<iframe src="/moons?embed" title="A live demo of the Moons orbit" width="100%" height="820" loading="lazy" class="my-8 rounded-[28px] border-none"></iframe>
 
 <div class="grid grid-cols-2 gap-7">
   <img src="/images/projects/moons/01-orbit.webp" alt="Twelve people on one screen, drifting outward as the weeks pass, their colour following" />

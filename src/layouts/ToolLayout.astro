@@ -42,7 +42,9 @@ const githubRepo = githubMatch?.[2];
 
     <div class="tool-meta">
       {
-        link ? (
+        link?.startsWith('/') ? (
+          <a href={link} class="tool-link">zander.wtf{link}</a>
+        ) : link ? (
           <a href={link} target="_blank" rel="noopener noreferrer" class="tool-link">
             <ShortUrl url={link} />
           </a>
