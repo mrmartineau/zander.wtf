@@ -4,7 +4,7 @@ link: https://tanstack.com/query/latest/docs/framework/react/overview
 tags:
   - react
 emoji: ⚛
-date: 2026-01-20
+date: 2026-09-28
 ---
 
 ## useQuery
@@ -36,6 +36,32 @@ const { data, isPending } = useQuery({
   gcTime: 1000 * 60 * 30, // 30 minutes (formerly cacheTime)
 })
 ```
+
+### Cancel with `signal`
+
+`queryFn` gets an `AbortSignal`. Pass it to `fetch`, and React Query aborts the request when the key changes or nothing uses the query any more. More in the [AbortController](/notes/abort-controller/) note.
+
+```ts
+useQuery({
+  queryKey: ['user', userId],
+  queryFn: ({ signal }) => fetch(`/api/users/${userId}`, { signal }).then((res) => res.json()),
+})
+```
+
+### Conditional queries with `skipToken`
+
+A type-safe alternative to `enabled`. TypeScript knows `userId` is defined inside `queryFn`, so there's no `!` or extra check.
+
+```ts
+import { skipToken, useQuery } from '@tanstack/react-query'
+
+useQuery({
+  queryKey: ['user', userId],
+  queryFn: userId ? () => fetchUser(userId) : skipToken,
+})
+```
+
+`refetch()` doesn't work with `skipToken`. Use `enabled` if you need it.
 
 ### As a custom hook
 
@@ -115,6 +141,12 @@ onSettled: (data, error, variables, onMutateResult, context) => {}
 
 `context` is a `MutationFunctionContext`: `context.client` (the `QueryClient`), `context.meta` and `context.mutationKey`. `context.client` means callbacks can touch the cache without closing over `useQueryClient()`.
 
+`mutationFn` gets the same `context` as its second argument:
+
+```ts
+mutationFn: (variables, { client, meta, mutationKey }) => {}
+```
+
 ## Optimistic updates
 
 Two approaches. Pick the cheap one first.
@@ -145,7 +177,7 @@ To read those `variables` from a component that didn't call `mutate`, give the m
 ```ts
 const pendingTodos = useMutationState<string>({
   filters: { mutationKey: ['addTodo'], status: 'pending' },
-  select: (mutation) => mutation.state.variables,
+  select: (mutation) => mutation.state.variables as string,
 })
 ```
 
@@ -171,7 +203,7 @@ useMutation({
     return { previousTodos }
   },
   onError: (err, newTodo, onMutateResult, context) => {
-    context.client.setQueryData(['todos'], onMutateResult.previousTodos)
+    context.client.setQueryData(['todos'], onMutateResult?.previousTodos) // undefined if onMutate threw
   },
   onSettled: (data, error, variables, onMutateResult, context) => {
     context.client.invalidateQueries({ queryKey: ['todos'] })
@@ -274,11 +306,11 @@ getNextPageParam: (lastPage, allPages) =>
   lastPage.length === PAGE_SIZE ? allPages.length * PAGE_SIZE : undefined
 ```
 
-Add `getPreviousPageParam` for bi-directional lists (chat scrollback), which gives you `fetchPreviousPage` and `hasPreviousPage`. `maxPages` caps how many pages stay in the cache — with it set, both param getters must be defined, since dropped pages have to be refetchable in either direction.
+Add `getPreviousPageParam` for bi-directional lists (chat scrollback), which gives you `fetchPreviousPage` and `hasPreviousPage`. `maxPages` caps how many pages stay in the cache. With it set, define both param getters, so pages dropped from either end can be fetched again.
 
 ### Infinite scroll
 
-Trigger `fetchNextPage` from an `IntersectionObserver` on a sentinel element at the bottom of the list.
+Trigger `fetchNextPage` from an [`IntersectionObserver`](/notes/intersection-observer/) on a sentinel element at the bottom of the list.
 
 ```tsx
 const InfiniteProjects = () => {
@@ -336,7 +368,7 @@ Two things worth knowing:
 The `queryOptions` helper lets you define query configuration in one place and reuse it across `useQuery`, `useSuspenseQuery`, `useQueries`, prefetching, and more. Great for co-locating `queryKey` and `queryFn` together.
 
 ```ts
-import { queryOptions, useQuery, useQueryClient } from '@tanstack/react-query'
+import { queryOptions, useQuery, useQueries, useSuspenseQuery } from '@tanstack/react-query'
 
 function userOptions(id: string) {
   return queryOptions({
@@ -348,7 +380,7 @@ function userOptions(id: string) {
 
 // Usage in components
 const { data } = useQuery(userOptions(userId))
-const { data } = useSuspenseQuery(userOptions(userId))
+const { data: user } = useSuspenseQuery(userOptions(userId))
 
 // Prefetching
 queryClient.prefetchQuery(userOptions(userId))
@@ -398,7 +430,7 @@ const pending = useMutationState({
 })
 ```
 
-Anything `useMutation` accepts, `mutationOptions` accepts. Its real value is keeping `mutationKey` and `mutationFn` together, so `useMutationState` filters can't drift out of sync with the mutation they're watching.
+Anything `useMutation` accepts, `mutationOptions` accepts. Give it a `mutationKey` if you want to watch it with `useMutationState`. Its real value is keeping `mutationKey` and `mutationFn` together, so `useMutationState` filters can't drift out of sync with the mutation they're watching.
 
 ## useQueries
 
@@ -423,7 +455,7 @@ const results = useQueries({
 
 ## useSuspenseQuery
 
-For use with React Suspense. Data is guaranteed to be defined.
+For use with React Suspense. Data is guaranteed to be defined. It doesn't accept `enabled` or `placeholderData`: a suspense query always runs, and the `<Suspense>` fallback takes the place of a placeholder.
 
 ```tsx
 import { useSuspenseQuery } from '@tanstack/react-query'
@@ -490,3 +522,20 @@ const { data } = useQuery({
 ```
 
 `keepPreviousData` is imported from `@tanstack/react-query`. It replaced the v4 `keepPreviousData: true` boolean option.
+
+## v4 → v5 changes
+
+The ones you'll trip over in older code:
+
+- **`isLoading` → `isPending`.** "No data yet" is now `isPending`. `isLoading` still exists but means `isPending && isFetching` (the first load is in progress).
+- **`cacheTime` → `gcTime`.**
+- **`useErrorBoundary` → `throwOnError`.**
+- **`keepPreviousData: true` → `placeholderData: keepPreviousData`.** With `placeholderData`, `status` is `success` while the old data shows. The old option kept the previous query's status.
+- **Single object argument.** `useQuery(key, fn, options)` is gone. Use `useQuery({ queryKey, queryFn, ...options })`.
+- **`initialPageParam` is required** for infinite queries.
+- **Suspense has its own hooks**: `useSuspenseQuery`, `useSuspenseInfiniteQuery`, `useSuspenseQueries`, instead of `suspense: true`.
+
+## Related
+
+- [TanStack Table](/notes/tanstack-table/) — server-side sorting and pagination with `useQuery`
+- [TanStack Form](/notes/tanstack-form/) — submit with `useMutation`, load default values with `useQuery`

@@ -2,7 +2,7 @@
 title: Stimulus cheatsheet
 tags:
   - javascript
-date: 2026-08-25
+date: 2026-09-28
 ---
 
 Complete reference for Stimulus 3.x. The package is `@hotwired/stimulus`; the old `data-target` and Data APIs were removed in v3.
@@ -366,7 +366,7 @@ Underscores and dashes are interchangeable in filenames; a directory separator b
 
 **Errors are swallowed.** Every call into your code is wrapped in try/catch, logged, and forwarded to `window.onerror`. A controller whose `connect()` throws doesn't break the page, it just silently does nothing. Set `application.handleError` on any real project.
 
-**Clean up in `disconnect()`.** Stimulus removes only the listeners it installed through `data-action`. Timers, manual `addEventListener` calls, `IntersectionObserver`s, `AbortController`s and third-party widgets are all yours to tear down.
+**Clean up in `disconnect()`.** Stimulus removes only the listeners it installed through `data-action`. Timers, manual `addEventListener` calls, [`IntersectionObserver`s](/notes/intersection-observer/), [`AbortController`s](/notes/abort-controller/) and third-party widgets are all yours to tear down.
 
 ```js
 connect() { this.timer = setInterval(() => this.refresh(), 5000) }

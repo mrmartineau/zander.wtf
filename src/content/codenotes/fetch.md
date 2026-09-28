@@ -4,7 +4,7 @@ tags:
   - javascript
 emoji: 🐕
 link: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
-date: 2026-07-20
+date: 2026-09-28
 ---
 
 Usage synopsis (use the argument links to find out more):
@@ -77,6 +77,8 @@ const response = fetch(url, {
 ## Timeout / cancellation with `AbortSignal`
 
 Fetch has no `timeout` or `cancel()` of its own - cancellation is handled by the more general [`AbortController`/`AbortSignal`](https://developer.mozilla.org/en-US/docs/Web/API/AbortController) API. The idea: an `AbortController` is the thing you hold on to and call `.abort()` on; its `.signal` is the read-only token you hand to the async operation you might want to cancel. When the controller aborts, anything holding that signal stops and the pending promise rejects.
+
+More patterns (event listeners, React, React Query) in the [AbortController](/notes/abort-controller/) note.
 
 ### Cancelling a request manually
 

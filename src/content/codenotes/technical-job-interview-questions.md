@@ -3,7 +3,7 @@ title: Technical Job Interview Questions
 tags:
   - interview
   - questions
-date: 2026-07-20
+date: 2026-09-28
 ---
 
 Use the Custom GPT that I made to prepare for technical interviews: https://chat.openai.com/g/g-lCM8cVeOj-tech-interview-coach
@@ -175,6 +175,8 @@ window.addEventListener('scroll', throttle(onScroll, 200))
 // debounced: fires once, 300ms after the user stops typing
 input.addEventListener('input', debounce(onSearch, 300))
 ```
+
+More detail, TypeScript versions and React hooks: [debounce](/notes/debounce/) and [throttle](/notes/throttle/).
 
 ### What is a tuple?
 
@@ -490,6 +492,202 @@ https://kentcdodds.com/blog/making-your-ui-tests-resilient-to-changehttps://qvau
 Examples of what NOT to do:
 https://medium.com/@joshsaintjacque/reacting-to-code-smells-bloaters-3e452d0c01bhttps://jsmanifest.com/10-things-not-to-do-when-building-react-apps/
 
+## Next.js questions
+
+More code examples: [/notes/nextjs/](/notes/nextjs/)
+
+### What is Next.js?
+
+A React framework. React only renders components. Next.js adds the rest: file-based routing, rendering on the server, data fetching, bundling, image and font optimisation, and API routes. In short: server-rendered React with batteries included.
+
+### What do SSR, SSG, ISR and CSR mean?
+
+They describe **when** and **where** the HTML is made.
+
+| Acronym | Name | HTML is made… | Good for |
+| --- | --- | --- | --- |
+| **CSR** | Client-Side Rendering | in the browser, after the JS loads | dashboards behind a login |
+| **SSR** | Server-Side Rendering | on the server, on every request | pages with per-user or always-fresh data |
+| **SSG** | Static Site Generation | once, at build time | blogs, docs, marketing pages |
+| **ISR** | Incremental Static Regeneration | at build time, then rebuilt in the background after a set time | big catalogues that change now and then |
+
+SSR, SSG and CSR are general ideas, not Next.js features. ISR is the Next.js name for "static, but refreshed". A single Next.js app can mix all four, page by page.
+
+### What is hydration?
+
+The server sends ready-made HTML, so the user sees content fast. Then React loads in the browser and attaches event handlers to that HTML. That step is hydration. Until it finishes, the page is visible but not interactive.
+
+A **hydration mismatch** happens when the first client render doesn't match the server HTML. Common causes: `Date.now()`, `Math.random()`, `window` checks or locale formatting in render. Fix it by moving browser-only values into `useEffect`.
+
+### What is the difference between the Pages Router and the App Router?
+
+- **Pages Router** (`pages/`): the original. Every component is a client component. Data is fetched with `getServerSideProps`, `getStaticProps` and `getInitialProps`.
+- **App Router** (`app/`, Next.js 13+): built on React Server Components. Nested layouts, streaming with `<Suspense>`, and you fetch data straight inside `async` components. The default for new projects.
+
+Both can live in the same app, which makes gradual migration possible.
+
+### What are React Server Components (RSC)?
+
+Components that run **only on the server**. Their code is never sent to the browser, so they can read from a database or use secrets directly, and they add nothing to the bundle. They can't use state, effects or event handlers.
+
+Add `'use client'` at the top of a file to make it a **client component** (the classic React component, rendered on the server first and then hydrated). Keep client components small and near the leaves of the tree.
+
+```tsx
+// app/posts/page.tsx — server component (the default)
+export default async function Posts() {
+  const posts = await db.post.findMany()
+  return <PostList posts={posts} />
+}
+```
+
+```tsx
+// LikeButton.tsx — client component
+'use client'
+
+export function LikeButton() {
+  const [liked, setLiked] = useState(false)
+  return <button onClick={() => setLiked(!liked)}>{liked ? '♥' : '♡'}</button>
+}
+```
+
+### What does `getInitialProps` do?
+
+The oldest data-fetching API (Pages Router). It runs on the **server** for the first page load, then in the **browser** on client-side navigation. That means the code must work in both places.
+
+It turns off automatic static optimisation for that page, so every request is server rendered. It's legacy: use `getServerSideProps` or `getStaticProps` instead. You still see it in older codebases and in custom `_app` and `_document` files.
+
+```tsx
+function Page({ stars }: { stars: number }) {
+  return <p>Next.js has {stars} ⭐️</p>
+}
+
+Page.getInitialProps = async () => {
+  const res = await fetch('https://api.github.com/repos/vercel/next.js')
+  const repo = await res.json()
+  return { stars: repo.stargazers_count }
+}
+
+export default Page
+```
+
+### What does `getServerSideProps` do?
+
+SSR in the Pages Router. It runs **only on the server**, on **every request**. On client-side navigation, Next.js calls it through an API request, so it never runs in the browser. You can use secrets and database calls safely.
+
+```tsx
+export const getServerSideProps = (async ({ params, req }) => {
+  const user = await getUser(params!.id as string, req.cookies.session)
+  if (!user) return { notFound: true }
+  return { props: { user } }
+}) satisfies GetServerSideProps<{ user: User }>
+```
+
+### What do `getStaticProps` and `getStaticPaths` do?
+
+SSG in the Pages Router. `getStaticProps` runs **at build time** and the page is saved as HTML. Add `revalidate` to get ISR.
+
+`getStaticPaths` tells Next.js which dynamic routes (`/posts/[slug]`) to build. `fallback` decides what happens with a path that wasn't built:
+
+- `false` — 404
+- `true` — show a loading state, build it in the background
+- `'blocking'` — server render it on the first request, then cache it
+
+```tsx
+export const getStaticPaths = (async () => {
+  const posts = await getPosts()
+  return { paths: posts.map((p) => ({ params: { slug: p.slug } })), fallback: 'blocking' }
+}) satisfies GetStaticPaths
+
+export const getStaticProps = (async ({ params }) => {
+  const post = await getPost(params!.slug as string)
+  return { props: { post }, revalidate: 60 } // ISR: rebuild at most once a minute
+}) satisfies GetStaticProps<{ post: Post }>
+```
+
+### How do you fetch data in the App Router?
+
+Make the component `async` and `await` the data. The Pages Router functions map to options:
+
+| Pages Router | App Router |
+| --- | --- |
+| `getServerSideProps` | `fetch(url, { cache: 'no-store' })`, or read `cookies()` / `headers()` |
+| `getStaticProps` | `fetch(url, { cache: 'force-cache' })` |
+| `getStaticProps` + `revalidate` | `fetch(url, { next: { revalidate: 60 } })` or `export const revalidate = 60` |
+| `getStaticPaths` | `export async function generateStaticParams()` |
+
+```tsx
+// app/posts/[slug]/page.tsx
+export async function generateStaticParams() {
+  const posts = await getPosts()
+  return posts.map((post) => ({ slug: post.slug }))
+}
+
+export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
+  const post = await fetch(`https://api.example.com/posts/${slug}`, {
+    next: { revalidate: 60 },
+  }).then((res) => res.json())
+
+  return <article>{post.title}</article>
+}
+```
+
+Since Next.js 15, `fetch` is **not** cached by default, and `params`, `searchParams`, `cookies()` and `headers()` are async.
+
+### What makes a route static or dynamic?
+
+In the App Router, a route is **static** (built once) unless it uses something only known at request time. These make it **dynamic** (rendered per request):
+
+- `cookies()`, `headers()` or `searchParams`
+- `fetch` with `cache: 'no-store'`
+- `export const dynamic = 'force-dynamic'`
+
+Run `next build`: the output shows which routes are static (○) and which are dynamic (ƒ).
+
+### What is PPR (Partial Prerendering)?
+
+One page, both static and dynamic. The static shell (layout, nav, product details) is prerendered and sent at once. The dynamic parts (cart, personal recommendations) sit inside `<Suspense>` and stream in when they're ready. In recent versions this is part of **Cache Components**, with the `'use cache'` directive marking what can be cached.
+
+### What are Server Actions?
+
+Async functions marked `'use server'` that run on the server but can be called from the client, most often from a `<form action>`. No API route needed. The form still works before JS loads.
+
+```tsx
+// app/actions.ts
+'use server'
+
+export async function createPost(formData: FormData) {
+  await db.post.create({ data: { title: String(formData.get('title')) } })
+  revalidatePath('/posts')
+}
+```
+
+```tsx
+<form action={createPost}>
+  <input name="title" />
+  <button type="submit">Create</button>
+</form>
+```
+
+Treat them like public API endpoints: validate the input and check auth in every action.
+
+### What built-in optimisations does Next.js give you?
+
+- `next/image` — resizes, lazy loads and serves modern formats (WebP/AVIF), and prevents layout shift.
+- `next/link` — client-side navigation and prefetching of linked pages.
+- `next/font` — self-hosts fonts at build time, so there's no request to Google and no layout shift.
+- `next/script` — control when third-party scripts load (`afterInteractive`, `lazyOnload`).
+- Automatic code splitting per route.
+
+### What is middleware?
+
+Code that runs **before** a request reaches a page, e.g. for redirects, rewrites, auth checks and A/B tests. It lives in `middleware.ts` at the project root (renamed to `proxy.ts` in Next.js 16). Keep it fast: it runs on every matching request.
+
+### What is the difference between the Edge and Node.js runtimes?
+
+- **Node.js** (default): the full Node API. Use it for most things.
+- **Edge**: a smaller, web-standard runtime that runs close to the user and starts fast. No filesystem and many npm packages won't work.
+
 ## Typescript questions
 
 ### Do you like TypeScript? If so, why? If not, why not?
@@ -709,7 +907,7 @@ By splitting your codebase into smaller chunks, code splitting can greatly impro
 Lazy loading is a technique that can be used to improve the performance of a web page by only loading resources when they are needed. Here are the steps that can be taken to use lazy loading to improve the performance of a web page:
 
 - Identify the resources on the web page that can be lazily loaded, such as images, videos, or other heavy resources.
-- Use a library or framework such as IntersectionObserver or LazyLoad to implement lazy loading for these resources.
+- Use a library or framework such as [`IntersectionObserver`](/notes/intersection-observer/) or LazyLoad to implement lazy loading for these resources.
 - Use the `loading` attribute to specify how the browser should treat images that are lazily loaded. For example, setting the attribute to `lazy` will tell the browser to only load the image when it is visible in the viewport.
 - Use the `data-src` attribute instead of the src attribute for images that are lazily loaded. This allows the browser to load the image when it is scrolled into view.
 - Use the `data-srcset` attribute instead of the srcset attribute for images that are lazily loaded. This allows the browser to load the correct size image based on the device and viewport.
