@@ -356,7 +356,7 @@ console.log([Number.NaN].indexOf(Number.NaN)) // -1 🙃
 
 ### `Object.groupBy`
 
-- Not an array method (it's a static method on `Object`), but it iterates a list just like the methods above. Groups items into an object keyed by whatever your callback returns.
+- Not an array method (it's a static method on `Object`), but it iterates a list just like the methods above. Groups items into an object keyed by whatever your callback returns. More in the [Object.groupBy](/notes/object-groupby/) note.
 - _callback answers_: which group does this item belong to?
 - _callback gets these arguments_: `item`, `index`
 

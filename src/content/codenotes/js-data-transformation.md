@@ -5,13 +5,15 @@ tags:
   - cheatsheet
   - interview
 emoji: 🔀
-date: 2026-05-19
+date: 2026-09-29
 link: https://lab.zander.wtf/data-transformation/
 ---
 
 Data from an API almost never arrives in the shape your UI wants. A list needs grouping, two endpoints need joining, a keyed object needs to become an array you can `.map()` over in React. This note collects the array, object, `Map` and `Set` methods I reach for to get data from the shape it _is_ to the shape I _need_ — with realistic examples rather than `[1, 2, 3]` toys.
 
 Every method here returns a **new** value rather than mutating the original. That's exactly what you want in a React component: derive what you render from props/state, never edit the source.
+
+But "new" means a **shallow** copy. `{ ...order }` is a new object, yet any nested object or array inside it is still shared with the original. Change `copy.customer.name` and you've changed the source too. Spread each level you change, or use `structuredClone(value)` for a full deep copy.
 
 ## The sample data
 
@@ -115,9 +117,10 @@ const shipped = orders.filter((order) => order.status === 'shipped')
 Two patterns worth knowing:
 
 ```js
-// filter(Boolean) drops null / undefined / '' / 0 — handy after a map
-// that may produce gaps
-const ids = orders.map((o) => o.giftCode).filter(Boolean)
+// filter(Boolean) drops null / undefined / '' / 0 / false / NaN — handy
+// after a map that may produce gaps
+const notes = orders.map((o) => o.note).filter(Boolean)
+// careful: it also drops real 0s, so don't use it on prices or counts
 
 // Filtering against a Set is cleaner than a chain of || comparisons
 const wanted = new Set(['tech', 'home'])
@@ -165,6 +168,8 @@ const priciest = orders.reduce((top, order) =>
 // → the Desk order
 ```
 
+With no starting value, `reduce` uses the first item as the start, and it **throws on an empty array**. Guard with `orders.length ? … : undefined`, or pass a start value.
+
 If you find yourself writing `reduce` and reaching for a plain object as the accumulator, check whether `Object.groupBy` or a `Map` says it more clearly first.
 
 ## Grouping — `Object.groupBy`
@@ -180,7 +185,7 @@ const byCategory = Object.groupBy(orders, (order) => order.category)
 //   }
 ```
 
-`Map.groupBy` is the same but returns a `Map` — use it when your grouping key isn't a string (an object, a number you want kept as a number).
+`Map.groupBy` is the same but returns a `Map` — use it when your grouping key isn't a string (an object, a number you want kept as a number). More in the [Object.groupBy](/notes/object-groupby/) note.
 
 If you need to support older runtimes, the `reduce` equivalent is a useful snippet to keep around. `??=` creates the array the first time a key is seen:
 
@@ -214,6 +219,31 @@ const categories = [...new Set(orders.map((o) => o.category))]
 ```
 
 `new Set(array)` drops duplicates; the `[...spread]` turns it back into an array so you can `.map()` it in JSX. A `Set` also gives O(1) `.has()`, which is why it's the right side of a `filter` (see the `filter` section above).
+
+A `Set` compares objects by reference, so it can't dedupe objects by a field. Use a `Map` keyed by that field instead. Later items win:
+
+```js
+const latestOrderPerCustomer = [
+  ...new Map(orders.map((order) => [order.customer, order])).values(),
+]
+// → one order per customer: Cable (Ada), Desk (Bram), Notebook (Cleo)
+```
+
+### Compare two lists with Set methods
+
+`Set` has `union`, `intersection`, `difference` and `symmetricDifference` (Baseline 2024). They answer "what changed?" between two lists of ids:
+
+```js
+const before = new Set([1, 2, 3, 4])
+const after = new Set([2, 3, 4, 5])
+
+after.difference(before) // → Set {5}        added
+before.difference(after) // → Set {1}        removed
+before.intersection(after) // → Set {2, 3, 4}  in both
+before.union(after) // → Set {1, 2, 3, 4, 5}
+```
+
+Also `isSubsetOf`, `isSupersetOf` and `isDisjointFrom`, which return a boolean.
 
 ## Joining two datasets
 
@@ -271,6 +301,8 @@ const withSale = Object.fromEntries(
 ```
 
 `Object.keys` and `Object.values` are the narrower versions when you only need one side.
+
+A `Map` (for example from `Map.groupBy`) turns into an array the same way: `[...map]` gives `[key, value]` pairs, and `[...map.values()]` gives only the values. `Object.fromEntries(map)` turns it into a plain object.
 
 ## `flat` — un-nest an array of arrays
 
@@ -392,7 +424,7 @@ const rows = nestedOrders.map((order) => ({
 // now a column with accessorKey 'customerTier' resolves to a real cell
 ```
 
-TanStack Table will also accept a dotted `accessorKey: 'customer.tier'`, but flattening up front keeps sorting, filtering and CSV export working without each of them needing to understand the nesting.
+TanStack Table will also accept a dotted `accessorKey: 'customer.tier'`, but flattening up front keeps sorting, filtering and CSV export working without each of them needing to understand the nesting. More on the table itself in the [TanStack Table](/notes/tanstack-table/) note.
 
 ---
 
@@ -421,18 +453,22 @@ Each step does one job: `filter` narrows, `groupBy` buckets, `entries` makes it 
 
 ## Quick reference
 
-| I want to…                          | Reach for                              |
-| ----------------------------------- | -------------------------------------- |
-| Reshape every item, same length out | `map`                                  |
-| Keep only some items                | `filter`                               |
-| Collapse a list to a single value   | `reduce`                               |
-| Split a list into keyed buckets     | `Object.groupBy` / `Map.groupBy`       |
-| Look an item up by id, repeatedly   | `new Map(list.map(x => [x.id, x]))`    |
-| Get the unique values of something  | `[...new Set(values)]`                 |
-| Merge data from two endpoints       | index one side in a `Map`, `map` other |
-| Sort without mutating               | `toSorted`                             |
-| Keyed object → renderable array     | `Object.entries(obj).map(...)`         |
-| Array → keyed object                | `Object.fromEntries(pairs)`            |
-| Transform an object's values        | `entries` → `map` → `fromEntries`      |
-| Flatten one level of nesting        | `flat` / `flatMap`                     |
-| Build grid columns from object keys | `Object.keys(row).map(...)`            |
+| I want to…                          | Reach for                                         |
+| ----------------------------------- | ------------------------------------------------- |
+| Reshape every item, same length out | `map`                                             |
+| Keep only some items                | `filter`                                          |
+| Collapse a list to a single value   | `reduce`                                          |
+| Split a list into keyed buckets     | `Object.groupBy` / `Map.groupBy`                  |
+| Look an item up by id, repeatedly   | `new Map(list.map(x => [x.id, x]))`               |
+| Get the unique values of something  | `[...new Set(values)]`                            |
+| Dedupe objects by a field           | `[...new Map(list.map(x => [x.id, x])).values()]` |
+| See what was added / removed        | `after.difference(before)`                        |
+| Merge data from two endpoints       | index one side in a `Map`, `map` other            |
+| Sort without mutating               | `toSorted`                                        |
+| Keyed object → renderable array     | `Object.entries(obj).map(...)`                    |
+| Array → keyed object                | `Object.fromEntries(pairs)`                       |
+| Transform an object's values        | `entries` → `map` → `fromEntries`                 |
+| Flatten one level of nesting        | `flat` / `flatMap`                                |
+| Build grid columns from object keys | `Object.keys(row).map(...)`                       |
+
+More detail on each method in [Array methods](/notes/array-methods/) and [Object.groupBy](/notes/object-groupby/).
