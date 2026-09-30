@@ -1,0 +1,13 @@
+/* Icon after links to other sites in markdown content. The spans are added by
+   rehype-external-links in astro.config.mjs. */
+.external-link-icon {
+  display: inline-block;
+  width: 0.65em;
+  height: 0.65em;
+  margin-inline-start: 0.2em;
+  vertical-align: 0.05em;
+  background-color: currentColor;
+  mask:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17 17 7M8 7h9v9'/%3E%3C/svg%3E")
+    no-repeat center / contain;
+}

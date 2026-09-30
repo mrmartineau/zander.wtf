@@ -5,9 +5,37 @@ import sitemap from '@astrojs/sitemap';
 import solidJs from '@astrojs/solid-js';
 import { defineConfig } from 'astro/config';
 import d1Search from 'astro-d1-search';
+import rehypeExternalLinks from 'rehype-external-links';
 import searchConfig from './search.config.ts';
 
 const commitHash = execSync('git rev-parse --short HEAD').toString();
+
+// Mark links to other sites in markdown (blog, notes) with an icon, plus hidden
+// text for screen readers. rel: [] drops the plugin's default rel="nofollow".
+const externalLinks = [
+  rehypeExternalLinks,
+  {
+    rel: [],
+    test: (link) =>
+      !URL.canParse(link.properties.href) ||
+      new URL(link.properties.href).hostname !== 'zander.wtf',
+    contentProperties: { className: ['external-link'] },
+    content: [
+      {
+        type: 'element',
+        tagName: 'span',
+        properties: { className: ['external-link-icon'], ariaHidden: 'true' },
+        children: [],
+      },
+      {
+        type: 'element',
+        tagName: 'span',
+        properties: { className: ['visually-hidden'] },
+        children: [{ type: 'text', value: ' (external site)' }],
+      },
+    ],
+  },
+];
 
 // Dev stand-in for the /desktop/* and /tui/* rewrites in public/_redirects:
 // serve the plain page, keep the URL. See src/utils/uiMode.ts.
@@ -37,6 +65,7 @@ export default defineConfig({
     prefetchAll: true,
   },
   markdown: {
+    rehypePlugins: [externalLinks],
     shikiConfig: {
       // Choose from Shiki's built-in themes (or add your own)
       // https://github.com/shikijs/shiki/blob/main/docs/themes.md
