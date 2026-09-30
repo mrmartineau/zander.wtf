@@ -1,6 +1,7 @@
 ---
 import { type CollectionEntry, getCollection } from 'astro:content';
 import FormattedDate from '~/components/FormattedDate.astro';
+import HeadingMinimap from '~/components/HeadingMinimap.astro';
 import NoteTagLink from '~/components/NoteTagLink.astro';
 import PageTitle from '~/components/PageTitle.astro';
 import RelatedLinks from '~/components/RelatedLinks.astro';
@@ -84,6 +85,8 @@ const description =
 
       <Content />
     </div>
+
+    <HeadingMinimap headings={headings} />
 
     <RelatedLinks href={`/notes/${note.slug}`} />
 

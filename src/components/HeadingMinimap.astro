@@ -1,0 +1,257 @@
+---
+// A column of short bars fixed to the right of the viewport, one per heading.
+// Hover or focus a bar to see the heading text; click it to jump there.
+// It starts level with the page title and sticks near the top of the viewport
+// when you scroll. When there are more bars than fit, the list scrolls inside
+// itself, fades at the edge that has more, and follows the current heading.
+// It starts `hidden`, and the script unhides it in classic mode only, so it
+// stays out of desktop, terminal and plain text mode (which has no styles).
+// The CSS then shows it on wide screens only.
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  headings: Heading[];
+  maxDepth?: number;
+}
+
+const { headings, maxDepth = 3 } = Astro.props;
+const items = headings.filter((h) => h.depth >= 2 && h.depth <= maxDepth);
+---
+
+{
+  items.length > 1 && (
+    <nav class="heading-minimap" aria-label="Headings" hidden>
+      <ol>
+        {items.map((heading) => (
+          <li>
+            <a href={`#${heading.slug}`} data-depth={heading.depth}>
+              <span class="visually-hidden">{heading.text}</span>
+              <span class="bar" aria-hidden="true" />
+            </a>
+          </li>
+        ))}
+      </ol>
+      <span class="tooltip" aria-hidden="true" />
+    </nav>
+  )
+}
+
+<script>
+  const nav = document.querySelector<HTMLElement>('.heading-minimap');
+
+  if (nav && document.documentElement.classList.contains('classic')) {
+    nav.hidden = false;
+
+    const list = nav.querySelector('ol')!;
+    const tooltip = nav.querySelector<HTMLElement>('.tooltip')!;
+    const title = document.querySelector('main h1');
+    const links = [...list.querySelectorAll<HTMLAnchorElement>('a')];
+    const targets = links.map((link) =>
+      document.getElementById(decodeURIComponent(link.hash.slice(1))),
+    );
+    const margin = 24;
+    let current = -1;
+
+    // Keep the current bar inside the visible part of the list.
+    const reveal = (link: HTMLElement) => {
+      const top = link.offsetTop;
+      const bottom = top + link.offsetHeight;
+      const pad = list.clientHeight * 0.25;
+      if (top < list.scrollTop + pad) {
+        list.scrollTo({ top: top - pad });
+      } else if (bottom > list.scrollTop + list.clientHeight - pad) {
+        list.scrollTo({ top: bottom - list.clientHeight + pad });
+      }
+    };
+
+    // Fade the top or bottom edge only when there are more bars that way.
+    const updateEdges = () => {
+      list.toggleAttribute('data-more-above', list.scrollTop > 1);
+      list.toggleAttribute(
+        'data-more-below',
+        list.scrollTop + list.clientHeight < list.scrollHeight - 1,
+      );
+    };
+
+    const update = () => {
+      frame = 0;
+
+      // Level with the title, then stick near the top of the viewport.
+      const top = Math.max(margin, title?.getBoundingClientRect().top ?? margin);
+      nav.style.setProperty('--minimap-top', `${Math.round(top)}px`);
+
+      // The current heading is the last one above 30% of the viewport.
+      const line = window.innerHeight * 0.3;
+      let next = -1;
+      targets.forEach((target, i) => {
+        if (target && target.getBoundingClientRect().top <= line) next = i;
+      });
+      if (next !== current) {
+        links[current]?.removeAttribute('aria-current');
+        links[next]?.setAttribute('aria-current', 'location');
+        if (links[next]) reveal(links[next]);
+        current = next;
+      }
+      updateEdges();
+    };
+
+    let frame = 0;
+    const schedule = () => {
+      frame ||= requestAnimationFrame(update);
+    };
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule, { passive: true });
+    // the browser jumps to a #heading after this script runs
+    window.addEventListener('load', update);
+    window.addEventListener('hashchange', update);
+    list.addEventListener('scroll', updateEdges, { passive: true });
+    update();
+
+    // One shared tooltip, placed next to the bar. It lives outside the list
+    // because the scrolling list would clip it.
+    const show = (link: HTMLAnchorElement) => {
+      const rect = link.getBoundingClientRect();
+      tooltip.textContent = link.textContent?.trim() ?? '';
+      tooltip.style.top = `${rect.top + rect.height / 2}px`;
+      tooltip.style.right = `${document.documentElement.clientWidth - rect.left}px`;
+      tooltip.dataset.visible = '';
+    };
+    const hide = () => delete tooltip.dataset.visible;
+
+    for (const link of links) {
+      link.addEventListener('pointerenter', () => show(link));
+      link.addEventListener('focus', () => show(link));
+      link.addEventListener('pointerleave', hide);
+      link.addEventListener('blur', hide);
+    }
+    list.addEventListener('scroll', hide, { passive: true });
+  }
+</script>
+
+<style>
+  .heading-minimap {
+    display: none;
+  }
+
+  @media (min-width: 75em) {
+    .heading-minimap {
+      display: flex;
+      position: fixed;
+      top: var(--minimap-top, var(--space-l));
+      inset-inline-end: var(--space-s);
+      max-height: calc(100dvh - var(--minimap-top, var(--space-l)) - var(--space-l));
+      z-index: 10;
+    }
+  }
+
+  ol {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: none;
+    --fade: 32px;
+  }
+
+  ol::-webkit-scrollbar {
+    display: none;
+  }
+
+  ol[data-more-above] {
+    mask-image: linear-gradient(to bottom, transparent, #000 var(--fade));
+  }
+
+  ol[data-more-below] {
+    mask-image: linear-gradient(to top, transparent, #000 var(--fade));
+  }
+
+  ol[data-more-above][data-more-below] {
+    mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      #000 var(--fade),
+      #000 calc(100% - var(--fade)),
+      transparent
+    );
+  }
+
+  li {
+    flex-shrink: 0;
+  }
+
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    /* the tap and hover area is bigger than the bar itself */
+    padding-block: 4px;
+    padding-inline-start: var(--space-s);
+    text-decoration: none;
+  }
+
+  .bar {
+    display: block;
+    width: 16px;
+    height: 2px;
+    border-radius: 1px;
+    background-color: var(--colour-text);
+    opacity: 0.35;
+    transition:
+      width 0.15s,
+      opacity 0.15s;
+  }
+
+  a[data-depth='3'] .bar {
+    width: 9px;
+  }
+
+  a:hover .bar,
+  a:focus-visible .bar {
+    width: 24px;
+    opacity: 1;
+  }
+
+  a[aria-current] .bar {
+    background-color: var(--colour-accent);
+    opacity: 1;
+  }
+
+  .tooltip {
+    position: fixed;
+    margin-inline-end: var(--space-2xs);
+    max-width: 22rem;
+    width: max-content;
+    padding: var(--space-3xs) var(--space-2xs);
+    border: 1px solid currentColor;
+    background-color: var(--bg);
+    color: var(--colour-text-bright, var(--colour-text));
+    font-size: var(--step--1);
+    line-height: 1.3;
+    pointer-events: none;
+    opacity: 0;
+    translate: 4px -50%;
+    transition:
+      opacity 0.15s,
+      translate 0.15s;
+  }
+
+  .tooltip[data-visible] {
+    opacity: 1;
+    translate: 0 -50%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bar,
+    .tooltip {
+      transition: none;
+    }
+  }
+</style>
