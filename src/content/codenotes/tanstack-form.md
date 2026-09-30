@@ -141,7 +141,7 @@ export function UsernameForm() {
 
 ### Schema validation with Zod
 
-Any [Standard Schema](https://standardschema.dev) library (Zod, Valibot, ArkType, Effect Schema) works directly. No adapter needed. Pass the schema to the form's `validators` and the errors land on the matching fields:
+Any [Standard Schema](https://standardschema.dev) library (Zod, [Valibot](https://valibot.dev), ArkType, Effect Schema) works directly. No adapter needed. Pass the schema to the form's `validators` and the errors land on the matching fields:
 
 ```tsx
 import { useForm } from '@tanstack/react-form'

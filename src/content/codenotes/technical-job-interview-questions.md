@@ -3,7 +3,7 @@ title: Technical Job Interview Questions
 tags:
   - interview
   - questions
-date: 2026-09-28
+date: 2026-09-30
 ---
 
 Use the Custom GPT that I made to prepare for technical interviews: https://chat.openai.com/g/g-lCM8cVeOj-tech-interview-coach
@@ -689,6 +689,8 @@ Code that runs **before** a request reaches a page, e.g. for redirects, rewrites
 - **Edge**: a smaller, web-standard runtime that runs close to the user and starts fast. No filesystem and many npm packages won't work.
 
 ## Typescript questions
+
+More detail: [type guards and narrowing](/notes/typescript-type-guard/) and [TypeScript functions](/notes/typescript-functions/).
 
 ### Do you like TypeScript? If so, why? If not, why not?
 

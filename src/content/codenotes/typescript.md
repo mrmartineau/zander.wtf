@@ -2,11 +2,13 @@
 title: TypeScript
 tags:
   - typescript
-date: 2026-01-20
+date: 2026-09-30
 ---
 
 - [TypeScript Deep Dive](https://basarat.gitbook.io/typescript/)
 - The tsconfig Schema: http://json.schemastore.org/tsconfig
+
+Related: [type guards and narrowing](/notes/typescript-type-guard/), [TypeScript functions](/notes/typescript-functions/).
 
 ## Built-in utility types
 

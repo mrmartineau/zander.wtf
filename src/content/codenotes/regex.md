@@ -539,7 +539,7 @@ const m = /(?<num>\d+)/d.exec('abc 42')!
 m.indices?.groups?.num // [4, 6]
 ```
 
-For anything with real parsing requirements, a regex-backed schema in Zod or Valibot gives you the types *and* the validation in one place.
+For anything with real parsing requirements, a regex-backed schema in [Zod](https://zod.dev) or [Valibot](https://valibot.dev) gives you the types *and* the validation in one place.
 
 ---
 
