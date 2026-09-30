@@ -33,6 +33,9 @@ const description =
 <BaseLayout title={title} subtitle={description} slug="notes">
   <div class="zm-contentContainer">
   <div class="note-main">
+    <nav class="note-back" aria-label="Back to all notes">
+      <a href="/notes"><span aria-hidden="true">←</span> All notes</a>
+    </nav>
     <div class="mb-6">
       <SearchForm placeholder="Search notes..." />
     </div>
@@ -144,6 +147,10 @@ const description =
 
   .tag {
     opacity: 0.8;
+  }
+
+  .note-back {
+    margin-block-end: var(--space-s);
   }
 
   .note-footer {
