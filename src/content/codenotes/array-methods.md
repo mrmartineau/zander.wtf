@@ -2,7 +2,7 @@
 title: Array methods summarised
 tags:
   - javascript
-date: 2026-09-30
+date: git Last Modified
 ---
 
 ## Intro

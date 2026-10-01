@@ -37,6 +37,7 @@
     "@types/sanitize-html": "^2.16.0",
     "astro": "^5.16.15",
     "astro-d1-search": "^1.0.0",
+    "astro-git-dates": "^1.0.1",
     "color-hash": "^2.0.2",
     "fetch-readme": "^1.0.0",
     "figlet": "^1.10.0",

@@ -35,6 +35,9 @@ jobs:
       deployments: write
     steps:
       - uses: actions/checkout@v6
+        with:
+          # Full history, so `date: git Last Modified` notes get real dates
+          fetch-depth: 0
       - uses: pnpm/action-setup@v6
       # Every install goes through safe-chain's policy check and proxy. When
       # its service is down ("Safe-chain: Uncaught exception: unexpected end
