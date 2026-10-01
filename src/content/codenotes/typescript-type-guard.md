@@ -322,4 +322,4 @@ Use `unknown` for data from outside (API responses, `JSON.parse`, `catch` errors
 | `value is T` function | reusable custom checks, `filter` callbacks |
 | `asserts value is T` function | throw if an invariant is false, then carry on |
 
-Related: [TypeScript functions](/notes/typescript-functions/), [TypeScript](/notes/typescript/), [typing `catch` errors](/notes/typescript-catch/).
+Related: [type check helpers](/notes/type-check-helpers/), [TypeScript functions](/notes/typescript-functions/), [TypeScript](/notes/typescript/), [typing `catch` errors](/notes/typescript-catch/).

@@ -5,7 +5,7 @@ tags:
   - cheatsheet
   - interview
 emoji: 🔀
-date: 2026-09-29
+date: 2026-09-30
 link: https://lab.zander.wtf/data-transformation/
 ---
 
@@ -471,4 +471,4 @@ Each step does one job: `filter` narrows, `groupBy` buckets, `entries` makes it 
 | Flatten one level of nesting        | `flat` / `flatMap`                                |
 | Build grid columns from object keys | `Object.keys(row).map(...)`                       |
 
-More detail on each method in [Array methods](/notes/array-methods/) and [Object.groupBy](/notes/object-groupby/).
+More detail on each method in [Array methods](/notes/array-methods/) and [Object.groupBy](/notes/object-groupby/). For every way to loop over arrays, objects, `Map`s and more, see [Looping and iterating](/notes/js-array-looping/).
