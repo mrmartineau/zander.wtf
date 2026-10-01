@@ -5,12 +5,12 @@ import { excerpt } from '~/utils/excerpt';
 import BaseLayout from './BaseLayout.astro';
 
 type Props = CollectionEntry<'blog'>;
-const { data, slug, body } = Astro.props;
+const { data, id: slug, body } = Astro.props;
 const { title, date, subtitle, tags, worklog } = data;
 
 // A handful of the oldest posts have no subtitle, so they shipped with no meta
 // description. The subtitle still drives the visible header on its own.
-const description = subtitle ?? excerpt(body);
+const description = subtitle ?? excerpt(body ?? '');
 ---
 
 <BaseLayout title={title} subtitle={subtitle} description={description} slug={slug}>

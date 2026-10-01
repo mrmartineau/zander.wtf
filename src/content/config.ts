@@ -1,7 +1,16 @@
 import { defineCollection, z } from 'astro:content';
+import { glob } from 'astro/loaders';
+import { gitDates } from 'astro-git-dates';
 
 const blog = defineCollection({
-  type: 'content',
+  // `_` folders and files (drafts, templates) stay out, as with the old
+  // `type: 'content'` collections
+  loader: gitDates(
+    glob({
+      pattern: ['**/*.{md,mdx}', '!**/_*', '!**/_*/**'],
+      base: './src/content/blog',
+    }),
+  ),
   schema: z.object({
     title: z.string(),
     subtitle: z.string().optional(),
@@ -20,7 +29,9 @@ const blog = defineCollection({
 });
 
 const codenotes = defineCollection({
-  type: 'content',
+  loader: gitDates(
+    glob({ pattern: '**/*.md', base: './src/content/codenotes' }),
+  ),
   schema: z.object({
     title: z.string(),
     tags: z.array(z.string()).optional(),

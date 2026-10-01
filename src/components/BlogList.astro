@@ -1,5 +1,5 @@
 ---
-import type { CollectionEntry } from 'astro:content';
+import { type CollectionEntry, render } from 'astro:content';
 import FormattedDate from './FormattedDate.astro';
 
 type Props = {
@@ -34,13 +34,13 @@ const tilt = (slug: string) => {
 };
 
 // Worklog entries render in full on the listing, so their content has to be
-// rendered up front — post.render() is async and can't be awaited inside JSX.
+// rendered up front — render(post) is async and can't be awaited inside JSX.
 const items = await Promise.all(
   posts.map(async (post) => ({
     post,
     Content:
       post.data.worklog && worklogContent
-        ? (await post.render()).Content
+        ? (await render(post)).Content
         : null,
   })),
 );
@@ -59,10 +59,10 @@ const items = await Promise.all(
             'is-article': worklogContent && !post.data.worklog,
           },
         ]}
-        id={Content ? post.slug : undefined}
+        id={Content ? post.id : undefined}
       >
         <div class="info">
-          <a href={`/blog/${post.slug}`} class="title" transition:persist>
+          <a href={`/blog/${post.id}`} class="title" transition:persist>
             {post.data.title}
           </a>
           {Content ? (

@@ -17,11 +17,11 @@ export const GET = async (context) => {
     site: context.site,
     items: posts.map((post) => ({
       ...post.data,
-      link: `/blog/${post.slug}/`,
+      link: `/blog/${post.id}/`,
       pubDate: post.data.date,
       description: post.data.subtitle ?? '',
       categories: post.data.worklog ? ['worklog'] : ['post'],
-      content: sanitizeHtml(parser.render(post.body)),
+      content: sanitizeHtml(parser.render(post.body ?? "")),
       author: 'Zander Martineau',
     })),
     stylesheet: '/blog.rss.xsl',

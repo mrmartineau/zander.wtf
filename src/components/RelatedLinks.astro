@@ -15,9 +15,9 @@ const [posts, projects, notes] = await Promise.all([
 ]);
 
 const pages = [
-  ...posts.map((entry) => ({ ...entry, url: `/blog/${entry.slug}` })),
+  ...posts.map((entry) => ({ ...entry, url: `/blog/${entry.id}` })),
   ...projects.map((entry) => ({ ...entry, url: `/projects/${entry.slug}` })),
-  ...notes.map((entry) => ({ ...entry, url: `/notes/${entry.slug}` })),
+  ...notes.map((entry) => ({ ...entry, url: `/notes/${entry.id}` })),
 ];
 
 // A code note has no date, so it sorts last.
@@ -27,7 +27,7 @@ const byDate = (a: (typeof pages)[number], b: (typeof pages)[number]) =>
 // Pages that link to this one. `/blog/moons` must not match `/blog/moons-2`.
 const mentionsThisPage = new RegExp(`${href}(?![\\w-])`);
 const backlinks = pages
-  .filter((entry) => entry.url !== href && mentionsThisPage.test(entry.body))
+  .filter((entry) => entry.url !== href && mentionsThisPage.test(entry.body ?? ""))
   .sort(byDate);
 
 // Pages this one links to. Matches `](/blog/slug)` and `](/projects/slug#bit)`.

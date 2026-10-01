@@ -1,5 +1,5 @@
 ---
-import type { CollectionEntry } from 'astro:content';
+import { type CollectionEntry, render } from 'astro:content';
 import HeadingMinimap from '~/components/HeadingMinimap.astro';
 import RelatedLinks from '~/components/RelatedLinks.astro';
 import { getBlog } from '~/utils/blog';
@@ -8,24 +8,24 @@ import BlogPostLayout from '../../layouts/BlogPostLayout.astro';
 export async function getStaticPaths() {
   const posts = await getBlog();
   return posts.map((post) => ({
-    params: { slug: post.slug },
+    params: { slug: post.id },
     props: post,
   }));
 }
 type Props = CollectionEntry<'blog'>;
 
 const post = Astro.props;
-const { Content, headings } = await post.render();
+const { Content, headings } = await render(post);
 ---
 
 <BlogPostLayout {...post}>
   <Content />
   <HeadingMinimap headings={headings} />
-  <RelatedLinks href={`/blog/${post.slug}`} />
+  <RelatedLinks href={`/blog/${post.id}`} />
   <footer class="mt-12 clear-left">
     <span class="mono">&gt;</span> comment on{' '}
     <a
-      href={`https://bsky.app/intent/compose?text=Reading%20%20https%3A//zander.wtf/blog/${post.slug}%20by%20%40zander.wtf,%0A%0AI%20think...`}
+      href={`https://bsky.app/intent/compose?text=Reading%20%20https%3A//zander.wtf/blog/${post.id}%20by%20%40zander.wtf,%0A%0AI%20think...`}
       target="_blank"
     >
       bluesky

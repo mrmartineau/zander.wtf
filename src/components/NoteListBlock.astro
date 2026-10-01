@@ -21,7 +21,7 @@ const { notes, searchResults } = Astro.props;
 // Normalize data from either collection entries or search results
 const items: NoteItem[] = notes
   ? notes.map((note) => ({
-      slug: note.slug,
+      slug: note.id,
       title: note.data.title,
       date: note.data.date,
       tags: note.data.tags,

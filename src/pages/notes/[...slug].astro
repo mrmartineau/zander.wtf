@@ -1,5 +1,5 @@
 ---
-import { type CollectionEntry, getCollection } from 'astro:content';
+import { type CollectionEntry, getCollection, render } from 'astro:content';
 import FormattedDate from '~/components/FormattedDate.astro';
 import HeadingMinimap from '~/components/HeadingMinimap.astro';
 import NoteTagLink from '~/components/NoteTagLink.astro';
@@ -13,7 +13,7 @@ import { excerpt } from '~/utils/excerpt';
 export async function getStaticPaths() {
   const notes = await getCollection('codenotes');
   return notes.map((note) => ({
-    params: { slug: note.slug },
+    params: { slug: note.id },
     props: note,
   }));
 }
@@ -21,14 +21,14 @@ export async function getStaticPaths() {
 type Props = CollectionEntry<'codenotes'>;
 
 const note = Astro.props;
-const { Content, headings } = await note.render();
+const { Content, headings } = await render(note);
 const { title, date, tags, emoji, link } = note.data;
 
 // The note's own title and an excerpt of its body: every note used to share
 // the section's title and carry no description at all. Notes that are pure
 // code have no prose to excerpt, so the title and tags stand in.
 const description =
-  excerpt(note.body) ||
+  excerpt(note.body ?? '') ||
   `A code snippet${tags?.length ? ` for ${tags.join(', ')}` : ''}: ${title}.`;
 ---
 <BaseLayout title={title} subtitle={description} slug="notes">
@@ -88,7 +88,7 @@ const description =
 
     <HeadingMinimap headings={headings} />
 
-    <RelatedLinks href={`/notes/${note.slug}`} />
+    <RelatedLinks href={`/notes/${note.id}`} />
 
     <footer class="note-footer">
       <span class="mono">&gt;</span>{' '}
