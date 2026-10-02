@@ -74,7 +74,7 @@ export function Window(props: { win: Win }) {
       for (const s of page.scripts) document.head.appendChild(s);
     } catch {
       const err = document.createElement('main');
-      err.className = 'page';
+      err.className = 'desk-page';
       err.innerHTML = `<p>Could not load <code>${props.win.url}</code>.</p>`;
       setContent(props.win.id, 'Error', err);
     }
@@ -110,7 +110,7 @@ export function Window(props: { win: Win }) {
 
   return (
     <section
-      class="win"
+      class="desk-win"
       classList={{
         'is-top': isTop(),
         'is-max': props.win.max,
@@ -130,7 +130,7 @@ export function Window(props: { win: Win }) {
     >
       {/* biome-ignore lint/a11y/noStaticElementInteractions: drag handle; the buttons inside stay keyboard-reachable */}
       <header
-        class="win-bar"
+        class="desk-win-bar"
         onPointerDown={startMove}
         onDblClick={(e) => !onButton(e) && toggleMax(props.win.id)}
       >
@@ -139,7 +139,7 @@ export function Window(props: { win: Win }) {
           fallback={
             <button
               type="button"
-              class="win-btn"
+              class="desk-win-btn"
               aria-label="Close"
               onClick={() => close(props.win.id)}
             >
@@ -149,20 +149,20 @@ export function Window(props: { win: Win }) {
         >
           <button
             type="button"
-            class="win-btn"
+            class="desk-win-btn"
             aria-label="Back"
             onClick={() => close(props.win.id)}
           >
             <i class="ph ph-arrow-left" aria-hidden="true" />
           </button>
         </Show>
-        <span class="win-title" ref={title}>
+        <span class="desk-win-title" ref={title}>
           {props.win.title}
         </span>
-        <span class="win-btns">
+        <span class="desk-win-btns">
           <button
             type="button"
-            class="win-btn"
+            class="desk-win-btn"
             aria-label="Minimise"
             onClick={() => minimise(props.win.id)}
           >
@@ -170,7 +170,7 @@ export function Window(props: { win: Win }) {
           </button>
           <button
             type="button"
-            class="win-btn"
+            class="desk-win-btn"
             aria-label="Zoom"
             onClick={() => toggleMax(props.win.id)}
           >
@@ -178,11 +178,11 @@ export function Window(props: { win: Win }) {
           </button>
         </span>
       </header>
-      <div class="win-body" ref={body} onScroll={onScroll} tabIndex={-1} />
+      <div class="desk-win-body" ref={body} onScroll={onScroll} tabIndex={-1} />
       <Show when={props.win.loading}>
-        <p class="win-loading">Loading…</p>
+        <p class="desk-win-loading">Loading…</p>
       </Show>
-      <span class="win-resize" onPointerDown={startResize} aria-hidden="true" />
+      <span class="desk-win-resize" onPointerDown={startResize} aria-hidden="true" />
     </section>
   );
 }

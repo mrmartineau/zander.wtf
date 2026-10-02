@@ -1,246 +1,71 @@
 ---
 import { getCollection } from 'astro:content';
-import ShortUrl from './ShortUrl.astro';
+import ProjectRow from './ProjectRow.astro';
+import ProjectSpotlight from './ProjectSpotlight.astro';
 
-const allProjects = await getCollection('projects');
-
-const promoted = allProjects
+// The newest promoted project gets the spotlight; the rest are listed beside it.
+const [newest, ...rest] = (await getCollection('projects'))
   .filter((project) => project.data?.promote)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 
-<div class="zm-promoted">
-  <div class="zm-promoted-grid" role="group" aria-label="Promoted projects" tabindex="0">
-    {
-      promoted.map((item) => {
-
-        const { title, subtitle, link, repo, image, bgColour, fgColour, type, appStore } = item.data;
-        // iOS apps use their square icon as `image`; show it whole, not cropped.
-        const isAppIcon = type === 'ios-app';
-        // Prefer the live link, fall back to the repo, otherwise don't link.
-        const href = link || repo;
-        return (
-          <div
-            class:list={['zm-promoted-card', { 'zm-promoted-card--app': isAppIcon }]}
-            style={`--card-bg: ${bgColour}; --card-fg: ${fgColour};`}
-          >
-            {image && isAppIcon ? (
-              <>
-                <div class="zm-promoted-glow" aria-hidden="true">
-                  <img src={image} alt="" loading="lazy" />
-                </div>
-                <img src={image} alt={`${title} icon`} class="zm-promoted-icon" width="96" height="96" />
-              </>
-            ) : image ? (
-              <div class="zm-promoted-image">
-                <img src={image} alt={`${title} preview`} />
-              </div>
-            ) : null}
-            <div class="zm-promoted-body">
-              {isAppIcon ? <span class="zm-promoted-kind">iPhone app</span> : null}
-              <h3 class="zm-promoted-title">{title}</h3>
-              <p class="zm-promoted-description">{subtitle}</p>
-              {appStore ? (
-                <a href={appStore} class="zm-promoted-badge" target="_blank" rel="noopener noreferrer">
-                  <img src="/images/download-on-the-app-store.svg" alt="Download on the App Store" width="120" height="40" />
-                </a>
-              ) : null}
-              <div class="zm-promoted-links">
-                {href && !appStore ? (
-                  <a href={href} class="zm-promoted-link" target="_blank" rel="noopener noreferrer">
-                    ➤ <ShortUrl url={href} />
-                  </a>
-                ) : null}
-                <a href={`/projects/${item.slug}`} class="zm-promoted-link">
-                  More info
-                </a>
-              </div>
-            </div>
-          </div>
-        );
-      })
-    }
-  </div>
-
-  <div class="text-center">
-    <a href="/projects" class="button" transition:persist>
-      View all projects
-    </a>
-  </div>
-</div>
+{
+  newest ? (
+    <div class="zm-promoted">
+      <ProjectSpotlight project={newest} label="New" />
+      <aside class="zm-promoted-rest">
+        <h4>Also building</h4>
+        <ul>
+          {rest.map((project) => (
+            <li>
+              <ProjectRow project={project} />
+            </li>
+          ))}
+        </ul>
+        <a href="/projects" class="zm-promoted-all">
+          View all projects →
+        </a>
+      </aside>
+    </div>
+  ) : null
+}
 
 <style>
   .zm-promoted {
-    margin-block-start: var(--space-l);
-    display: flex;
-    flex-direction: column;
+    display: grid;
     gap: var(--space-l);
-  }
+    margin-block-start: var(--space-l);
 
-  /* Under 500px the cards are a snapping strip, like the screenshots on a
-     project page: each card is 3/5 of the width so the next one shows. */
-  .zm-promoted-grid {
-    display: flex;
-    gap: var(--space-s);
-    overflow-x: auto;
-    overscroll-behavior-x: contain;
-    scroll-snap-type: x mandatory;
-    padding-block-end: var(--space-2xs);
-    -webkit-overflow-scrolling: touch;
-
-    > * {
-      flex: 0 0 max(23%, 250px);
-      scroll-snap-align: start;
-    }
-
-    &:focus-visible {
-      outline: 2px solid var(--colour-accent);
-      outline-offset: 4px;
-    }
-
-    @media (prefers-reduced-motion: no-preference) {
-      scroll-behavior: smooth;
-    }
-
-    @media screen and (min-width: 1350px) {
-      --grid-count: 4;
-      display: grid;
-      grid-template-columns: repeat(var(--grid-count), minmax(250px, 1fr));
-      gap: var(--space-l);
-      overflow: visible;
-      padding-block-end: 0;
+    @media (min-width: 1100px) {
+      grid-template-columns: 2fr 1fr;
     }
   }
 
-  .zm-promoted-card {
-    --card-bg: var(--bg-block);
-    --card-fg: var(--colour-accent);
+  .zm-promoted-rest {
     display: flex;
     flex-direction: column;
-    overflow: hidden;
-    border-radius: 2rem;
-    background-color: var(--card-bg);
-    color: var(--card-fg);
-    text-decoration: none;
-    transition: transform 150ms ease-in-out;
-  }
-
-  a.zm-promoted-card {
-    --colour-decoration: transparent;
-  }
-
-  a.zm-promoted-card:hover {
-    transform: translateY(-4px);
-  }
-
-  .zm-promoted-image {
-    aspect-ratio: 16 / 9;
-    background-color: color-mix(in srgb, var(--card-fg) 15%, var(--card-bg));
-
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-  }
-
-  .zm-promoted-body {
+    gap: var(--space-s);
     padding: var(--space-m);
-  }
+    border-radius: 2rem;
+    background: var(--bg-block);
 
-  /* iOS apps: same treatment as the cards on /projects. The icon sits centred
-     and half above the card, over a blurred copy of itself. */
-  .zm-promoted-card--app {
-    --icon: 96px;
-    position: relative;
-    overflow: visible;
-    align-items: center;
-    text-align: center;
-    margin-block-start: calc(var(--icon) / 2);
-    padding-block-start: calc(var(--icon) / 2 + var(--space-xs));
-    box-shadow: inset 1px 1px 0.5px hsl(214 14% 100% / 0.25);
-  }
+    h4 {
+      font-size: var(--step-0);
+      color: var(--colour-text-bright);
+    }
 
-  .zm-promoted-glow {
-    position: absolute;
-    inset: 0;
-    overflow: hidden;
-    border-radius: inherit;
-    pointer-events: none;
-
-    img {
-      position: absolute;
-      inset: -30% -30% auto;
-      width: 160%;
-      height: 90%;
-      object-fit: cover;
-      filter: blur(48px) saturate(1.4);
-      opacity: 0.4;
+    ul {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2xs);
+      list-style: none;
+      padding: 0;
+      margin: 0;
     }
   }
 
-  .zm-promoted-icon {
-    position: relative;
-    width: var(--icon);
-    aspect-ratio: 1;
-    margin-block-start: calc(-1 * (var(--icon) + var(--space-xs)));
-    border-radius: 22px;
-    box-shadow: 0 12px 32px -8px rgb(0 0 0 / 0.5);
-  }
-
-  .zm-promoted-card--app .zm-promoted-body {
-    position: relative;
-    padding-block-start: var(--space-xs);
-  }
-
-  .zm-promoted-title {
-    font-variation-settings: 'wght' 600;
-    font-size: var(--step-1);
-    color: var(--card-fg);
-  }
-
-  .zm-promoted-description {
-    margin-block-start: var(--space-2xs);
-    font-size: var(--step--2);
-    opacity: 0.8;
-  }
-
-  .zm-promoted-kind {
-    display: block;
-    margin-block-end: var(--space-3xs);
-    font-family: var(--font-mono);
-    font-size: var(--step--3);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    opacity: 0.7;
-  }
-
-  .zm-promoted-badge {
-    display: inline-block;
-    margin-block-start: var(--space-xs);
-
-    img {
-      display: block;
-      height: 40px;
-      width: auto;
-      border: none;
-      border-radius: 0;
-    }
-  }
-
-  .zm-promoted-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2xs) var(--space-s);
-    margin-block-start: var(--space-2xs);
-  }
-
-  .zm-promoted-card--app .zm-promoted-links {
-    justify-content: center;
-  }
-
-  .zm-promoted-link {
-    font-size: var(--step--2);
-    opacity: 0.8;
+  .zm-promoted-all {
+    margin-block-start: auto;
+    font-size: var(--step--1);
   }
 </style>

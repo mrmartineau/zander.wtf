@@ -89,12 +89,12 @@ export function Spotlight(props: {
 
   return (
     <Dialog
-      class="spotlight"
+      class="desk-spotlight"
       open={props.open}
       onClose={props.onClose}
       closedby="any"
     >
-      <div class="spotlight-field">
+      <div class="desk-spotlight-field">
         <i class="ph ph-magnifying-glass" aria-hidden="true" />
         <Input
           ref={input}
@@ -109,14 +109,14 @@ export function Spotlight(props: {
         <Button
           variant="ghost"
           size="xs"
-          class="spotlight-esc"
+          class="desk-spotlight-esc"
           onClick={props.onClose}
           title="Close (Esc)"
         >
           esc
         </Button>
       </div>
-      <ul class="spotlight-list">
+      <ul class="desk-spotlight-list">
         <For each={results()}>
           {(hit, i) => (
             <li>
@@ -127,11 +127,11 @@ export function Spotlight(props: {
                 onPointerEnter={() => setCursor(i())}
                 onClick={() => pick(hit)}
               >
-                <span class="spotlight-title">
+                <span class="desk-spotlight-title">
                   {hit.emoji ? `${hit.emoji} ` : ''}
                   {hit.title}
                 </span>
-                <span class="spotlight-type">{hit.type}</span>
+                <span class="desk-spotlight-type">{hit.type}</span>
               </button>
             </li>
           )}

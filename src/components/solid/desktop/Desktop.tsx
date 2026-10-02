@@ -73,7 +73,7 @@ export default function Desktop(props: { nav: NavItem[]; more: NavItem[] }) {
     // Same-page anchors scroll inside the window they live in.
     if (url.hash && path === topWin()?.url) {
       e.preventDefault();
-      a.closest('.win-body')
+      a.closest('.desk-win-body')
         ?.querySelector(url.hash)
         ?.scrollIntoView({ block: 'start' });
       return;
@@ -85,7 +85,7 @@ export default function Desktop(props: { nav: NavItem[]; more: NavItem[] }) {
   // GET forms (the search page) open their results in a window too.
   const onSubmit = (e: SubmitEvent) => {
     const form = e.target as HTMLFormElement;
-    if (form.method.toLowerCase() !== 'get' || !form.closest('.win')) return;
+    if (form.method.toLowerCase() !== 'get' || !form.closest('.desk-win')) return;
     const url = new URL(form.action, location.href);
     if (url.origin !== location.origin) return;
     e.preventDefault();
@@ -134,7 +134,7 @@ export default function Desktop(props: { nav: NavItem[]; more: NavItem[] }) {
 
   return (
     <div
-      class="desktop"
+      class="desk-root"
       onPointerDown={(e) => e.target === e.currentTarget && setSelected('')}
     >
       <MenuBar
@@ -143,13 +143,13 @@ export default function Desktop(props: { nav: NavItem[]; more: NavItem[] }) {
         onSearch={() => setSearch(true)}
       />
 
-      <ul class="icons" aria-label="Desktop">
+      <ul class="desk-icons" aria-label="Desktop">
         <For each={ICONS}>
           {(i) => (
             <li>
               <button
                 type="button"
-                class="icon"
+                class="desk-icon"
                 aria-pressed={selected() === i.url}
                 onClick={() => {
                   if (coarse || isMobile()) return launch(i);
@@ -172,11 +172,11 @@ export default function Desktop(props: { nav: NavItem[]; more: NavItem[] }) {
       </ul>
 
       <div
-        class="greeting"
+        class="desk-greeting"
         ref={(el) => greeting && el.appendChild(greeting)}
       />
 
-      <div class="wins">
+      <div class="desk-wins">
         <For each={state.wins}>{(w) => <Window win={w} />}</For>
       </div>
 

@@ -1,7 +1,8 @@
 ---
 import { getCollection } from 'astro:content';
 import { SITE_METADATA } from 'src/consts';
-import ProjectCard from '~/components/ProjectCard.astro';
+import ProjectRow from '~/components/ProjectRow.astro';
+import ProjectSpotlight from '~/components/ProjectSpotlight.astro';
 import ContentLayout from '~/layouts/ContentLayout.astro';
 
 const projects = (await getCollection('projects')).sort(
@@ -49,11 +50,21 @@ const slug = 'projects';
       sections.map(({ type, label, projects }) => (
         <section class="zm-project-section" id={type}>
           <h2>{label}</h2>
-          <div class="zm-project-grid">
-            {projects.map((project) => (
-              <ProjectCard project={project} />
-            ))}
-          </div>
+          {type === 'ios-app' ? (
+            <div class="zm-project-spotlights">
+              {projects.map((project) => (
+                <ProjectSpotlight project={project} />
+              ))}
+            </div>
+          ) : (
+            <ul class="zm-project-list">
+              {projects.map((project) => (
+                <li>
+                  <ProjectRow project={project} size="large" />
+                </li>
+              ))}
+            </ul>
+          )}
         </section>
       ))
     }
@@ -106,14 +117,21 @@ const slug = 'projects';
     gap: var(--space-xl);
   }
 
-  .zm-project-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-s);
+  .zm-project-spotlights {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
     margin-block-start: var(--space-s);
+  }
 
-    @media screen and (min-width: 550px) {
-      grid-template-columns: repeat(2, 1fr);
-    }
+  .zm-project-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+    margin: var(--space-s) 0 0;
+    padding: var(--space-xs);
+    list-style: none;
+    border-radius: 2rem;
+    background: var(--bg-block);
   }
 </style>

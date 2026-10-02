@@ -58,7 +58,7 @@ const formatDate = (date: Date) =>
       {
         versions.length ? (
           versions.map(({ version, date, notes }) => (
-            <article id={`v${version}`}>
+            <article class="article" id={`v${version}`}>
               <h2>
                 <a href={`#v${version}`}>Version {version}</a>
               </h2>

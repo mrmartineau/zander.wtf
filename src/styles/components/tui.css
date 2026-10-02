@@ -12,7 +12,7 @@ html.tui #status-banner {
   display: none;
 }
 
-.tui {
+.tui-root {
   --t-blue: #0000a8;
   --t-face: #b8b8b8;
   --t-hi: #ededed;
@@ -345,7 +345,7 @@ html.tui #status-banner {
 .tui-body .zm-contentContainer,
 .tui-body .note-main,
 .tui-body .zm-block-grid,
-.tui-body .zm-promoted-grid,
+.tui-body .zm-promoted,
 .tui-body [class*="grid"] {
   display: block !important;
   width: 100% !important;

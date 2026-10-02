@@ -1,0 +1,285 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { projectKind, showProjectStatus } from '~/utils/projects';
+import ShortUrl from './ShortUrl.astro';
+
+type Props = {
+  project: CollectionEntry<'projects'>;
+  /** Shown before the kind, e.g. "New" → "New · iPhone app" */
+  label?: string;
+};
+const { project, label } = Astro.props;
+const { slug, data } = project;
+const isIosApp = data.type === 'ios-app';
+const shots = (data.screenshots ?? []).map((shot) => shot.src);
+// iOS apps fan three phone screenshots; everything else gets up to two
+// browser windows, from its screenshots first, then its preview image.
+const pages = [...shots, data.image]
+  .filter((src) => src !== undefined)
+  .slice(0, 2);
+const site = [data.link, data.repo].find((url) => url?.startsWith('http'));
+const eyebrow = [
+  label,
+  projectKind(data.type),
+  showProjectStatus(data.status) ? data.status : null,
+]
+  .filter(Boolean)
+  .join(' · ');
+---
+
+<article class="zm-spotlight">
+  <div class="inner">
+  <div>
+    <span class="kind">{eyebrow}</span>
+    <div class="title">
+      {
+        isIosApp && data.image ? (
+          <img src={data.image} alt="" width="64" height="64" class="icon" />
+        ) : null
+      }
+      <h3>{data.title}</h3>
+    </div>
+    {data.subtitle ? <p class="subtitle">{data.subtitle}</p> : null}
+    {data.pricing ? <p class="pricing">{data.pricing}</p> : null}
+    <div class="actions">
+      {
+        data.appStore ? (
+          <a href={data.appStore} target="_blank" rel="noopener noreferrer" class="badge">
+            <img
+              src="/images/download-on-the-app-store.svg"
+              alt="Download on the App Store"
+              width="120"
+              height="40"
+            />
+          </a>
+        ) : data.link ? (
+          <a href={data.link} class="button">
+            Visit {data.link.startsWith('http') ? <ShortUrl url={data.link} /> : data.title}
+          </a>
+        ) : null
+      }
+      <a href={`/projects/${slug}`} class="more">More info →</a>
+    </div>
+  </div>
+  <div class="visual" aria-hidden="true">
+    {
+      isIosApp ? (
+        shots
+          .slice(0, 3)
+          .map((src, i) => <img src={src} alt="" class={`shot shot-${i}`} loading="lazy" />)
+      ) : (
+        pages.map((src, i) => (
+          <div class:list={['browser', `browser-${i}`, { 'browser--solo': pages.length === 1 }]}>
+            <div class="browser-bar">
+              <i />
+              <i />
+              <i />
+              {site ? (
+                <span class="browser-url">
+                  <ShortUrl url={site} />
+                </span>
+              ) : null}
+            </div>
+            <img src={src} alt="" loading="lazy" />
+          </div>
+        ))
+      )
+    }
+  </div>
+  </div>
+</article>
+
+<style>
+  /* Splits by its own width, so it works in a narrow column too */
+  .zm-spotlight {
+    container-type: inline-size;
+    overflow: hidden;
+    border-radius: 2rem;
+    background: var(--bg-block);
+    color: var(--colour-text-bright);
+  }
+
+  .inner {
+    display: grid;
+    gap: var(--space-l);
+    padding: var(--space-l);
+
+    @container (min-width: 620px) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .kind {
+    font-family: var(--font-mono);
+    font-size: var(--step--3);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0.7;
+  }
+
+  .title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+    margin-block: var(--space-s);
+
+    h3 {
+      font-size: var(--step-3);
+      font-variation-settings: 'wght' 700;
+      line-height: 1;
+    }
+  }
+
+  .icon {
+    border-radius: 16px;
+    corner-shape: superellipse(1.25);
+  }
+
+  .subtitle {
+    font-size: var(--step-0);
+    color: var(--colour-reallyFuckingBright);
+  }
+
+  .pricing {
+    margin-block-start: var(--space-xs);
+    font-size: var(--step--1);
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-s);
+    margin-block-start: var(--space-m);
+  }
+
+  .badge img {
+    display: block;
+    height: 40px;
+    width: auto;
+    border: 0;
+    border-radius: 0;
+  }
+
+  .more {
+    font-size: var(--step--1);
+  }
+
+  /* Three phone screenshots, fanned; they spread on hover */
+  .visual {
+    position: relative;
+    min-height: 340px;
+    display: grid;
+    place-items: center;
+  }
+
+  .shot {
+    position: absolute;
+    width: 42%;
+    border-radius: 18px;
+    box-shadow: 0 20px 40px -12px rgb(0 0 0 / 0.6);
+    transition: transform 300ms ease;
+    border: 2px solid;
+    corner-shape: superellipse(1.25);
+
+    /* The card is one column here but still wide, so 42% is too tall */
+    @media (min-width: 540px) and (max-width: 700px) {
+      width: 33%;
+    }
+  }
+
+  .shot-0 {
+    transform: translateX(-55%) rotate(-8deg) scale(0.9);
+  }
+
+  .shot-1 {
+    z-index: 1;
+  }
+
+  .shot-2 {
+    transform: translateX(55%) rotate(8deg) scale(0.9);
+  }
+
+  .zm-spotlight:hover .shot-0 {
+    transform: translateX(-70%) rotate(-10deg) scale(0.9);
+  }
+
+  .zm-spotlight:hover .shot-2 {
+    transform: translateX(70%) rotate(10deg) scale(0.9);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .shot,
+    .browser {
+      transition: none;
+    }
+  }
+
+  /* Two simplified browser windows, overlapping; they part on hover */
+  .browser {
+    position: absolute;
+    width: 78%;
+    overflow: hidden;
+    border-radius: 12px;
+    background: var(--bg);
+    box-shadow: 0 0 0 1px var(--border), 0 20px 40px -12px rgb(0 0 0 / 0.6);
+    transition: transform 300ms ease;
+
+    img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      object-position: top;
+      border: 0;
+      border-radius: 0;
+    }
+  }
+
+  .browser-0 {
+    transform: translate(-10%, -12%);
+  }
+
+  .browser-1 {
+    transform: translate(10%, 12%);
+  }
+
+  .browser--solo {
+    transform: none;
+  }
+
+  .zm-spotlight:hover .browser-0:not(.browser--solo) {
+    transform: translate(-13%, -15%);
+  }
+
+  .zm-spotlight:hover .browser-1 {
+    transform: translate(13%, 15%);
+  }
+
+  .browser-bar {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 7px 10px;
+    border-block-end: 1px solid var(--border);
+
+    i {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--border);
+    }
+  }
+
+  .browser-url {
+    flex: 1;
+    margin-inline: var(--space-xs) 32px;
+    padding: 1px 8px;
+    border-radius: 6px;
+    background: var(--bg-block);
+    font-family: var(--font-mono);
+    font-size: var(--step--3);
+    text-align: center;
+    opacity: 0.8;
+  }
+</style>

@@ -5,7 +5,7 @@ const { title, subtitle, slug } = Astro.props.frontmatter;
 ---
 
 <ContentLayout title={title} subtitle={subtitle} slug={slug}>
-  <article class="flow">
+  <article class="flow article">
     <slot />
   </article>
 </ContentLayout>

@@ -62,7 +62,7 @@ export function openFile(f: File) {
     return;
   }
   const node = document.createElement('div');
-  node.className = `file file-${f.kind}`;
+  node.className = `desk-file desk-file-${f.kind}`;
   if (f.kind === 'image') {
     node.innerHTML = `<img src="${f.url}" alt="${f.name}" />`;
   } else if (f.kind === 'pdf') {
@@ -89,13 +89,13 @@ function Folder() {
   const [selected, setSelected] = createSignal('');
   const coarse = matchMedia('(pointer: coarse)').matches;
   return (
-    <ul class="files" aria-label="Files">
+    <ul class="desk-files" aria-label="Files">
       <For each={FILES}>
         {(f) => (
           <li>
             <button
               type="button"
-              class="icon"
+              class="desk-icon"
               aria-pressed={selected() === f.name}
               onClick={() => {
                 if (coarse || isMobile()) return openFile(f);
@@ -118,7 +118,7 @@ function Folder() {
 /** The folder window's content. */
 export function folderNode() {
   const el = document.createElement('div');
-  el.className = 'folder';
+  el.className = 'desk-folder';
   render(() => <Folder />, el);
   return el;
 }

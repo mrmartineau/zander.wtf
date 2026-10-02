@@ -1,0 +1,155 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getColourFromString } from '~/utils/getColourFromString';
+import { projectKind, showProjectStatus } from '~/utils/projects';
+import FormattedDate from './FormattedDate.astro';
+import ShortUrl from './ShortUrl.astro';
+
+type Props = {
+  project: CollectionEntry<'projects'>;
+  /** small: thumbnail, title, kind and site. large: full width, with subtitle and date. */
+  size?: 'small' | 'large';
+};
+const { project, size = 'small' } = Astro.props;
+const { slug, data } = project;
+const isAppIcon = data.type === 'ios-app';
+// Most projects have no image; give them a coloured square with an initial.
+const thumbBg =
+  data.bgColour ?? (data.image ? 'var(--bg)' : getColourFromString(data.title));
+---
+
+<a href={`/projects/${slug}`} class:list={['zm-project-row', `zm-project-row--${size}`]}>
+  <span class="thumb" style={`background: ${thumbBg}`}>
+    {
+      data.image ? (
+        <img src={data.image} alt="" loading="lazy" class:list={{ cover: !isAppIcon }} />
+      ) : (
+        <span class="initial" aria-hidden="true">{data.title.charAt(0)}</span>
+      )
+    }
+  </span>
+  <span class="text">
+    <span class="title">
+      {data.title}
+      {showProjectStatus(data.status) ? <span class="status">{data.status}</span> : null}
+    </span>
+    {
+      size === 'large' ? (
+        <>
+          {data.subtitle ? <span class="subtitle">{data.subtitle}</span> : null}
+          <span class="meta">
+            <FormattedDate date={data.date} monthYearOnly />
+          </span>
+        </>
+      ) : (
+        <span class="meta">
+          {projectKind(data.type)}
+          {data.link?.startsWith('http') ? (
+            <>
+              {' · '}
+              <ShortUrl url={data.link} />
+            </>
+          ) : null}
+        </span>
+      )
+    }
+  </span>
+</a>
+
+<style>
+  .zm-project-row {
+    --thumb: 56px;
+    --colour-decoration: transparent;
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-s);
+    padding: var(--space-2xs);
+    border-radius: 1rem;
+    text-decoration: none;
+
+    &:hover {
+      background: var(--bg);
+    }
+  }
+
+  .zm-project-row--large {
+    --thumb: clamp(50px, 12vw, 100px);
+    gap: var(--space-m);
+    padding: var(--space-xs);
+    border-radius: 1.5rem;
+  }
+
+  .thumb {
+    flex: 0 0 var(--thumb);
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: 1.2rem;
+    corner-shape: superellipse(1.25);
+
+    img {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      border-radius: 0;
+    }
+
+    .cover {
+      object-fit: cover;
+      object-position: center;
+    }
+  }
+
+  .initial {
+    font-size: calc(var(--thumb) / 2);
+    font-variation-settings: 'wght' 700;
+    color: var(--colour-text-bright);
+  }
+
+  .text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
+    min-width: 0;
+  }
+
+  .title {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2xs);
+    font-variation-settings: 'wght' 600;
+    color: var(--colour-text-bright);
+  }
+
+  .zm-project-row--large .title {
+    font-size: var(--step-1);
+  }
+
+  .zm-project-row:hover .title {
+    color: var(--colour-accent);
+  }
+
+  .status {
+    padding: var(--space-4xs) var(--space-3xs);
+    border-radius: 0.3rem;
+    font-size: var(--step--3);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background-color: color-mix(in srgb, var(--colour-text) 10%, transparent);
+    color: var(--colour-text);
+  }
+
+  .subtitle {
+    max-width: 70ch;
+    font-size: var(--step--1);
+    line-height: 1.3;
+    opacity: 0.8;
+  }
+
+  .meta {
+    font-size: var(--step--2);
+    font-feature-settings: 'tnum' 1;
+    opacity: 0.7;
+  }
+</style>

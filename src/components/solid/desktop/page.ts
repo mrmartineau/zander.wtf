@@ -67,7 +67,7 @@ export async function fetchPage(url: string): Promise<Page> {
 /** Take a `<main id="page">` out of a document so it can live in a window. */
 export function adopt(main: HTMLElement) {
   main.removeAttribute('id');
-  main.classList.add('page');
+  main.classList.add('desk-page');
   return document.adoptNode(main);
 }
 

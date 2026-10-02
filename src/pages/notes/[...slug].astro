@@ -40,60 +40,60 @@ const description =
     <div class="mb-6">
       <SearchForm placeholder="Search notes..." />
     </div>
-    <article>
-    <header class="note-header">
-      <PageTitle transition:persist>
-        {emoji ? <span class="emoji">{emoji}</span> : null}
-        {title}
-      </PageTitle>
+    <article class="article">
+      <header class="note-header">
+        <PageTitle transition:persist>
+          {emoji ? <span class="emoji">{emoji}</span> : null}
+          {title}
+        </PageTitle>
 
-      <div class="note-metadata mb-2 flex items-center gap-2">
+        <div class="note-metadata mb-2 flex items-center gap-2">
+          {
+            link ? (
+              <div class="flex items-center gap-2">
+                <i class="ph-duotone ph-link" />
+                <a href={link} target="_blank" rel="noopener noreferrer" class="note-link">
+                  {link}
+                </a>
+              </div>
+            ) : null
+          }
+          {
+            date ? (
+              <div class="note-date flex items-center gap-2">
+                <i class="ph-duotone ph-calendar" />
+                <FormattedDate date={date} />
+              </div>
+            ) : null
+          }
+        </div>
+
         {
-          link ? (
-            <div class="flex items-center gap-2">
-              <i class="ph-duotone ph-link" />
-              <a href={link} target="_blank" rel="noopener noreferrer" class="note-link">
-                {link}
-              </a>
+          tags && tags.length > 0 ? (
+            <div class="note-tags flex items-center gap-2">
+              <i class="ph-duotone ph-tag" />
+              {tags.map((tag) => (
+                <NoteTagLink tag={tag} />
+              ))}
             </div>
           ) : null
         }
-        {
-          date ? (
-            <div class="note-date flex items-center gap-2">
-              <i class="ph-duotone ph-calendar" />
-              <FormattedDate date={date} />
-            </div>
-          ) : null
-        }
+      </header>
+
+      <div class="flow">
+        <TableOfContents headings={headings} />
+
+        <Content />
       </div>
 
-      {
-        tags && tags.length > 0 ? (
-          <div class="note-tags flex items-center gap-2">
-            <i class="ph-duotone ph-tag" />
-            {tags.map((tag) => (
-              <NoteTagLink tag={tag} />
-            ))}
-          </div>
-        ) : null
-      }
-    </header>
+      <HeadingMinimap headings={headings} />
 
-    <div class="flow">
-      <TableOfContents headings={headings} />
+      <RelatedLinks href={`/notes/${note.id}`} />
 
-      <Content />
-    </div>
-
-    <HeadingMinimap headings={headings} />
-
-    <RelatedLinks href={`/notes/${note.id}`} />
-
-    <footer class="note-footer">
-      <span class="mono">&gt;</span>{' '}
-      <a href="/notes">cd ..</a>
-    </footer>
+      <footer class="note-footer">
+        <span class="mono">&gt;</span>{' '}
+        <a href="/notes">cd ..</a>
+      </footer>
     </article>
   </div>
   </div>

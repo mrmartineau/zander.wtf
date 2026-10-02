@@ -37,14 +37,14 @@ export function MenuBar(props: {
     );
 
   return (
-    <nav class="menubar" aria-label="Menu bar">
-      <Menu class="menu-z">
+    <nav class="desk-menubar" aria-label="Menu bar">
+      <Menu class="desk-menu-z">
         <MenuTrigger variant="ghost" size="sm" aria-label="Zander menu">
           Z
         </MenuTrigger>
         <MenuContent>
           <Show when={state.recent.length}>
-            <div class="menu-label">Recent</div>
+            <div class="desk-menu-label">Recent</div>
             <For each={state.recent}>
               {(r) => (
                 <MenuItem onClick={() => open(r.url, r.title)}>
@@ -52,13 +52,13 @@ export function MenuBar(props: {
                 </MenuItem>
               )}
             </For>
-            <hr class="menu-rule" />
+            <hr class="desk-menu-rule" />
           </Show>
           <MenuItem onClick={() => topWin() && close(topWin().id)}>
             Close window <kbd class="zui-kbd">⌘W</kbd>
           </MenuItem>
           <MenuItem onClick={closeAll}>Close all</MenuItem>
-          <hr class="menu-rule" />
+          <hr class="desk-menu-rule" />
           <MenuItem onClick={() => setUiMode('tui', topWin()?.url ?? '/')}>
             Switch to terminal
           </MenuItem>
@@ -102,7 +102,7 @@ export function MenuBar(props: {
             Tile windows <kbd class="zui-kbd">⌘T</kbd>
           </MenuItem>
           <Show when={state.wins.length}>
-            <hr class="menu-rule" />
+            <hr class="desk-menu-rule" />
           </Show>
           <For each={state.wins}>
             {(w) => (
@@ -115,16 +115,16 @@ export function MenuBar(props: {
         </MenuContent>
       </Menu>
 
-      <span class="menubar-spacer" />
+      <span class="desk-menubar-spacer" />
 
-      <a class="menubar-hire" href="mailto:hi+enquiry@zander.wtf">
+      <a class="desk-menubar-hire" href="mailto:hi+enquiry@zander.wtf">
         <i class="ph ph-paper-plane-right" aria-hidden="true" /> Available for
         work
       </a>
 
       <button
         type="button"
-        class="menubar-btn"
+        class="desk-menubar-btn"
         aria-pressed={soundOn()}
         aria-label={soundOn() ? 'Sound on' : 'Sound off'}
         title={soundOn() ? 'Sound on' : 'Sound off'}
@@ -138,7 +138,7 @@ export function MenuBar(props: {
 
       <button
         type="button"
-        class="menubar-btn"
+        class="desk-menubar-btn"
         aria-label="Search (⌘K)"
         title="Search (⌘K)"
         onClick={props.onSearch}
@@ -146,7 +146,7 @@ export function MenuBar(props: {
         <i class="ph ph-magnifying-glass" aria-hidden="true" />
       </button>
 
-      <time class="menubar-clock">{time()}</time>
+      <time class="desk-menubar-clock">{time()}</time>
     </nav>
   );
 }

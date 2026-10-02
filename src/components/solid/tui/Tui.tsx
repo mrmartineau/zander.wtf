@@ -477,7 +477,7 @@ export default function Tui(props: { nav: NavItem[]; more: NavItem[] }) {
   return (
     // biome-ignore lint/a11y/noStaticElementInteractions: delegated tap handler for links inside page content; the keyboard handler is global
     // biome-ignore lint/a11y/useKeyWithClickEvents: keys are handled on document
-    <div class="tui" onClick={onClick}>
+    <div class="tui-root" onClick={onClick}>
       <output class="tui-bar" aria-live="polite">
         <i class="ph ph-terminal-window" aria-hidden="true" />
         <span>{help()}</span>
