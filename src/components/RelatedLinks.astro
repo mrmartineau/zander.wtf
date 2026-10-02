@@ -16,7 +16,7 @@ const [posts, projects, notes] = await Promise.all([
 
 const pages = [
   ...posts.map((entry) => ({ ...entry, url: `/blog/${entry.id}` })),
-  ...projects.map((entry) => ({ ...entry, url: `/projects/${entry.slug}` })),
+  ...projects.map((entry) => ({ ...entry, url: `/projects/${entry.id}` })),
   ...notes.map((entry) => ({ ...entry, url: `/notes/${entry.id}` })),
 ];
 

@@ -170,7 +170,8 @@ export const GET = async ({ props }: Props) => {
     },
   };
 
-  const svg = await satori(html, {
+  // satori types its input as a ReactNode; this plain vnode is what it reads
+  const svg = await satori(html as unknown as Parameters<typeof satori>[0], {
     width: 1200,
     height: 600,
     fonts: [
@@ -224,7 +225,7 @@ export async function getStaticPaths() {
   // silently overwriting.
   const allPages = [...blogPosts, ...projects, ...otherPages];
   return allPages.map((post) => ({
-    // Blog entries (glob loader) have only `id`; projects and pages have `slug`
+    // Collection entries have `id`; static pages have `slug`
     params: { slug: 'slug' in post ? post.slug : post.id },
     props: { post },
   }));

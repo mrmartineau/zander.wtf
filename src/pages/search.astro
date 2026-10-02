@@ -1,6 +1,7 @@
 ---
 export const prerender = false;
 
+import { env } from 'cloudflare:workers';
 import { getCollection } from 'astro:content';
 import { SITE_METADATA } from 'src/consts';
 import Block from '~/components/Block.astro';
@@ -29,7 +30,7 @@ let searchError = '';
 
 if (query.length >= 2) {
   try {
-    results = await searchIndex(Astro.locals.runtime.env.SEARCH_DB, {
+    results = await searchIndex(env.SEARCH_DB, {
       query,
       limit: 25,
       type,

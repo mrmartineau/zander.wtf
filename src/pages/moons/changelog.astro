@@ -6,7 +6,7 @@ import { getAppVersions } from '../../fetching/appStoreVersions';
 import './_moons.css';
 
 const project = (await getCollection('projects')).find(
-  (p) => p.slug === 'moons',
+  (p) => p.id === 'moons',
 );
 if (!project?.data.appStore) throw new Error('Moons: project entry missing');
 const { appStore } = project.data;

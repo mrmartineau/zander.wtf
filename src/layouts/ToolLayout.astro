@@ -8,7 +8,7 @@ import ShortUrl from '~/components/ShortUrl.astro';
 import BaseLayout from './BaseLayout.astro';
 
 type Props = CollectionEntry<'projects'>;
-const { data, slug } = Astro.props;
+const { data, id: slug } = Astro.props;
 const {
   title,
   date,
