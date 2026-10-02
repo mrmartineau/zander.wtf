@@ -7,6 +7,8 @@ interface Props {
   href: string;
 }
 const { href } = Astro.props;
+// Code notes mostly link to each other, so a note's links skip the label there
+const onNote = href.startsWith('/notes/');
 
 const [posts, projects, notes] = await Promise.all([
   getBlog(),
@@ -15,12 +17,24 @@ const [posts, projects, notes] = await Promise.all([
 ]);
 
 const pages = [
-  ...posts.map((entry) => ({ ...entry, url: `/blog/${entry.id}` })),
-  ...projects.map((entry) => ({ ...entry, url: `/projects/${entry.slug}` })),
-  ...notes.map((entry) => ({ ...entry, url: `/notes/${entry.id}` })),
+  ...posts.map((entry) => ({
+    ...entry,
+    url: `/blog/${entry.id}`,
+    type: entry.data.worklog ? 'Worklog' : 'Blog post',
+  })),
+  ...projects.map((entry) => ({
+    ...entry,
+    url: `/projects/${entry.slug}`,
+    type: 'Project',
+  })),
+  ...notes.map((entry) => ({
+    ...entry,
+    url: `/notes/${entry.id}`,
+    type: 'Code note',
+  })),
 ];
 
-// A code note has no date, so it sorts last.
+// An entry with no date sorts last.
 const byDate = (a: (typeof pages)[number], b: (typeof pages)[number]) =>
   (b.data.date?.valueOf() ?? 0) - (a.data.date?.valueOf() ?? 0);
 
@@ -58,6 +72,9 @@ const lists = [
             {list.items.map((entry) => (
               <li>
                 <a href={entry.url}>{entry.data.title}</a>
+                {onNote && entry.type === 'Code note' ? null : (
+                  <span class="related-type"> • {entry.type}</span>
+                )}
               </li>
             ))}
           </ul>
@@ -86,6 +103,11 @@ const lists = [
     font-size: var(--step--1);
     text-transform: uppercase;
     letter-spacing: 0.05em;
+    opacity: 0.7;
+  }
+
+  .related-type {
+    font-size: var(--step--1);
     opacity: 0.7;
   }
 
