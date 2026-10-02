@@ -83,6 +83,13 @@ export default defineConfig({
     emdash({
       database: d1({ binding: 'DB' }),
       storage: r2({ binding: 'MEDIA' }),
+      // The origin passkeys and CSRF checks are bound to. Builds deploy to
+      // zander.wtf; `pnpm dev` runs behind portless (https://zander.localhost),
+      // which EmDash doesn't treat as local. Plain `astro dev` on localhost
+      // needs nothing.
+      siteUrl: process.argv.includes('build')
+        ? 'https://zander.wtf'
+        : process.env.PORTLESS_URL,
     }),
     d1Search(searchConfig),
     uiModeRewrites,
