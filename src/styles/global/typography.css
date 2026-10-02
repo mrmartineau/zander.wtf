@@ -83,7 +83,10 @@ a {
   }
 }
 
-.article {
+/* :where() keeps these as weak as a bare element selector, so components
+   inside an article (the heading minimap, related links) win with their own
+   scoped styles */
+:where(.article) {
   font-size: var(--step-0);
 
   ul {

@@ -202,6 +202,8 @@ const items = headings.filter((h) => h.depth >= 2 && h.depth <= maxDepth);
 <style>
   .heading-minimap {
     display: none;
+    /* in a blog post it sits inside .flow, whose margin would push it below the title */
+    margin: 0;
   }
 
   @media (min-width: 75em) {
