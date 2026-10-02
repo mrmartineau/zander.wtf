@@ -1,0 +1,27 @@
+diff --git a/dist/vite-plugin-css/index.js b/dist/vite-plugin-css/index.js
+index 4381698d4a3b9490f3a914e5caf3009fed588c5d..ed088209f25eaa1bb29d6ec745d323f3835c2419 100644
+--- a/dist/vite-plugin-css/index.js
++++ b/dist/vite-plugin-css/index.js
+@@ -25,6 +25,7 @@ async function ensureModulesLoaded(env, mod, seen = /* @__PURE__ */ new Set()) {
+   for (const imp of mod.importedModules) {
+     if (!imp.id) continue;
+     if (seen.has(imp.id)) continue;
++    if (imp.id === ALL_PAGES_MODULE) continue;
+     if (imp.id.includes(PROPAGATED_ASSET_QUERY_PARAM)) continue;
+     if (imp.id === RESOLVED_MODULE_DEV_CSS || imp.id === RESOLVED_MODULE_DEV_CSS_ALL || imp.id.startsWith(RESOLVED_MODULE_DEV_CSS_PREFIX))
+       continue;
+@@ -37,9 +38,13 @@ async function ensureModulesLoaded(env, mod, seen = /* @__PURE__ */ new Set()) {
+     await ensureModulesLoaded(env, imp, seen);
+   }
+ }
++// `virtual:astro:pages` imports every page. A page reaches it through
++// `astro:config/server` -> `virtual:astro:manifest` (EmDash does this), and the
++// crawl then collects every page's CSS. A page's own CSS never comes from there.
++const ALL_PAGES_MODULE = "\0virtual:astro:pages";
+ function* collectCSSWithOrder(id, mod, seen = /* @__PURE__ */ new Set()) {
+   seen.add(id);
+-  if (id.includes(PROPAGATED_ASSET_QUERY_PARAM)) {
++  if (id === ALL_PAGES_MODULE || id.includes(PROPAGATED_ASSET_QUERY_PARAM)) {
+     return;
+   }
+   const imported = Array.from(mod.importedModules);
