@@ -1,0 +1,623 @@
+---
+// A bespoke page for Lil' Debugger, with its docs on one page. Like /moons it
+// skips BaseLayout/BaseHead and the site stylesheet.
+//
+// The package is not on npm yet, so src/data/lil-debugger/index.ts is a
+// verbatim copy of src/index.ts from the lil-debugger repo. Re-copy it when
+// the package changes. Once it is published, `pnpm add @mrmartineau/lil-debugger`,
+// change the import in the script below and delete the copy.
+import { Code } from 'astro:components';
+// Only @font-face rules: the site's fonts without the site's styles.
+import '../../styles/global/font-face.css';
+import source from '../../data/lil-debugger/index.ts?raw';
+
+const title = "Lil' Debugger";
+const description =
+  'A tiny dev tool for any framework, or no framework. Add a data-debug attribute to any element. Hold Ctrl+Shift and the page shows what each element holds.';
+const canonical = new URL('/lil-debugger', Astro.site);
+const repo = 'https://github.com/mrmartineau/lil-debugger';
+const lines = source.trim().split('\n').length;
+const theme = 'tokyo-night';
+
+const icon = `data:image/svg+xml,${encodeURIComponent(
+  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#1e1b2e"/><rect x="7" y="7" width="18" height="18" rx="2" fill="rgb(124 58 237 / 0.25)" stroke="#a78bfa" stroke-width="2" stroke-dasharray="3 2.5"/></svg>',
+)}`;
+
+const usage = `import { lilDebugger } from "@mrmartineau/lil-debugger";
+
+if (import.meta.env.DEV) lilDebugger();`;
+
+const markup = `<div data-debug="user:42">…</div>
+<section data-debug='{"plan":"pro","flags":["beta"]}'>…</section>`;
+
+const fromComponent = `<Card data-debug={JSON.stringify({ id, status })} />`;
+
+const options = `const debug = lilDebugger({
+  attribute: "data-debug", // the attribute to read
+  lockKey: "KeyL", // a KeyboardEvent.code value for Ctrl+Shift+<key>
+  injectStyles: true, // set to false to bring your own CSS
+});
+
+debug.toggle(); // lock or unlock from code
+debug.destroy(); // remove all listeners, the panel, the styles and the root class`;
+
+const ownCss = `import { styles } from "@mrmartineau/lil-debugger";
+
+console.log(styles("data-debug"));`;
+
+const frameworks: [
+  name: string,
+  lang: 'html' | 'tsx' | 'vue' | 'svelte',
+  code: string,
+][] = [
+  [
+    'Plain HTML or Astro',
+    'html',
+    `<script type="module">
+  import { lilDebugger } from "@mrmartineau/lil-debugger";
+
+  if (import.meta.env.DEV) lilDebugger();
+</script>`,
+  ],
+  [
+    'React',
+    'tsx',
+    `import { useEffect } from "react";
+import { lilDebugger } from "@mrmartineau/lil-debugger";
+
+export function LilDebugger() {
+  useEffect(() => lilDebugger().destroy, []);
+  return null;
+}`,
+  ],
+  [
+    'Vue',
+    'vue',
+    `<script setup>
+import { onMounted, onUnmounted } from "vue";
+import { lilDebugger } from "@mrmartineau/lil-debugger";
+
+let debug;
+onMounted(() => (debug = lilDebugger()));
+onUnmounted(() => debug?.destroy());
+</script>`,
+  ],
+  [
+    'Svelte',
+    'svelte',
+    `<script>
+  import { onMount } from "svelte";
+  import { lilDebugger } from "@mrmartineau/lil-debugger";
+
+  onMount(() => lilDebugger().destroy);
+</script>`,
+  ],
+  [
+    'Solid',
+    'tsx',
+    `import { onCleanup, onMount } from "solid-js";
+import { lilDebugger } from "@mrmartineau/lil-debugger";
+
+export function LilDebugger() {
+  onMount(() => onCleanup(lilDebugger().destroy));
+  return null;
+}`,
+  ],
+];
+
+// [name, accent, tint, panel background, panel text]
+const themes = [
+  ['Violet', '#7c3aed', 'rgb(124 58 237 / 0.12)', '#1e1b2e', '#fff'],
+  ['Mint', '#10b981', 'rgb(16 185 129 / 0.12)', '#0f241d', '#ecfdf5'],
+  ['Amber', '#f59e0b', 'rgb(245 158 11 / 0.14)', '#2a1f0a', '#fffbeb'],
+  ['Rose', '#f43f5e', 'rgb(244 63 94 / 0.12)', '#2b0f16', '#fff1f2'],
+];
+const themeCss = ([, accent, tint, bg, fg]: string[]) =>
+  `--lil-debugger-accent: ${accent}; --lil-debugger-tint: ${tint}; --lil-debugger-panel-bg: ${bg}; --lil-debugger-panel-fg: ${fg};`;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareSourceCode',
+  name: title,
+  description,
+  url: canonical.href,
+  codeRepository: repo,
+  programmingLanguage: 'TypeScript',
+  license: 'https://choosealicense.com/licenses/isc/',
+  author: { '@type': 'Person', name: 'Zander Martineau', url: Astro.site },
+};
+---
+
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href={icon} />
+    <meta name="theme-color" content="#13111c" />
+    <link rel="preload" href="/fonts/MozillaText-VF.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/AlphaLyrae-Medium.woff2" as="font" type="font/woff2" crossorigin />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content="Zander Martineau" />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta name="twitter:card" content="summary" />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <header class="bar" data-debug="header.bar">
+      <a class="brand" href="#top">
+        <img src={icon} alt="" width="28" height="28" />
+        Lil' Debugger
+      </a>
+      <nav>
+        <a href="#docs">Docs</a>
+        <a href={repo}>GitHub</a>
+        <button type="button" class="lock" data-lock aria-pressed="false">Turn on</button>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero" data-debug='{"section":"hero","component":"Hero"}'>
+        <p class="eyebrow">A tiny dev tool · coming soon to npm</p>
+        <h1>See what every element holds</h1>
+        <p class="lede">
+          Add a <code>data-debug</code> attribute to any element. Hold the keys and
+          the page shows you its value. It works with any framework, or no framework.
+          No dependencies.
+        </p>
+        <div class="keys" aria-hidden="true">
+          <kbd data-key="Control">Ctrl</kbd>
+          <span>+</span>
+          <kbd data-key="Shift">Shift</kbd>
+        </div>
+        <p class="try">
+          Hold them now. This whole page is the demo.
+          <span class="touch">No keyboard? Tap <strong>Turn on</strong> at the top.</span>
+        </p>
+      </section>
+
+      <section class="demo" aria-labelledby="demo-title" data-debug='{"section":"demo","file":"src/pages/lil-debugger/index.astro"}'>
+        <h2 id="demo-title">Try it</h2>
+        <p>
+          Turn it on, then hover the cards. The panel at the bottom left shows the
+          label of the element, then the labels of its parents.
+          <kbd>Alt</kbd>+click any of them to copy its value.
+        </p>
+
+        <div class="app" data-debug='{"component":"Dashboard","route":"/account","renderedAt":"server"}'>
+          <article class="card user" data-debug='{"component":"UserCard","userId":42,"plan":"pro"}'>
+            <div class="avatar" data-debug="avatar: initials fallback, no image">AL</div>
+            <div>
+              <h3>Ada Lovelace</h3>
+              <p>Analytical Engine team</p>
+            </div>
+            <button type="button" data-debug="onClick: openProfile(42)">View profile</button>
+          </article>
+
+          <article class="card" data-debug='{"component":"Cart","items":2,"currency":"GBP"}'>
+            <h3>Basket</h3>
+            <ul>
+              <li data-debug='{"sku":"PUNCH-01","qty":3,"price":4.5}'>
+                <span>Punched cards</span><span>£13.50</span>
+              </li>
+              <li data-debug='{"sku":"GEAR-12","qty":1,"price":120,"backorder":true}'>
+                <span>Brass gear set</span><span>£120.00</span>
+              </li>
+            </ul>
+            <p class="total" data-debug="computed: sum(items.price × items.qty)">£133.50</p>
+          </article>
+
+          <article class="card" data-debug='{"component":"SignupForm","variant":"B"}'>
+            <h3>Newsletter</h3>
+            <label data-debug="field: email · validation: required, email">
+              Email
+              <input type="email" placeholder="ada@example.com" />
+            </label>
+            <p>
+              <span class="badge" data-debug="feature-flag: new-checkout=on">Beta</span>
+              Alt+click the badge to copy its flag.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <div id="docs" class="docs">
+        <section data-debug='{"section":"install"}'>
+          <h2>Install</h2>
+          <Code code="npm install -D @mrmartineau/lil-debugger" lang="sh" theme={theme} />
+          <p class="note">It is not on npm yet. It will be soon.</p>
+        </section>
+
+        <section data-debug='{"section":"use"}'>
+          <h2>Turn it on</h2>
+          <p>Call <code>lilDebugger()</code> once, in the browser. It adds its own styles.</p>
+          <Code code={usage} lang="js" theme={theme} />
+          <p>
+            Load it only in development. This example uses the Vite
+            <code>import.meta.env.DEV</code> flag. Change it to the flag of your build tool.
+          </p>
+        </section>
+
+        <section data-debug='{"section":"attributes"}'>
+          <h2>Add debug info</h2>
+          <p>Put any string in a <code>data-debug</code> attribute:</p>
+          <Code code={markup} lang="html" theme={theme} />
+          <p>From a component, pass any value as a string:</p>
+          <Code code={fromComponent} lang="jsx" theme={theme} />
+        </section>
+
+        <section data-debug='{"section":"controls"}'>
+          <h2>Controls</h2>
+          <table>
+            <thead>
+              <tr><th>Do this</th><th>What happens</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Hold <kbd>Ctrl</kbd>+<kbd>Shift</kbd></td><td>Show the debug info. Let go to hide it.</td></tr>
+              <tr><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>L</kbd></td><td>Keep it on. Press again to turn it off.</td></tr>
+              <tr><td>Hover a debug element</td><td>The panel shows its label and the labels of its parents.</td></tr>
+              <tr><td><kbd>Alt</kbd>+click</td><td>Copy the value of the element to the clipboard.</td></tr>
+              <tr><td>Add <a href="?lil-debug"><code>?lil-debug</code></a> to the URL</td><td>Start with it locked on. Good for sharing a link.</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section data-debug='{"section":"panel"}'>
+          <h2>What the panel shows</h2>
+          <ul>
+            <li>The value. JSON objects and arrays show on many lines.</li>
+            <li>The element: tag, <code>id</code>, classes and size, for example <code>&lt;button#save.btn&gt; 120×40</code>.</li>
+            <li>When you hover nothing: how many debug elements are on the page.</li>
+            <li>All debug elements get a dashed outline. The innermost hovered one gets a solid outline.</li>
+            <li>It turns off if the window loses focus while you hold the keys, so it never gets stuck on.</li>
+            <li>The panel uses <code>textContent</code>, so a value can never inject HTML.</li>
+          </ul>
+        </section>
+
+        <section data-debug='{"section":"options"}'>
+          <h2>Options</h2>
+          <Code code={options} lang="js" theme={theme} />
+          <p>Pick a <code>lockKey</code> that your browser does not already use with <kbd>Ctrl</kbd>+<kbd>Shift</kbd>.</p>
+        </section>
+
+        <section data-debug='{"section":"theming"}'>
+          <h2>Theming</h2>
+          <p>Set four custom properties in your own CSS. Pick one here, then turn the debugger on to see it.</p>
+          <div class="swatches" role="group" aria-label="Themes">
+            {
+              themes.map((t, i) => (
+                <button
+                  type="button"
+                  data-theme={themeCss(t)}
+                  data-debug={`:root { ${themeCss(t)} }`}
+                  aria-pressed={i === 0 ? 'true' : 'false'}
+                  style={`--swatch: ${t[1]}; --swatch-bg: ${t[3]}`}
+                >
+                  {t[0]}
+                </button>
+              ))
+            }
+          </div>
+          <pre class="css-out" data-css-out>{`:root {\n  ${themeCss(themes[0]).split('; ').join(';\n  ')}\n}`}</pre>
+        </section>
+
+        <section data-debug='{"section":"own-css"}'>
+          <h2>Bring your own CSS</h2>
+          <p>
+            Set <code>injectStyles: false</code>. Then get the default CSS from
+            <code>styles()</code> and change it, or write your own:
+          </p>
+          <Code code={ownCss} lang="js" theme={theme} />
+          <p>
+            The tool adds the <code>lil-debugger</code> class to <code>&lt;html&gt;</code>
+            when it is on. The panel has the <code>lil-debugger-panel</code> class.
+          </p>
+        </section>
+
+        <section data-debug='{"section":"frameworks"}'>
+          <h2>Frameworks</h2>
+          <p>
+            <code>lilDebugger()</code> returns a <code>destroy()</code> function. Each
+            framework calls it when the component unmounts.
+          </p>
+          <div class="frameworks">
+            {
+              frameworks.map(([name, lang, code], i) => (
+                <details name="framework" open={i === 0} data-debug={`framework: ${name}`}>
+                  <summary>{name}</summary>
+                  <Code code={code} lang={lang} theme={theme} />
+                </details>
+              ))
+            }
+          </div>
+          <p>
+            On the server there is no <code>document</code>. There,
+            <code>lilDebugger()</code> does nothing and returns no-op functions, so
+            it is safe to call anywhere. It also puts its panel and styles back after
+            a client-side router (Astro's ClientRouter, Turbo, htmx) swaps the page.
+          </p>
+        </section>
+
+        <section data-debug={`{"section":"source","lines":${lines}}`}>
+          <h2>The whole thing</h2>
+          <p>{lines} lines of TypeScript. This page runs this exact file.</p>
+          <details class="source">
+            <summary>Show the source</summary>
+            <Code code={source} lang="ts" theme={theme} />
+          </details>
+        </section>
+      </div>
+    </main>
+
+    <footer class="foot">
+      <span>Made by <a href="/">Zander Martineau</a></span>
+      <a href="/projects/lil-debugger">The write-up</a>
+      <a href={repo}>GitHub</a>
+      <span>ISC licence</span>
+    </footer>
+  </body>
+</html>
+
+<script>
+  import { lilDebugger } from '../../data/lil-debugger/index';
+
+  const debug = lilDebugger();
+  const root = document.documentElement;
+
+  // The lock button follows the root class, so it is right however the
+  // debugger was turned on: the button, the keys or ?lil-debug.
+  const lock = document.querySelector<HTMLButtonElement>('[data-lock]');
+  const sync = () => {
+    const on = root.classList.contains('lil-debugger');
+    lock?.setAttribute('aria-pressed', String(on));
+    if (lock) lock.textContent = on ? 'Turn off' : 'Turn on';
+  };
+  lock?.addEventListener('click', debug.toggle);
+  new MutationObserver(sync).observe(root, { attributeFilter: ['class'] });
+  sync();
+
+  // The keycaps in the hero press down with the real keys.
+  const caps = document.querySelectorAll<HTMLElement>('.keys kbd');
+  const press = (e: KeyboardEvent) => {
+    for (const cap of caps) {
+      cap.toggleAttribute(
+        'data-down',
+        cap.dataset.key === 'Control' ? e.ctrlKey : e.shiftKey,
+      );
+    }
+  };
+  addEventListener('keydown', press);
+  addEventListener('keyup', press);
+  addEventListener('blur', () => {
+    for (const cap of caps) cap.removeAttribute('data-down');
+  });
+
+  // Theme swatches set the custom properties on <html>, which beats the
+  // defaults the debugger injects.
+  const out = document.querySelector('[data-css-out]');
+  const swatches = document.querySelectorAll<HTMLButtonElement>('[data-theme]');
+  for (const btn of swatches) {
+    btn.addEventListener('click', () => {
+      const css = btn.dataset.theme ?? '';
+      for (const decl of css.split(';')) {
+        const [prop, value] = decl.split(':').map((s) => s.trim());
+        if (prop) root.style.setProperty(prop, value);
+      }
+      for (const b of swatches) b.setAttribute('aria-pressed', String(b === btn));
+      if (out) out.textContent = `:root {\n  ${css.split('; ').join(';\n  ')}\n}`;
+    });
+  }
+</script>
+
+<style is:global>
+  :root {
+    color-scheme: dark;
+    --bg: #13111c;
+    --surface: #1c1928;
+    --surface-2: #252136;
+    --text: #ece9f5;
+    --muted: #a39fb8;
+    --line: rgb(255 255 255 / 0.09);
+    --accent: #a78bfa;
+    --accent-strong: #7c3aed;
+    /* The site's stacks, from src/styles/global/vars.css. */
+    --sans: 'Mozilla Text', system-ui, sans-serif;
+    --headings: 'Alpha Lyrae', 'Mona Sans', system-ui, sans-serif;
+    --mono:
+      'Geist Mono', 'Recursive Mono Casual Static', 'Recursive Mono Casual',
+      'Recursive Mono', 'Comic Code', 'JetBrains Mono', 'SF Mono', Menlo, Monaco,
+      'Courier New', monospace;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background:
+      radial-gradient(70% 40% at 50% 0%, rgb(124 58 237 / 0.18), transparent 70%),
+      var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+  }
+  a { color: var(--accent); text-underline-offset: 3px; }
+  h1, h2, h3, .brand { font-family: var(--headings); font-weight: 500; }
+  h1, h2, h3 { line-height: 1.1; margin: 0; text-wrap: balance; }
+  p { margin: 0; text-wrap: pretty; }
+  button { font: inherit; color: inherit; cursor: pointer; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  /* Clear the sticky bar when an in-page link jumps here. */
+  [id] { scroll-margin-top: 4.5rem; }
+  code, kbd, pre { font-family: var(--mono); }
+  :not(pre) > code { font-size: 0.88em; padding: 0.1em 0.35em; border-radius: 0.3em; background: var(--surface-2); }
+  kbd {
+    display: inline-block;
+    font-size: 0.8em;
+    line-height: 1;
+    padding: 0.3em 0.5em;
+    border-radius: 0.35em;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-bottom-width: 3px;
+  }
+
+  /* ---- Bar ---- */
+  .bar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.7rem 1rem;
+    background: rgb(19 17 28 / 0.75);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+  .brand { display: flex; align-items: center; gap: 0.55rem; color: var(--text); text-decoration: none; white-space: nowrap; }
+  .bar nav { display: flex; align-items: center; gap: 1rem; font-size: 0.9rem; }
+  .bar nav a { color: var(--muted); text-decoration: none; }
+  .bar nav a:hover { color: var(--text); }
+  .lock {
+    padding: 0.35rem 0.9rem;
+    border-radius: 999px;
+    border: 1px solid var(--accent-strong);
+    background: transparent;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .lock[aria-pressed='true'] { background: var(--accent-strong); color: #fff; }
+  @media (max-width: 26rem) {
+    .bar nav a[href='#docs'] { display: none; }
+  }
+
+  /* ---- Hero ---- */
+  main { max-width: 52rem; margin: 0 auto; padding: 0 1rem; }
+  .hero { padding: clamp(3rem, 10vw, 6rem) 0 3rem; text-align: center; display: grid; justify-items: center; gap: 1.25rem; }
+  .eyebrow { color: var(--accent); font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; }
+  .hero h1 { font-size: clamp(2.5rem, 1.5rem + 5vw, 4.5rem); }
+  .lede { color: var(--muted); font-size: clamp(1.05rem, 1rem + 0.4vw, 1.25rem); max-width: 36rem; }
+  .keys { display: flex; align-items: center; gap: 0.75rem; margin-top: 1rem; color: var(--muted); font-size: 1.5rem; }
+  .keys kbd {
+    font-size: 1.2rem;
+    min-width: 5.5rem;
+    padding: 0.9rem 1rem;
+    border-radius: 0.6rem;
+    border-bottom-width: 6px;
+    transition: transform 0.08s, border-bottom-width 0.08s, background 0.15s, border-color 0.15s;
+  }
+  .keys kbd[data-down] { transform: translateY(4px); border-bottom-width: 2px; background: var(--accent-strong); border-color: var(--accent); color: #fff; }
+  .try { color: var(--muted); font-size: 0.95rem; }
+  .touch { display: block; }
+  @media (hover: hover) and (pointer: fine) {
+    .touch { display: none; }
+  }
+
+  /* ---- Demo ---- */
+  .demo { padding: 2rem 0 3rem; display: grid; gap: 1rem; }
+  .demo h2, .docs h2 { font-size: clamp(1.6rem, 1.3rem + 1.5vw, 2.2rem); }
+  .demo > p { color: var(--muted); }
+  .app {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    padding: 1rem;
+    margin-top: 0.5rem;
+    border-radius: 1.25rem;
+    background: var(--surface);
+    border: 1px solid var(--line);
+  }
+  .card { display: grid; gap: 0.75rem; align-content: start; padding: 1.1rem; border-radius: 0.9rem; background: var(--surface-2); }
+  .card h3 { font-size: 1.05rem; }
+  .card p { color: var(--muted); font-size: 0.9rem; }
+  .user { grid-template-columns: auto 1fr; align-items: center; }
+  .user button { grid-column: 1 / -1; }
+  .avatar { width: 3rem; aspect-ratio: 1; display: grid; place-items: center; border-radius: 50%; background: var(--accent-strong); color: #fff; font-weight: 700; }
+  .card button {
+    padding: 0.55rem 1rem;
+    border: 0;
+    border-radius: 0.6rem;
+    background: var(--text);
+    color: var(--bg);
+    font-weight: 600;
+  }
+  .card ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.4rem; font-size: 0.9rem; }
+  .card li { display: flex; justify-content: space-between; gap: 1rem; padding: 0.4rem 0.5rem; border-radius: 0.4rem; }
+  .card .total { color: var(--text); font-weight: 700; text-align: right; font-size: 1.1rem; }
+  .card label { display: grid; gap: 0.35rem; font-size: 0.85rem; color: var(--muted); }
+  .card input {
+    font: inherit;
+    color: var(--text);
+    padding: 0.55rem 0.7rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--line);
+    background: var(--bg);
+  }
+  .badge { display: inline-block; margin-right: 0.35rem; padding: 0.1rem 0.6rem; border-radius: 999px; background: rgb(167 139 250 / 0.15); color: var(--accent); font-weight: 600; font-size: 0.8rem; }
+
+  /* ---- Docs ---- */
+  .docs { display: grid; gap: 1rem; padding-bottom: 4rem; }
+  .docs section { display: grid; gap: 1rem; padding: 2.5rem 0 1rem; border-top: 1px solid var(--line); }
+  .docs section > p, .docs li { color: var(--muted); }
+  .docs ul { margin: 0; padding-left: 1.2rem; display: grid; gap: 0.4rem; }
+  .note { font-size: 0.9rem; }
+  /* Not a bare `pre`: the debugger panel uses one. */
+  .astro-code, .css-out { margin: 0; padding: 1rem 1.1rem; border-radius: 0.8rem; font-size: 0.85rem; line-height: 1.55; overflow-x: auto; border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+  th, td { text-align: left; padding: 0.7rem 0.75rem 0.7rem 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; }
+  td:first-child { white-space: nowrap; }
+  td:last-child { color: var(--muted); }
+  @media (max-width: 34rem) {
+    tr { display: grid; padding: 0.6rem 0; border-bottom: 1px solid var(--line); }
+    thead { display: none; }
+    td { border: 0; padding: 0.15rem 0; }
+  }
+
+  .swatches { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+  .swatches button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.45rem 0.9rem 0.45rem 0.5rem;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: var(--swatch-bg);
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+  .swatches button::before { content: ''; width: 1.1rem; aspect-ratio: 1; border-radius: 50%; background: var(--swatch); }
+  .swatches button[aria-pressed='true'] { border-color: var(--swatch); box-shadow: 0 0 0 1px var(--swatch); }
+  .css-out { background: var(--surface); color: var(--muted); }
+
+  details { border: 1px solid var(--line); border-radius: 0.8rem; background: var(--surface); }
+  details .astro-code { border: 0; border-top: 1px solid var(--line); border-radius: 0 0 0.8rem 0.8rem; }
+  summary { padding: 0.75rem 1rem; font-weight: 600; cursor: pointer; }
+  .frameworks { display: grid; gap: 0.5rem; }
+  .source .astro-code { max-height: 32rem; }
+
+  /* ---- Footer ---- */
+  .foot {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem 1.5rem;
+    padding: 2rem 1rem;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  .foot a { color: inherit; }
+  .foot a:hover { color: var(--text); }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>
