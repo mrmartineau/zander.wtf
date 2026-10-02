@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import { SITE_METADATA } from 'src/consts';
-import ProjectRow from '~/components/ProjectRow.astro';
+import ProjectList from '~/components/ProjectList.astro';
 import ProjectSpotlight from '~/components/ProjectSpotlight.astro';
 import ContentLayout from '~/layouts/ContentLayout.astro';
 
@@ -57,13 +57,7 @@ const slug = 'projects';
               ))}
             </div>
           ) : (
-            <ul class="zm-project-list">
-              {projects.map((project) => (
-                <li>
-                  <ProjectRow project={project} size="large" />
-                </li>
-              ))}
-            </ul>
+            <ProjectList projects={projects} />
           )}
         </section>
       ))
@@ -124,14 +118,4 @@ const slug = 'projects';
     margin-block-start: var(--space-s);
   }
 
-  .zm-project-list {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2xs);
-    margin: var(--space-s) 0 0;
-    padding: var(--space-xs);
-    list-style: none;
-    border-radius: 2rem;
-    background: var(--bg-block);
-  }
 </style>

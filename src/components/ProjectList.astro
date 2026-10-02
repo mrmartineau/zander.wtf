@@ -1,0 +1,204 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { isRetired, projectSite } from '~/utils/projects';
+import ShortUrl from './ShortUrl.astro';
+
+type Props = {
+  projects: CollectionEntry<'projects'>[];
+};
+const { projects } = Astro.props;
+// Projects with a picture get a card; the rest get one line each, below.
+const withImage = projects.filter(({ data }) => data.image);
+const rest = projects.filter(({ data }) => !data.image);
+---
+
+<div class="zm-project-list">
+  {
+    withImage.length ? (
+      <div class="cards">
+        {withImage.map(({ slug, data }) => {
+          const site = projectSite(data);
+          return (
+            <a href={`/projects/${slug}`} class="card">
+              <img src={data.image} alt="" loading="lazy" />
+              <span class="card-text">
+                <span class="card-title">{data.title}</span>
+                {data.subtitle ? <span class="card-sub">{data.subtitle}</span> : null}
+                <span class="meta">
+                  {data.date.getFullYear()}
+                  {site ? (
+                    <>
+                      {' · '}
+                      <ShortUrl url={site} />
+                    </>
+                  ) : null}
+                </span>
+              </span>
+            </a>
+          );
+        })}
+      </div>
+    ) : null
+  }
+
+  {
+    rest.length ? (
+      <ul class="lines">
+        {rest.map(({ slug, data }) => (
+          <li>
+            <a
+              href={`/projects/${slug}`}
+              class:list={['line', { 'line--retired': isRetired(data.status) }]}
+            >
+              <span class="line-title">{data.title}</span>
+              <span class="line-sub">{data.subtitle}</span>
+              <span class="meta">
+                {isRetired(data.status) ? `${data.status} · ` : ''}
+                {data.date.getFullYear()}
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    ) : null
+  }
+</div>
+
+<style>
+  .zm-project-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+    margin-block-start: var(--space-s);
+  }
+
+  .cards {
+    display: grid;
+    gap: var(--space-m);
+
+    @media (min-width: 700px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .card {
+    --colour-decoration: transparent;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 1.5rem;
+    corner-shape: superellipse(1.25);
+    background: var(--bg-block);
+    text-decoration: none;
+    transition: transform 150ms ease-in-out;
+
+    img {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      border: 0;
+      border-radius: 0;
+    }
+
+    &:hover {
+      transform: translateY(-3px);
+    }
+
+    /* A lone card lies flat across the row instead of leaving a gap */
+    &:only-child {
+      @media (min-width: 700px) {
+        grid-column: 1 / -1;
+        flex-direction: row;
+        align-items: center;
+
+        img {
+          width: 50%;
+        }
+      }
+    }
+  }
+
+  .card-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
+    padding: var(--space-s) var(--space-m) var(--space-m);
+  }
+
+  .card-title {
+    font-size: var(--step-1);
+    font-variation-settings: 'wght' 600;
+    color: var(--colour-text-bright);
+  }
+
+  .card:hover .card-title,
+  .line:hover .line-title {
+    color: var(--colour-accent);
+  }
+
+  .card-sub {
+    font-size: var(--step--1);
+    line-height: 1.35;
+    opacity: 0.8;
+  }
+
+  .meta {
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    font-feature-settings: 'tnum' 1;
+    opacity: 0.6;
+    white-space: nowrap;
+  }
+
+  .lines {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-block-start: 1px solid var(--border);
+  }
+
+  .line {
+    --colour-decoration: transparent;
+    display: grid;
+    grid-template-columns: minmax(9rem, 14rem) 1fr auto;
+    gap: var(--space-s);
+    align-items: baseline;
+    padding: var(--space-xs) var(--space-2xs);
+    border-block-end: 1px solid var(--border);
+    text-decoration: none;
+
+    &:hover {
+      background: var(--bg-block);
+    }
+
+    @media (max-width: 700px) {
+      grid-template-columns: 1fr auto;
+
+      .line-sub {
+        grid-column: 1 / -1;
+        grid-row: 2;
+      }
+    }
+  }
+
+  .line--retired {
+    opacity: 0.55;
+  }
+
+  .line-title {
+    font-variation-settings: 'wght' 600;
+    color: var(--colour-text-bright);
+  }
+
+  .line-sub {
+    overflow: hidden;
+    font-size: var(--step--1);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    opacity: 0.75;
+
+    @media (max-width: 700px) {
+      white-space: normal;
+    }
+  }
+</style>
