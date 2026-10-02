@@ -47,7 +47,7 @@ const fourOrbits = product('wtf.zander.Moons.fourorbits');
 const upgrade = product('wtf.zander.Moons.fourorbits.upgrade');
 
 const project = (await getCollection('projects')).find(
-  (p) => p.slug === 'moons',
+  (p) => p.id === 'moons',
 );
 if (!project?.data.appStore) throw new Error('Moons: project entry missing');
 const { appStore, subtitle, pricing, screenshots = [] } = project.data;

@@ -4,3 +4,5 @@ allowBuilds:
   workerd: true
 minimumReleaseAgeExclude:
   - astro-git-dates@1.0.1
+patchedDependencies:
+  astro-d1-search@1.0.0: patches/astro-d1-search@1.0.0.patch

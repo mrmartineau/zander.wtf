@@ -56,7 +56,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=zander-wtf
+          command: deploy
       # Runs after deploy so new pages exist before they're searchable
       - name: Update search index (D1)
         run: pnpm search:push

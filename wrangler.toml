@@ -1,5 +1,5 @@
 name = "zander-wtf"
-pages_build_output_dir = "./dist"
+main = "./src/worker.ts"
 compatibility_flags = ["nodejs_compat", "global_fetch_strictly_public"]
 compatibility_date = "2026-03-12"
 
@@ -12,6 +12,20 @@ enabled = true
 binding = "SEARCH_DB"
 database_name = "zander-wtf-search"
 database_id = "5bd3fe25-813c-491f-8376-c523f8863200"
+
+# EmDash CMS content. Wrangler creates the database and bucket on the first
+# deploy when they don't exist yet.
+[[d1_databases]]
+binding = "DB"
+database_name = "zander-wtf-cms"
+
+[[r2_buckets]]
+binding = "MEDIA"
+bucket_name = "zander-wtf-cms-media"
+
+# EmDash scheduled publishing and maintenance (src/worker.ts)
+[triggers]
+crons = ["* * * * *"]
 
 # Variable bindings. These are arbitrary, plaintext strings (similar to environment variables)
 # Note: Use secrets to store sensitive data.

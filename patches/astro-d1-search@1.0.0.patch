@@ -1,0 +1,39 @@
+diff --git a/dist/route.mjs b/dist/route.mjs
+index 732241ce6db5ca905e359b3eb1dfc625cdb3c14e..9cc8b22e21663c36521d6662f3c2e15796811e20 100644
+--- a/dist/route.mjs
++++ b/dist/route.mjs
+@@ -1,5 +1,6 @@
+ import { searchIndex } from "./core.mjs";
+ import config from "virtual:astro-d1-search-config";
++import { env } from "cloudflare:workers";
+ //#region src/route.ts
+ const prerender = false;
+ function json(body, status = 200) {
+@@ -26,8 +27,7 @@ const GET = async ({ url, locals }) => {
+ 		query: q,
+ 		results: []
+ 	});
+-	const runtime = locals.runtime;
+-	const db = runtime.env[config.binding];
++	const db = env[config.binding];
+ 	if (!db) return json({ error: `D1 binding "${config.binding}" not found. Check your wrangler config.` }, 500);
+ 	const cacheKeyUrl = new URL(url.pathname, url.origin);
+ 	cacheKeyUrl.searchParams.set("q", q.toLowerCase());
+@@ -35,7 +35,7 @@ const GET = async ({ url, locals }) => {
+ 	cacheKeyUrl.searchParams.set("offset", String(offset));
+ 	if (typeParam) cacheKeyUrl.searchParams.set("type", typeParam);
+ 	const cacheKey = cacheKeyUrl.toString();
+-	const cache = runtime.caches?.default;
++	const cache = globalThis.caches?.default;
+ 	const cached = await cache?.match(cacheKey);
+ 	if (cached) return cached;
+ 	const response = json({
+@@ -52,7 +52,7 @@ const GET = async ({ url, locals }) => {
+ 	});
+ 	if (cache) {
+ 		const put = cache.put(cacheKey, response.clone());
+-		if (runtime.ctx) runtime.ctx.waitUntil(put);
++		if (locals.cfContext) locals.cfContext.waitUntil(put);
+ 		else await put;
+ 	}
+ 	return response;

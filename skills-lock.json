@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "skills": {
+    "building-emdash-site": {
+      "source": "emdash-cms/skills",
+      "sourceType": "github",
+      "skillPath": "skills/building-emdash-site/SKILL.md",
+      "computedHash": "46983869abc4d98be3495941e168fd92ea503898060f4024937aa402a2aebbd8"
+    },
+    "emdash-cli": {
+      "source": "emdash-cms/skills",
+      "sourceType": "github",
+      "skillPath": "skills/emdash-cli/SKILL.md",
+      "computedHash": "18a17701b946afd65e778ea560feddfd18082da3f0e916dcc6ca8c155bc0d803"
+    }
+  }
+}

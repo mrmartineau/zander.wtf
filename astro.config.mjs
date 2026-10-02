@@ -1,10 +1,14 @@
 import { execSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
 import cloudflare from '@astrojs/cloudflare';
 import mdx from '@astrojs/mdx';
+import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import solidJs from '@astrojs/solid-js';
+import { d1, r2 } from '@emdash-cms/cloudflare';
 import { defineConfig } from 'astro/config';
 import d1Search from 'astro-d1-search';
+import emdash from 'emdash/astro';
 import rehypeExternalLinks from 'rehype-external-links';
 import searchConfig from './search.config.ts';
 
@@ -51,13 +55,35 @@ const uiModeRewrites = {
   },
 };
 
+// Pages prerender in Node, where `cloudflare:workers` doesn't exist. EmDash's
+// middleware imports it, so prerendering gets a stub instead.
+const prerenderCloudflareStub = {
+  name: 'prerender-cloudflare-stub',
+  enforce: 'pre',
+  applyToEnvironment: (environment) => environment.name === 'prerender',
+  resolveId: (id) =>
+    id === 'cloudflare:workers'
+      ? fileURLToPath(
+          new URL('./src/prerender-cloudflare-stub.ts', import.meta.url),
+        )
+      : undefined,
+};
+
 // https://astro.build/config
 export default defineConfig({
   site: 'https://zander.wtf',
   integrations: [
     mdx(),
     sitemap(),
-    solidJs(),
+    // Solid for the site's own islands, React only for the EmDash admin
+    solidJs({ include: ['**/solid/**'] }),
+    react({ exclude: ['**/solid/**'] }),
+    // CMS admin at /_emdash/admin. Its routes render on demand; the rest of
+    // the site stays prerendered.
+    emdash({
+      database: d1({ binding: 'DB' }),
+      storage: r2({ binding: 'MEDIA' }),
+    }),
     d1Search(searchConfig),
     uiModeRewrites,
   ],
@@ -82,11 +108,12 @@ export default defineConfig({
     define: {
       __COMMIT_HASH__: JSON.stringify(commitHash),
     },
+    plugins: [prerenderCloudflareStub],
   },
   output: 'static',
   adapter: cloudflare({
     imageService: 'compile',
-    // Exposes wrangler.toml bindings (SEARCH_DB) to astro dev via Astro.locals.runtime
-    platformProxy: { enabled: true },
+    // Build-time pages use Node APIs (sharp, resvg wasm, fs), so prerender in Node
+    prerenderEnvironment: 'node',
   }),
 });

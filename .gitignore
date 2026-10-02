@@ -29,3 +29,6 @@ ssh-server
 # generated search index
 search-index.sql
 .wrangler/
+
+# EmDash generated schema/types (emdash types)
+.emdash/
