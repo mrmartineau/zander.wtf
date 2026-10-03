@@ -580,7 +580,9 @@ const jsonLd = {
   .docs section > p, .docs li { color: var(--muted); }
   .docs ul { margin: 0; padding-left: 1.2rem; display: grid; gap: 0.4rem; }
   /* Not a bare `pre`: the debugger panel uses one. */
-  .astro-code { margin: 0; padding: 1rem 1.1rem; border-radius: 0.8rem; font-size: 0.85rem; line-height: 1.55; overflow-x: auto; border: 1px solid var(--line); }
+  .astro-code { margin: 0; padding: 1rem 1.1rem; border-radius: 0.8rem; font-size: 0.85rem; line-height: 1.55; overflow-x: auto; border: 1px solid var(--line); overflow-x: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word; }
   table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
   th, td { text-align: left; padding: 0.7rem 0.75rem 0.7rem 0; border-bottom: 1px solid var(--line); vertical-align: top; }
   th { color: var(--muted); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; }
