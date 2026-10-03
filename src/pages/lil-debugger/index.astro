@@ -2,27 +2,15 @@
 // A bespoke page for Lil' Debugger, with its docs on one page. Like /moons it
 // skips BaseLayout/BaseHead and the site stylesheet.
 import { Code } from 'astro:components';
-import { readFileSync } from 'node:fs';
-import { createRequire } from 'node:module';
+import { styles } from '@mrmartineau/lil-debugger';
 // Only @font-face rules: the site's fonts without the site's styles.
 import '../../styles/global/font-face.css';
-
-// The package ships only dist, but its source map carries the original
-// TypeScript, so "The whole thing" shows the source of the installed version.
-const entry = createRequire(import.meta.url).resolve(
-  '@mrmartineau/lil-debugger',
-);
-const map = JSON.parse(
-  readFileSync(entry.replace(/\.cjs$/, '.mjs.map'), 'utf8'),
-);
-const source: string = map.sourcesContent[0];
 
 const title = "Lil' Debugger";
 const description =
   'A tiny dev tool for any framework, or no framework. Add a data-debug attribute to any element. Hold Ctrl+Shift and the page shows what each element holds.';
 const canonical = new URL('/lil-debugger', Astro.site);
 const repo = 'https://github.com/mrmartineau/lil-debugger';
-const lines = source.trim().split('\n').length;
 const theme = 'tokyo-night';
 
 const icon = `data:image/svg+xml,${encodeURIComponent(
@@ -47,9 +35,10 @@ const options = `const debug = lilDebugger({
 debug.toggle(); // lock or unlock from code
 debug.destroy(); // remove all listeners, the panel, the styles and the root class`;
 
-const ownCss = `import { styles } from "@mrmartineau/lil-debugger";
+const ownJs = `lilDebugger({ injectStyles: false });`;
 
-console.log(styles("data-debug"));`;
+// The default CSS, straight from the installed package, so it never drifts.
+const defaultCss = styles().trim();
 
 const frameworks: [
   name: string,
@@ -325,15 +314,15 @@ const jsonLd = {
 
         <section data-debug='{"section":"own-css"}'>
           <h2>Bring your own CSS</h2>
+          <p>Turn off the default styles:</p>
+          <Code code={ownJs} lang="js" theme={theme} />
           <p>
-            Set <code>injectStyles: false</code>. Then get the default CSS from
-            <code>styles()</code> and change it, or write your own:
+            Then copy this CSS into your own stylesheet and change it. The tool adds
+            the <code>lil-debugger</code> class to <code>&lt;html&gt;</code> when it is
+            on, and the panel has the <code>lil-debugger-panel</code> class. If you
+            use a different <code>attribute</code>, change <code>[data-debug]</code> to match.
           </p>
-          <Code code={ownCss} lang="js" theme={theme} />
-          <p>
-            The tool adds the <code>lil-debugger</code> class to <code>&lt;html&gt;</code>
-            when it is on. The panel has the <code>lil-debugger-panel</code> class.
-          </p>
+          <Code code={defaultCss} lang="css" theme={theme} />
         </section>
 
         <section data-debug='{"section":"frameworks"}'>
@@ -358,15 +347,6 @@ const jsonLd = {
             it is safe to call anywhere. It also puts its panel and styles back after
             a client-side router (Astro's ClientRouter, Turbo, htmx) swaps the page.
           </p>
-        </section>
-
-        <section data-debug={`{"section":"source","lines":${lines}}`}>
-          <h2>The whole thing</h2>
-          <p>{lines} lines of TypeScript. This page runs this exact code.</p>
-          <details class="source">
-            <summary>Show the source</summary>
-            <Code code={source} lang="ts" theme={theme} />
-          </details>
         </section>
       </div>
     </main>
@@ -616,7 +596,6 @@ const jsonLd = {
   details .astro-code { border: 0; border-top: 1px solid var(--line); border-radius: 0 0 0.8rem 0.8rem; }
   summary { padding: 0.75rem 1rem; font-weight: 600; cursor: pointer; }
   .frameworks { display: grid; gap: 0.5rem; }
-  .source .astro-code { max-height: 32rem; }
 
   /* ---- Footer ---- */
   .foot {
