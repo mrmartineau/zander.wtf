@@ -1,16 +1,20 @@
 ---
 // A bespoke page for Lil' Debugger, with its docs on one page. Like /moons it
 // skips BaseLayout/BaseHead and the site stylesheet.
+import { Code } from 'astro:components';
 import { readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
-import { Code } from 'astro:components';
 // Only @font-face rules: the site's fonts without the site's styles.
 import '../../styles/global/font-face.css';
 
 // The package ships only dist, but its source map carries the original
 // TypeScript, so "The whole thing" shows the source of the installed version.
-const entry = createRequire(import.meta.url).resolve('@mrmartineau/lil-debugger');
-const map = JSON.parse(readFileSync(entry.replace(/\.cjs$/, '.mjs.map'), 'utf8'));
+const entry = createRequire(import.meta.url).resolve(
+  '@mrmartineau/lil-debugger',
+);
+const map = JSON.parse(
+  readFileSync(entry.replace(/\.cjs$/, '.mjs.map'), 'utf8'),
+);
 const source: string = map.sourcesContent[0];
 
 const title = "Lil' Debugger";
