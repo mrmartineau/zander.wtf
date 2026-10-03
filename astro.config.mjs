@@ -1,4 +1,5 @@
 import { execSync } from 'node:child_process';
+import { readFileSync } from 'node:fs';
 import cloudflare from '@astrojs/cloudflare';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
@@ -51,6 +52,43 @@ const uiModeRewrites = {
   },
 };
 
+// Lil' Debugger demo: put a data-debug attribute on the first element of every
+// component and layout, holding its name, file and plain props. Hold Ctrl+Shift
+// on any page to see them (BaseLayout turns the debugger on).
+// ponytail: tags only the first plain HTML element in the template; a
+// component whose first element is <meta>, <style> etc. or another component
+// is skipped. Swap for a compiler-level transform if that ever matters.
+const skipTags = new Set([
+  'html',
+  'head',
+  'meta',
+  'link',
+  'title',
+  'style',
+  'script',
+  'slot',
+]);
+const lilDebugTags = {
+  name: 'lil-debug-tags',
+  enforce: 'pre',
+  // load, not transform: Astro compiles .astro files in its own transform,
+  // which runs first, so this has to hand it the changed source.
+  load(id) {
+    const match = id.match(/\/(src\/(?:components|layouts)\/.+\.astro)$/);
+    if (!match) return;
+    const code = readFileSync(id, 'utf8');
+    const fence = code.startsWith('---') ? code.indexOf('---', 3) + 3 : 0;
+    const tag = /<([a-z][a-z0-9-]*)(?=[\s>/])/g;
+    tag.lastIndex = fence;
+    const first = tag.exec(code);
+    if (!first || skipTags.has(first[1])) return;
+    const end = first.index + first[0].length;
+    const component = match[1].split('/').pop().replace('.astro', '');
+    const attr = ` data-debug={JSON.stringify({ component: ${JSON.stringify(component)}, file: ${JSON.stringify(match[1])}, ...Object.fromEntries(Object.entries(Astro.props).filter(([k, v]) => !k.startsWith('data-astro-') && v != null && typeof v !== 'object' && typeof v !== 'function')) })}`;
+    return code.slice(0, end) + attr + code.slice(end);
+  },
+};
+
 // https://astro.build/config
 export default defineConfig({
   site: 'https://zander.wtf',
@@ -79,6 +117,7 @@ export default defineConfig({
     },
   },
   vite: {
+    plugins: [lilDebugTags],
     define: {
       __COMMIT_HASH__: JSON.stringify(commitHash),
     },

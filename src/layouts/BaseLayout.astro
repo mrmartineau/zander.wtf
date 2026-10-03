@@ -96,5 +96,12 @@ const { title, subtitle, description, image, slug } = Astro.props;
     <Footer />
     <Desktop client:only="solid-js" nav={SITE_NAV_ITEMS} more={SITE_FOOTER_ITEMS} />
     <Tui client:only="solid-js" nav={SITE_NAV_ITEMS} more={SITE_FOOTER_ITEMS} />
+    <script>
+      // Hold Ctrl+Shift to see the data-debug value of any element. The
+      // lil-debug-tags plugin in astro.config.mjs tags every component.
+      import { lilDebugger } from '@mrmartineau/lil-debugger';
+
+      lilDebugger();
+    </script>
   </body>
 </html>
