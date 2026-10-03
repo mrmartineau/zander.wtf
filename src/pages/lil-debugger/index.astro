@@ -314,7 +314,13 @@ const jsonLd = {
               ))
             }
           </div>
-          <pre class="css-out" data-css-out>{`:root {\n  ${themeCss(themes[0]).split('; ').join(';\n  ')}\n}`}</pre>
+          {
+            themes.map((t, i) => (
+              <div data-css-out hidden={i !== 0}>
+                <Code code={`:root {\n  ${themeCss(t).split('; ').join(';\n  ')}\n}`} lang="css" theme={theme} />
+              </div>
+            ))
+          }
         </section>
 
         <section data-debug='{"section":"own-css"}'>
@@ -401,9 +407,11 @@ const jsonLd = {
 
   // Theme swatches set the custom properties on <html>, which beats the
   // defaults the debugger injects.
-  const out = document.querySelector('[data-css-out]');
+  // Each theme's CSS is highlighted at build time, in the same order as the
+  // swatches; show the one that matches.
+  const outs = document.querySelectorAll<HTMLElement>('[data-css-out]');
   const swatches = document.querySelectorAll<HTMLButtonElement>('[data-theme]');
-  for (const btn of swatches) {
+  swatches.forEach((btn, i) => {
     btn.addEventListener('click', () => {
       const css = btn.dataset.theme ?? '';
       for (const decl of css.split(';')) {
@@ -411,9 +419,11 @@ const jsonLd = {
         if (prop) root.style.setProperty(prop, value);
       }
       for (const b of swatches) b.setAttribute('aria-pressed', String(b === btn));
-      if (out) out.textContent = `:root {\n  ${css.split('; ').join(';\n  ')}\n}`;
+      outs.forEach((o, j) => {
+        o.hidden = j !== i;
+      });
     });
-  }
+  });
 </script>
 
 <style is:global>
@@ -570,7 +580,7 @@ const jsonLd = {
   .docs section > p, .docs li { color: var(--muted); }
   .docs ul { margin: 0; padding-left: 1.2rem; display: grid; gap: 0.4rem; }
   /* Not a bare `pre`: the debugger panel uses one. */
-  .astro-code, .css-out { margin: 0; padding: 1rem 1.1rem; border-radius: 0.8rem; font-size: 0.85rem; line-height: 1.55; overflow-x: auto; border: 1px solid var(--line); }
+  .astro-code { margin: 0; padding: 1rem 1.1rem; border-radius: 0.8rem; font-size: 0.85rem; line-height: 1.55; overflow-x: auto; border: 1px solid var(--line); }
   table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
   th, td { text-align: left; padding: 0.7rem 0.75rem 0.7rem 0; border-bottom: 1px solid var(--line); vertical-align: top; }
   th { color: var(--muted); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; }
@@ -596,7 +606,6 @@ const jsonLd = {
   }
   .swatches button::before { content: ''; width: 1.1rem; aspect-ratio: 1; border-radius: 50%; background: var(--swatch); }
   .swatches button[aria-pressed='true'] { border-color: var(--swatch); box-shadow: 0 0 0 1px var(--swatch); }
-  .css-out { background: var(--surface); color: var(--muted); }
 
   details { border: 1px solid var(--line); border-radius: 0.8rem; background: var(--surface); }
   details .astro-code { border: 0; border-top: 1px solid var(--line); border-radius: 0 0 0.8rem 0.8rem; }
