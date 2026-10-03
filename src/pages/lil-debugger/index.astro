@@ -49,13 +49,23 @@ console.log(styles("data-debug"));`;
 
 const frameworks: [
   name: string,
-  lang: 'html' | 'tsx' | 'vue' | 'svelte',
+  lang: 'html' | 'astro' | 'tsx' | 'vue' | 'svelte',
   code: string,
 ][] = [
   [
-    'Plain HTML or Astro',
+    'Plain HTML',
     'html',
-    `<script type="module">
+    `<!-- No build step: load it from a CDN, and only on the pages you debug -->
+<script type="module">
+  import { lilDebugger } from "https://esm.sh/@mrmartineau/lil-debugger@1";
+
+  lilDebugger();
+</script>`,
+  ],
+  [
+    'Astro',
+    'astro',
+    `<script>
   import { lilDebugger } from "@mrmartineau/lil-debugger";
 
   if (import.meta.env.DEV) lilDebugger();
