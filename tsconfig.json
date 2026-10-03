@@ -12,5 +12,5 @@
     "jsx": "preserve",
     "jsxImportSource": "solid-js"
   },
-  "exclude": ["dist", "raycast-extension", "src/data/lil-debugger"]
+  "exclude": ["dist", "raycast-extension"]
 }

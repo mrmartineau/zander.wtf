@@ -1,15 +1,17 @@
 ---
 // A bespoke page for Lil' Debugger, with its docs on one page. Like /moons it
 // skips BaseLayout/BaseHead and the site stylesheet.
-//
-// The package is not on npm yet, so src/data/lil-debugger/index.ts is a
-// verbatim copy of src/index.ts from the lil-debugger repo. Re-copy it when
-// the package changes. Once it is published, `pnpm add @mrmartineau/lil-debugger`,
-// change the import in the script below and delete the copy.
+import { readFileSync } from 'node:fs';
+import { createRequire } from 'node:module';
 import { Code } from 'astro:components';
 // Only @font-face rules: the site's fonts without the site's styles.
 import '../../styles/global/font-face.css';
-import source from '../../data/lil-debugger/index.ts?raw';
+
+// The package ships only dist, but its source map carries the original
+// TypeScript, so "The whole thing" shows the source of the installed version.
+const entry = createRequire(import.meta.url).resolve('@mrmartineau/lil-debugger');
+const map = JSON.parse(readFileSync(entry.replace(/\.cjs$/, '.mjs.map'), 'utf8'));
+const source: string = map.sourcesContent[0];
 
 const title = "Lil' Debugger";
 const description =
@@ -164,7 +166,7 @@ const jsonLd = {
 
     <main id="top">
       <section class="hero" data-debug='{"section":"hero","component":"Hero"}'>
-        <p class="eyebrow">A tiny dev tool · coming soon to npm</p>
+        <p class="eyebrow">A tiny dev tool · on npm</p>
         <h1>See what every element holds</h1>
         <p class="lede">
           Add a <code>data-debug</code> attribute to any element. Hold the keys and
@@ -231,7 +233,6 @@ const jsonLd = {
         <section data-debug='{"section":"install"}'>
           <h2>Install</h2>
           <Code code="npm install -D @mrmartineau/lil-debugger" lang="sh" theme={theme} />
-          <p class="note">It is not on npm yet. It will be soon.</p>
         </section>
 
         <section data-debug='{"section":"use"}'>
@@ -346,7 +347,7 @@ const jsonLd = {
 
         <section data-debug={`{"section":"source","lines":${lines}}`}>
           <h2>The whole thing</h2>
-          <p>{lines} lines of TypeScript. This page runs this exact file.</p>
+          <p>{lines} lines of TypeScript. This page runs this exact code.</p>
           <details class="source">
             <summary>Show the source</summary>
             <Code code={source} lang="ts" theme={theme} />
@@ -365,7 +366,7 @@ const jsonLd = {
 </html>
 
 <script>
-  import { lilDebugger } from '../../data/lil-debugger/index';
+  import { lilDebugger } from '@mrmartineau/lil-debugger';
 
   const debug = lilDebugger();
   const root = document.documentElement;
@@ -567,7 +568,6 @@ const jsonLd = {
   .docs section { display: grid; gap: 1rem; padding: 2.5rem 0 1rem; border-top: 1px solid var(--line); }
   .docs section > p, .docs li { color: var(--muted); }
   .docs ul { margin: 0; padding-left: 1.2rem; display: grid; gap: 0.4rem; }
-  .note { font-size: 0.9rem; }
   /* Not a bare `pre`: the debugger panel uses one. */
   .astro-code, .css-out { margin: 0; padding: 1rem 1.1rem; border-radius: 0.8rem; font-size: 0.85rem; line-height: 1.55; overflow-x: auto; border: 1px solid var(--line); }
   table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }

@@ -4,7 +4,7 @@ title: "Lil' Debugger"
 subtitle: "A tiny dev tool for any framework. Add a data-debug attribute to any element, hold Ctrl+Shift, and the page shows what each element holds."
 date: 2026-10-02
 type: package
-status: unreleased
+status: active
 repo: 'https://github.com/mrmartineau/lil-debugger'
 link: '/lil-debugger'
 tech: TypeScript
@@ -23,4 +23,4 @@ You put a `data-debug` attribute on any element, with a label, an ID or a JSON b
 - Four CSS custom properties theme it, or turn the styles off and bring your own
 - Safe to call on the server, and it survives client-side routers swapping the page
 
-[The demo and docs](/lil-debugger) run the real thing. It's not on npm yet.
+[The demo and docs](/lil-debugger) run the real thing. Install it with `npm install -D @mrmartineau/lil-debugger`.
