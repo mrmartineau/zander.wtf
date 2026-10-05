@@ -1,0 +1,48 @@
+name: Preview deploy
+
+env:
+  SUPABASE_USER_ID: ${{ secrets.SUPABASE_USER_ID }}
+  OTTER_API_KEY: ${{ secrets.OTTER_API_KEY }}
+  LASTFM_API_KEY: ${{ secrets.LASTFM_API_KEY }}
+  NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+  SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
+  SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
+  ZM_API: ${{ secrets.ZM_API }}
+  SUPABASE_USER_API_KEY: ${{ secrets.SUPABASE_USER_API_KEY }}
+
+on:
+  pull_request:
+
+concurrency:
+  group: preview-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  Deploy-Preview:
+    # Fork PRs get no secrets, so the build and deploy would fail
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v6
+      - name: Install safe-chain
+        run: curl -fsSL https://github.com/AikidoSec/safe-chain/releases/latest/download/install-safe-chain.sh | sh -s -- --ci
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Build site
+        run: pnpm build
+      # A non-production --branch makes this a Pages preview deployment.
+      # gitHubToken adds a GitHub deployment, so the PR shows a "View deployment" link.
+      # No search:push here: previews share the production D1 index.
+      - name: Deploy preview to Cloudflare
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          command: pages deploy dist --project-name=zander-wtf --branch=${{ github.head_ref }}
