@@ -19,4 +19,4 @@ tech:
   - CI/CD with GitHub Actions & CircleCI
 ---
 
-Contributed to two core internal front-end applications — a clinician/patient management tool and a consultation interface used by NHS GPs — and led their migration to a micro-frontend architecture with single-spa.
+Contributed to two core internal front-end applications — a clinician/patient management tool and a consultation interface used by NHS GPs. Both apps were complex React applications that follow a robust testing strategy and strict release processes. I also worked on a new project to convert those two apps into a new micro-frontend architecture.
