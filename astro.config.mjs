@@ -54,7 +54,8 @@ const uiModeRewrites = {
 
 // Lil' Debugger demo: put a data-debug attribute on the first element of every
 // component and layout, holding its name, file and plain props. Hold Ctrl+Shift
-// on any page to see them (BaseLayout turns the debugger on).
+// on any page to see them (BaseLayout turns the debugger on). Text props over
+// 80 characters (post bodies, subtitles) are left out: it's for data, not prose.
 // ponytail: tags only the first plain HTML element in the template; a
 // component whose first element is <meta>, <style> etc. or another component
 // is skipped. Swap for a compiler-level transform if that ever matters.
@@ -84,7 +85,7 @@ const lilDebugTags = {
     if (!first || skipTags.has(first[1])) return;
     const end = first.index + first[0].length;
     const component = match[1].split('/').pop().replace('.astro', '');
-    const attr = ` data-debug={JSON.stringify({ component: ${JSON.stringify(component)}, file: ${JSON.stringify(match[1])}, ...Object.fromEntries(Object.entries(Astro.props).filter(([k, v]) => !k.startsWith('data-astro-') && v != null && typeof v !== 'object' && typeof v !== 'function')) })}`;
+    const attr = ` data-debug={JSON.stringify({ component: ${JSON.stringify(component)}, file: ${JSON.stringify(match[1])}, ...Object.fromEntries(Object.entries(Astro.props).filter(([k, v]) => !k.startsWith('data-astro-') && v != null && typeof v !== 'object' && typeof v !== 'function' && String(v).length <= 80)) })}`;
     return code.slice(0, end) + attr + code.slice(end);
   },
 };
