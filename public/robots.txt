@@ -10,24 +10,6 @@ Disallow: /scraper-test.html
 Disallow: /desktop
 Disallow: /tui
 Disallow: /txt
-
-# Block common AI training / scraping bots
-User-agent: CCBot
-Disallow: /
-
-User-agent: ChatGPT-User
-Disallow: /
-
-User-agent: GPTBot
-Disallow: /
-
-User-agent: Google-Extended
-Disallow: /
-
-User-agent: Omgilibot
-Disallow: /
-
-User-agent: FacebookBot
-Disallow: /
+Disallow: /api/
 
 Sitemap: https://zander.wtf/sitemap-index.xml
