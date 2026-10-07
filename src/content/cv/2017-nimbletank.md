@@ -17,3 +17,7 @@ tech:
 Led and grew the web platform team across complex React SPA/SSR apps; established a rigorous code-review process.
 
 Hired to lead and expand the web platform team. In under a year we shipped a range of web and React Native projects. Alongside hands-on work on single-page and server-rendered React apps, I wrote technical approach documents and contributed to pitches.
+
+Projects:
+
+- Re-platformed [Cornmarket.ie](https://www.cornmarket.ie/)

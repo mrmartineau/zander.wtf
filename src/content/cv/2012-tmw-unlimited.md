@@ -8,4 +8,9 @@ endDate: '2017-06'
 type: employed
 ---
 
-Progressed from Creative Technologist to lead; delivered global brand sites (incl. barilla.com), games, and prototypes as scrum master and lead dev.
+Progressed from Creative Technologist to lead; delivered global brand sites, games, and prototypes as scrum master and lead dev.
+
+Projects:
+
+- [Barilla](https://barilla.com/)
+- [The Bar](https://uk.thebar.com/)
