@@ -2,7 +2,7 @@
 title: My setup
 subtitle: An overview of my hardware and software setup
 date: 2019-02-11
-modified: 2026-07-13
+modified: 2026-10-08
 layout: ../layouts/MarkdownLayout.astro
 slug: uses
 reactions: true
@@ -331,7 +331,11 @@ A copy of my VS Code `settings.json` can be found [here](https://gist.github.com
 
 ### AI
 
-I use [Claude](https://claude.ai/) and its models exclusively.
+For coding and agentic development, I use [Claude](https://claude.ai/). When I add AI features to the apps I build, I usually use [OpenAI](https://openai.com/) models, mostly because they cost less.
+
+To run my coding agents, I use [Orca](https://www.onorca.dev/). It runs each agent in parallel in its own git worktree, with terminals, diffs and a browser in one app. I really like it, and I love that it has a mobile app so I can keep my agents going when I'm away from my desk. Before Orca I used [herdr](https://herdr.dev), and before that [cmux](https://www.cmux.dev/).
+
+For automated pull request reviews, I use [cubic](https://www.cubic.dev/).
 
 To give me better insight of my usage, I use [OpenUsage](https://www.openusage.ai/), a fantastic tool that gives me a breakdown of my usage across all the AI tools I use.
 
@@ -347,7 +351,7 @@ FYI I also created the [GitHub Stars extension](https://www.raycast.com/mrmartin
 
 ### Terminal
 
-I use [Ghostty](https://ghostty.org/) with [herdr](https://herdr.dev). Before that I used [cmux](https://www.cmux.dev/).
+I use [Ghostty](https://ghostty.org/).
 
 Instead of bash/zsh, I use [Fish Shell](https://fishshell.com/) and the excellent [TIDE](https://github.com/IlanCosman/tide) prompt.
 
@@ -366,10 +370,10 @@ I moved to Obsidian a while back and haven't looked back.
 - [NextDNS](https://www.nextdns.io/): A cloud-based private DNS service that gives you full control over what is allowed and what is blocked on the internet. There are Mac and iPhone apps that essentially block ads, malicious code and more.
 - [DevUtils](https://devutils.app/?ref=zander): This app is a recent addition and is an indispensable tool for my workflow.
 - [Granola](https://www.granola.ai/): AI meeting notes. It transcribes calls and turns my rough notes into something actually useful afterwards.
-- [Superkey](https://superkey.app/): "Keyboard superpower on macOS". I use this mainly for its "hyperkey" functionality (where caps lock is converted to a "hyper key", with all these four modifiers combined: `⌃⌥⌘⇧`). FYI Raycast now has hyperkey functionality built-in, but I found it buggy so I still use this.
-- [Vivid](https://www.getvivid.app/): Double brightness system-wide
-- [Ice](https://icemenubar.app/): Hide some of those pesky menubar items.
-- [Shottr](https://shottr.cc): A small, fast screenshot app built for people who care about pixels. My go-to for screenshots and quick annotations.
+- [Vorssaint](https://vorssaint.com/): A free, open-source menu bar app with hundreds of useful tools. You install only the ones you want. It replaced Vivid for me, because it also does extra brightness on XDR displays.
+- [MacShot](https://macshot.io/): A free, open-source app for screenshots and screen recordings, with annotation, blur, scrolling capture and text extraction built in.
+- [System Stats](https://www.system-stats.com/): Real-time monitoring for my machines, containers and endpoints on a single dashboard.
+- [CaskHub](https://caskhub.app/) and [Homebrew's official Mac app](https://github.com/Homebrew/BrewUI): I use these to manage my apps and Homebrew formulae, so I don't need the terminal for it.
 - [AudioSwitcher](https://apps.apple.com/app/audioswitcher/id561712678): A menu bar app for quickly switching between all available input and output devices.
 
 This page is featured on [uses.tech](https://uses.tech/). If you're reading this and want to see others like it, head on over there to find out more.
@@ -390,7 +394,7 @@ This page is featured on [uses.tech](https://uses.tech/). If you're reading this
 
 ### Mouse
 
-The [Logitech MX Master 4](https://amzn.eu/d/goOteiW) is great, but if you have the MX Master 3S and it's still working well, I wouldn't bother upgrading.
+The [Logitech MX Master 4](https://amzn.eu/d/goOteiW) is great, but if you have the MX Master 3S and it's still working well, I wouldn't bother upgrading. Instead of Logitech Options+, I use [OpenLogi](https://openlogi.org/) to remap the buttons and set the DPI. It's free, needs no account and has no telemetry.
 
 ### Desk and chair
 
