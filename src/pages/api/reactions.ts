@@ -94,10 +94,12 @@ export const POST: APIRoute = async ({ request, locals }) => {
   const { city, country } = locals.runtime.cf ?? {};
 
   if (action === 'view') {
-    await db
-      .prepare('INSERT OR IGNORE INTO views (slug, visitor) VALUES (?, ?)')
-      .bind(slug, visitor)
-      .run();
+    // Your own reads don't count.
+    if (!admin)
+      await db
+        .prepare('INSERT OR IGNORE INTO views (slug, visitor) VALUES (?, ?)')
+        .bind(slug, visitor)
+        .run();
   } else if (action === 'heart') {
     await db
       .prepare(
