@@ -3,6 +3,7 @@ title: Feeds
 subtitle: Every RSS and Atom feed on this site — blog posts, worklog entries and links.
 layout: ../layouts/MarkdownLayout.astro
 slug: feeds
+reactions: true
 ---
 
 You can use a feed reader (also known as an RSS reader) to stay up to date with my site and my other activities on the web. I’ve got a few different feeds you can subscribe to:

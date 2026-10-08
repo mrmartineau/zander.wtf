@@ -4,6 +4,7 @@ subtitle: What's up with this site?
 date: 2023-09-02
 layout: ../layouts/MarkdownLayout.astro
 slug: colophon
+reactions: true
 ---
 
 ## Astro

@@ -37,6 +37,12 @@ const pages = new Map<string, { title: string; type: string }>([
       ] as const,
   ),
   ['/uses', { title: 'My setup', type: 'Page' }],
+  ['/now', { title: 'Now', type: 'Page' }],
+  ['/cv', { title: 'CV', type: 'Page' }],
+  ['/zed-stack', { title: 'The Zed Stack', type: 'Page' }],
+  ['/colophon', { title: 'Colophon', type: 'Page' }],
+  ['/feeds', { title: 'Feeds', type: 'Page' }],
+  ['/stats', { title: 'Stats', type: 'Page' }],
   ['/moons', { title: 'Moons', type: 'Page' }],
   ['/lil-debugger', { title: "Lil' Debugger", type: 'Page' }],
 ]);
@@ -136,6 +142,7 @@ Astro.response.headers.set('Cache-Control', 'public, max-age=60');
   title={SITE_METADATA[slug].title}
   subtitle={SITE_METADATA[slug].subtitle}
   slug={slug}
+  reactions={{ slug: `/${slug}`, highlights: false }}
 >
   <div class="flow">
     <p>
