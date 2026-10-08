@@ -1,5 +1,7 @@
 export const SITE_TITLE = `Hi! I'm Zander, I make web things`;
-export const SHOW_STATUS = true;
+
+// shows the available for work banner at the bottom of the site
+export const SHOW_STATUS = false;
 
 export const SITE_METADATA: Record<
   string,
