@@ -131,21 +131,16 @@
   transition: scale 0.15s ease-out;
 }
 
-.reactions-heart[aria-pressed="true"] {
+.reactions-heart[aria-pressed='true'] {
   color: var(--rx-text-bright);
 }
 
-.reactions-heart[aria-pressed="true"] svg {
+.reactions-heart[aria-pressed='true'] svg {
   color: var(--rx-heart);
 }
 
 .reactions-heart:active svg {
   scale: 1.35;
-}
-
-.reactions .reactions-flavour {
-  background: color-mix(in oklch, var(--rx-accent) 12%, transparent);
-  color: var(--rx-accent);
 }
 
 .reactions .reactions-flavour svg {
@@ -170,7 +165,7 @@
 
 /* a small tail pointing at the segment */
 .reactions-say::after {
-  content: "";
+  content: '';
   position: absolute;
   top: 100%;
   left: 50%;
@@ -225,7 +220,6 @@
 
   a {
     display: flex;
-    align-items: center;
     gap: 0.75rem;
     padding: 0.4rem 0.5rem;
     border-radius: 0.4rem;
@@ -265,6 +259,7 @@
   padding: 0.25rem 0.5rem 0.4rem;
   font-family: var(--font-headings, inherit);
   color: var(--rx-text-bright);
+  font-size: var(--step--1);
 }
 
 .reactions-panel {
@@ -302,12 +297,12 @@
     border-radius: 999px;
   }
 
-  button[aria-pressed="true"] {
+  button[aria-pressed='true'] {
     background: var(--rx-accent);
     color: var(--rx-bg);
   }
 
-  button[aria-pressed="false"]:hover {
+  button[aria-pressed='false']:hover {
     color: var(--rx-text-bright);
   }
 
@@ -409,14 +404,9 @@
 .reactions-tip {
   --width: min(20rem, 100vw - 2rem);
   left: clamp(
-    1rem +
-    var(--width) /
-    2,
+    1rem + var(--width) / 2,
     var(--x),
-    100vw -
-    1rem -
-    var(--width) /
-    2
+    100vw - 1rem - var(--width) / 2
   );
   top: var(--y);
   translate: -50% calc(-100% - 1rem);
