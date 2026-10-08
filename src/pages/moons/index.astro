@@ -11,6 +11,7 @@
 // (public/moons/faces) are Moons/DemoAvatars in filename order, as DemoMode
 // deals them out.
 import { getCollection } from 'astro:content';
+import Reactions from '~/components/Reactions.astro';
 import './_moons.css';
 import storekitRaw from '../../data/moons/Products.storekit?raw';
 import shotframeRaw from '../../data/moons/shotframe.config.jsonc?raw';
@@ -433,6 +434,7 @@ const jsonLd = {
     </footer>
 
     <script is:inline type="application/json" id="orbits" set:html={JSON.stringify(orbits)} />
+    <Reactions slug="/moons" highlights={false} />
   </body>
 </html>
 

@@ -4,6 +4,7 @@ import FormattedDate from '~/components/FormattedDate.astro';
 import HeadingMinimap from '~/components/HeadingMinimap.astro';
 import NoteTagLink from '~/components/NoteTagLink.astro';
 import PageTitle from '~/components/PageTitle.astro';
+import Reactions from '~/components/Reactions.astro';
 import RelatedLinks from '~/components/RelatedLinks.astro';
 import SearchForm from '~/components/SearchForm.astro';
 import TableOfContents from '~/components/TableOfContents.astro';
@@ -80,7 +81,7 @@ const description =
         }
       </header>
 
-      <div class="flow">
+      <div class="flow" data-highlightable>
         <TableOfContents headings={headings} />
 
         <Content />
@@ -89,6 +90,8 @@ const description =
       <HeadingMinimap headings={headings} />
 
       <RelatedLinks href={`/notes/${note.id}`} />
+
+      <Reactions slug={`/notes/${note.id}`} />
 
       <footer class="note-footer">
         <span class="mono">&gt;</span>{' '}

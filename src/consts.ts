@@ -44,6 +44,10 @@ export const SITE_METADATA: Record<
     ogTitle: 'Code Notes',
     subtitle: 'TILs, snippets—my digital code garden',
   },
+  stats: {
+    title: 'Stats',
+    subtitle: 'Views, hearts and highlights for every page, live',
+  },
   search: {
     title: 'Search',
     subtitle: 'Search blog posts, code notes, projects and more',
@@ -112,6 +116,10 @@ export const SITE_FOOTER_ITEMS = [
   {
     text: 'Uses',
     url: '/uses',
+  },
+  {
+    text: 'Stats',
+    url: '/stats',
   },
   {
     text: 'Zed Stack',

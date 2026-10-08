@@ -1,0 +1,352 @@
+---
+// A pill fixed to the bottom of the page: hearts, highlights and views, kept by
+// /api/reactions. Select text inside [data-highlightable] to highlight it.
+// Highlights are drawn with the CSS Custom Highlight API, so the page's DOM is
+// never changed: yours get a fill, other readers' a dotted underline. Hover one
+// to see where and when it was made. Styles: src/styles/components/reactions.css.
+// Pages without text worth highlighting (projects) pass highlights={false} and
+// get hearts and views only.
+// It starts `hidden`, and the script unhides it in classic mode only, like
+// HeadingMinimap. It brings its own CSS and SVG icons, so it also works on the
+// pages that skip BaseLayout (/moons, /lil-debugger).
+interface Props {
+  /** The page path, e.g. /blog/my-post */
+  slug: string;
+  highlights?: boolean;
+}
+
+import eyeIcon from '~/assets/icons/reactions/eye.svg?raw';
+import eyeSlashIcon from '~/assets/icons/reactions/eye-slash.svg?raw';
+import heartIcon from '~/assets/icons/reactions/heart-fill.svg?raw';
+import highlighterIcon from '~/assets/icons/reactions/highlighter.svg?raw';
+import '../styles/components/reactions.css';
+
+const { slug, highlights = true } = Astro.props;
+const hide = (svg: string) => svg.replace('<svg ', '<svg aria-hidden="true" ');
+const eye = hide(eyeIcon).replace('<svg ', '<svg class="reactions-on" ');
+const eyeSlash = hide(eyeSlashIcon).replace(
+  '<svg ',
+  '<svg class="reactions-off" ',
+);
+---
+
+<div class="reactions" data-slug={slug} hidden>
+  <div class="reactions-bar">
+    <button type="button" class="reactions-heart" aria-pressed="false">
+      <Fragment set:html={hide(heartIcon)} />
+      <span data-count="hearts">0</span>
+      <span class="visually-hidden">hearts. Add a heart</span>
+    </button>
+    {
+      highlights && (
+        <button type="button" popovertarget="reactions-panel">
+          <Fragment set:html={hide(highlighterIcon)} />
+          <span data-count="highlights">0</span>
+          <span class="visually-hidden">highlights. Show them</span>
+        </button>
+      )
+    }
+    <span class="reactions-views">
+      <Fragment set:html={hide(eyeIcon)} />
+      <span data-count="views">0</span>
+      <span class="visually-hidden">views</span>
+    </span>
+  </div>
+
+  {
+    highlights && (
+      <div id="reactions-panel" class="reactions-panel" popover>
+        <header>
+          <h2>Highlights</h2>
+          <button type="button" data-show="mine" aria-pressed="true">
+            <Fragment set:html={eye + eyeSlash} />
+            You <span data-count="mine">0</span>
+          </button>
+          <button type="button" data-show="them" aria-pressed="true">
+            <Fragment set:html={eye + eyeSlash} />
+            Them <span data-count="them">0</span>
+          </button>
+        </header>
+        <ol></ol>
+        <p class="reactions-empty">Select some text on the page to highlight it.</p>
+      </div>
+    )
+  }
+
+  <button type="button" class="reactions-add" hidden>Highlight</button>
+  <div class="reactions-tip" role="tooltip" hidden></div>
+</div>
+
+<script>
+  import {
+    type Highlight as Entry,
+    MAX_HEARTS,
+    MAX_TEXT,
+    place,
+    type Reactions,
+  } from '~/utils/reactions';
+  import { uiMode } from '~/utils/uiMode';
+  import trash from '~/assets/icons/reactions/trash.svg?raw';
+
+  const box = document.querySelector<HTMLElement>('.reactions');
+
+  if (box && uiMode() === 'classic') {
+    box.hidden = false;
+
+    const slug = box.dataset.slug!;
+    const panel = box.querySelector<HTMLElement>('.reactions-panel');
+    const list = panel?.querySelector('ol');
+    const root = panel && document.querySelector<HTMLElement>('[data-highlightable]');
+    const heart = box.querySelector<HTMLButtonElement>('.reactions-heart')!;
+    const add = box.querySelector<HTMLButtonElement>('.reactions-add')!;
+    const tip = box.querySelector<HTMLElement>('.reactions-tip')!;
+    const toggles = [...box.querySelectorAll<HTMLButtonElement>('[data-show]')];
+    const canDraw = 'highlights' in CSS;
+    const compact = new Intl.NumberFormat('en', { notation: 'compact' });
+    const when = new Intl.DateTimeFormat(undefined, {
+      dateStyle: 'medium',
+      timeStyle: 'short',
+    });
+
+    // A random id per browser. Without storage it lasts for this page load.
+    let visitor: string = crypto.randomUUID();
+    try {
+      const saved = localStorage.getItem('reactions-visitor');
+      if (saved) visitor = saved;
+      else localStorage.setItem('reactions-visitor', visitor);
+    } catch {}
+
+    // Open any page with #admin=<REACTIONS_ADMIN_TOKEN> to delete anyone's
+    // highlights from then on; #admin= forgets it. A fragment never reaches the
+    // server logs.
+    let token = '';
+    try {
+      const fromHash = location.hash.match(/^#admin=(.*)$/);
+      if (fromHash) {
+        localStorage.setItem('reactions-admin', fromHash[1]);
+        history.replaceState(null, '', location.pathname + location.search);
+      }
+      token = localStorage.getItem('reactions-admin') ?? '';
+    } catch {}
+
+    let data: Reactions = {
+      views: 0,
+      hearts: 0,
+      myHearts: 0,
+      highlights: [],
+      admin: false,
+    };
+    const show = { mine: true, them: true };
+    let drawn: { h: Entry; range: Range }[] = [];
+    let pending: { text: string; start: number; range: Range } | undefined;
+
+    const send = async (body: Record<string, unknown>) => {
+      const res = await fetch('/api/reactions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, visitor, token, ...body }),
+      });
+      if (res.ok) render(await res.json());
+    };
+
+    // The text nodes of root as one string: offsets in it are what we store.
+    const rangeAt = (start: number, end: number) => {
+      const walker = document.createTreeWalker(root!, NodeFilter.SHOW_TEXT);
+      const range = document.createRange();
+      let pos = 0;
+      let started = false;
+      for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+        const len = (node as Text).length;
+        if (!started && start <= pos + len) {
+          range.setStart(node, start - pos);
+          started = true;
+        }
+        if (started && end <= pos + len) {
+          range.setEnd(node, end - pos);
+          return range;
+        }
+        pos += len;
+      }
+    };
+
+    // Ranges for each highlight. If the page was edited since, look for the
+    // text anywhere; if it is gone, the highlight is only in the list.
+    const locate = () => {
+      const full = root?.textContent ?? '';
+      drawn = data.highlights.flatMap((h) => {
+        const at = full.startsWith(h.text, h.start) ? h.start : full.indexOf(h.text);
+        const range = at < 0 ? undefined : rangeAt(at, at + h.text.length);
+        return range ? [{ h, range }] : [];
+      });
+    };
+
+    const visible = (h: Entry) => (h.mine ? show.mine : show.them);
+
+    const draw = () => {
+      if (!canDraw) return;
+      for (const kind of ['mine', 'them'] as const) {
+        const ranges = drawn
+          .filter(({ h }) => h.mine === (kind === 'mine') && show[kind])
+          .map(({ range }) => range);
+        CSS.highlights.set(`reactions-${kind}`, new Highlight(...ranges));
+      }
+    };
+
+    const describe = (h: Entry) => {
+      const from = place(h.city, h.country);
+      const who = h.mine ? 'you' : `someone${from ? ` from ${from}` : ''}`;
+      return `Highlighted by ${who} on ${when.format(h.createdAt * 1000)}.`;
+    };
+
+    const goTo = (id: number) => {
+      const found = drawn.find(({ h }) => h.id === id);
+      if (!found) return;
+      panel?.hidePopover();
+      const top = found.range.getBoundingClientRect().top;
+      window.scrollBy({ top: top - window.innerHeight / 3 });
+      if (!canDraw) return;
+      CSS.highlights.set('reactions-flash', new Highlight(found.range));
+      setTimeout(() => CSS.highlights.delete('reactions-flash'), 1500);
+    };
+
+    const renderList = () => {
+      if (!panel || !list) return;
+      const items = data.highlights.filter(visible).map((h) => {
+        const li = document.createElement('li');
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.textContent = `“${h.text.replace(/\s+/g, ' ')}”`;
+        button.title = describe(h);
+        button.disabled = !drawn.some((d) => d.h.id === h.id);
+        button.addEventListener('click', () => goTo(h.id));
+        li.appendChild(button);
+        if (h.mine || data.admin) {
+          const remove = document.createElement('button');
+          remove.type = 'button';
+          remove.className = 'reactions-delete';
+          remove.innerHTML = trash.replace('<svg ', '<svg aria-hidden="true" ');
+          remove.setAttribute('aria-label', 'Delete this highlight');
+          remove.title = 'Delete';
+          remove.addEventListener('click', () => send({ action: 'delete', id: h.id }));
+          li.appendChild(remove);
+        }
+        return li;
+      });
+      list.replaceChildren(...items);
+      panel.querySelector<HTMLElement>('.reactions-empty')!.hidden =
+        items.length > 0;
+    };
+
+    const setCount = (name: string, n: number) => {
+      const el = box.querySelector(`[data-count="${name}"]`);
+      if (el) el.textContent = compact.format(n);
+    };
+
+    function render(next: Reactions) {
+      data = next;
+      const mine = data.highlights.filter((h) => h.mine).length;
+      setCount('hearts', data.hearts);
+      setCount('views', data.views);
+      setCount('highlights', data.highlights.length);
+      setCount('mine', mine);
+      setCount('them', data.highlights.length - mine);
+      heart.setAttribute('aria-pressed', String(data.myHearts > 0));
+      heart.disabled = data.myHearts >= MAX_HEARTS;
+      locate();
+      draw();
+      renderList();
+    }
+
+    heart.addEventListener('click', () => {
+      // Count it now; the reply has the real number.
+      render({ ...data, hearts: data.hearts + 1, myHearts: data.myHearts + 1 });
+      send({ action: 'heart' });
+    });
+
+    for (const toggle of toggles) {
+      toggle.addEventListener('click', () => {
+        const kind = toggle.dataset.show as keyof typeof show;
+        show[kind] = !show[kind];
+        toggle.setAttribute('aria-pressed', String(show[kind]));
+        draw();
+        renderList();
+      });
+    }
+
+    if (root) {
+      // Show the Highlight button above a selection inside root.
+      document.addEventListener('selectionchange', () => {
+        const selection = document.getSelection();
+        const range = selection?.rangeCount ? selection.getRangeAt(0) : undefined;
+        const raw = range?.toString() ?? '';
+        const text = raw.trim();
+        if (
+          !range ||
+          !text ||
+          text.length > MAX_TEXT ||
+          !root.contains(range.commonAncestorContainer)
+        ) {
+          pending = undefined;
+          add.hidden = true;
+          return;
+        }
+        const before = document.createRange();
+        before.setStart(root, 0);
+        before.setEnd(range.startContainer, range.startOffset);
+        const lead = raw.length - raw.trimStart().length;
+        pending = { text, start: before.toString().length + lead, range };
+        placeAdd();
+        add.hidden = false;
+      });
+
+      const placeAdd = () => {
+        if (!pending) return;
+        const rect = pending.range.getBoundingClientRect();
+        add.style.setProperty('--x', `${rect.left + rect.width / 2}px`);
+        add.style.setProperty('--y', `${rect.top}px`);
+      };
+
+      // Keep the selection when the button is pressed.
+      add.addEventListener('mousedown', (event) => event.preventDefault());
+      add.addEventListener('click', () => {
+        if (!pending) return;
+        send({ action: 'highlight', text: pending.text, start: pending.start });
+        document.getSelection()?.removeAllRanges();
+      });
+
+      // The highlights aren't elements, so find the one under the pointer.
+      let frame = 0;
+      root.addEventListener('pointermove', ({ clientX: x, clientY: y }) => {
+        cancelAnimationFrame(frame);
+        frame = requestAnimationFrame(() => {
+          const hit = drawn.find(
+            ({ h, range }) =>
+              visible(h) &&
+              [...range.getClientRects()].some(
+                (r) => x >= r.left && x <= r.right && y >= r.top && y <= r.bottom,
+              ),
+          );
+          tip.hidden = !hit;
+          if (!hit) return;
+          tip.textContent = describe(hit.h);
+          tip.style.setProperty('--x', `${x}px`);
+          tip.style.setProperty('--y', `${y}px`);
+        });
+      });
+      root.addEventListener('pointerleave', () => {
+        cancelAnimationFrame(frame);
+        tip.hidden = true;
+      });
+      window.addEventListener(
+        'scroll',
+        () => {
+          tip.hidden = true;
+          placeAdd();
+        },
+        { passive: true },
+      );
+    }
+
+    send({ action: 'view' });
+  }
+</script>

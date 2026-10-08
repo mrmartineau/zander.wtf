@@ -3,6 +3,7 @@
 // skips BaseLayout/BaseHead and the site stylesheet.
 import { Code } from 'astro:components';
 import { styles } from '@mrmartineau/lil-debugger';
+import Reactions from '~/components/Reactions.astro';
 // Only @font-face rules: the site's fonts without the site's styles.
 import '../../styles/global/font-face.css';
 
@@ -368,6 +369,7 @@ const jsonLd = {
       <a href={repo}>GitHub</a>
       <span>ISC licence</span>
     </footer>
+    <Reactions slug="/lil-debugger" highlights={false} />
   </body>
 </html>
 

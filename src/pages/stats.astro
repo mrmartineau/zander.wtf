@@ -1,0 +1,357 @@
+---
+// Public dashboard of the reactions data (see src/pages/api/reactions.ts).
+// Rendered on request like /search, so the numbers are always current.
+export const prerender = false;
+
+import { getCollection } from 'astro:content';
+import { SITE_METADATA } from 'src/consts';
+import ContentLayout from '~/layouts/ContentLayout.astro';
+import { getBlog } from '~/utils/blog';
+import { flag, place } from '~/utils/reactions';
+
+const slug = 'stats';
+
+// Every page that has the reactions pill. Rows for any other slug (made up and
+// sent straight to the API) are left out.
+const [blog, notes, projects] = await Promise.all([
+  getBlog(),
+  getCollection('codenotes'),
+  getCollection('projects'),
+]);
+const pages = new Map<string, { title: string; type: string }>([
+  ...blog.map(
+    (e) =>
+      [
+        `/blog/${e.id}`,
+        { title: e.data.title, type: e.data.worklog ? 'Worklog' : 'Post' },
+      ] as const,
+  ),
+  ...notes.map(
+    (e) => [`/notes/${e.id}`, { title: e.data.title, type: 'Note' }] as const,
+  ),
+  ...projects.map(
+    (e) =>
+      [
+        `/projects/${e.slug}`,
+        { title: e.data.title, type: 'Project' },
+      ] as const,
+  ),
+  ['/moons', { title: 'Moons', type: 'Page' }],
+  ['/lil-debugger', { title: "Lil' Debugger", type: 'Page' }],
+]);
+
+type Row = { slug: string; views: number; hearts: number; highlights: number };
+type Activity = {
+  kind: 'heart' | 'highlight';
+  slug: string;
+  n: number;
+  text: string | null;
+  city: string | null;
+  country: string | null;
+  at: number;
+};
+
+let rows: (Row & { title: string; type: string })[] = [];
+let activity: (Activity & { title: string; type: string })[] = [];
+let readers = 0;
+let error = false;
+
+try {
+  const db = Astro.locals.runtime.env.REACTIONS_DB;
+  const [perPage, distinct, recent] = await db.batch([
+    db.prepare(`
+      SELECT slug, SUM(v) AS views, SUM(h) AS hearts, SUM(hl) AS highlights FROM (
+        SELECT slug, COUNT(*) AS v, 0 AS h, 0 AS hl FROM views GROUP BY slug
+        UNION ALL SELECT slug, 0, SUM(n), 0 FROM hearts GROUP BY slug
+        UNION ALL SELECT slug, 0, 0, COUNT(*) FROM highlights GROUP BY slug
+      ) GROUP BY slug ORDER BY views DESC, hearts DESC`),
+    db.prepare('SELECT COUNT(DISTINCT visitor) AS n FROM views'),
+    // One row per reader per page for hearts (n is how many), one per highlight.
+    db.prepare(`
+      SELECT 'heart' AS kind, slug, n, NULL AS text, city, country, updated_at AS at
+        FROM hearts WHERE updated_at IS NOT NULL
+      UNION ALL
+      SELECT 'highlight', slug, 1, text, city, country, created_at FROM highlights
+      ORDER BY at DESC LIMIT 60`),
+  ]);
+  rows = (perPage.results as Row[]).flatMap((row) => {
+    const page = pages.get(row.slug);
+    return page ? [{ ...row, ...page }] : [];
+  });
+  readers = (distinct.results[0] as { n: number }).n;
+  // ponytail: the latest 40 only; add paging if the feed ever needs history.
+  activity = (recent.results as Activity[])
+    .flatMap((a) => {
+      const page = pages.get(a.slug);
+      return page ? [{ ...a, ...page }] : [];
+    })
+    .slice(0, 40);
+} catch (err) {
+  console.error('Stats error:', err);
+  error = true;
+}
+
+const sum = (key: 'views' | 'hearts' | 'highlights') =>
+  rows.reduce((total, row) => total + row[key], 0);
+const totals = [
+  { label: 'Views', value: sum('views'), icon: 'eye' },
+  { label: 'Readers', value: readers, icon: 'users' },
+  { label: 'Hearts', value: sum('hearts'), icon: 'heart' },
+  { label: 'Highlights', value: sum('highlights'), icon: 'highlighter' },
+];
+const maxViews = Math.max(1, ...rows.map((row) => row.views));
+const number = new Intl.NumberFormat('en-GB');
+
+// Activity: newest first, in Today / This week / Earlier, with times like "14m".
+const now = Date.now() / 1000;
+const ago = (at: number) => {
+  const s = Math.max(0, now - at);
+  if (s < 60) return 'now';
+  if (s < 3600) return `${Math.floor(s / 60)}m`;
+  if (s < 86400) return `${Math.floor(s / 3600)}h`;
+  return `${Math.floor(s / 86400)}d`;
+};
+const periods = [
+  { label: 'Today', within: 86400 },
+  { label: 'This week', within: 7 * 86400 },
+  { label: 'Earlier', within: Infinity },
+];
+const groups = periods.map((p) => ({
+  label: p.label,
+  items: [] as typeof activity,
+}));
+for (const a of activity) {
+  groups[periods.findIndex((p) => now - a.at < p.within)].items.push(a);
+}
+const what: Record<string, string> = {
+  Post: 'the post',
+  Worklog: 'the worklog entry',
+  Note: 'the note',
+  Project: 'the project',
+  Page: 'the page',
+};
+const short = (text: string) => {
+  const flat = text.replace(/\s+/g, ' ');
+  return flat.length > 90 ? `${flat.slice(0, 90).trimEnd()}…` : flat;
+};
+
+Astro.response.headers.set('Cache-Control', 'public, max-age=60');
+---
+
+<ContentLayout
+  title={SITE_METADATA[slug].title}
+  subtitle={SITE_METADATA[slug].subtitle}
+  slug={slug}
+>
+  <div class="flow">
+    <p>
+      Every post, note and project here counts its readers and lets them leave
+      a heart. Posts and notes also let you highlight the bits you like. This
+      is all of it. No cookies and no names: a reader is a random id kept in
+      their browser, so each person counts once per page.
+    </p>
+
+    {
+      error ? (
+        <p>The stats are having a lie down. Try again in a bit.</p>
+      ) : (
+        <>
+          <dl class="stats-totals">
+            {totals.map((total) => (
+              <div>
+                <dt>
+                  <i class={`ph-duotone ph-${total.icon}`} aria-hidden="true" />
+                  {total.label}
+                </dt>
+                <dd>{number.format(total.value)}</dd>
+              </div>
+            ))}
+          </dl>
+
+          <h2>Every page</h2>
+          {rows.length ? (
+            <div class="stats-table">
+              <table>
+                <thead>
+                  <tr>
+                    <th scope="col">Page</th>
+                    <th scope="col" class="stats-type">Type</th>
+                    <th scope="col" class="stats-num">Views</th>
+                    <th scope="col" class="stats-num">
+                      <i class="ph-fill ph-heart" aria-hidden="true" />
+                      <span class="visually-hidden">Hearts</span>
+                    </th>
+                    <th scope="col" class="stats-num">
+                      <i class="ph ph-highlighter" aria-hidden="true" />
+                      <span class="visually-hidden">Highlights</span>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {rows.map((row) => (
+                    <tr style={`--share: ${row.views / maxViews}`}>
+                      <th scope="row">
+                        <a href={row.slug}>{row.title}</a>
+                      </th>
+                      <td class="stats-type">{row.type}</td>
+                      <td class="stats-num">
+                        {number.format(row.views)}
+                      </td>
+                      <td class="stats-num">{number.format(row.hearts)}</td>
+                      <td class="stats-num">{number.format(row.highlights)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <p>Nothing yet. Go and read something.</p>
+          )}
+
+          {activity.length ? (
+            <>
+              <h2>Activity</h2>
+              {groups
+                .filter((g) => g.items.length)
+                .map((g) => (
+                  <section class="stats-activity">
+                    <h3>{g.label}</h3>
+                    <ul>
+                      {g.items.map((a) => {
+                        const from = place(a.city, a.country);
+                        return (
+                          <li>
+                            <span class="stats-flag" aria-hidden="true">
+                              {flag(a.country) || '🌍'}
+                            </span>
+                            <p>
+                              Someone{from ? ` from ${from}` : ''}{' '}
+                              {a.kind === 'heart' ? (
+                                <>
+                                  liked {what[a.type]}{' '}
+                                  <a href={a.slug}>{a.title}</a>
+                                  {a.n > 1 ? ` ${a.n} times` : ''}
+                                </>
+                              ) : (
+                                <>
+                                  highlighted <q>{short(a.text ?? '')}</q> in{' '}
+                                  <a href={a.slug}>{a.title}</a>
+                                </>
+                              )}
+                              <span class="stats-ago">
+                                {' · '}
+                                <time
+                                  datetime={new Date(a.at * 1000).toISOString()}
+                                  title={new Date(a.at * 1000).toUTCString()}
+                                >
+                                  {ago(a.at)}
+                                </time>
+                              </span>
+                            </p>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </section>
+                ))}
+            </>
+          ) : null}
+        </>
+      )
+    }
+  </div>
+</ContentLayout>
+
+<style>
+  .stats-totals {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+    gap: var(--space-s);
+    margin-inline: 0;
+    margin-block-end: 0;
+
+    div {
+      padding: var(--space-s) var(--space-m);
+      border-radius: var(--block-radius);
+      background: var(--bg-block);
+    }
+
+    dt {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2xs);
+      font-size: var(--step--1);
+    }
+
+    dd {
+      margin: 0;
+      font-family: var(--font-headings);
+      font-size: var(--step-4);
+      line-height: 1.1;
+      color: var(--colour-text-bright);
+    }
+  }
+
+  .stats-table {
+    overflow-x: auto;
+
+    table {
+      margin-block: 0;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* each page's share of the most-viewed page, as a bar behind its name */
+    th[scope='row'] {
+      font-weight: normal;
+      background: linear-gradient(
+        to right,
+        color-mix(in oklch, var(--colour-yellow) 15%, transparent)
+          calc(var(--share) * 100%),
+        transparent 0
+      );
+    }
+  }
+
+  .stats-num {
+    text-align: end;
+    white-space: nowrap;
+  }
+
+  .stats-type {
+    font-size: var(--step--1);
+  }
+
+  .stats-activity {
+    h3 {
+      font-size: var(--step-0);
+      color: var(--colour-text);
+    }
+
+    ul {
+      display: grid;
+      gap: var(--space-xs);
+      margin: var(--space-xs) 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    li {
+      display: flex;
+      gap: var(--space-xs);
+    }
+
+    p {
+      margin: 0;
+    }
+
+    q {
+      color: var(--colour-text-bright);
+    }
+  }
+
+  .stats-ago {
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    white-space: nowrap;
+  }
+</style>

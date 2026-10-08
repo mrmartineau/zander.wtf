@@ -13,6 +13,14 @@ binding = "SEARCH_DB"
 database_name = "zander-wtf-search"
 database_id = "5bd3fe25-813c-491f-8376-c523f8863200"
 
+# Views, hearts and highlights on blog posts and notes (src/pages/api/reactions.ts).
+# Schema: pnpm exec wrangler d1 migrations apply zander-wtf-reactions --remote
+[[d1_databases]]
+binding = "REACTIONS_DB"
+database_name = "zander-wtf-reactions"
+database_id = "0ba1d963-d7ae-4839-820d-d9657f1a43af"
+migrations_dir = "migrations/reactions"
+
 # Variable bindings. These are arbitrary, plaintext strings (similar to environment variables)
 # Note: Use secrets to store sensitive data.
 # Docs: https://developers.cloudflare.com/workers/platform/environment-variables

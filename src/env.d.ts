@@ -3,6 +3,8 @@
 
 interface Env {
   SEARCH_DB: D1Database;
+  REACTIONS_DB: D1Database;
+  REACTIONS_ADMIN_TOKEN?: string;
 }
 
 type Runtime = import('@astrojs/cloudflare').Runtime<Env>;
