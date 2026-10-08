@@ -2,10 +2,15 @@
 import PageHeader from '../components/PageHeader.astro';
 import BaseLayout from './BaseLayout.astro';
 
-const { title, subtitle, slug } = Astro.props;
+const { title, subtitle, slug, reactions } = Astro.props;
 ---
 
-<BaseLayout title={title} subtitle={subtitle} slug={slug}>
+<BaseLayout
+  title={title}
+  subtitle={subtitle}
+  slug={slug}
+  reactions={reactions}
+>
   <div class="zm-contentContainer">
     <PageHeader title={title} subtitle={subtitle} />
     <slot />

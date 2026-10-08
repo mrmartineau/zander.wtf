@@ -3,7 +3,6 @@ import type { CollectionEntry } from 'astro:content';
 import GithubReadme from '~/components/GithubReadme.astro';
 import PageHeader from '~/components/PageHeader.astro';
 import ProjectScreenshots from '~/components/ProjectScreenshots.astro';
-import Reactions from '~/components/Reactions.astro';
 import RelatedLinks from '~/components/RelatedLinks.astro';
 import ShortUrl from '~/components/ShortUrl.astro';
 import BaseLayout from './BaseLayout.astro';
@@ -32,7 +31,12 @@ const githubUser = githubMatch?.[1];
 const githubRepo = githubMatch?.[2];
 ---
 
-<BaseLayout title={title} subtitle={subtitle} slug={slug}>
+<BaseLayout
+  title={title}
+  subtitle={subtitle}
+  slug={slug}
+  reactions={{ slug: `/projects/${slug}`, highlights: false }}
+>
   <article class="zm-contentContainer">
     {
       type === 'ios-app' && image ? (
@@ -120,7 +124,6 @@ const githubRepo = githubMatch?.[2];
       <a href="/projects">cd ..</a>
     </footer>
   </article>
-  <Reactions slug={`/projects/${slug}`} highlights={false} />
 </BaseLayout>
 
 <style lang="postcss">

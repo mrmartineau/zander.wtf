@@ -7,7 +7,7 @@ import { getCollection } from 'astro:content';
 import { SITE_METADATA } from 'src/consts';
 import ContentLayout from '~/layouts/ContentLayout.astro';
 import { getBlog } from '~/utils/blog';
-import { flag, place } from '~/utils/reactions';
+import { ago, flag, place } from '~/utils/reactions';
 
 const slug = 'stats';
 
@@ -36,6 +36,7 @@ const pages = new Map<string, { title: string; type: string }>([
         { title: e.data.title, type: 'Project' },
       ] as const,
   ),
+  ['/uses', { title: 'My setup', type: 'Page' }],
   ['/moons', { title: 'Moons', type: 'Page' }],
   ['/lil-debugger', { title: "Lil' Debugger", type: 'Page' }],
 ]);
@@ -104,13 +105,6 @@ const number = new Intl.NumberFormat('en-GB');
 
 // Activity: newest first, in Today / This week / Earlier, with times like "14m".
 const now = Date.now() / 1000;
-const ago = (at: number) => {
-  const s = Math.max(0, now - at);
-  if (s < 60) return 'now';
-  if (s < 3600) return `${Math.floor(s / 60)}m`;
-  if (s < 86400) return `${Math.floor(s / 3600)}h`;
-  return `${Math.floor(s / 86400)}d`;
-};
 const periods = [
   { label: 'Today', within: 86400 },
   { label: 'This week', within: 7 * 86400 },
@@ -244,7 +238,7 @@ Astro.response.headers.set('Cache-Control', 'public, max-age=60');
                                   datetime={new Date(a.at * 1000).toISOString()}
                                   title={new Date(a.at * 1000).toUTCString()}
                                 >
-                                  {ago(a.at)}
+                                  {ago(a.at, now)}
                                 </time>
                               </span>
                             </p>

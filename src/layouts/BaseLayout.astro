@@ -6,13 +6,16 @@ import BaseHead from '~/components/BaseHead.astro';
 import Footer from '~/components/Footer.astro';
 import Greeting from '~/components/Greeting.astro';
 import Header from '~/components/Header.astro';
+import Reactions from '~/components/Reactions.astro';
 import Desktop from '~/components/solid/desktop/Desktop';
 import Tui from '~/components/solid/tui/Tui';
 import { SITE_FOOTER_ITEMS, SITE_NAV_ITEMS } from '../consts';
 
 // `subtitle` is the visible strapline and doubles as the meta description;
 // `description` overrides it where a page needs the two to differ.
-const { title, subtitle, description, image, slug } = Astro.props;
+// `reactions` turns on hearts and reads (and marks) in the bottom pill, which
+// every page gets for its flavour switch. See Reactions.astro.
+const { title, subtitle, description, image, slug, reactions } = Astro.props;
 ---
 
 <html lang="en">
@@ -55,27 +58,28 @@ const { title, subtitle, description, image, slug } = Astro.props;
             if (/^\/(desktop|tui|txt)(\/|$)/.test(href) || /\.[a-z0-9]+$/i.test(href.split(/[?#]/)[0])) return;
             a.setAttribute('href', '/txt' + (href === '/' ? '/' : href));
           });
-          // The mode card was built for the website; here, plain text is
-          // current and the website is a link back
+          // The flavour switch lives in the bottom pill, which needs styles.
+          // Show its list on its own instead: plain text is current here, and
+          // the website is a link back
           var plain = location.pathname.replace(/^\/txt(?=\/|$)/, '') || '/';
-          document.querySelectorAll('.zm-modes').forEach(function (card) {
-            var site = card.querySelector('.zm-mode.is-current');
-            var txt = card.querySelector('a.zm-mode[href^="/txt"]');
-            var here = card.querySelector('.zm-mode-here');
-            if (!site || !txt) return;
-            var link = document.createElement('a');
-            link.className = 'zm-mode';
-            link.href = plain;
-            link.innerHTML = site.innerHTML;
-            link.querySelector('.zm-mode-here')?.remove();
-            site.replaceWith(link);
-            var current = document.createElement('div');
-            current.className = 'zm-mode is-current';
-            current.setAttribute('aria-current', 'true');
-            current.innerHTML = txt.innerHTML;
-            if (here) current.querySelector('div, span').append(here);
-            txt.replaceWith(current);
-          });
+          var pill = document.querySelector('.reactions');
+          var menu = document.getElementById('reactions-flavours');
+          if (pill && menu) {
+            pill.querySelector('.reactions-dock')?.remove();
+            menu.removeAttribute('popover');
+            pill.hidden = false;
+            menu.querySelectorAll('a[data-mode]').forEach(function (a) {
+              var blurb = a.querySelector('[data-blurb]');
+              if (a.dataset.mode === 'classic') {
+                a.href = plain;
+                a.removeAttribute('aria-current');
+                blurb.textContent = blurb.dataset.blurb;
+              } else if (a.dataset.mode === 'txt') {
+                a.setAttribute('aria-current', 'page');
+                blurb.textContent = 'You are here';
+              }
+            });
+          }
         });
       }
     </script>
@@ -94,6 +98,7 @@ const { title, subtitle, description, image, slug } = Astro.props;
       <slot />
     </main>
     <Footer />
+    <Reactions {...reactions} />
     <Desktop client:only="solid-js" nav={SITE_NAV_ITEMS} more={SITE_FOOTER_ITEMS} />
     <Tui client:only="solid-js" nav={SITE_NAV_ITEMS} more={SITE_FOOTER_ITEMS} />
     <script>

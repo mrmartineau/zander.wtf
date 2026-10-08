@@ -1,7 +1,7 @@
-/* Hearts, highlights and views. See Reactions.astro, which imports this file
-   itself (not src/styles/index.css): /moons and /lil-debugger use the pill too,
-   and they skip the site stylesheet. So nothing here relies on it: the site
-   tokens all have fallbacks, and buttons are reset. */
+/* The pill at the bottom of every page. See Reactions.astro, which imports
+   this file itself (not src/styles/index.css): /moons and /lil-debugger use
+   the pill too, and they skip the site stylesheet. So nothing here relies on
+   it: the site tokens all have fallbacks, and buttons are reset. */
 
 ::highlight(reactions-mine) {
   background-color: color-mix(
@@ -30,14 +30,23 @@
 
 .reactions {
   --rx-bg: var(--colour-reallyFuckingDark, hsl(214 14% 15%));
-  --rx-bg-hover: var(--colour-notQuiteSoFuckingDark, hsl(214 14% 20%));
+  --rx-line: var(--colour-notQuiteSoFuckingDark, hsl(214 14% 20%));
   --rx-text: hsl(214 14% 100% / 0.7);
   --rx-text-bright: #fff;
+  --rx-accent: var(--colour-yellow, #f5d04c);
   --rx-heart: var(--colour-pink, hsl(334 86% 48%));
-  --rx-shadow: 0 8px 24px rgb(0 0 0 / 0.4);
+  --rx-shadow: 0 10px 30px rgb(0 0 0 / 0.45);
+  /* how far the pill sits from the bottom; the popovers sit above it */
+  --rx-bottom: 1rem;
+  --rx-above: calc(var(--rx-bottom) + 2.75rem);
   font-family: var(--font-body, system-ui, sans-serif);
-  font-size: 0.9375rem;
+  font-size: 0.8125rem;
   line-height: 1.4;
+}
+
+/* the "available for work" banner sits where the pill would */
+:root:has(#status-banner:not([hidden])) .reactions {
+  --rx-bottom: 6rem;
 }
 
 .reactions *,
@@ -74,63 +83,194 @@
   white-space: nowrap;
 }
 
-.reactions-bar {
+/* Fixed and centred. Not on .reactions itself: a translate there would pin
+   the Highlight button and the hover note to it rather than the viewport. */
+.reactions-dock {
   position: fixed;
-  bottom: 1rem;
+  bottom: var(--rx-bottom);
   left: 50%;
   translate: -50% 0;
   z-index: 20;
+}
+
+.reactions-pill {
   display: flex;
-  gap: 0.25rem;
-  padding: 0.25rem;
-  border: 1px solid var(--rx-bg-hover);
-  border-radius: 999px;
+  align-items: stretch;
+  border: 1px solid var(--rx-line);
+  border-radius: 0.625rem;
   background: var(--rx-bg);
   box-shadow: var(--rx-shadow);
-  font-family: var(--font-mono, ui-monospace, monospace);
+  overflow: hidden;
 }
 
-.reactions-bar > * {
+.reactions-seg {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  border-radius: 999px;
+  gap: 0.4em;
+  padding: 0.4rem 0.75rem;
   color: var(--rx-text);
+  white-space: nowrap;
 }
 
-.reactions-bar > button:hover:not(:disabled) {
-  background: var(--rx-bg-hover);
+.reactions-seg + .reactions-seg {
+  border-left: 1px solid var(--rx-line);
+}
+
+.reactions button.reactions-seg:hover,
+.reactions button.reactions-seg:focus-visible {
+  outline: none;
+  background: var(--rx-line);
   color: var(--rx-text-bright);
+}
+
+.reactions-word {
+  opacity: 0.7;
 }
 
 .reactions-heart svg {
   transition: scale 0.15s ease-out;
 }
 
+.reactions-heart[aria-pressed="true"] {
+  color: var(--rx-text-bright);
+}
+
 .reactions-heart[aria-pressed="true"] svg {
   color: var(--rx-heart);
 }
 
-.reactions-heart:active:not(:disabled) svg {
-  scale: 1.3;
+.reactions-heart:active svg {
+  scale: 1.35;
+}
+
+.reactions .reactions-flavour {
+  background: color-mix(in oklch, var(--rx-accent) 12%, transparent);
+  color: var(--rx-accent);
+}
+
+.reactions .reactions-flavour svg {
+  width: 1.25em;
+  height: 1.25em;
+}
+
+/* the line that pops up above the pill */
+.reactions-say {
+  position: absolute;
+  bottom: calc(100% + 0.5rem);
+  left: var(--x);
+  translate: -50% 0;
+  margin: 0;
+  padding: 0.25rem 0.6rem;
+  border-radius: 0.4rem;
+  background: var(--rx-accent);
+  color: var(--rx-bg);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* a small tail pointing at the segment */
+.reactions-say::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  translate: -50% 0;
+  border: 5px solid transparent;
+  border-top-color: var(--rx-accent);
+}
+
+.reactions-pop {
+  animation: reactions-pop 0.22s ease-out;
+}
+
+@keyframes reactions-pop {
+  from {
+    opacity: 0;
+    transform: translateY(4px) scale(0.96);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reactions-pop {
+    animation: none;
+  }
+}
+
+/* popovers: the flavour menu and the marks panel */
+.reactions-flavours,
+.reactions-panel {
+  inset: auto;
+  bottom: var(--rx-above);
+  left: 50%;
+  translate: -50% 0;
+  margin: 0;
+  border: 1px solid var(--rx-line);
+  border-radius: 0.625rem;
+  background: var(--rx-bg);
+  color: var(--rx-text);
+  box-shadow: var(--rx-shadow);
+}
+
+.reactions-flavours {
+  width: min(22rem, 100vw - 2rem);
+  padding: 0.5rem;
+
+  ul {
+    display: grid;
+    gap: 2px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  a {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.4rem 0.5rem;
+    border-radius: 0.4rem;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  a:hover,
+  a:focus-visible {
+    outline: none;
+    background: var(--rx-line);
+    color: var(--rx-text-bright);
+  }
+
+  svg {
+    width: 1.5em;
+    height: 1.5em;
+  }
+
+  a > span {
+    display: grid;
+  }
+
+  strong {
+    font-weight: normal;
+    color: var(--rx-text-bright);
+  }
+
+  a[aria-current],
+  a[aria-current] strong {
+    color: var(--rx-accent);
+  }
+}
+
+.reactions-flavours-title {
+  margin: 0;
+  padding: 0.25rem 0.5rem 0.4rem;
+  font-family: var(--font-headings, inherit);
+  color: var(--rx-text-bright);
 }
 
 .reactions-panel {
-  inset: auto;
-  bottom: 4.5rem;
-  left: 50%;
-  translate: -50% 0;
   width: min(24rem, 100vw - 2rem);
-  max-height: min(32rem, 70dvh);
-  margin: 0;
+  max-height: min(30rem, 70dvh);
   padding: 0;
-  overflow: hidden;
-  border: 1px solid var(--rx-bg-hover);
-  border-radius: 1.25rem;
-  background: var(--rx-bg);
-  color: var(--rx-text-bright);
-  box-shadow: var(--rx-shadow);
 }
 
 .reactions-panel:popover-open {
@@ -139,39 +279,46 @@
 }
 
 .reactions-panel header {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 1rem 1.25rem;
+  display: grid;
+  gap: 0.5rem;
+  padding: 0.75rem 0.75rem 0.5rem;
+  border-bottom: 1px solid var(--rx-line);
 }
 
 .reactions-panel h2 {
-  margin: 0 auto 0 0;
-  font-size: 1rem;
+  margin: 0;
+  font-family: var(--font-headings, inherit);
+  font-size: 1.125rem;
+  font-weight: normal;
+  color: var(--rx-text-bright);
 }
 
-.reactions-panel header button {
+.reactions-filter {
   display: flex;
-  align-items: center;
   gap: 0.25rem;
-}
 
-.reactions-panel header button[aria-pressed="false"] {
-  opacity: 0.5;
-}
+  button {
+    padding: 0.1rem 0.55rem;
+    border-radius: 999px;
+  }
 
-.reactions-panel header [aria-pressed="true"] .reactions-off,
-.reactions-panel header [aria-pressed="false"] .reactions-on {
-  display: none;
-}
+  button[aria-pressed="true"] {
+    background: var(--rx-accent);
+    color: var(--rx-bg);
+  }
 
-.reactions-panel [data-count] {
-  color: var(--rx-text);
+  button[aria-pressed="false"]:hover {
+    color: var(--rx-text-bright);
+  }
+
+  span {
+    opacity: 0.6;
+  }
 }
 
 .reactions-panel ol {
   margin: 0;
-  padding: 0 0.5rem 0.5rem;
+  padding: 0.25rem;
   list-style: none;
   overflow-y: auto;
   overscroll-behavior: contain;
@@ -182,27 +329,38 @@
   align-items: flex-start;
 }
 
-.reactions-panel li button {
+.reactions-panel li button:first-child {
+  display: grid;
   flex: 1;
-  padding: 0.5rem 0.75rem 0.5rem calc(0.75rem + 0.4em);
-  border-radius: 0.75rem;
+  gap: 0.2rem;
+  padding: 0.5rem 0.6rem;
+  border-radius: 0.4rem;
   text-align: start;
-  /* hang the opening quote */
-  text-indent: -0.4em;
 }
 
-.reactions-panel li button:hover:not(:disabled) {
-  background: var(--rx-bg-hover);
+.reactions-panel li button:first-child:hover:not(:disabled),
+.reactions-panel li button:first-child:focus-visible {
+  outline: none;
+  background: var(--rx-line);
 }
 
 .reactions-panel li button:disabled {
   opacity: 0.5;
 }
 
+.reactions-panel q {
+  font-size: 0.9375rem;
+  color: var(--rx-text-bright);
+}
+
+.reactions-panel li[data-mine] q {
+  text-decoration: underline var(--rx-accent) 2px;
+  text-underline-offset: 0.2em;
+}
+
 .reactions-panel .reactions-delete {
   flex: none;
-  padding: 0.5rem;
-  text-indent: 0;
+  padding: 0.55rem;
   color: var(--rx-text);
   opacity: 0;
 }
@@ -213,7 +371,6 @@
 }
 
 .reactions-panel .reactions-delete:hover {
-  background: none;
   color: var(--rx-heart);
 }
 
@@ -223,12 +380,13 @@
   }
 }
 
-.reactions-empty {
+.reactions-foot {
   margin: 0;
-  padding: 0 1.25rem 1.25rem;
-  color: var(--rx-text);
+  padding: 0.5rem 0.75rem;
+  border-top: 1px solid var(--rx-line);
 }
 
+/* the Highlight button above a selection, and the note on a hovered mark */
 .reactions-add,
 .reactions-tip {
   position: fixed;
@@ -242,7 +400,7 @@
   left: var(--x);
   top: var(--y);
   translate: -50% calc(-100% - 0.5rem);
-  padding: 0.25rem 1rem;
+  padding: 0.25rem 0.75rem;
   border-radius: 999px;
   background: var(--rx-text-bright);
   color: var(--rx-bg);
@@ -264,7 +422,7 @@
   translate: -50% calc(-100% - 1rem);
   width: max-content;
   max-width: var(--width);
-  padding: 0.5rem 1rem;
-  border-radius: 1rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.625rem;
   pointer-events: none;
 }

@@ -4,7 +4,6 @@ import FormattedDate from '~/components/FormattedDate.astro';
 import HeadingMinimap from '~/components/HeadingMinimap.astro';
 import NoteTagLink from '~/components/NoteTagLink.astro';
 import PageTitle from '~/components/PageTitle.astro';
-import Reactions from '~/components/Reactions.astro';
 import RelatedLinks from '~/components/RelatedLinks.astro';
 import SearchForm from '~/components/SearchForm.astro';
 import TableOfContents from '~/components/TableOfContents.astro';
@@ -32,7 +31,12 @@ const description =
   excerpt(note.body ?? '') ||
   `A code snippet${tags?.length ? ` for ${tags.join(', ')}` : ''}: ${title}.`;
 ---
-<BaseLayout title={title} subtitle={description} slug="notes">
+<BaseLayout
+  title={title}
+  subtitle={description}
+  slug="notes"
+  reactions={{ slug: `/notes/${note.id}` }}
+>
   <div class="zm-contentContainer">
   <div class="note-main">
     <nav class="note-back" aria-label="Back to all notes">
@@ -90,8 +94,6 @@ const description =
       <HeadingMinimap headings={headings} />
 
       <RelatedLinks href={`/notes/${note.id}`} />
-
-      <Reactions slug={`/notes/${note.id}`} />
 
       <footer class="note-footer">
         <span class="mono">&gt;</span>{' '}

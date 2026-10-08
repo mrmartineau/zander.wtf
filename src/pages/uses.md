@@ -5,6 +5,7 @@ date: 2019-02-11
 modified: 2026-07-13
 layout: ../layouts/MarkdownLayout.astro
 slug: uses
+reactions: true
 ---
 
 When working from my home office I like to use good quality products that make my working life more comfortable.

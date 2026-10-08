@@ -1,7 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import PageHeader from '~/components/PageHeader.astro';
-import Reactions from '~/components/Reactions.astro';
 import { excerpt } from '~/utils/excerpt';
 import BaseLayout from './BaseLayout.astro';
 
@@ -14,7 +13,13 @@ const { title, date, subtitle, tags, worklog } = data;
 const description = subtitle ?? excerpt(body ?? '');
 ---
 
-<BaseLayout title={title} subtitle={subtitle} description={description} slug={slug}>
+<BaseLayout
+  title={title}
+  subtitle={subtitle}
+  description={description}
+  slug={slug}
+  reactions={{ slug: `/blog/${slug}` }}
+>
   <article class="zm-contentContainer">
     <PageHeader title={title} subtitle={subtitle} date={date} tags={tags} worklog={worklog} />
 
@@ -22,5 +27,4 @@ const description = subtitle ?? excerpt(body ?? '');
       <slot />
     </div>
   </article>
-  <Reactions slug={`/blog/${slug}`} />
 </BaseLayout>

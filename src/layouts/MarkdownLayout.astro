@@ -1,10 +1,16 @@
 ---
 import ContentLayout from './ContentLayout.astro';
 
-const { title, subtitle, slug } = Astro.props.frontmatter;
+const { title, subtitle, slug, reactions } = Astro.props.frontmatter;
+// `reactions: true` in a page's frontmatter adds hearts and reads to the pill.
 ---
 
-<ContentLayout title={title} subtitle={subtitle} slug={slug}>
+<ContentLayout
+  title={title}
+  subtitle={subtitle}
+  slug={slug}
+  reactions={reactions ? { slug: `/${slug}`, highlights: false } : undefined}
+>
   <article class="flow article">
     <slot />
   </article>

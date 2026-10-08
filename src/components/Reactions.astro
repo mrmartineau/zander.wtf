@@ -1,108 +1,274 @@
 ---
-// A pill fixed to the bottom of the page: hearts, highlights and views, kept by
-// /api/reactions. Select text inside [data-highlightable] to highlight it.
-// Highlights are drawn with the CSS Custom Highlight API, so the page's DOM is
-// never changed: yours get a fill, other readers' a dotted underline. Hover one
-// to see where and when it was made. Styles: src/styles/components/reactions.css.
-// Pages without text worth highlighting (projects) pass highlights={false} and
-// get hearts and views only.
+// The pill fixed to the bottom of every page. BaseLayout renders it, so every
+// page gets the flavour switch (website, desktop, terminal, plain text); pages
+// that pass a slug also get hearts and reads, kept by /api/reactions, and
+// blog posts and notes get marks (highlights) too.
+//
+// The pill talks: a short line pops up above whichever part you touch, a new
+// one for every heart you give and a hint when you hover.
+//
+// Select text inside [data-highlightable] to mark it. Marks are drawn with the
+// CSS Custom Highlight API, so the page's DOM is never changed: yours get a
+// fill, other readers' a dotted underline. Hover one to see where and when it
+// was made.
+//
 // It starts `hidden`, and the script unhides it in classic mode only, like
-// HeadingMinimap. It brings its own CSS and SVG icons, so it also works on the
-// pages that skip BaseLayout (/moons, /lil-debugger).
-interface Props {
-  /** The page path, e.g. /blog/my-post */
-  slug: string;
-  highlights?: boolean;
-}
-
-import eyeIcon from '~/assets/icons/reactions/eye.svg?raw';
-import eyeSlashIcon from '~/assets/icons/reactions/eye-slash.svg?raw';
+// HeadingMinimap. In plain text mode BaseLayout's inline script shows the
+// flavour list on its own, unstyled. It brings its own CSS and SVG icons, so
+// it also works on the pages that skip BaseLayout (/moons, /lil-debugger).
+// Styles: src/styles/components/reactions.css.
+import appWindowIcon from '~/assets/icons/reactions/app-window.svg?raw';
+import browserIcon from '~/assets/icons/reactions/browser.svg?raw';
 import heartIcon from '~/assets/icons/reactions/heart-fill.svg?raw';
 import highlighterIcon from '~/assets/icons/reactions/highlighter.svg?raw';
+import terminalIcon from '~/assets/icons/reactions/terminal-window.svg?raw';
+import textIcon from '~/assets/icons/reactions/text-aa.svg?raw';
+import { modeUrl } from '~/utils/uiMode';
 import '../styles/components/reactions.css';
 
-const { slug, highlights = true } = Astro.props;
-const hide = (svg: string) => svg.replace('<svg ', '<svg aria-hidden="true" ');
-const eye = hide(eyeIcon).replace('<svg ', '<svg class="reactions-on" ');
-const eyeSlash = hide(eyeSlashIcon).replace(
-  '<svg ',
-  '<svg class="reactions-off" ',
-);
+interface Props {
+  /** The page path, e.g. /blog/my-post. Without one: the flavour switch only. */
+  slug?: string;
+  /** Marks (highlights) as well as hearts and reads. */
+  highlights?: boolean;
+  /** The flavour switch. Off on pages that skip BaseLayout. */
+  flavours?: boolean;
+}
+
+const { slug, highlights = true, flavours = true } = Astro.props;
+const marks = Boolean(slug) && highlights;
+const icon = (svg: string) => svg.replace('<svg ', '<svg aria-hidden="true" ');
+
+// Same page, other front end. See src/utils/uiMode.ts.
+const here = Astro.url.pathname;
+const flavourList = [
+  {
+    mode: 'classic',
+    label: 'Website',
+    icon: browserIcon,
+    blurb: 'The ordinary site',
+  },
+  {
+    mode: 'desktop',
+    label: 'Desktop',
+    icon: appWindowIcon,
+    blurb: 'Windows and a menu bar, like an old Mac',
+  },
+  {
+    mode: 'tui',
+    label: 'Terminal',
+    icon: terminalIcon,
+    blurb: 'Keyboard only: arrows, Enter, Esc',
+  },
+  {
+    mode: 'txt',
+    label: 'Plain text',
+    icon: textIcon,
+    blurb: 'No styles at all, just the browser',
+  },
+] as const;
 ---
 
-<div class="reactions" data-slug={slug} hidden>
-  <div class="reactions-bar">
-    <button type="button" class="reactions-heart" aria-pressed="false">
-      <Fragment set:html={hide(heartIcon)} />
-      <span data-count="hearts">0</span>
-      <span class="visually-hidden">hearts. Add a heart</span>
-    </button>
-    {
-      highlights && (
-        <button type="button" popovertarget="reactions-panel">
-          <Fragment set:html={hide(highlighterIcon)} />
-          <span data-count="highlights">0</span>
-          <span class="visually-hidden">highlights. Show them</span>
-        </button>
-      )
-    }
-    <span class="reactions-views">
-      <Fragment set:html={hide(eyeIcon)} />
-      <span data-count="views">0</span>
-      <span class="visually-hidden">views</span>
-    </span>
-  </div>
+{
+  (slug || flavours) && (
+    <div class="reactions" data-slug={slug} hidden>
+      <p class="visually-hidden" aria-live="polite" data-live />
 
-  {
-    highlights && (
-      <div id="reactions-panel" class="reactions-panel" popover>
-        <header>
-          <h2>Highlights</h2>
-          <button type="button" data-show="mine" aria-pressed="true">
-            <Fragment set:html={eye + eyeSlash} />
-            You <span data-count="mine">0</span>
-          </button>
-          <button type="button" data-show="them" aria-pressed="true">
-            <Fragment set:html={eye + eyeSlash} />
-            Them <span data-count="them">0</span>
-          </button>
-        </header>
-        <ol></ol>
-        <p class="reactions-empty">Select some text on the page to highlight it.</p>
+      <div class="reactions-dock">
+        <p class="reactions-say" aria-hidden="true" hidden />
+        <div class="reactions-pill">
+          {slug && (
+            <>
+              <button
+                type="button"
+                class="reactions-seg reactions-heart"
+                aria-pressed="false"
+                data-hint="leave a heart"
+              >
+                <Fragment set:html={icon(heartIcon)} />
+                <span data-count="hearts">0</span>
+                <span class="visually-hidden">hearts. Add a heart</span>
+              </button>
+              {marks && (
+                <button
+                  type="button"
+                  class="reactions-seg"
+                  popovertarget="reactions-panel"
+                  data-hint="see what people marked"
+                >
+                  <Fragment set:html={icon(highlighterIcon)} />
+                  <span>
+                    <span data-count="highlights">0</span>{' '}
+                    <span class="reactions-word" data-word="mark">marks</span>
+                  </span>
+                </button>
+              )}
+              <span class="reactions-seg" data-hint="" data-reads>
+                <span data-count="views">0</span>{' '}
+                <span class="reactions-word" data-word="read">reads</span>
+              </span>
+            </>
+          )}
+          {flavours && (
+            <button
+              type="button"
+              class="reactions-seg reactions-flavour"
+              popovertarget="reactions-flavours"
+              data-hint="this site comes in four flavours"
+            >
+              <Fragment set:html={icon(browserIcon)} />
+              <span class="visually-hidden">Change how this site looks</span>
+            </button>
+          )}
+        </div>
       </div>
-    )
-  }
 
-  <button type="button" class="reactions-add" hidden>Highlight</button>
-  <div class="reactions-tip" role="tooltip" hidden></div>
-</div>
+      {flavours && (
+        <nav
+          id="reactions-flavours"
+          class="reactions-flavours"
+          popover
+          aria-label="Site flavours"
+        >
+          <p class="reactions-flavours-title">Four flavours, same site</p>
+          <ul>
+            {flavourList.map((f) => (
+              <li>
+                <a
+                  href={modeUrl(f.mode, here)}
+                  data-mode={f.mode}
+                  aria-current={f.mode === 'classic' ? 'page' : undefined}
+                >
+                  <Fragment set:html={icon(f.icon)} />
+                  <span>
+                    <strong>{f.label}</strong>
+                    <span data-blurb={f.blurb}>
+                      {f.mode === 'classic' ? 'You are here' : f.blurb}
+                    </span>
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )}
+
+      {marks && (
+        <>
+          <div id="reactions-panel" class="reactions-panel" popover>
+            <header>
+              <h2>Marked passages</h2>
+              <div class="reactions-filter" role="group" aria-label="Show">
+                <button type="button" data-show="all" aria-pressed="true">
+                  All <span data-count="all">0</span>
+                </button>
+                <button type="button" data-show="mine" aria-pressed="false">
+                  Yours <span data-count="mine">0</span>
+                </button>
+                <button type="button" data-show="them" aria-pressed="false">
+                  Others <span data-count="them">0</span>
+                </button>
+              </div>
+            </header>
+            <ol />
+            <p class="reactions-foot" />
+          </div>
+
+          <button type="button" class="reactions-add" hidden>
+            Highlight
+          </button>
+          <div class="reactions-tip" role="tooltip" hidden />
+        </>
+      )}
+    </div>
+  )
+}
 
 <script>
+  import trash from '~/assets/icons/reactions/trash.svg?raw';
   import {
+    ago,
     type Highlight as Entry,
+    flag,
     MAX_HEARTS,
     MAX_TEXT,
     place,
+    plural,
     type Reactions,
   } from '~/utils/reactions';
   import { uiMode } from '~/utils/uiMode';
-  import trash from '~/assets/icons/reactions/trash.svg?raw';
+
+  // One line per heart given, then a last thanks once all ten are in.
+  const THANKS = [
+    'thank you',
+    'oh, twice?',
+    "you're too kind",
+    'steady on',
+    'halfway to ten',
+    'you really like this one',
+    "I'm blushing",
+    'nearly there',
+    'one more…',
+    'ten! you legend',
+  ];
 
   const box = document.querySelector<HTMLElement>('.reactions');
 
   if (box && uiMode() === 'classic') {
     box.hidden = false;
 
-    const slug = box.dataset.slug!;
+    const say = box.querySelector<HTMLElement>('.reactions-say')!;
+    const live = box.querySelector<HTMLElement>('[data-live]')!;
+    let holdUntil = 0;
+
+    // Show a line above a segment. Heart lines stay put for a moment, so a
+    // stray pointer move doesn't swap them for a hint.
+    const show = (seg: HTMLElement, text: string, hold = false) => {
+      if (!text || (!hold && Date.now() < holdUntil)) return;
+      if (hold) holdUntil = Date.now() + 1800;
+      const pill = seg.parentElement!.getBoundingClientRect();
+      const rect = seg.getBoundingClientRect();
+      say.style.setProperty('--x', `${rect.left - pill.left + rect.width / 2}px`);
+      say.textContent = text;
+      say.hidden = false;
+      // restart the pop, so every heart gets one
+      say.classList.remove('reactions-pop');
+      void say.offsetWidth;
+      say.classList.add('reactions-pop');
+    };
+    const hide = () => {
+      const wait = holdUntil - Date.now();
+      if (wait > 0) setTimeout(hide, wait);
+      else say.hidden = true;
+    };
+
+    for (const seg of box.querySelectorAll<HTMLElement>('[data-hint]')) {
+      seg.addEventListener('pointerenter', () => show(seg, seg.dataset.hint!));
+      seg.addEventListener('pointerleave', hide);
+    }
+
+    if (box.dataset.slug) reactions(box, box.dataset.slug, show, hide, live);
+  }
+
+  function reactions(
+    box: HTMLElement,
+    slug: string,
+    show: (seg: HTMLElement, text: string, hold?: boolean) => void,
+    hide: () => void,
+    live: HTMLElement,
+  ) {
     const panel = box.querySelector<HTMLElement>('.reactions-panel');
     const list = panel?.querySelector('ol');
+    const foot = panel?.querySelector<HTMLElement>('.reactions-foot');
     const root = panel && document.querySelector<HTMLElement>('[data-highlightable]');
     const heart = box.querySelector<HTMLButtonElement>('.reactions-heart')!;
-    const add = box.querySelector<HTMLButtonElement>('.reactions-add')!;
-    const tip = box.querySelector<HTMLElement>('.reactions-tip')!;
-    const toggles = [...box.querySelectorAll<HTMLButtonElement>('[data-show]')];
+    const reads = box.querySelector<HTMLElement>('[data-reads]')!;
+    const add = box.querySelector<HTMLButtonElement>('.reactions-add');
+    const tip = box.querySelector<HTMLElement>('.reactions-tip');
+    const filters = [...box.querySelectorAll<HTMLButtonElement>('[data-show]')];
     const canDraw = 'highlights' in CSS;
     const compact = new Intl.NumberFormat('en', { notation: 'compact' });
+    const number = new Intl.NumberFormat('en-GB');
     const when = new Intl.DateTimeFormat(undefined, {
       dateStyle: 'medium',
       timeStyle: 'short',
@@ -117,7 +283,7 @@ const eyeSlash = hide(eyeSlashIcon).replace(
     } catch {}
 
     // Open any page with #admin=<REACTIONS_ADMIN_TOKEN> to delete anyone's
-    // highlights from then on; #admin= forgets it. A fragment never reaches the
+    // marks from then on; #admin= forgets it. A fragment never reaches the
     // server logs.
     let token = '';
     try {
@@ -136,7 +302,7 @@ const eyeSlash = hide(eyeSlashIcon).replace(
       highlights: [],
       admin: false,
     };
-    const show = { mine: true, them: true };
+    let filter = 'all';
     let drawn: { h: Entry; range: Range }[] = [];
     let pending: { text: string; start: number; range: Range } | undefined;
 
@@ -150,6 +316,7 @@ const eyeSlash = hide(eyeSlashIcon).replace(
     };
 
     // The text nodes of root as one string: offsets in it are what we store.
+    // A start exactly at the end of a text node belongs to the next one.
     const rangeAt = (start: number, end: number) => {
       const walker = document.createTreeWalker(root!, NodeFilter.SHOW_TEXT);
       const range = document.createRange();
@@ -157,7 +324,7 @@ const eyeSlash = hide(eyeSlashIcon).replace(
       let started = false;
       for (let node = walker.nextNode(); node; node = walker.nextNode()) {
         const len = (node as Text).length;
-        if (!started && start <= pos + len) {
+        if (!started && start < pos + len) {
           range.setStart(node, start - pos);
           started = true;
         }
@@ -169,8 +336,8 @@ const eyeSlash = hide(eyeSlashIcon).replace(
       }
     };
 
-    // Ranges for each highlight. If the page was edited since, look for the
-    // text anywhere; if it is gone, the highlight is only in the list.
+    // Ranges for each mark. If the page was edited since, look for the text
+    // anywhere; if it is gone, the mark is only in the list.
     const locate = () => {
       const full = root?.textContent ?? '';
       drawn = data.highlights.flatMap((h) => {
@@ -180,13 +347,14 @@ const eyeSlash = hide(eyeSlashIcon).replace(
       });
     };
 
-    const visible = (h: Entry) => (h.mine ? show.mine : show.them);
+    const visible = (h: Entry) =>
+      filter === 'all' || (filter === 'mine') === h.mine;
 
     const draw = () => {
       if (!canDraw) return;
       for (const kind of ['mine', 'them'] as const) {
         const ranges = drawn
-          .filter(({ h }) => h.mine === (kind === 'mine') && show[kind])
+          .filter(({ h }) => visible(h) && h.mine === (kind === 'mine'))
           .map(({ range }) => range);
         CSS.highlights.set(`reactions-${kind}`, new Highlight(...ranges));
       }
@@ -210,22 +378,32 @@ const eyeSlash = hide(eyeSlashIcon).replace(
     };
 
     const renderList = () => {
-      if (!panel || !list) return;
+      if (!list || !foot) return;
       const items = data.highlights.filter(visible).map((h) => {
         const li = document.createElement('li');
+        if (h.mine) li.dataset.mine = '';
         const button = document.createElement('button');
         button.type = 'button';
-        button.textContent = `“${h.text.replace(/\s+/g, ' ')}”`;
         button.title = describe(h);
         button.disabled = !drawn.some((d) => d.h.id === h.id);
         button.addEventListener('click', () => goTo(h.id));
+        const quote = document.createElement('q');
+        quote.textContent = h.text.replace(/\s+/g, ' ');
+        const who = document.createElement('span');
+        who.className = 'reactions-who';
+        const from = place(h.city, h.country);
+        who.textContent = `${
+          h.mine ? 'you' : [flag(h.country), from || 'someone'].filter(Boolean).join(' ')
+        } · ${ago(h.createdAt)}`;
+        button.appendChild(quote);
+        button.appendChild(who);
         li.appendChild(button);
         if (h.mine || data.admin) {
           const remove = document.createElement('button');
           remove.type = 'button';
           remove.className = 'reactions-delete';
           remove.innerHTML = trash.replace('<svg ', '<svg aria-hidden="true" ');
-          remove.setAttribute('aria-label', 'Delete this highlight');
+          remove.setAttribute('aria-label', 'Delete this mark');
           remove.title = 'Delete';
           remove.addEventListener('click', () => send({ action: 'delete', id: h.id }));
           li.appendChild(remove);
@@ -233,13 +411,20 @@ const eyeSlash = hide(eyeSlashIcon).replace(
         return li;
       });
       list.replaceChildren(...items);
-      panel.querySelector<HTMLElement>('.reactions-empty')!.hidden =
-        items.length > 0;
+      foot.textContent = data.highlights.length
+        ? 'Select any sentence on the page to mark it.'
+        : 'Nothing marked yet. Select any sentence to be the first.';
     };
 
     const setCount = (name: string, n: number) => {
       const el = box.querySelector(`[data-count="${name}"]`);
       if (el) el.textContent = compact.format(n);
+    };
+
+    // "1 mark", "6 marks": the word after a count follows it.
+    const setWord = (word: string, n: number) => {
+      const el = box.querySelector(`[data-word="${word}"]`);
+      if (el) el.textContent = plural(n, word, `${word}s`);
     };
 
     function render(next: Reactions) {
@@ -248,32 +433,53 @@ const eyeSlash = hide(eyeSlashIcon).replace(
       setCount('hearts', data.hearts);
       setCount('views', data.views);
       setCount('highlights', data.highlights.length);
+      setCount('all', data.highlights.length);
       setCount('mine', mine);
       setCount('them', data.highlights.length - mine);
+      setWord('mark', data.highlights.length);
+      setWord('read', data.views);
       heart.setAttribute('aria-pressed', String(data.myHearts > 0));
-      heart.disabled = data.myHearts >= MAX_HEARTS;
+      heart.dataset.hint =
+        data.myHearts >= MAX_HEARTS
+          ? 'all ten given'
+          : data.myHearts
+            ? `${data.myHearts} given, ${MAX_HEARTS - data.myHearts} left`
+            : 'leave a heart';
+      reads.dataset.hint = `read by ${number.format(data.views)} ${plural(
+        data.views,
+        'person',
+        'people',
+      )}`;
       locate();
       draw();
       renderList();
     }
 
     heart.addEventListener('click', () => {
+      if (data.myHearts >= MAX_HEARTS) {
+        show(heart, 'all ten given. thank you', true);
+        hide();
+        return;
+      }
       // Count it now; the reply has the real number.
+      const line = THANKS[data.myHearts];
       render({ ...data, hearts: data.hearts + 1, myHearts: data.myHearts + 1 });
+      show(heart, line, true);
+      live.textContent = line;
+      hide();
       send({ action: 'heart' });
     });
 
-    for (const toggle of toggles) {
-      toggle.addEventListener('click', () => {
-        const kind = toggle.dataset.show as keyof typeof show;
-        show[kind] = !show[kind];
-        toggle.setAttribute('aria-pressed', String(show[kind]));
+    for (const button of filters) {
+      button.addEventListener('click', () => {
+        filter = button.dataset.show!;
+        for (const b of filters) b.setAttribute('aria-pressed', String(b === button));
         draw();
         renderList();
       });
     }
 
-    if (root) {
+    if (root && add && tip) {
       // Show the Highlight button above a selection inside root.
       document.addEventListener('selectionchange', () => {
         const selection = document.getSelection();
@@ -314,7 +520,7 @@ const eyeSlash = hide(eyeSlashIcon).replace(
         document.getSelection()?.removeAllRanges();
       });
 
-      // The highlights aren't elements, so find the one under the pointer.
+      // The marks aren't elements, so find the one under the pointer.
       let frame = 0;
       root.addEventListener('pointermove', ({ clientX: x, clientY: y }) => {
         cancelAnimationFrame(frame);

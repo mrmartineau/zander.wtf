@@ -3,7 +3,6 @@ import BlockAbout from '~/components/BlockAbout.astro';
 import BlockBlog from '~/components/BlockBlog.astro';
 import BlockLinks from '~/components/BlockLinks.astro';
 import BlockNotes from '~/components/BlockNotes.astro';
-import ModeCard from '~/components/ModeCard.astro';
 import PromotedProjects from '~/components/PromotedProjects.astro';
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import { SITE_METADATA } from '../consts';
@@ -22,7 +21,6 @@ const slug = 'home';
     <section id="projects" data-window="Projects">
       <PromotedProjects />
     </section>
-    <ModeCard />
     <div class="zm-home-grid1">
       <section id="blog" data-window="Latest posts">
         <BlockBlog />
