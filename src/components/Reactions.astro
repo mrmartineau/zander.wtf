@@ -19,6 +19,7 @@
 // Styles: src/styles/components/reactions.css.
 import appWindowIcon from '~/assets/icons/reactions/app-window.svg?raw';
 import browserIcon from '~/assets/icons/reactions/browser.svg?raw';
+import eyeIcon from '~/assets/icons/reactions/eye.svg?raw';
 import heartIcon from '~/assets/icons/reactions/heart-fill.svg?raw';
 import highlighterIcon from '~/assets/icons/reactions/highlighter.svg?raw';
 import terminalIcon from '~/assets/icons/reactions/terminal-window.svg?raw';
@@ -98,14 +99,14 @@ const flavourList = [
                 >
                   <Fragment set:html={icon(highlighterIcon)} />
                   <span>
-                    <span data-count="highlights">0</span>{' '}
-                    <span class="reactions-word" data-word="mark">marks</span>
+                    <span data-count="highlights">0</span>
                   </span>
                 </button>
               )}
               <span class="reactions-seg" data-hint="" data-reads>
-                <span data-count="views">0</span>{' '}
-                <span class="reactions-word" data-word="read">reads</span>
+                <Fragment set:html={icon(eyeIcon)} />
+                <span data-count="views">0</span>
+                <span class="visually-hidden">reads</span>
               </span>
             </>
           )}
@@ -267,8 +268,7 @@ const flavourList = [
     const tip = box.querySelector<HTMLElement>('.reactions-tip');
     const filters = [...box.querySelectorAll<HTMLButtonElement>('[data-show]')];
     const canDraw = 'highlights' in CSS;
-    const compact = new Intl.NumberFormat('en', { notation: 'compact' });
-    const number = new Intl.NumberFormat('en-GB');
+    const compact = new Intl.NumberFormat('en-GB', { notation: 'compact' });
     const when = new Intl.DateTimeFormat(undefined, {
       dateStyle: 'medium',
       timeStyle: 'short',
@@ -445,7 +445,7 @@ const flavourList = [
           : data.myHearts
             ? `${data.myHearts} given, ${MAX_HEARTS - data.myHearts} left`
             : 'leave a heart';
-      reads.dataset.hint = `read by ${number.format(data.views)} ${plural(
+      reads.dataset.hint = `read by ${compact.format(data.views)} ${plural(
         data.views,
         'person',
         'people',
