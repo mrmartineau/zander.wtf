@@ -33,5 +33,7 @@ One feature that I would like to implement is to automatically name each media-q
 
 **If anyone has any thoughts, ideas or suggestions I would really appreciate it. Please [fork it on Github](https://github.com/mrmartineau/Choreographic-Grid) too**
 
-- [Demo site](http://mrmartineau.github.com/Choreographic-Grid/test.html) - [http://mrmartineau.github.com/Choreographic-Grid/test.html](http://mrmartineau.github.com/Choreographic-Grid/test.html)
-- [All features on one page](http://mrmartineau.github.com/Choreographic-Grid/index.html) - [http://mrmartineau.github.com/Choreographic-Grid/index.html](http://mrmartineau.github.com/Choreographic-Grid/index.html)
+- [Demo site](http://mrmartineau.github.com/Choreographic-Grid/test.html)
+- [http://mrmartineau.github.com/Choreographic-Grid/test.html](http://mrmartineau.github.com/Choreographic-Grid/test.html)
+- [All features on one page](http://mrmartineau.github.com/Choreographic-Grid/index.html)
+- [http://mrmartineau.github.com/Choreographic-Grid/index.html](http://mrmartineau.github.com/Choreographic-Grid/index.html)

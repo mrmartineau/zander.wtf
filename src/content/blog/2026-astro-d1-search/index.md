@@ -1,6 +1,6 @@
 ---
 slug: astro-cloudflare-d1-search
-title: Building site search with Astro and Cloudflare D1
+title: How I replaced Algolia on my Astro site with Cloudflare D1
 subtitle: Replacing Algolia on this very website with a self-owned, full-text search API built on Cloudflare D1 and SQLite FTS5, searchable from the site itself and from Raycast
 date: 2026-07-21
 tags:
@@ -9,6 +9,8 @@ tags:
   - search
   - side-project
 ---
+
+> **Update, 2 August 2026:** I turned this into an Astro integration. See [astro-d1-search](/blog/astro-d1-search-package) to add it to your own site.
 
 For a while, the search on this site was a bit of an odd duck. My [code notes](/notes) were indexed in Algolia, but nothing else was searchable: not the blog, not my [projects](/projects), not the [worklog](/worklog). Algolia worked fine, but it always felt like a lot of third-party machinery for what is, at heart, a few hundred markdown files. And I had a second itch: I wanted to search my site from [Raycast](https://www.raycast.com/), which means I needed an actual HTTP API, not a JavaScript widget.
 

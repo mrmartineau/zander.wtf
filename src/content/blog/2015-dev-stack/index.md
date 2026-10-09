@@ -5,6 +5,8 @@ subtitle: 'Tools of the trade when developing for the web'
 date: 2015-01-20
 ---
 
+> **Update, 9 October 2026:** this list is from 2015 and most of it has changed. See [/uses](/uses) for what I use now. I keep that page up to date.
+
 I read this [post](https://medium.com/@quasado/do-better-than-sketch-photoshop-or-any-other-design-tool-b8db106815a1) a while back about design stacks & it got me thinking about my own, albeit focused more on development. Below you'll find a fairly comprehensive list of the tools I regularly use for [front-end](https://news.layervault.com/click/stories/42206) development in a creative agency.
 
 ## Development apps
