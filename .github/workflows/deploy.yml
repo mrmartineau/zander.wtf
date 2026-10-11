@@ -9,6 +9,8 @@ env:
   SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
   ZM_API: ${{ secrets.ZM_API }}
   SUPABASE_USER_API_KEY: ${{ secrets.SUPABASE_USER_API_KEY }}
+  # Built-in Actions token; lifts the GitHub API rate limit for /now
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 on:
   schedule:
