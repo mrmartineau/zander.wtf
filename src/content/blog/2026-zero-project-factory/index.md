@@ -1,6 +1,6 @@
 ---
 slug: zero-project-factory
-title: 'Zero: my project factory'
+title: 'Introducing Zero, my project factory'
 subtitle: How a single GitHub Actions workflow takes me from an idea on my phone to a scaffolded, deployed-ready project with a database, secrets, and Claude already building it.
 date: 2026-07-08
 tags:

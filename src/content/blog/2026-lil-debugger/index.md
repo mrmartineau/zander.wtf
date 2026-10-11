@@ -1,6 +1,6 @@
 ---
 slug: lil-debugger
-title: "Lil' Debugger"
+title: "Introducing Lil' Debugger"
 subtitle: "I've hacked the same debug overlay into almost every job I've had, so I finally made it a proper package that shows the data behind any element when you hold Ctrl+Shift."
 date: 2026-10-05
 tags:

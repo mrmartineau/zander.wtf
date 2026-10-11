@@ -1,6 +1,6 @@
 ---
 slug: time-tutor
-title: Time Tutor now available on the App Store
+title: Introducing Time Tutor
 subtitle: My second iOS app is out. A clock face that teaches the 12-hour and 24-hour clock at the same time, and it started life as a web page I built for my son.
 date: 2026-09-15
 tags:

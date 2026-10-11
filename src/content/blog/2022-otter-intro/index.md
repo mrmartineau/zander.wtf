@@ -1,6 +1,6 @@
 ---
 slug: otter-intro
-title: Otter
+title: Introducing Otter
 subtitle: An introduction to my side-project
 date: 2022-09-21
 modified: 2022-12-01

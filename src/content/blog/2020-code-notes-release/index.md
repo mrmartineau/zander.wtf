@@ -1,6 +1,6 @@
 ---
 slug: code-notes-release
-title: Announcing Code Notes
+title: Introducing Code Notes
 subtitle: A Gatsby theme for publishing code-related notes and snippets
 date: 2020-06-11
 opengraphImage: code-notes-release.jpg

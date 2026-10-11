@@ -1,6 +1,6 @@
 ---
 slug: astro-d1-search-package
-title: 'astro-d1-search: site search for Astro in one integration'
+title: 'Introducing astro-d1-search: site search for Astro in one integration'
 subtitle: I extracted the search implementation I built for this site into an npm package, so you can add full-text search to your own Astro site
 date: 2026-08-02
 tags:
