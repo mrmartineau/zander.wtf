@@ -2,10 +2,15 @@
 import SearchForm from '~/components/SearchForm.astro';
 import ContentLayout from './ContentLayout.astro';
 
-const { title, subtitle, slug } = Astro.props;
+const { title, subtitle, slug, reactions } = Astro.props;
 ---
 
-<ContentLayout title={title} subtitle={subtitle} slug={slug}>
+<ContentLayout
+  title={title}
+  subtitle={subtitle}
+  slug={slug}
+  reactions={reactions}
+>
   <div class="note-main">
     <div class="mb-6">
       <SearchForm placeholder="Search notes..." />

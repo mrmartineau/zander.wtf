@@ -16,6 +16,12 @@ const slug = 'home';
   title={SITE_METADATA[slug].title}
   subtitle={SITE_METADATA[slug].subtitle}
   slug={slug}
+  reactions={{
+    slug: '/',
+    frontmatter: {
+      reactions: true,
+    }
+  }}
 >
   <div class="zm-mainContainer zm-home">
     <section id="projects" data-window="Projects">
