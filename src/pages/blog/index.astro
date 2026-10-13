@@ -14,6 +14,12 @@ const slug = 'blog';
   title={SITE_METADATA[slug].title}
   subtitle={SITE_METADATA[slug].subtitle}
   slug={slug}
+  reactions={{
+    slug: '/blog',
+    frontmatter: {
+      reactions: true,
+    }
+  }}
 >
   <BlogList posts={posts} />
 </ContentLayout>

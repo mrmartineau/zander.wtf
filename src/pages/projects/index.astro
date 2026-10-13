@@ -33,6 +33,12 @@ const slug = 'projects';
   title={SITE_METADATA[slug].title}
   subtitle={SITE_METADATA[slug].subtitle}
   slug={slug}
+  reactions={{
+    slug: '/projects',
+    frontmatter: {
+      reactions: true,
+    }
+  }}
 >
   <nav class="zm-project-nav" aria-label="Jump to a section">
     {

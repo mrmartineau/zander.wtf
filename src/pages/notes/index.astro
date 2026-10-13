@@ -16,7 +16,16 @@ const title = SITE_METADATA[slug].title;
 const subtitle = SITE_METADATA[slug].subtitle;
 ---
 
-<NoteLayout title={title} subtitle={subtitle} slug={slug}>
+<NoteLayout
+  title={title}
+  subtitle={subtitle}
+  slug={slug}
+  reactions={{
+    slug: '/notes',
+    frontmatter: {
+      reactions: true,
+    }
+}}>
   <NoteList notes={notes} />
 </NoteLayout>
 

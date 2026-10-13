@@ -74,6 +74,12 @@ const latestNotes = hasQuery
   title={SITE_METADATA.search.title}
   subtitle={SITE_METADATA.search.subtitle}
   slug="search"
+  reactions={{
+    slug: '/search',
+    frontmatter: {
+      reactions: true,
+    }
+  }}
 >
   <div class="search-page">
     <SearchForm query={query} action="/search" placeholder="Search the site..." autofocus />

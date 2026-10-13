@@ -1,16 +1,16 @@
-import { execSync } from 'node:child_process';
-import { readFileSync } from 'node:fs';
-import cloudflare from '@astrojs/cloudflare';
-import mdx from '@astrojs/mdx';
-import sitemap from '@astrojs/sitemap';
-import solidJs from '@astrojs/solid-js';
-import { defineConfig } from 'astro/config';
-import d1Reactions from 'astro-d1-reactions';
-import d1Search from 'astro-d1-search';
-import rehypeExternalLinks from 'rehype-external-links';
-import searchConfig from './search.config.ts';
+import { execSync } from 'node:child_process'
+import { readFileSync } from 'node:fs'
+import cloudflare from '@astrojs/cloudflare'
+import mdx from '@astrojs/mdx'
+import sitemap from '@astrojs/sitemap'
+import solidJs from '@astrojs/solid-js'
+import { defineConfig } from 'astro/config'
+import d1Reactions from 'astro-d1-reactions'
+import d1Search from 'astro-d1-search'
+import rehypeExternalLinks from 'rehype-external-links'
+import searchConfig from './search.config.ts'
 
-const commitHash = execSync('git rev-parse --short HEAD').toString();
+const commitHash = execSync('git rev-parse --short HEAD').toString()
 
 // Mark links to other sites in markdown (blog, notes) with an icon, plus hidden
 // text for screen readers. rel: [] drops the plugin's default rel="nofollow".
@@ -37,7 +37,7 @@ const externalLinks = [
       },
     ],
   },
-];
+]
 
 // Dev stand-in for the /desktop/* and /tui/* rewrites in public/_redirects:
 // serve the plain page, keep the URL. See src/utils/uiMode.ts.
@@ -46,12 +46,12 @@ const uiModeRewrites = {
   hooks: {
     'astro:server:setup': ({ server }) => {
       server.middlewares.use((req, _res, next) => {
-        req.url = req.url.replace(/^\/(desktop|tui|txt)(?=\/|$)/, '') || '/';
-        next();
-      });
+        req.url = req.url.replace(/^\/(desktop|tui|txt)(?=\/|$)/, '') || '/'
+        next()
+      })
     },
   },
-};
+}
 
 // Lil' Debugger demo: put a data-debug attribute on the first element of every
 // component and layout, holding its name, file and plain props. Hold Ctrl+Shift
@@ -69,27 +69,27 @@ const skipTags = new Set([
   'style',
   'script',
   'slot',
-]);
+])
 const lilDebugTags = {
   name: 'lil-debug-tags',
   enforce: 'pre',
   // load, not transform: Astro compiles .astro files in its own transform,
   // which runs first, so this has to hand it the changed source.
   load(id) {
-    const match = id.match(/\/(src\/(?:components|layouts)\/.+\.astro)$/);
-    if (!match) return;
-    const code = readFileSync(id, 'utf8');
-    const fence = code.startsWith('---') ? code.indexOf('---', 3) + 3 : 0;
-    const tag = /<([a-z][a-z0-9-]*)(?=[\s>/])/g;
-    tag.lastIndex = fence;
-    const first = tag.exec(code);
-    if (!first || skipTags.has(first[1])) return;
-    const end = first.index + first[0].length;
-    const component = match[1].split('/').pop().replace('.astro', '');
-    const attr = ` data-debug={JSON.stringify({ component: ${JSON.stringify(component)}, file: ${JSON.stringify(match[1])}, ...Object.fromEntries(Object.entries(Astro.props).filter(([k, v]) => !k.startsWith('data-astro-') && v != null && typeof v !== 'object' && typeof v !== 'function' && String(v).length <= 80)) })}`;
-    return code.slice(0, end) + attr + code.slice(end);
+    const match = id.match(/\/(src\/(?:components|layouts)\/.+\.astro)$/)
+    if (!match) return
+    const code = readFileSync(id, 'utf8')
+    const fence = code.startsWith('---') ? code.indexOf('---', 3) + 3 : 0
+    const tag = /<([a-z][a-z0-9-]*)(?=[\s>/])/g
+    tag.lastIndex = fence
+    const first = tag.exec(code)
+    if (!first || skipTags.has(first[1])) return
+    const end = first.index + first[0].length
+    const component = match[1].split('/').pop().replace('.astro', '')
+    const attr = ` data-debug={JSON.stringify({ component: ${JSON.stringify(component)}, file: ${JSON.stringify(match[1])}, ...Object.fromEntries(Object.entries(Astro.props).filter(([k, v]) => !k.startsWith('data-astro-') && v != null && typeof v !== 'object' && typeof v !== 'function' && String(v).length <= 80)) })}`
+    return code.slice(0, end) + attr + code.slice(end)
   },
-};
+}
 
 // https://astro.build/config
 export default defineConfig({
@@ -104,7 +104,13 @@ export default defineConfig({
       highlights: ['/blog/', '/notes/'],
       // What /stats lists. Worklog first: the first match for a path wins.
       pages: [
-        { collection: 'blog', where: 'worklog', url: '/blog/:slug', type: 'Worklog', noun: 'the worklog entry' },
+        {
+          collection: 'blog',
+          where: 'worklog',
+          url: '/blog/:slug',
+          type: 'Worklog',
+          noun: 'the worklog entry',
+        },
         { collection: 'blog', url: '/blog/:slug', type: 'Post' },
         { collection: 'codenotes', url: '/notes/:slug', type: 'Note' },
         { collection: 'projects', url: '/projects/:slug', type: 'Project' },
@@ -150,4 +156,4 @@ export default defineConfig({
     // Exposes wrangler.toml bindings (SEARCH_DB) to astro dev via Astro.locals.runtime
     platformProxy: { enabled: true },
   }),
-});
+})

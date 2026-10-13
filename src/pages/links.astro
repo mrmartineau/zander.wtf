@@ -19,6 +19,12 @@ const slug = 'links';
   title={SITE_METADATA[slug].title}
   subtitle={SITE_METADATA[slug].subtitle}
   slug={slug}
+  reactions={{
+    slug: '/links',
+    frontmatter: {
+      reactions: true,
+    }
+  }}
 >
   <div>
     Otter is a self-hosted personal bookmarking app I made, find out more about it <a
