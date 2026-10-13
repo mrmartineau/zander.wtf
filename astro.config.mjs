@@ -5,6 +5,7 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import solidJs from '@astrojs/solid-js';
 import { defineConfig } from 'astro/config';
+import d1Reactions from 'astro-d1-reactions';
 import d1Search from 'astro-d1-search';
 import rehypeExternalLinks from 'rehype-external-links';
 import searchConfig from './search.config.ts';
@@ -98,6 +99,26 @@ export default defineConfig({
     sitemap(),
     solidJs(),
     d1Search(searchConfig),
+    d1Reactions({
+      database: 'zander-wtf-reactions',
+      highlights: ['/blog/', '/notes/'],
+      // What /stats lists. Worklog first: the first match for a path wins.
+      pages: [
+        { collection: 'blog', where: 'worklog', url: '/blog/:slug', type: 'Worklog', noun: 'the worklog entry' },
+        { collection: 'blog', url: '/blog/:slug', type: 'Post' },
+        { collection: 'codenotes', url: '/notes/:slug', type: 'Note' },
+        { collection: 'projects', url: '/projects/:slug', type: 'Project' },
+        { url: '/uses', title: 'My setup' },
+        { url: '/now', title: 'Now' },
+        { url: '/cv', title: 'CV' },
+        { url: '/zed-stack', title: 'The Zed Stack' },
+        { url: '/colophon', title: 'Colophon' },
+        { url: '/feeds', title: 'Feeds' },
+        { url: '/stats', title: 'Stats' },
+        { url: '/moons', title: 'Moons' },
+        { url: '/lil-debugger', title: "Lil' Debugger" },
+      ],
+    }),
     uiModeRewrites,
   ],
   prefetch: {

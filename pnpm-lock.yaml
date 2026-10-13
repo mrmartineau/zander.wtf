@@ -163,6 +163,9 @@ importers:
       astro:
         specifier: ^5.16.15
         version: 5.16.15(jiti@1.21.7)(lightningcss@1.30.2)(rollup@4.56.0)(supports-color@10.2.2)(tsx@4.23.1)(typescript@5.9.3)(yaml@2.8.2)
+      astro-d1-reactions:
+        specifier: link:../astro-d1-reactions
+        version: link:../astro-d1-reactions
       astro-d1-search:
         specifier: ^1.0.0
         version: 1.0.0(astro@5.16.15(jiti@1.21.7)(lightningcss@1.30.2)(rollup@4.56.0)(supports-color@10.2.2)(tsx@4.23.1)(typescript@5.9.3)(yaml@2.8.2))
