@@ -164,8 +164,8 @@ importers:
         specifier: ^5.16.15
         version: 5.16.15(jiti@1.21.7)(lightningcss@1.30.2)(rollup@4.56.0)(supports-color@10.2.2)(tsx@4.23.1)(typescript@5.9.3)(yaml@2.8.2)
       astro-d1-reactions:
-        specifier: link:../astro-d1-reactions
-        version: link:../astro-d1-reactions
+        specifier: 1.0.0
+        version: 1.0.0(astro@5.16.15(jiti@1.21.7)(lightningcss@1.30.2)(rollup@4.56.0)(supports-color@10.2.2)(tsx@4.23.1)(typescript@5.9.3)(yaml@2.8.2))
       astro-d1-search:
         specifier: ^1.0.0
         version: 1.0.0(astro@5.16.15(jiti@1.21.7)(lightningcss@1.30.2)(rollup@4.56.0)(supports-color@10.2.2)(tsx@4.23.1)(typescript@5.9.3)(yaml@2.8.2))
@@ -2372,6 +2372,12 @@ packages:
   astring@1.9.0:
     resolution: {integrity: sha512-LElXdjswlqjWrPpJFg1Fx4wpkOCxj1TDHlSV4PlaRxHGWko024xICaa97ZkMfs6DRKlCguiAI+rbXv5GWwXIkg==}
     hasBin: true
+
+  astro-d1-reactions@1.0.0:
+    resolution: {integrity: sha512-jipQ2YlcppRWBNJ1V+xAo5hXhFgxyY4mnWWOVJ/3MzEqYR0hJSz2+ikvFzJXoSPjrY0wubHGXr0mxsRfPCbb3g==}
+    engines: {node: '>=20.19.0'}
+    peerDependencies:
+      astro: ^5.0.0 || ^6.0.0 || ^7.0.0
 
   astro-d1-search@1.0.0:
     resolution: {integrity: sha512-29F6jHEbjPdqvmlUWXltTADorGehvtvcROsT9JlZsWl4XkCkMtqlbWHKOY3rKYlGH/dUCQgOQXlnfeb6q76HuQ==}
@@ -6200,6 +6206,10 @@ snapshots:
   assertion-error@2.0.1: {}
 
   astring@1.9.0: {}
+
+  astro-d1-reactions@1.0.0(astro@5.16.15(jiti@1.21.7)(lightningcss@1.30.2)(rollup@4.56.0)(supports-color@10.2.2)(tsx@4.23.1)(typescript@5.9.3)(yaml@2.8.2)):
+    dependencies:
+      astro: 5.16.15(jiti@1.21.7)(lightningcss@1.30.2)(rollup@4.56.0)(supports-color@10.2.2)(tsx@4.23.1)(typescript@5.9.3)(yaml@2.8.2)
 
   astro-d1-search@1.0.0(astro@5.16.15(jiti@1.21.7)(lightningcss@1.30.2)(rollup@4.56.0)(supports-color@10.2.2)(tsx@4.23.1)(typescript@5.9.3)(yaml@2.8.2)):
     dependencies:
