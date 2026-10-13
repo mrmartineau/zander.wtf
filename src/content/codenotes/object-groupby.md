@@ -165,7 +165,7 @@ function Contacts({ people }: { people: Person[] }) {
 }
 ```
 
-Sort the list **before** you group it. Each group keeps the items in their original order.
+It's [O(n)](/notes/big-o-notation/): it goes through the list once. Sort the list **before** you group it. Each group keeps the items in their original order.
 
 ## Gotchas
 

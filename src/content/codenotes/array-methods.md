@@ -13,6 +13,8 @@ Below are some of the methods that _iterate_ - in other words, that operate on t
 
 All array methods iterate in what is traditionally called "left to right" - more accurately (and less ethnocentrically) from index `0`, to index `length - 1` - also called "start" to "end". `reduceRight` is an exception in that it iterates in reverse - from `end` to `start`.
 
+Each method lists its _big O_ - how its run time grows as the list gets longer, where `n` is the length of the list. See [Big O notation](/notes/big-o-notation/) for what that means, and [its table of JavaScript operations](/notes/big-o-notation/#javascript-operations) for the methods not covered here, like `push` and `shift`.
+
 ---
 
 ### `forEach`
@@ -20,6 +22,7 @@ All array methods iterate in what is traditionally called "left to right" - more
 - _callback answers_: here’s an item. do something nutty with it, i don't care what.
 - _callback gets these arguments_: `item`, `index`, `list`
 - _final return value_: nothing - in other words, `undefined`
+- _big O_: O(n)
 - _example use case_:
 
 ```js
@@ -33,6 +36,7 @@ All array methods iterate in what is traditionally called "left to right" - more
 - _callback answers_: here’s an item. what should i put in the new list in its place?
 - _callback gets these arguments_: `item`, `index`, `list`
 - _final return value_: list of new items
+- _big O_: O(n)
 - _example use case_:
 
 ```js
@@ -49,6 +53,7 @@ console.log(three === doubled, doubled) // false, [2, 4, 6]
 - _callback answers_: should i keep this item?
 - _callback gets these arguments_: `item`, `index`, `list`
 - _final return value_: list of kept items
+- _big O_: O(n)
 - _example use case_:
 
 ```js
@@ -64,6 +69,7 @@ console.log(ints === evens, evens) // false, [2]
 - _callback answers_: here’s the result from the previous iteration. what should i pass to the next iteration?
 - _callback gets these arguments_: `result`, `item`, `index`, `list`
 - _final return value_: result of last iteration
+- _big O_: O(n)
 - _example use case_:
 
 ```js
@@ -83,6 +89,7 @@ const sum = [1, 2, 3].reduce((result, item) => {
 - _callback gets these arguments_: `item`, `index`, `list`
 - _final return value_: `true` after the first item that meets your criteria, else `false`
 - **note**: stops iterating once it receives a truthy value from your callback.
+- _big O_: O(n) at worst. It can stop early, but in the worst case it checks every item
 - _example use case_:
 
 ```js
@@ -99,6 +106,7 @@ console.log(hasNegativeNumbers) // true
 - _callback gets these arguments_: `item`, `index`, `list`
 - _final return value_: `false` after the first item that failed to meet your criteria, else `true`
 - **note**: stops iterating once it receives a falsy value from your callback.
+- _big O_: O(n) at worst. It can stop early, but in the worst case it checks every item
 - _example use case_:
 
 ```js
@@ -115,6 +123,7 @@ console.log(allPositiveNumbers) // true
 - _callback gets these arguments_: `item`, `index`, `list`
 - _final return value_: the item you’re looking for, or undefined
 - **note**: stops iterating once it receives a truthy value from your callback.
+- _big O_: O(n) at worst. It can stop early, but in the worst case it checks every item
 - _example use case_:
 
 ```js
@@ -132,6 +141,7 @@ console.log(found === objects[1]) // true
 - _callback gets these arguments_: `item`, `index`, `list`
 - _final return value_: the index of the item you’re looking for, or `-1`
 - **note**: stops iterating once it receives a truthy value from your callback.
+- _big O_: O(n) at worst. It can stop early, but in the worst case it checks every item
 - _example use case_:
 
 ```js
@@ -149,6 +159,7 @@ console.log(foundIndex === 1) // true
 - _callback gets these arguments_: `item`, `index`, `list`
 - _final return value_: the last item that matches, or `undefined`
 - **note**: iterates from `end` to `start`, and stops once it receives a truthy value from your callback.
+- _big O_: O(n) at worst. It can stop early, but in the worst case it checks every item
 - _example use case_:
 
 ```js
@@ -162,6 +173,7 @@ console.log(lastEven) // 4
 ### `findLastIndex`
 
 - Same as `findLast`, but returns the _index_ of the last matching item, or `-1`.
+- _big O_: O(n) at worst
 
 ```js
 const numbers = [1, 2, 3, 4, 5]
@@ -177,6 +189,7 @@ console.log(lastEvenIndex) // 3
 - _callback gets these arguments_: `item`, `index`, `list`
 - _final return value_: new list, flattened by one level
 - **note**: equivalent to `.map(...).flat()`, but in a single pass. Great for "map, but sometimes zero or many results per item".
+- _big O_: O(n + m), where m is the total length of the lists your callback returns
 - _example use case_:
 
 ```js
@@ -194,6 +207,7 @@ console.log(words) // ['hello', 'world', 'foo', 'bar']
 - _callback gets these arguments_: `oneElement`, `theOtherElement`
 - _final return value_: `number < 0`, if `oneElement` should preceed `theOtherElement`, `0` to keep the relative order, `> 0` to place `oneElement` at a later index than `theOtherElement`
 - **note**: `sort` _mutates_ the array in-place (and returns the same array). If you don't want that, use [`toSorted`](#tosorted) below.
+- _big O_: O(n log n)
 - _example use case_:
 
 ```js
@@ -268,6 +282,7 @@ For years, a handful of array methods (`sort`, `reverse`, `splice`) broke the "r
 
 - Non-mutating version of `sort`. Takes the same optional comparator callback.
 - _final return value_: a new, sorted list
+- _big O_: O(n log n), plus O(n) memory for the copy
 - _example use case_:
 
 ```js
@@ -281,6 +296,7 @@ console.log(names) // ['John', 'Doe', 'Foo', 'Bar'] - untouched!
 
 - Non-mutating version of `reverse`. No callback.
 - _final return value_: a new list in reverse order
+- _big O_: O(n)
 - _example use case_:
 
 ```js
@@ -295,6 +311,7 @@ console.log(numbers) // [1, 2, 3]
 - Non-mutating version of `splice`. Same arguments: `start`, `deleteCount`, then any items to insert.
 - _final return value_: a new list with items removed and/or inserted
 - **note**: unlike `splice` (which returns the _removed_ items), `toSpliced` returns the new modified list.
+- _big O_: O(n), because it copies the whole list
 - _example use case_:
 
 ```js
@@ -308,6 +325,7 @@ console.log(months) // ['Jan', 'Mar', 'Apr']
 
 - Non-mutating version of bracket assignment (`array[index] = value`). Takes an `index` (negative counts from the end) and a `value`.
 - _final return value_: a new list with the item at `index` replaced by `value`
+- _big O_: O(n), because it copies the whole list. Plain `array[index] = value` is O(1)
 - _example use case_:
 
 ```js
@@ -327,6 +345,7 @@ console.log(numbers.with(-1, 0)) // [1, 2, 0]
 ### `at`
 
 - Like bracket access, but accepts negative indices - `at(-1)` is the last item. So much nicer than `array[array.length - 1]`.
+- _big O_: O(1)
 
 ```js
 const numbers = [1, 2, 3]
@@ -337,6 +356,7 @@ console.log(numbers.at(0)) // 1
 ### `flat`
 
 - Flattens nested arrays by a given depth (default `1`). Pass `Infinity` to flatten fully.
+- _big O_: O(n), where n is the total number of items after flattening
 
 ```js
 const nested = [1, [2, [3, [4]]]]
@@ -347,6 +367,7 @@ console.log(nested.flat(Infinity)) // [1, 2, 3, 4]
 ### `includes`
 
 - Returns `true` if the array contains the given value. Simpler than `indexOf(x) !== -1`, and unlike `indexOf` it can find `NaN`.
+- _big O_: O(n). If you check the same list many times, put it in a `Set` and use `.has()`, which is O(1)
 
 ```js
 console.log([1, 2, 3].includes(2)) // true
@@ -359,6 +380,7 @@ console.log([Number.NaN].indexOf(Number.NaN)) // -1 🙃
 - Not an array method (it's a static method on `Object`), but it iterates a list just like the methods above. Groups items into an object keyed by whatever your callback returns. More in the [Object.groupBy](/notes/object-groupby/) note. Other built-ins that take a whole list, such as `Array.from`, `Object.fromEntries` and `Map.groupBy`, are listed in [Looping and iterating](/notes/js-array-looping/#static-methods-that-go-through-a-list).
 - _callback answers_: which group does this item belong to?
 - _callback gets these arguments_: `item`, `index`
+- _big O_: O(n)
 
 ```js
 const inventory = [

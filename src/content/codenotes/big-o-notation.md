@@ -280,6 +280,31 @@ function jumpSearch(arr, target) {
 
 ---
 
+## JavaScript operations
+
+The big O of everyday built-ins. `n` is the length of the array, or the number of keys. More detail on each array method in [Array methods](/notes/array-methods/).
+
+| Operation | Big O | Notes |
+|-----------|-------|-------|
+| `arr[i]`, `arr.at(i)`, `arr.length` | O(1) | |
+| `push`, `pop` | O(1) | Amortised: now and then the array grows and copies itself, but on average it's constant |
+| `shift`, `unshift` | O(n) | Every other item moves along one place |
+| `splice`, `toSpliced` | O(n) | |
+| `slice`, `concat`, `[...arr]`, `Array.from` | O(n) | Copies the items |
+| `indexOf`, `includes`, `find`, `findIndex`, `some`, `every` | O(n) | Can stop early, but the worst case checks every item |
+| `forEach`, `map`, `filter`, `reduce`, `flat`, `flatMap` | O(n) | |
+| `reverse`, `toReversed`, `with`, `fill`, `join` | O(n) | `with` copies the whole array; `arr[i] = x` is O(1) |
+| `sort`, `toSorted` | O(n log n) | |
+| `Map` / `Set`: `get`, `set`, `has`, `add`, `delete` | O(1) | On average |
+| `new Map(pairs)`, `new Set(arr)` | O(n) | |
+| `obj[key]`, `key in obj`, `delete obj[key]` | O(1) | On average |
+| `Object.keys`, `Object.values`, `Object.entries`, `Object.fromEntries` | O(n) | |
+| `Object.groupBy`, `Map.groupBy` | O(n) | |
+
+The traps: `find` or `includes` inside a loop is O(n²), so build a `Map` or `Set` first (see [Reshaping data](/notes/js-data-transformation/#indexing--turn-a-list-into-a-lookup)). A queue built on `shift` is O(n) for each item it takes out.
+
+---
+
 ## Space Complexity
 
 Big O also applies to **memory usage**:

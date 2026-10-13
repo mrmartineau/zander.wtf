@@ -198,7 +198,7 @@ const byCategory = orders.reduce((groups, order) => {
 
 ## Indexing — turn a list into a lookup
 
-If you ever write `list.find(...)` _inside_ a loop, you've built an accidental O(n²). Index the list **once** into a `Map` keyed by id, then every lookup is O(1):
+If you ever write `list.find(...)` _inside_ a loop, you've built an accidental [O(n²)](/notes/big-o-notation/). Index the list **once** into a `Map` keyed by id, then every lookup is O(1):
 
 ```js
 const orderById = new Map(orders.map((order) => [order.id, order]))
@@ -453,22 +453,24 @@ Each step does one job: `filter` narrows, `groupBy` buckets, `entries` makes it 
 
 ## Quick reference
 
-| I want to…                          | Reach for                                         |
-| ----------------------------------- | ------------------------------------------------- |
-| Reshape every item, same length out | `map`                                             |
-| Keep only some items                | `filter`                                          |
-| Collapse a list to a single value   | `reduce`                                          |
-| Split a list into keyed buckets     | `Object.groupBy` / `Map.groupBy`                  |
-| Look an item up by id, repeatedly   | `new Map(list.map(x => [x.id, x]))`               |
-| Get the unique values of something  | `[...new Set(values)]`                            |
-| Dedupe objects by a field           | `[...new Map(list.map(x => [x.id, x])).values()]` |
-| See what was added / removed        | `after.difference(before)`                        |
-| Merge data from two endpoints       | index one side in a `Map`, `map` other            |
-| Sort without mutating               | `toSorted`                                        |
-| Keyed object → renderable array     | `Object.entries(obj).map(...)`                    |
-| Array → keyed object                | `Object.fromEntries(pairs)`                       |
-| Transform an object's values        | `entries` → `map` → `fromEntries`                 |
-| Flatten one level of nesting        | `flat` / `flatMap`                                |
-| Build grid columns from object keys | `Object.keys(row).map(...)`                       |
+`n` is the length of the list. For what the big O column means, see [Big O notation](/notes/big-o-notation/).
+
+| I want to…                          | Reach for                                         | Big O |
+| ----------------------------------- | ------------------------------------------------- | ----- |
+| Reshape every item, same length out | `map`                                             | O(n) |
+| Keep only some items                | `filter`                                          | O(n) |
+| Collapse a list to a single value   | `reduce`                                          | O(n) |
+| Split a list into keyed buckets     | `Object.groupBy` / `Map.groupBy`                  | O(n) |
+| Look an item up by id, repeatedly   | `new Map(list.map(x => [x.id, x]))`               | O(n) once, then O(1) per lookup |
+| Get the unique values of something  | `[...new Set(values)]`                            | O(n) |
+| Dedupe objects by a field           | `[...new Map(list.map(x => [x.id, x])).values()]` | O(n) |
+| See what was added / removed        | `after.difference(before)`                        | O(n) |
+| Merge data from two endpoints       | index one side in a `Map`, `map` other            | O(n + m) |
+| Sort without mutating               | `toSorted`                                        | O(n log n) |
+| Keyed object → renderable array     | `Object.entries(obj).map(...)`                    | O(n) |
+| Array → keyed object                | `Object.fromEntries(pairs)`                       | O(n) |
+| Transform an object's values        | `entries` → `map` → `fromEntries`                 | O(n) |
+| Flatten one level of nesting        | `flat` / `flatMap`                                | O(n) |
+| Build grid columns from object keys | `Object.keys(row).map(...)`                       | O(n) |
 
 More detail on each method in [Array methods](/notes/array-methods/) and [Object.groupBy](/notes/object-groupby/). For every way to loop over arrays, objects, `Map`s and more, see [Looping and iterating](/notes/js-array-looping/).

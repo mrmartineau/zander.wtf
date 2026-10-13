@@ -155,3 +155,5 @@ $ exit
 
 > _
 ```
+
+To translate bash into fish (or the other way), see [Bash to Fish (and back)](/notes/bash-to-fish/).

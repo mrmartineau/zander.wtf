@@ -440,6 +440,6 @@ In current engines, `for`, `for...of` and `forEach` are all fast, and which is f
 
 Things that do make a difference:
 
-- `find` inside another loop is O(n²). Make a `Map` first, then look items up. See [Reshaping data](/notes/js-data-transformation/).
+- `find` inside another loop is [O(n²)](/notes/big-o-notation/#javascript-operations). Make a `Map` first, then look items up. See [Reshaping data](/notes/js-data-transformation/).
 - Chaining `filter().map().slice(0, 5)` on a huge array does all the work before `slice` throws most of it away. Stop early with a `for...of` and `break`, or use iterator helpers with `take`.
 - Don't use `for...in` on arrays. It's slow as well as wrong.

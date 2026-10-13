@@ -9,6 +9,8 @@ link: https://www.samanthaming.com/tidbits/43-3-ways-to-remove-array-duplicates
 
 ## Using `Set`
 
+This is [O(n)](/notes/big-o-notation/). The common `arr.filter((x, i) => arr.indexOf(x) === i)` trick is O(n²), because `indexOf` searches the array again for every item.
+
 ```js
 const array = ['🐑', 1, 2, '🐑', '🐑', 3]
 
