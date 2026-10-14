@@ -39,7 +39,7 @@ export const SITE_METADATA: Record<
   },
   now: {
     title: 'Now',
-    subtitle: `Films, TV, books, podcasts…and other things I'm currently enjoying`,
+    subtitle: `Films, TV, books, podcasts, code…and other things I'm currently enjoying`,
   },
   notes: {
     title: 'Code Notes',
