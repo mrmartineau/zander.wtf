@@ -18,6 +18,7 @@ const description = subtitle ?? excerpt(body ?? '');
   subtitle={subtitle}
   description={description}
   slug={slug}
+  article={{ date, tags }}
   reactions={{ slug: `/blog/${slug}` }}
 >
   <article class="zm-contentContainer">

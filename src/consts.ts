@@ -8,8 +8,8 @@ export const SITE_METADATA: Record<
   { title: string; subtitle?: string; ogTitle?: string }
 > = {
   home: {
-    title: `Hi! I'm Zander, I make web things`,
-    subtitle: `Zander Martineau's personal site. I'm a Staff Software Engineer at Dare Global with 15+ years shipping products, rewriting apps, and building POCs across front-end and full-stack.`,
+    title: `Zander Martineau | Front-end, design systems, SEO and AEO`,
+    subtitle: `Zander Martineau is a product engineer in London. Front-end, design systems, SEO, AEO, GEO and iOS apps. 18 years of experience.`,
   },
   blog: {
     title: 'Blog',
@@ -20,6 +20,11 @@ export const SITE_METADATA: Record<
   about: {
     title: 'About',
     subtitle: 'My name is Zander, I live in London, UK',
+  },
+  'work-with-me': {
+    title: 'Work with me',
+    subtitle:
+      'Websites and web apps, design systems, SEO, AEO, GEO and iPhone apps from a London product engineer',
   },
   colophon: {
     title: 'Colophon',
@@ -96,6 +101,10 @@ export const SITE_NAV_ITEMS = [
 
 export const SITE_FOOTER_ITEMS = [
   {
+    text: 'Work with me',
+    url: '/work-with-me',
+  },
+  {
     text: 'CV/Resume',
     url: '/cv',
   },
@@ -146,7 +155,7 @@ export const SITE_FOOTER_ITEMS = [
 ];
 
 export const ABOUT_ME = {
-  bio: `Product engineer with 18 years of experience, specialising in front-end and design systems - building products that work well for the people who use them.`,
+  bio: `Product engineer specialising in front-end web development, with 18 years of experience. I also work on design systems, SEO, AEO, GEO and iOS apps - building products that work well for the people who use them.`,
   email: 'mailto:hi+enquiry@zander.wtf',
 };
 
@@ -168,10 +177,10 @@ interface Jobs {
 }
 export const JOBS: Jobs = {
   current: {
-    name: 'Available for work',
-    url: ABOUT_ME.email,
+    name: 'Working on various projects',
+    url: '/work-with-me',
     description:
-      'Taking a break while I look for a new role. If you think I could be a good fit for your team, get in touch.',
+      "I'm working on various projects now, and I'm looking for my next role. Please take a look around and get in touch.",
   },
   previous: [
     {

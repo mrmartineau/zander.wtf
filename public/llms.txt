@@ -1,0 +1,17 @@
+# Zander Martineau
+
+> Personal site of Zander Martineau, a product engineer specialising in front-end web development, based in London, UK. Works on SEO, answer engine optimisation (AEO), generative engine optimisation (GEO), design systems, front-end engineering and iOS apps. Blog posts, worklog, code notes, projects, CV and more.
+
+## Main pages
+- [Work with me](https://zander.wtf/work-with-me): front-end engineering, design systems, SEO, AEO, GEO and iOS development
+- [About](https://zander.wtf/about): who I am
+- [Blog](https://zander.wtf/blog): posts and worklog entries
+- [Code notes](https://zander.wtf/notes): short technical notes
+- [Projects](https://zander.wtf/projects): side projects and packages
+- [CV](https://zander.wtf/cv): work history
+- [Now](https://zander.wtf/now): what I am doing now
+- [Uses](https://zander.wtf/uses): my setup
+
+## Feeds
+- [Blog RSS](https://zander.wtf/blog.rss.xml)
+- [Notes RSS](https://zander.wtf/notes.rss.xml)
