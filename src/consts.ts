@@ -24,7 +24,7 @@ export const SITE_METADATA: Record<
   'work-with-me': {
     title: 'Work with me',
     subtitle:
-      'Front-end engineering, design systems, SEO, AEO, GEO and iOS development from a London product engineer',
+      'Websites and web apps, design systems, SEO, AEO, GEO and iPhone apps from a London product engineer',
   },
   colophon: {
     title: 'Colophon',
