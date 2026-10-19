@@ -15,7 +15,7 @@ import { SITE_FOOTER_ITEMS, SITE_NAV_ITEMS } from '../consts';
 // `description` overrides it where a page needs the two to differ.
 // `reactions` turns on hearts and reads (and marks) in the bottom pill, which
 // every page gets for its flavour switch. See Reactions.astro.
-const { title, subtitle, description, image, slug, reactions } = Astro.props;
+const { title, subtitle, description, image, slug, reactions, article } = Astro.props;
 ---
 
 <html lang="en">
@@ -25,6 +25,7 @@ const { title, subtitle, description, image, slug, reactions } = Astro.props;
       description={description ?? subtitle}
       image={image}
       slug={slug}
+      article={article}
     />
     <script is:inline>
       // The URL prefix picks the front end. Keep in sync with src/utils/uiMode.ts

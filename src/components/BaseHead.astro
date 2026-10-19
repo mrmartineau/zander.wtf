@@ -8,16 +8,53 @@ interface Props {
   description?: string;
   image?: string;
   slug?: string;
+  article?: { date: Date; tags?: string[] };
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
-const { title, description, image = '/opengraph.jpg', slug } = Astro.props;
+const { title, description, image = '/opengraph.jpg', slug, article } = Astro.props;
 
 const theTitle = slug === 'home' ? title : `${title} | Zander Martineau`;
 const ogImage = slug
   ? new URL(`/opengraph/${slug}/og.png`, Astro.url)
   : new URL(image, Astro.url);
+
+const person = {
+  '@type': 'Person',
+  '@id': 'https://zander.wtf/#person',
+  name: 'Zander Martineau',
+  url: 'https://zander.wtf/about',
+  sameAs: ['https://github.com/mrmartineau'],
+};
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    person,
+    {
+      '@type': 'WebSite',
+      '@id': 'https://zander.wtf/#website',
+      url: 'https://zander.wtf/',
+      name: 'Zander Martineau',
+      publisher: { '@id': 'https://zander.wtf/#person' },
+    },
+    ...(article
+      ? [
+          {
+            '@type': 'BlogPosting',
+            headline: title,
+            description,
+            url: canonicalURL,
+            image: ogImage,
+            datePublished: article.date.toISOString(),
+            keywords: article.tags?.join(', '),
+            author: { '@id': 'https://zander.wtf/#person' },
+            isPartOf: { '@id': 'https://zander.wtf/#website' },
+          },
+        ]
+      : []),
+  ],
+};
 ---
 
 <!-- Global Metadata -->
@@ -33,7 +70,7 @@ const ogImage = slug
 <title>{theTitle}</title>
 <meta name="title" content={theTitle} />
 <meta name="description" content={description} />
-<link rel="author" href="Zander Martineau" />
+<link rel="author" href="https://zander.wtf/about" />
 <meta name="author" content="Zander Martineau">
 <meta name="geo.region" content="GB" />
 <meta name="geo.placename" content="London" />
@@ -42,7 +79,8 @@ const ogImage = slug
 
 <!-- Open Graph. These are `property`, not `name` — Facebook, LinkedIn and
      Slack ignore the `name` spelling, so the share card came out untitled. -->
-<meta property="og:type" content="website" />
+<meta property="og:type" content={article ? 'article' : 'website'} />
+{article && <meta property="article:published_time" content={article.date.toISOString()} />}
 <meta property="og:url" content={Astro.url} />
 <meta property="og:site_name" content="Zander Martineau" />
 <meta property="og:locale" content="en_GB" />
@@ -98,6 +136,7 @@ const ogImage = slug
   type="application/rss+xml"
   title="Zander's Code Notes RSS Feed"
 />
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 <link rel="manifest" href="/app.webmanifest" />
 <link
   rel="apple-touch-icon-precomposed"

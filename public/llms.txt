@@ -1,0 +1,16 @@
+# Zander Martineau
+
+> Personal site of Zander Martineau, a front-end developer in London, UK. Blog posts, worklog, code notes, projects, CV and more.
+
+## Main pages
+- [About](https://zander.wtf/about): who I am
+- [Blog](https://zander.wtf/blog): posts and worklog entries
+- [Code notes](https://zander.wtf/notes): short technical notes
+- [Projects](https://zander.wtf/projects): side projects and packages
+- [CV](https://zander.wtf/cv): work history
+- [Now](https://zander.wtf/now): what I am doing now
+- [Uses](https://zander.wtf/uses): my setup
+
+## Feeds
+- [Blog RSS](https://zander.wtf/blog.rss.xml)
+- [Notes RSS](https://zander.wtf/notes.rss.xml)
