@@ -13,7 +13,13 @@ interface Props {
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
-const { title, description, image = '/opengraph.jpg', slug, article } = Astro.props;
+const { title, description: fullDescription, image = '/opengraph.jpg', slug, article } = Astro.props;
+
+// Google cuts descriptions at about 155 characters; trim at a word boundary.
+const description =
+  fullDescription && fullDescription.length > 155
+    ? `${fullDescription.slice(0, 154).replace(/\s+\S*$/, '')}…`
+    : fullDescription;
 
 const theTitle = slug === 'home' ? title : `${title} | Zander Martineau`;
 const ogImage = slug
@@ -25,6 +31,9 @@ const person = {
   '@id': 'https://zander.wtf/#person',
   name: 'Zander Martineau',
   url: 'https://zander.wtf/about',
+  jobTitle: 'Product engineer specialising in front-end web development',
+  address: { '@type': 'PostalAddress', addressLocality: 'London', addressCountry: 'GB' },
+  knowsAbout: ['Front-end engineering', 'Design systems', 'Search engine optimisation', 'Answer engine optimisation', 'Generative engine optimisation', 'iOS development', 'SwiftUI'],
   sameAs: ['https://github.com/mrmartineau'],
 };
 const jsonLd = {
