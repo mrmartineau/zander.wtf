@@ -10,7 +10,7 @@ import '../../styles/global/font-face.css';
 const title = "Lil' Debugger";
 const description =
   'A tiny dev tool for any framework, or no framework. Add a data-debug attribute to any element. Hold Ctrl+Shift and the page shows what each element holds.';
-const canonical = new URL('/lil-debugger', Astro.site);
+const canonical = new URL('/lil-debugger/', Astro.site);
 const repo = 'https://github.com/mrmartineau/lil-debugger';
 const theme = 'tokyo-night';
 
@@ -152,7 +152,9 @@ const jsonLd = {
     <meta property="og:locale" content="en_GB" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta name="twitter:card" content="summary" />
+    <!-- The launch post's generated card -->
+    <meta property="og:image" content={new URL('/opengraph/lil-debugger/og.png', Astro.site)} />
+    <meta name="twitter:card" content="summary_large_image" />
     <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
   <body>

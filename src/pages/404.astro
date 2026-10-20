@@ -1,0 +1,11 @@
+---
+import SearchForm from '~/components/SearchForm.astro';
+import ContentLayout from '~/layouts/ContentLayout.astro';
+---
+
+<ContentLayout title="Page not found" subtitle="There's nothing at this address">
+  <p>The page may have moved. Try a search, or start from the <a href="/">home page</a>.</p>
+  <div class="mt-6">
+    <SearchForm action="/search" placeholder="Search the site..." />
+  </div>
+</ContentLayout>

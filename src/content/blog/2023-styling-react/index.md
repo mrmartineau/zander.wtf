@@ -193,4 +193,4 @@ or you can use the `buttonVariants` helper to create a link that looks like a bu
 
 The great thing about this approach is that it is flexible, you can use as much or as little of it as you like and without much modification, it can be used in an Astro, Svelte or Vue app. I've found that it works well for me, and I hope it works well for you too.
 
-You can see methods from this post used in practice for [<img src="https://raw.githubusercontent.com/mrmartineau/Otter/main/public/otter-logo.svg" width="30" height="30" class="mx-2 inline border-none" /> Otter ](https://github.com/mrmartineau/Otter), my personal bookmarking app side-project.
+You can see methods from this post used in practice for [<img src="https://raw.githubusercontent.com/mrmartineau/Otter/main/public/otter-logo.svg" alt="" width="30" height="30" class="mx-2 inline border-none" /> Otter ](https://github.com/mrmartineau/Otter), my personal bookmarking app side-project.

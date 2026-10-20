@@ -8,6 +8,7 @@ type Props = {
   title: string;
   subtitle?: string;
   date?: Date;
+  modified?: Date;
   class?: string;
   isSection?: boolean;
   worklog?: boolean;
@@ -19,6 +20,7 @@ const {
   title,
   subtitle,
   date,
+  modified,
   isSection = false,
   tags,
   worklog,
@@ -42,6 +44,7 @@ const {
         {date ? (
           <div>
             <FormattedDate date={date} />
+            {modified ? <> · Updated <FormattedDate date={modified} /></> : null}
           </div>
         ) : null}
         {showType ? <div class="uppercase">{worklog ? 'worklog' : 'article'}</div> : null}

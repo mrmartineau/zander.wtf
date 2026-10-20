@@ -35,7 +35,7 @@ My open source work in this area:
 
 - [ZUI](/projects/zui): a free <abbr title="User interface">UI</abbr> library that works with React, Astro, Solid, Svelte and Vue.
 - [Design System Utils](/projects/design-system-utils): a small tool for reading a design system's colours, spacing and other settings in code.
-- Writing: [Lessons learned building design systems](/blog/2019-lessons-learned-building-design-systems) and [Design systems at FairFX](/blog/2018-design-systems-at-fairfx).
+- Writing: [Lessons learned building design systems](/blog/lessons-learned-building-design-systems/) and [Design systems at FairFX](/blog/design-systems-at-fairfx/).
 
 ## Get your business mentioned in ChatGPT, Claude and Google (SEO, AEO and GEO)
 

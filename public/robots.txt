@@ -5,7 +5,7 @@ User-agent: *
 Allow: /
 Disallow: /notes/search
 Disallow: /opengraph/
-Disallow: /scraper-test.html
+Disallow: /scraper-test
 # Same pages under another front end; index the plain ones only
 Disallow: /desktop
 Disallow: /tui

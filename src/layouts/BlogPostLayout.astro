@@ -6,7 +6,7 @@ import BaseLayout from './BaseLayout.astro';
 
 type Props = CollectionEntry<'blog'>;
 const { data, id: slug, body } = Astro.props;
-const { title, date, subtitle, tags, worklog } = data;
+const { title, date, modified, subtitle, tags, worklog } = data;
 
 // A handful of the oldest posts have no subtitle, so they shipped with no meta
 // description. The subtitle still drives the visible header on its own.
@@ -18,11 +18,11 @@ const description = subtitle ?? excerpt(body ?? '');
   subtitle={subtitle}
   description={description}
   slug={slug}
-  article={{ date, tags }}
+  article={{ date, modified, tags }}
   reactions={{ slug: `/blog/${slug}` }}
 >
   <article class="zm-contentContainer">
-    <PageHeader title={title} subtitle={subtitle} date={date} tags={tags} worklog={worklog} />
+    <PageHeader title={title} subtitle={subtitle} date={date} modified={modified} tags={tags} worklog={worklog} />
 
     <div class="article flow" data-highlightable>
       <slot />

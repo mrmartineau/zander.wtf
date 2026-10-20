@@ -96,7 +96,11 @@ export default defineConfig({
   site: 'https://zander.wtf',
   integrations: [
     mdx(),
-    sitemap(),
+    sitemap({
+      // Test fixtures, the styleguide and search result pages aren't content
+      filter: (page) =>
+        !/\/(scraper-test|styleguide|search|notes\/search)\/$/.test(page),
+    }),
     solidJs(),
     d1Search(searchConfig),
     d1Reactions({

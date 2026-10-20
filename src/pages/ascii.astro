@@ -219,15 +219,34 @@ const asciiOutput = box.toString();
     <title>zander.wtf // ASCII mode</title>
     <meta name="description" content="ASCII terminal version of zander.wtf" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href="https://zander.wtf/ascii/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://zander.wtf/ascii/" />
+    <meta property="og:site_name" content="Zander Martineau" />
+    <meta property="og:title" content="zander.wtf // ASCII mode" />
+    <meta property="og:description" content="ASCII terminal version of zander.wtf" />
+    <meta property="og:image" content="https://zander.wtf/opengraph.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
   </head>
   <body>
-    <pre class="terminal" id="terminal" set:html={asciiOutput} />
+    <main>
+      <h1 class="visually-hidden">Zander Martineau, in ASCII</h1>
+      <pre class="terminal" id="terminal" set:html={asciiOutput} />
+    </main>
 
     <div class="status-bar">
       <a href="/">← Exit ASCII mode</a> · Keyboard navigation enabled
     </div>
 
     <style is:global>
+      .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+      }
       @font-face {
         font-family: 'Berkeley Mono';
         src: url('/fonts/BerkeleyMono-Regular.woff2') format('woff2');

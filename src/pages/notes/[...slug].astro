@@ -35,6 +35,7 @@ const description =
   title={title}
   subtitle={description}
   slug="notes"
+  article={date ? { date, tags } : undefined}
   reactions={{ slug: `/notes/${note.id}` }}
 >
   <div class="zm-contentContainer">

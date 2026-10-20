@@ -53,13 +53,13 @@ Version 2 of the theme [is in the works](https://github.com/mrmartineau/gatsby-t
 
 I redeveloped this website and moved it away from next.js to Gatsby. I wrote about the process [here](/blog/site-redesign-2020) and continue to evolve on it whenever I get a spare moment.
 
-My favourite part of the site is the ["Likes"](/likes) page where I share articles and links that I like and think others would also be interested in. I will be writing a blog post about the tech behind it soon because I think others may find it useful.
+My favourite part of the site is the ["Likes"](/links/) page where I share articles and links that I like and think others would also be interested in. I will be writing a blog post about the tech behind it soon because I think others may find it useful.
 
 Before this iteration, I did not use analytics because I am a big privacy advocate and [usually block](/blog/not-tracked-online) as many tracking/ads scripts as possible. However, I wanted to write more and needed analytics to see how each post performed. I chose [Plausible Analytics](https://plausible.io), a light-weight and privacy-focused analytics provider.
 
 As you can see from the image below, I don’t get much traffic to the site, but when I released Code Notes, the [launch blog post](/blog/code-notes-release) garnered quite a few views.
 
-![](~/assets/2020-review/2020-blog-stats.jpg)
+![Plausible Analytics chart for 2020: 18.5k unique visitors and 29.3k pageviews. Visits spike to 14,722 in June, drop to 1,856 in July and to 285 in December.](~/assets/2020-review/2020-blog-stats.jpg)
 
 ### Unnamed, unfinished project
 
@@ -113,7 +113,7 @@ For similar requirements and tech, I would now recommend Next.js, I believe the 
 
 ### CSS
 
-I have been using [Theme UI](https://theme-ui) on many different projects. It is incredibly powerful but I am, like Jared said, "no longer sipping the KoolAid".
+I have been using [Theme UI](https://theme-ui.com) on many different projects. It is incredibly powerful but I am, like Jared said, "no longer sipping the KoolAid".
 
 The `sx` prop has become a bit of a crutch and allows for more overrides than ought to be necessary, especially when creating component libraries.
 

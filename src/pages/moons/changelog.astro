@@ -15,7 +15,7 @@ const versions = await getAppVersions(appStore);
 
 const title = 'What’s new in Moons';
 const description = 'Every Moons release, newest first.';
-const canonical = new URL('/moons/changelog', Astro.site);
+const canonical = new URL('/moons/changelog/', Astro.site);
 const formatDate = (date: Date) =>
   date.toLocaleDateString('en-GB', {
     day: 'numeric',

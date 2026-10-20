@@ -34,5 +34,18 @@ const slug = 'links';
     </a>
   </div>
 
-  <LinkFeed links={links} client:only="solid" />
+  <LinkFeed links={links} client:only="solid">
+    <!-- The island can't render on the server (it virtualises against the
+         window), so crawlers and no-JS readers get this plain list instead -->
+    <ul slot="fallback">
+      {links.map((item) =>
+        item?.title && item.url ? (
+          <li>
+            <a href={item.url}>{item.title}</a>
+            {item.description ? <p>{item.description}</p> : null}
+          </li>
+        ) : null,
+      )}
+    </ul>
+  </LinkFeed>
 </ContentLayout>

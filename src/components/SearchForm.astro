@@ -23,6 +23,7 @@ const {
     name="q"
     value={query}
     placeholder={placeholder}
+    aria-label={placeholder.replace(/\.+$/, '')}
     class="search-input"
     autofocus={autofocus}
     autocomplete="off"
