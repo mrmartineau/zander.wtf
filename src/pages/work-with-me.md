@@ -7,7 +7,7 @@ slug: work-with-me
 reactions: true
 ---
 
-I'm Zander Martineau, a product engineer based in London. I have 18 years of experience, and I specialise in front-end web development: the part of a website or app that people see and use. I can help you build a website or app, keep it looking consistent, get it found online, or put it on the iPhone.
+I'm Zander Martineau, a product engineer based in London. I have 18 years of experience, and I specialise in front-end web development: the part of a website or app that people see and use. I can help you build a website or app, keep it looking consistent, get it found in Google and named in ChatGPT and Claude, or put it on the iPhone.
 
 ## Websites and web apps
 
@@ -37,25 +37,32 @@ My open source work in this area:
 - [Design System Utils](/projects/design-system-utils): a small tool for reading a design system's colours, spacing and other settings in code.
 - Writing: [Lessons learned building design systems](/blog/2019-lessons-learned-building-design-systems) and [Design systems at FairFX](/blog/2018-design-systems-at-fairfx).
 
-## Get found in Google and AI answers (SEO, AEO and GEO)
+## Get your business mentioned in ChatGPT, Claude and Google (SEO, AEO and GEO)
 
-Three names, one job: make your site easy to find, easy to read and easy to trust.
+Want ChatGPT, Claude, Perplexity or Google to name your business when people ask for what you sell? I can help. I'm an independent consultant, not a big agency. You deal with me, and you pay for the work.
 
-- **<abbr title="Search engine optimisation">SEO</abbr>** (search engine optimisation) helps you rank in Google and Bing.
+Three names, one job: make your business easy to find, easy to check and easy to trust.
+
+- **<abbr title="Search engine optimisation">SEO</abbr>** (search engine optimisation) helps you rank in Google and Bing. Some AI tools use Bing's index, so Bing matters more than it used to.
 - **<abbr title="Answer engine optimisation">AEO</abbr>** (answer engine optimisation) helps tools like ChatGPT, Claude, Perplexity and Google's AI Overviews quote your site as the answer.
 - **<abbr title="Generative engine optimisation">GEO</abbr>** (generative engine optimisation) is the same aim from the other side: being named and cited in AI-written answers.
 
-The base is the same for all three: clean pages, clear writing and extra data that tells machines what each page is. I do the technical work in your code and the writing work on your pages.
+How it works:
 
-What I do:
+1. **Prompt test.** I write down the questions your customers really ask, such as "who can fix my boiler in Hackney?". I ask ChatGPT, Claude, Perplexity, Gemini and Copilot. You see who they name today, and which sources they cite.
+2. **Audit.** I check your site, your Google and Bing indexing, and your business listings. You get a short list of fixes, most important first.
+3. **Fixes on your site.** I do the technical work in your code and the writing work on your pages:
+   - **Labels for machines.** I add hidden data to each page, so search and AI tools know who you are, what you sell and where you work. This is called structured data (<abbr title="JavaScript Object Notation for Linked Data">JSON-LD</abbr>), for example Organization or LocalBusiness.
+   - **Service pages.** I rewrite page titles and opening paragraphs, so each page says what you do and answers one clear question near the top.
+   - **Crawler access.** I set the rules for which search and AI robots may read your site, and add feeds and an `llms.txt` file. Evidence says `llms.txt` does little today, so I treat it as a cheap extra, not a fix.
+4. **Proof from other sites.** AI tools trust what other sites say about you. I check that your name, address and phone number match on every listing. You get a list of directories, review sites, "best of" lists and press to go after.
+5. **Repeat test.** I run the same prompts again each month and show you what changed. You get real answers from the AI tools, not a vague "AI ranking" score.
 
-- **Audit.** I check your site for problems that hide it from Google and AI tools. You get a short list of fixes, most important first.
-- **Labels for machines.** I add hidden data to each page, so search and AI tools know what the page is, who wrote it and when. This is called structured data (<abbr title="JavaScript Object Notation for Linked Data">JSON-LD</abbr>).
-- **Page writing.** I rewrite page titles and opening paragraphs, so each page says what you do and answers one clear question near the top.
-- **Crawler access.** I set the rules for which search and AI robots may read your site, and add feeds and an `llms.txt` file. Evidence says `llms.txt` does little today, so I treat it as a cheap extra, not a fix.
-- **Check.** I test the result in Google's Rich Results Test and in the AI tools themselves.
+You pay a fixed price for the audit and fixes. The monthly tests are optional, for a small monthly fee.
 
-This site is a working example. View source on any [blog post](/blog) to see the structured data. Read the [colophon](/colophon) for how it is built. Nobody can promise a rank or a place in an AI answer, and I won't promise one. **I can make sure nothing on your side stops you getting one.**
+This site is a working example. View source on any [blog post](/blog) to see the structured data. Read the [colophon](/colophon) for how it is built.
+
+Nobody can pay ChatGPT or Claude for a recommendation, and nobody can submit your business to it. If someone guarantees you a mention in ChatGPT or Claude, walk away. I won't promise a rank or a place in an AI answer. **I can make your business one of the best-documented options for the questions your customers ask.**
 
 ## iPhone apps
 
