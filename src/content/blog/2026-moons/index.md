@@ -3,6 +3,7 @@ slug: moons
 title: Introducing Moons
 subtitle: My first iOS app is out. Twelve people you want to stay close to, in orbit around you, drifting further out the longer you go without speaking.
 date: 2026-09-10
+modified: 2026-09-26
 tags:
   - ios
   - swiftui

@@ -3,7 +3,7 @@ slug: jargon-busting
 title: Jargon busting
 subtitle: Jargon plagues most industries. Software development is no different. Here are some of my favourites.
 date: 2018-08-11
-modified: 2020-11-17
+modified: 2024-10-18
 ---
 
 In our industry there's a shitload of jargon. There are terms for how people behave, how they think, how the world works and even for quirky software development practices. It is easy to forget them, so I thought I would record the most useful (to me) here.

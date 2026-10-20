@@ -3,6 +3,7 @@ slug: ai-side-projects
 title: Things I've been building recently while evaluating AI agents
 subtitle: Ten side projects, npm packages, Raycast extensions, iOS apps and more, plus what using Claude Code, Cursor and Amp on real work taught me
 date: 2026-02-23
+modified: 2026-03-13
 tags:
   - side-project
   - ai

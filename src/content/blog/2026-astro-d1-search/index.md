@@ -3,6 +3,7 @@ slug: astro-cloudflare-d1-search
 title: How I replaced Algolia on my Astro site with Cloudflare D1
 subtitle: Replacing Algolia on this very website with a self-owned, full-text search API built on Cloudflare D1 and SQLite FTS5, searchable from the site itself and from Raycast
 date: 2026-07-21
+modified: 2026-08-02
 tags:
   - astro
   - cloudflare

@@ -3,6 +3,7 @@ slug: zero-to-one-stack
 title: My zero-to-one stack
 subtitle: The tech stack I use to ship new side projects quickly, why I moved away from Supabase, and how a starter template changed how I build.
 date: 2026-07-06
+modified: 2026-07-08
 tags:
   - side-project
   - react

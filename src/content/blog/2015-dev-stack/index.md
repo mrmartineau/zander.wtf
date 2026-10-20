@@ -3,6 +3,7 @@ slug: dev-stack-2015
 title: 'My development stack'
 subtitle: 'Tools of the trade when developing for the web'
 date: 2015-01-20
+modified: 2026-10-09
 ---
 
 > **Update, 9 October 2026:** this list is from 2015 and most of it has changed. See [/uses](/uses) for what I use now. I keep that page up to date.
