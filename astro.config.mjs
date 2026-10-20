@@ -117,6 +117,7 @@ export default defineConfig({
         { url: '/uses', title: 'My setup' },
         { url: '/now', title: 'Now' },
         { url: '/cv', title: 'CV' },
+        { url: '/work-with-me', title: 'Work with me' },
         { url: '/zed-stack', title: 'The Zed Stack' },
         { url: '/colophon', title: 'Colophon' },
         { url: '/feeds', title: 'Feeds' },

@@ -145,7 +145,7 @@ const jsonLd = {
   type="application/rss+xml"
   title="Zander's Code Notes RSS Feed"
 />
-<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd).replace(/</g, '\\u003c')} />
 <link rel="manifest" href="/app.webmanifest" />
 <link
   rel="apple-touch-icon-precomposed"

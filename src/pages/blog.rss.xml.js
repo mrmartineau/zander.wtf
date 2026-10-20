@@ -2,7 +2,7 @@ import rss from '@astrojs/rss';
 import MarkdownIt from 'markdown-it';
 import sanitizeHtml from 'sanitize-html';
 import { getBlog } from '~/utils/blog';
-import { SITE_METADATA } from '../consts';
+import { SITE_METADATA, SITE_TITLE } from '../consts';
 
 const parser = new MarkdownIt();
 
@@ -12,7 +12,7 @@ export const GET = async (context) => {
   );
 
   return rss({
-    title: SITE_METADATA.home.title,
+    title: SITE_TITLE,
     description: SITE_METADATA.blog.subtitle,
     site: context.site,
     items: posts.map((post) => ({
