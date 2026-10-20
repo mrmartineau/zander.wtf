@@ -93,6 +93,22 @@ export function Counter() {
 }
 ```
 
+Keep `'use client'` on the leaves. A client component can't import a server component, but it can render one passed in as `children`:
+
+```tsx
+// app/page.tsx — server component
+import { Collapsible } from './Collapsible' // a client component that renders {children}
+import { ServerStats } from './ServerStats'
+
+export default function Page() {
+  return (
+    <Collapsible>
+      <ServerStats /> {/* rendered on the server, no JS sent */}
+    </Collapsible>
+  )
+}
+```
+
 ### Server Actions
 
 ```tsx
@@ -115,6 +131,47 @@ export default function NewPost() {
     <form action={createPost}>
       <input name="title" required />
       <button type="submit">Create</button>
+    </form>
+  )
+}
+```
+
+#### `useActionState` and `useFormStatus`
+
+`useActionState` gives you the action's return value and a pending flag. `useFormStatus` reads the pending state of the parent form, so it must be used in a child component.
+
+```tsx
+// app/actions.ts
+'use server'
+
+export async function createPost(prevState: { error?: string }, formData: FormData) {
+  const title = String(formData.get('title') ?? '')
+  if (!title) return { error: 'Title is required' }
+  await db.post.create({ data: { title } })
+  revalidateTag('posts')
+  return {}
+}
+```
+
+```tsx
+'use client'
+
+import { useActionState } from 'react'
+import { useFormStatus } from 'react-dom'
+import { createPost } from '../actions'
+
+function SubmitButton() {
+  const { pending } = useFormStatus()
+  return <button disabled={pending}>{pending ? 'Saving…' : 'Create'}</button>
+}
+
+export function NewPostForm() {
+  const [state, formAction] = useActionState(createPost, {})
+  return (
+    <form action={formAction}>
+      <input name="title" />
+      {state.error && <p role="alert">{state.error}</p>}
+      <SubmitButton />
     </form>
   )
 }

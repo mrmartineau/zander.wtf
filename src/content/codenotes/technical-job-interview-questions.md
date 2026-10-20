@@ -397,23 +397,34 @@ function TextInput() {
 
 ### What are some different types of React Component Patterns?
 
-There are many answers to this question. It's important to have a solid grasp of React's fundamentals before delving into specific design patterns. Read more on these fundamentals here.
+There are many answers to this question. Start with the common ones, then go deeper. Code for most of these: [/notes/react-patterns/](/notes/react-patterns/)
 
-- **Compound components**
-  Think of compound components like the `<select>` and `<option>` elements in HTML.
-- **Higher Order Components**
-  A higher-order component is a function that takes a component and returns a new component. HOCs aren't unique to React. In functional programming, a higher order function is a function that returns another function.
-  https://reactjs.org/docs/higher-order-components.html
-- **Render props**
-  With a `render` or other prop that returns a `ReactNode`
-- **State initialiser**
-  Here we allow you to set the initial value (similar to defaultValue in `<input />`) and then a nice way to expose a reset helper function to allow users of the component to reset the component to its initial state.
-- **Prop Collections and Getters**
-  Formik and Downshift use these
-- **Controlled Components**
-  Inputs, Radix Dialogs/Alerts/etc - Provider
+#### Common
 
-Read more about these patterns here: https://kentcdodds.com/blog/advanced-react-component-patterns
+- **Composition over config**: `children`, slots and small focused components, not a component with 30 props.
+- **Custom hooks** to pull logic out of components: `useDebounce`, `useMediaQuery`, data hooks.
+- **Controlled vs uncontrolled** inputs. A component lib should support both, like `value` and `defaultValue` on `<input />`.
+- **Lift state up** when siblings need it. Otherwise keep state as low (as close to where it's used) as possible.
+- **Context** for global values that don't change often: theme, auth, locale. Not for fast-changing state.
+- **Conditional rendering** and keys done right: stable IDs, not the array index.
+
+#### Advanced
+
+- **Compound components**: `<Tabs><Tabs.List /><Tabs.Panel /></Tabs>`, with the parts sharing state through context. Think of `<select>` and `<option>` in HTML. A good design system story.
+- **Polymorphic components**: an `as` prop, or `asChild` like Radix, with correct TypeScript types.
+- **Headless components**: logic and a11y in hooks, styling left to the consumer. Radix, React Aria and TanStack work like this. Prop getters (`getButtonProps()`) come from the same idea, and Downshift uses them.
+- **Render props**: a prop that returns a `ReactNode`. Mostly replaced by hooks, but still useful when the parent needs to control the rendering, like virtualised lists.
+- **Higher order components**: a function that takes a component and returns a new one. Mostly replaced by hooks too.
+- **State reducer**: consumers can override how the internal state changes.
+- **State initialiser**: set the initial value (like `defaultValue`) and expose a `reset` helper.
+- **Refs**: `forwardRef`, or `ref` as a normal prop in React 19. `useImperativeHandle` to expose a small API for focus or scroll.
+- **Context splitting** (state and dispatch in separate contexts) and **selectors**, to stop one change re-rendering everything.
+- **`useSyncExternalStore`** to subscribe to stores that live outside React.
+- **Error boundaries + Suspense** for declarative loading and error states.
+- **Concurrent features**: `useTransition` and `useDeferredValue` keep typing responsive while slow updates wait.
+- **Optimistic UI**: `useOptimistic`, with rollback when the request fails.
+
+Read more: https://kentcdodds.com/blog/advanced-react-component-patterns
 
 ### What are Portals?
 
@@ -449,9 +460,33 @@ React provides a declarative API so that you don’t have to worry about exactly
 
 ### What is life cycle of a component?
 
-1. Very important. If a Jr. answered this question properly and had the right attitude/fit for the team, I'd be more inclined to hire them. A correct good answer to this question would involve an overview of class component lifecycle (link below) and examples on some of their use cases. Bonus points for a comparison between function components and class components. Why lifecycle methods are useful: the developer can access class component lifecycle methods to inject custom logic at specific stages of a component's rendering process. Function components don't have these same methods (they technically still do under the hood, but it's moot). However, function components can tap into Hooks which provide similar functionality to the lifecycle methods of class components.
-2. Class component lifecycle methods
-3. From lifecycle methods to hooks
+A component **mounts** (first appears), **updates** (re-renders when state, props or context change) and **unmounts** (is removed). Every update has two phases:
+
+- **Render phase**: React calls your component and works out what changed. This must be pure: no side effects. React can pause or restart it.
+- **Commit phase**: React applies the changes to the DOM. Then `useLayoutEffect` runs (before the browser paints), then `useEffect` runs (after the paint).
+
+Points that show depth:
+
+- **Effects are for syncing with external systems** (subscriptions, timers, the DOM, non-React widgets). They are not for deriving state from props: calculate that during render. See [You might not need an effect](https://react.dev/learn/you-might-not-need-an-effect).
+- **Strict Mode runs effects twice** in development (mount, unmount, mount). This shows you an effect that has no cleanup function.
+- In class components the same stages are `componentDidMount`, `componentDidUpdate` and `componentWillUnmount`. Hooks replace them.
+
+```jsx
+useEffect(() => {
+  const id = setInterval(tick, 1000) // runs after paint
+  return () => clearInterval(id) // cleanup: before the next run and on unmount
+}, [])
+```
+
+### When should you use `memo`, `useMemo` and `useCallback`?
+
+Only when you have measured a problem with the React Profiler. Memoisation has a cost, and most re-renders are cheap. Good reasons:
+
+- An expensive calculation that runs on every render (`useMemo`).
+- A child wrapped in `memo` that gets a function or object prop, which would be new on every render (`useCallback` / `useMemo`).
+- A value used in an effect's deps array.
+
+The **React Compiler** adds memoisation at build time, so new code needs these hooks much less.
 
 ### How does Redux work?
 
@@ -517,7 +552,7 @@ SSR, SSG and CSR are general ideas, not Next.js features. ISR is the Next.js nam
 
 The server sends ready-made HTML, so the user sees content fast. Then React loads in the browser and attaches event handlers to that HTML. That step is hydration. Until it finishes, the page is visible but not interactive.
 
-A **hydration mismatch** happens when the first client render doesn't match the server HTML. Common causes: `Date.now()`, `Math.random()`, `window` checks or locale formatting in render. Fix it by moving browser-only values into `useEffect`.
+A **hydration mismatch** happens when the first client render doesn't match the server HTML. Common causes: `Date.now()`, `Math.random()`, `window` checks or locale formatting in render. Fix it by moving browser-only values into `useEffect`. For IDs, use [`useId`](/notes/react-useId/): it gives the same ID on the server and the client.
 
 ### What is the difference between the Pages Router and the App Router?
 
@@ -548,6 +583,28 @@ export function LikeButton() {
   const [liked, setLiked] = useState(false)
   return <button onClick={() => setLiked(!liked)}>{liked ? '♥' : '♡'}</button>
 }
+```
+
+### Where do you put the client/server boundary?
+
+- **Server Components by default.** Data fetching, secrets and heavy dependencies stay off the client bundle.
+- **`'use client'` only on the interactive leaves.** Everything a client component imports becomes client code too, so push the boundary as far down the tree as you can.
+- **Pass server components into client ones as `children`.** A client component can't import a server component, but it can render one it gets as a prop.
+- **Only plain data crosses the boundary.** Props from server to client must be serialisable: strings, numbers, plain objects, arrays, Dates, Promises. No functions or class instances (Server Actions are the exception).
+- **Stream with `<Suspense>`** so one slow query doesn't block the whole page.
+
+```tsx
+// Modal.tsx
+'use client'
+export function Modal({ children }: { children: React.ReactNode }) {
+  const [open, setOpen] = useState(false)
+  return open ? <dialog open>{children}</dialog> : <button onClick={() => setOpen(true)}>Open</button>
+}
+
+// page.tsx — server component
+<Modal>
+  <ServerRenderedCart /> {/* still rendered on the server */}
+</Modal>
 ```
 
 ### What does `getInitialProps` do?
@@ -670,6 +727,21 @@ export async function createPost(formData: FormData) {
 ```
 
 Treat them like public API endpoints: validate the input and check auth in every action.
+
+Use `useActionState` for the result (errors, messages) and a pending flag. Use `useFormStatus` in a child of the form, like a submit button. Code: [/notes/nextjs/#server-actions](/notes/nextjs/#server-actions)
+
+### How do caching and revalidation work, and when do they bite?
+
+Next.js can cache fetches, rendered routes and the client-side router. After a mutation, clear the old data:
+
+- `revalidatePath('/posts')` clears one route.
+- `revalidateTag('posts')` clears every fetch tagged `{ next: { tags: ['posts'] } }`, on any route.
+
+Where it bites:
+
+- **Stale data after a mutation** because you forgot to revalidate, or revalidated the wrong path.
+- **A route you expected to be dynamic got built as static**, so every user sees build-time data. Check the `next build` output.
+- **Defaults changed between versions.** Next.js 14 cached `fetch` by default. Next.js 15 does not. Always say which version you mean.
 
 ### What built-in optimisations does Next.js give you?
 
@@ -1023,6 +1095,11 @@ Web Content Accessibility Guidelines (WCAG) 2 covers a wide range of recommendat
 - Are there any other technologies that you are interested in?
 - How do you keep up to date with web trends?
 - Are you working on any side-projects?
+
+### Have a story ready
+
+- Compound or polymorphic components you built in a component library (the Dare component library, ZUI).
+- A performance issue you profiled and fixed: what you measured, what you changed, the number before and after.
 
 ## Practical Coding questions
 
