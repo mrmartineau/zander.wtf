@@ -63,6 +63,7 @@ const projects = defineCollection({
       'ios-app',
       'app',
       'package',
+      'astro-package',
       'extension',
       'raycast-extension',
       'framework',

@@ -6,6 +6,7 @@ const kinds: Record<ProjectType, string> = {
   'ios-app': 'iPhone app',
   app: 'Web app',
   package: 'Package',
+  'astro-package': 'Astro package',
   extension: 'IDE extension',
   'raycast-extension': 'Raycast extension',
   framework: 'Framework',

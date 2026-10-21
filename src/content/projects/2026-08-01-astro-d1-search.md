@@ -14,7 +14,7 @@ tags:
   - typescript
   - search
   - npm
-type: package
+type: astro-package
 ---
 
 An Astro integration that gives you full-text site search without a third-party service. It's the search from this very site, extracted into a package — one config object describes your content, and the integration handles the rest.

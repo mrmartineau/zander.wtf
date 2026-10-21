@@ -3,7 +3,7 @@ slug: astro-git-dates
 title: "astro-git-dates"
 subtitle: "Set dates in Astro content collections from git. Write 'git Last Modified' as a date in the frontmatter and the build swaps in the file's last commit date, like Eleventy does."
 date: 2026-10-01
-type: package
+type: astro-package
 status: active
 repo: 'https://github.com/mrmartineau/astro-git-dates'
 link: 'https://www.npmjs.com/package/astro-git-dates'
