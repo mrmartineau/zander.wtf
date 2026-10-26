@@ -84,17 +84,21 @@ export const SITE_METADATA: Record<
   },
 };
 
+// `key` is the single-letter keyboard shortcut for the page. See Shortcuts.astro.
 export const SITE_NAV_ITEMS = [
   {
     text: 'Blog',
+    key: 'b',
     url: '/blog',
   },
   {
     text: 'Projects',
+    key: 'p',
     url: '/projects',
   },
   {
     text: 'Links',
+    key: 'l',
     url: '/links',
   },
 ];
@@ -102,14 +106,17 @@ export const SITE_NAV_ITEMS = [
 export const SITE_FOOTER_ITEMS = [
   {
     text: 'Work with me',
+    key: 'w',
     url: '/work-with-me',
   },
   {
     text: 'CV/Resume',
+    key: 'r',
     url: '/cv',
   },
   {
     text: 'Code Notes',
+    key: 'c',
     url: '/notes',
   },
   {
@@ -122,14 +129,17 @@ export const SITE_FOOTER_ITEMS = [
   },
   {
     text: 'Now',
+    key: 'n',
     url: '/now',
   },
   {
     text: 'Uses',
+    key: 'u',
     url: '/uses',
   },
   {
     text: 'Stats',
+    key: 's',
     url: '/stats',
   },
   {
@@ -140,11 +150,13 @@ export const SITE_FOOTER_ITEMS = [
     text: 'Lab',
     url: 'https://lab.zander.wtf',
     external: true,
+    key: 'a',
   },
   {
     text: 'GitHub',
     url: 'https://github.com/mrmartineau',
     external: true,
+    key: 'g',
   },
   {
     text: 'Bluesky',

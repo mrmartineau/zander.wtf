@@ -7,6 +7,7 @@ import Footer from '~/components/Footer.astro';
 import Greeting from '~/components/Greeting.astro';
 import Header from '~/components/Header.astro';
 import Reactions from '~/components/Reactions.astro';
+import Shortcuts from '~/components/Shortcuts.astro';
 import Desktop from '~/components/solid/desktop/Desktop';
 import Tui from '~/components/solid/tui/Tui';
 import { SITE_FOOTER_ITEMS, SITE_NAV_ITEMS } from '../consts';
@@ -99,6 +100,7 @@ const { title, subtitle, description, image, slug, reactions, article } = Astro.
       <slot />
     </main>
     <Footer />
+    <Shortcuts />
     <Reactions {...reactions} />
     <Desktop client:only="solid-js" nav={SITE_NAV_ITEMS} more={SITE_FOOTER_ITEMS} />
     <Tui client:only="solid-js" nav={SITE_NAV_ITEMS} more={SITE_FOOTER_ITEMS} />

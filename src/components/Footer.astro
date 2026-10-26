@@ -16,7 +16,7 @@ const today = new Date();
           SITE_FOOTER_ITEMS.map((item) => {
             return (
               <li>
-                <a href={item.url} rel={item.rel}>
+                <a href={item.url} rel={item.rel} aria-keyshortcuts={item.key} target={item.external ? '_blank' : '_self'}>
                   {item.text}
                   {item.external ? <i class="ph-duotone ph-arrow-up-right" /> : null}
                 </a>
