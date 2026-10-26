@@ -4,7 +4,7 @@ link: https://tanstack.com/query/latest/docs/framework/react/overview
 tags:
   - react
 emoji: ⚛
-date: 2026-09-28
+date: git Last Modified
 ---
 
 ## useQuery
@@ -155,11 +155,16 @@ Two approaches. Pick the cheap one first.
 
 If the pending item only needs to appear in one place, render `variables` directly — no cache writes, no rollback logic, nothing to undo.
 
+`variables` is whatever you passed to `mutate()`. It's the same value `mutationFn` gets as its first argument, with the same type. Here `mutationFn` takes a string, so `mutate('Buy milk')` makes `variables` the string `'Buy milk'`. It's `undefined` until the first `mutate()` call.
+
 ```tsx
 const { mutate, variables, isPending, isError } = useMutation({
   mutationFn: (newTodo: string) => addTodo(newTodo),
   onSettled: () => queryClient.invalidateQueries({ queryKey: ['todos'] }),
 })
+
+// In the "Add" form's submit handler
+mutate('Buy milk') // variables is now 'Buy milk'
 
 return (
   <ul>
@@ -172,7 +177,21 @@ return (
 )
 ```
 
-To read those `variables` from a component that didn't call `mutate`, give the mutation a `mutationKey` and use `useMutationState`:
+Pass an object and `variables` is that object:
+
+```tsx
+const { mutate, variables, isPending } = useMutation({
+  mutationFn: (newTodo: { text: string; dueDate: string }) => addTodo(newTodo),
+})
+
+mutate({ text: 'Buy milk', dueDate: '2026-10-27' })
+
+{isPending && <li style={{ opacity: 0.5 }}>{variables.text} — due {variables.dueDate}</li>}
+```
+
+`useMutation` only keeps the latest call. If someone adds two to-dos before the first one saves, only the second shows. `useMutationState` returns every pending one.
+
+To read those `variables` from a component that didn't call `mutate`, or to show every pending call, give the mutation a `mutationKey` and use `useMutationState`:
 
 ```ts
 const pendingTodos = useMutationState<string>({
@@ -272,9 +291,30 @@ useEffect(() => {
 }, [data, isPlaceholderData, page, queryClient])
 ```
 
+This only works when the API takes a page number or an offset. If it hands back a cursor, use [`useInfiniteQuery`](#infinite-queries) instead.
+
 ## Infinite queries
 
 `useInfiniteQuery` stores every page under one query key. `initialPageParam` and `getNextPageParam` are both required — `getNextPageParam` returning `undefined` or `null` is what sets `hasNextPage` to false.
+
+It's the natural fit for cursor-based APIs. Each response carries an opaque cursor that points at the next page, and React Query keeps the chain for you. Cursors also beat offsets when rows get added or deleted between requests: an offset shifts and you get duplicates or gaps, a cursor still points at the same row.
+
+```ts
+// GET /api/projects?limit=20&cursor=abc123
+interface ProjectsPage {
+  projects: Project[]
+  nextCursor: string | null // null on the last page
+}
+
+const fetchProjects = async (cursor?: string): Promise<ProjectsPage> => {
+  const params = new URLSearchParams({ limit: '20' })
+  if (cursor) params.set('cursor', cursor)
+
+  const response = await fetch(`/api/projects?${params}`)
+  if (!response.ok) throw new Error('Failed to fetch projects')
+  return response.json()
+}
+```
 
 ```tsx
 import { useInfiniteQuery } from '@tanstack/react-query'
@@ -288,8 +328,9 @@ const {
 } = useInfiniteQuery({
   queryKey: ['projects'],
   queryFn: ({ pageParam }) => fetchProjects(pageParam),
-  initialPageParam: 0,
-  getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
+  // No cursor yet = first page. The cast widens the type so later pages can be strings.
+  initialPageParam: undefined as string | undefined,
+  getNextPageParam: (lastPage) => lastPage.nextCursor,
 })
 ```
 
@@ -318,8 +359,8 @@ const InfiniteProjects = () => {
     useInfiniteQuery({
       queryKey: ['projects'],
       queryFn: ({ pageParam }) => fetchProjects(pageParam),
-      initialPageParam: 0,
-      getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
+      initialPageParam: undefined as string | undefined,
+      getNextPageParam: (lastPage) => lastPage.nextCursor,
     })
 
   const sentinelRef = useRef<HTMLDivElement>(null)
