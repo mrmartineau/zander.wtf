@@ -1,9 +1,11 @@
 ---
 import { SITE_METADATA } from 'src/consts';
+import { fetchGitHubNow } from 'src/fetching/github';
 import { fetchMedia, transformMediaToNow } from 'src/fetching/media';
 import { fetchMovies, transformMoviesToNow } from 'src/fetching/movies';
 import { fetchMusic, transformMusicToNow } from 'src/fetching/music';
 import type { NowMediaItem } from 'src/types';
+import NowGitHub from '~/components/NowGitHub.astro';
 import NowMedia from '~/components/NowMedia.astro';
 import ContentLayout from '~/layouts/ContentLayout.astro';
 
@@ -41,6 +43,9 @@ try {
 } catch (err) {
   console.error(err);
 }
+
+// Never throws: each list falls back to empty on its own
+const github = await fetchGitHubNow();
 ---
 
 <ContentLayout
@@ -63,5 +68,9 @@ try {
     {podcasts?.length ? (<NowMedia title="Podcasts" items={podcasts} square />) : null}
     <h2>Reading</h2>
     {books?.length ? (<NowMedia title="Books" items={books} />) : null}
+    {github.active.length || github.releases.length || github.starred.length ? (<h2>Coding</h2>) : null}
+    {github.active.length ? (<NowGitHub title="Working on" repos={github.active} />) : null}
+    {github.releases.length ? (<NowGitHub title="Latest releases" releases={github.releases} />) : null}
+    {github.starred.length ? (<NowGitHub title="Recently starred" repos={github.starred} />) : null}
   </div>
 </ContentLayout>

@@ -1,0 +1,86 @@
+---
+import type { GitHubRelease, GitHubRepo } from 'src/fetching/github';
+import FormattedDate from './FormattedDate.astro';
+
+type Props = {
+  title: string;
+} & (
+  | { repos: GitHubRepo[]; releases?: never }
+  | { releases: GitHubRelease[]; repos?: never }
+);
+
+const { title, repos, releases } = Astro.props;
+---
+
+<div class="my-l">
+  <h3>{title}</h3>
+  <ul class="nowGitHub mt-s" role="list">
+    {
+      repos?.map((repo) => (
+        <li>
+          <a href={repo.url} class="name">{repo.fullName}</a>
+          {repo.description ? <p class="description">{repo.description}</p> : null}
+          <p class="meta">
+            {repo.language ? <span>{repo.language}</span> : null}
+            {repo.stars ? <span>★ {repo.stars.toLocaleString('en-GB')}</span> : null}
+            <span><FormattedDate date={repo.date} /></span>
+          </p>
+        </li>
+      ))
+    }
+    {
+      releases?.map((release) => (
+        <li>
+          <a href={release.url} class="name">
+            {release.repo} <span class="tag">{release.name}</span>
+          </a>
+          <p class="meta">
+            <span><FormattedDate date={release.date} /></span>
+          </p>
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<style>
+  .nowGitHub {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+    gap: var(--space-s);
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    padding: var(--space-xs) var(--space-s);
+    border-radius: 0.5rem;
+    background-color: var(--bg-article);
+  }
+
+  .name {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    overflow-wrap: anywhere;
+  }
+
+  .tag {
+    font-variation-settings: 'wght' 700;
+  }
+
+  .description {
+    margin-block-start: var(--space-3xs);
+    font-size: var(--step--1);
+    font-variation-settings: 'wght' 200;
+  }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+    margin-block-start: var(--space-3xs);
+    font-size: var(--step--2);
+    opacity: 0.7;
+  }
+</style>
