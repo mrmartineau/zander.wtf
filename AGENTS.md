@@ -64,4 +64,6 @@ Both live in `~/code/mrmartineau/agent-skills/skills/` and are symlinked into Cl
 
 Never put a stray `.md` file directly inside a collection directory — it's parsed as a collection entry and fails schema validation.
 
+Code notes (`src/content/codenotes/`) have no skill. In a new or edited note, set `date: git Last Modified` in the frontmatter. Do not type a date. The `astro-git-dates` loader in `src/content/config.ts` swaps the keyword for the date of the file's last commit at build time, and a file that is not committed yet gets the current time. When you edit an old note that has a typed date, switch it to the keyword in the same edit. Blog posts are different: they need a real `date`.
+
 Posts and worklog entries are **one collection**. Worklog entries live in `src/content/blog/worklog/` with `worklog: true` in their frontmatter; `/blog` renders them in full, inline and date-interleaved with the title-only post rows, and each still gets its own `/blog/:slug` page. `/worklog` is a `public/_redirects` 301 to `/blog` — the fragment survives the redirect, so old `#slug` deep links still resolve. They're indexed as their own `worklog` search type via a second directory source in `search.config.ts` (the blog source skips the `worklog/` subdirectory), because the indexer maps types by directory, not frontmatter.
