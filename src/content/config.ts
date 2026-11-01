@@ -60,10 +60,10 @@ const blog = defineCollection({
 const codenotes = defineCollection({
   loader: entryMeta(
     glob({ pattern: '**/*.md', base: './src/content/codenotes' }),
-    // Notes never honoured `draft`, and two live notes (cypress,
-    // test-structure) have `draft: true`. `preview: true` keeps them live.
-    // To hide them, use `import.meta.env.DEV` and also drop them from search.
-    { preview: true, computed },
+    // `draft: true` notes are left out of the build; dev still shows them.
+    // Keep drafts in codenotes/_drafts/ too: the search indexer skips by
+    // directory, not frontmatter.
+    { preview: import.meta.env.DEV, computed },
   ),
   schema: z.object({
     title: z.string(),
