@@ -60,7 +60,10 @@ const blog = defineCollection({
 const codenotes = defineCollection({
   loader: entryMeta(
     glob({ pattern: '**/*.md', base: './src/content/codenotes' }),
-    { computed },
+    // Notes never honoured `draft`, and two live notes (cypress,
+    // test-structure) have `draft: true`. `preview: true` keeps them live.
+    // To hide them, use `import.meta.env.DEV` and also drop them from search.
+    { preview: true, computed },
   ),
   schema: z.object({
     title: z.string(),

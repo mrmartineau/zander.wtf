@@ -14,16 +14,16 @@ const { readingTime, wordCount, editUrl, icons = false } = Astro.props;
 {
   readingTime ? (
     <div>
-      {icons ? <i class="ph-duotone ph-clock" /> : null}
+      {icons ? <i class="ph-duotone ph-clock" aria-hidden="true" /> : null}
       {readingTime} min read
-      {wordCount ? <> · {wordCount.toLocaleString('en-GB')} words</> : null}
+      {wordCount ? <> · {wordCount.toLocaleString('en-GB')} {wordCount === 1 ? 'word' : 'words'}</> : null}
     </div>
   ) : null
 }
 {
   editUrl ? (
     <div>
-      {icons ? <i class="ph-duotone ph-pencil-simple" /> : null}
+      {icons ? <i class="ph-duotone ph-pencil-simple" aria-hidden="true" /> : null}
       <a href={editUrl} target="_blank" rel="noopener noreferrer">
         Edit on GitHub
       </a>
