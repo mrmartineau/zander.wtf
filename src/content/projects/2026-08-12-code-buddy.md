@@ -4,7 +4,8 @@ title: Code Buddy
 subtitle: Pick a word, tell one friend, and everything you type turns into symbols that only they can read back.
 date: 2026-08-12
 type: ios-app
-status: unreleased
+status: active
+appStore: https://apps.apple.com/app/code-buddy-secret-messages/id6803597861
 image: '/images/projects/code-buddy/icon.webp'
 screenshots:
   - src: '/images/projects/code-buddy/01-write.webp'
