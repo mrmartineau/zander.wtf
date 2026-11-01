@@ -8,6 +8,7 @@ const kinds: Record<ProjectType, string> = {
   package: 'Package',
   'astro-package': 'Astro package',
   extension: 'IDE extension',
+  'chrome-extension': 'Chrome extension',
   'raycast-extension': 'Raycast extension',
   framework: 'Framework',
   experiment: 'Experiment',

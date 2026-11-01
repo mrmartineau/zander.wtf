@@ -65,6 +65,7 @@ const projects = defineCollection({
       'package',
       'astro-package',
       'extension',
+      'chrome-extension',
       'raycast-extension',
       'framework',
       'experiment',
