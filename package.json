@@ -39,7 +39,7 @@
     "astro": "^5.16.15",
     "astro-d1-reactions": "1.0.0",
     "astro-d1-search": "^1.0.0",
-    "astro-git-dates": "^1.0.1",
+    "astro-entry-meta": "1.0.0",
     "color-hash": "^2.0.2",
     "fetch-readme": "^1.0.0",
     "figlet": "^1.10.0",

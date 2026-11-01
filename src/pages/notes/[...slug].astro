@@ -1,5 +1,6 @@
 ---
 import { type CollectionEntry, getCollection, render } from 'astro:content';
+import EntryMeta from '~/components/EntryMeta.astro';
 import FormattedDate from '~/components/FormattedDate.astro';
 import HeadingMinimap from '~/components/HeadingMinimap.astro';
 import NoteTagLink from '~/components/NoteTagLink.astro';
@@ -22,7 +23,7 @@ type Props = CollectionEntry<'codenotes'>;
 
 const note = Astro.props;
 const { Content, headings } = await render(note);
-const { title, date, tags, emoji, link } = note.data;
+const { title, date, tags, emoji, link, readingTime, wordCount, git } = note.data;
 
 // The note's own title and an excerpt of its body: every note used to share
 // the section's title and carry no description at all. Notes that are pure
@@ -72,6 +73,12 @@ const description =
               </div>
             ) : null
           }
+          <EntryMeta
+            readingTime={readingTime}
+            wordCount={wordCount}
+            editUrl={git?.editUrl}
+            icons
+          />
         </div>
 
         {

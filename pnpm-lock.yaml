@@ -169,9 +169,9 @@ importers:
       astro-d1-search:
         specifier: ^1.0.0
         version: 1.0.0(astro@5.16.15(jiti@1.21.7)(lightningcss@1.30.2)(rollup@4.56.0)(supports-color@10.2.2)(tsx@4.23.1)(typescript@5.9.3)(yaml@2.8.2))
-      astro-git-dates:
-        specifier: ^1.0.1
-        version: 1.0.1(astro@5.16.15(jiti@1.21.7)(lightningcss@1.30.2)(rollup@4.56.0)(supports-color@10.2.2)(tsx@4.23.1)(typescript@5.9.3)(yaml@2.8.2))
+      astro-entry-meta:
+        specifier: 1.0.0
+        version: 1.0.0(astro@5.16.15(jiti@1.21.7)(lightningcss@1.30.2)(rollup@4.56.0)(supports-color@10.2.2)(tsx@4.23.1)(typescript@5.9.3)(yaml@2.8.2))
       color-hash:
         specifier: ^2.0.2
         version: 2.0.2
@@ -2385,8 +2385,8 @@ packages:
     peerDependencies:
       astro: ^5.0.0 || ^6.0.0 || ^7.0.0
 
-  astro-git-dates@1.0.1:
-    resolution: {integrity: sha512-wsrn+B5W8cCY6vtqlWwGgyODuOk59LqJv3y6pMPkICcpMLl8TRo6JSh+2ZgehuIgjWWykS+uIbzbFw3vJfwYXw==}
+  astro-entry-meta@1.0.0:
+    resolution: {integrity: sha512-5c2TpG/Qx/+AAp+mPn2Le8Bn1NBPRGTorc1M2HDeC7cSqbfBua61vMF2xCW1dRrGNJzOIKicuuOCrdiM53DVAA==}
     engines: {node: '>=20.19.0'}
     peerDependencies:
       astro: ^5.0.0 || ^6.0.0 || ^7.0.0
@@ -6216,7 +6216,7 @@ snapshots:
       '@11ty/gray-matter': 2.1.0
       astro: 5.16.15(jiti@1.21.7)(lightningcss@1.30.2)(rollup@4.56.0)(supports-color@10.2.2)(tsx@4.23.1)(typescript@5.9.3)(yaml@2.8.2)
 
-  astro-git-dates@1.0.1(astro@5.16.15(jiti@1.21.7)(lightningcss@1.30.2)(rollup@4.56.0)(supports-color@10.2.2)(tsx@4.23.1)(typescript@5.9.3)(yaml@2.8.2)):
+  astro-entry-meta@1.0.0(astro@5.16.15(jiti@1.21.7)(lightningcss@1.30.2)(rollup@4.56.0)(supports-color@10.2.2)(tsx@4.23.1)(typescript@5.9.3)(yaml@2.8.2)):
     dependencies:
       astro: 5.16.15(jiti@1.21.7)(lightningcss@1.30.2)(rollup@4.56.0)(supports-color@10.2.2)(tsx@4.23.1)(typescript@5.9.3)(yaml@2.8.2)
 

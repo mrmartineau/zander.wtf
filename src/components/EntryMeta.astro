@@ -1,0 +1,32 @@
+---
+// The reading time, word count and edit link of a blog post or code note.
+// Renders one <div> per item, for a flex row to lay out.
+type Props = {
+  readingTime?: number;
+  wordCount?: number;
+  editUrl?: string;
+  icons?: boolean;
+};
+
+const { readingTime, wordCount, editUrl, icons = false } = Astro.props;
+---
+
+{
+  readingTime ? (
+    <div>
+      {icons ? <i class="ph-duotone ph-clock" /> : null}
+      {readingTime} min read
+      {wordCount ? <> · {wordCount.toLocaleString('en-GB')} words</> : null}
+    </div>
+  ) : null
+}
+{
+  editUrl ? (
+    <div>
+      {icons ? <i class="ph-duotone ph-pencil-simple" /> : null}
+      <a href={editUrl} target="_blank" rel="noopener noreferrer">
+        Edit on GitHub
+      </a>
+    </div>
+  ) : null
+}
