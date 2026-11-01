@@ -1,6 +1,8 @@
 ---
 // The reading time, word count and edit link of a blog post or code note.
-// Renders one <div> per item, for a flex row to lay out.
+// Renders one section per item, for a flex row to lay out.
+import MetaItem from './MetaItem.astro';
+
 type Props = {
   readingTime?: number;
   wordCount?: number;
@@ -13,20 +15,34 @@ const { readingTime, wordCount, editUrl, icons = false } = Astro.props;
 
 {
   readingTime ? (
-    <div>
+    <MetaItem>
       {icons ? <i class="ph-duotone ph-clock" aria-hidden="true" /> : null}
       {readingTime} min read
-      {wordCount ? <> · {wordCount.toLocaleString('en-GB')} {wordCount === 1 ? 'word' : 'words'}</> : null}
-    </div>
+    </MetaItem>
+  ) : null
+}
+{
+  wordCount ? (
+    <MetaItem>
+      {`${wordCount.toLocaleString('en-GB')} ${wordCount === 1 ? 'word' : 'words'}`}
+    </MetaItem>
   ) : null
 }
 {
   editUrl ? (
-    <div>
+    <MetaItem>
       {icons ? <i class="ph-duotone ph-pencil-simple" aria-hidden="true" /> : null}
       <a href={editUrl} target="_blank" rel="noopener noreferrer">
         Edit on GitHub
       </a>
-    </div>
+    </MetaItem>
   ) : null
 }
+
+<style>
+  /* Same look as the other icons in the note's meta row */
+  i {
+    font-size: var(--step--1);
+    opacity: 0.7;
+  }
+</style>

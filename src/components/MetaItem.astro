@@ -1,0 +1,20 @@
+---
+// One section of a meta row. A "·" follows it unless it is the last one, so a
+// section that is left out can never leave two dots side by side.
+---
+
+<div class="zm-metaItem"><slot /></div>
+
+<style>
+  .zm-metaItem {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2xs);
+  }
+
+  .zm-metaItem:not(:last-child)::after {
+    content: '·';
+    /* Empty alt text: screen readers skip the dot where this is supported */
+    content: '·' / '';
+  }
+</style>
