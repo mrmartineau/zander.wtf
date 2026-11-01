@@ -2,7 +2,7 @@
 title: Awesome Web Dev resources
 emoji: 👌
 link: https://github.com/mrmartineau/awesome-web-dev-resources
-date: 2021-11-11
+date: git Last Modified
 ---
 
 ![](https://badgen.net/github/last-commit/mrmartineau/awesome-web-dev-resources)
@@ -398,13 +398,13 @@ These are tools that I use often and that I find useful.
   - [snapshot-diff](https://github.com/jest-community/snapshot-diff): Diffing snapshot utility for Jest
   - [jest-date-mock](https://github.com/hustcc/jest-date-mock): 🌗 Mock `Date` when run unit test cases with jest. Make tests of Date easier
 - [Cypress](https://cypress.io): end-to-end testing
-  - [cypress-testing-library](https://github.com/kentcdodds/cypress-testing-library): 🐅 Simple and complete custom Cypress commands and utilities that encourage good testing practices
+  - [cypress-testing-library](https://github.com/testing-library/cypress-testing-library): 🐅 Simple and complete custom Cypress commands and utilities that encourage good testing practices
   - [cypress-axe](https://github.com/avanslaars/cypress-axe): Custom commands for Cypress to run a11y checks with axe-core
   - [start-server-and-test](https://github.com/bahmutov/start-server-and-test): Starts server, waits for URL, then runs test command; when the tests end, shuts down server
-- [dom-testing-library](https://github.com/kentcdodds/dom-testing-library): 🐙 Simple and complete DOM testing utilities that encourage good testing practices
+- [dom-testing-library](https://github.com/testing-library/dom-testing-library): 🐙 Simple and complete DOM testing utilities that encourage good testing practices
 - [react-testing-library 🐐](https://github.com/testing-library/react-testing-library): Simple and complete React DOM testing utilities that encourage good testing practices
   - [react-testing-library](https://react-testing-examples.com/): React Testing Examples
-  - [react-hooks-testing-library](https://github.com/testing-library/react-hooks-testing-library): 🐏 Simple and complete React hooks testing utilities that encourage good testing practices
+  - [react-hooks-testing-library](https://github.com/testing-library/react-hooks-testing-library): 🐏 Simple and complete React hooks testing utilities that encourage good testing practices. React 17 and earlier only: on React 18 and later, use `renderHook` from `@testing-library/react`
 - [Chance](https://github.com/chancejs/chancejs): Random generator helper for JavaScript
 - [faker.js](https://github.com/Marak/faker.js): generate massive amounts of fake data in Node.js and the browser
 - [nock](https://github.com/nock/nock): HTTP server mocking and expectations library for Node.js

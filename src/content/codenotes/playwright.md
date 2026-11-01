@@ -5,7 +5,7 @@ tags:
   - testing
 emoji: 🎭
 link: https://playwright.dev/
-date: 2026-07-21
+date: git Last Modified
 ---
 
 My go-to for E2E testing. Cross-browser (Chromium, Firefox, WebKit), auto-waiting built in, and the tooling (`--ui` mode, codegen, trace viewer) is genuinely excellent.
@@ -87,7 +87,7 @@ No manual waits anywhere — `expect` retries until it passes or times out (web-
 
 ## Locators
 
-Prefer user-facing locators (role, label, text) over CSS/test-ids — they double as accessibility checks:
+Prefer user-facing locators (role, label, text) over CSS/test-ids — they double as accessibility checks. This is the same priority as [Testing library](/notes/testing-library/#which-query-to-use-docs):
 
 ```ts
 page.getByRole('button', { name: 'Submit' })

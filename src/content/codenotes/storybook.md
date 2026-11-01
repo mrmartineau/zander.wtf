@@ -5,7 +5,7 @@ tags:
   - storybook
 emoji: 📖
 link: https://storybook.js.org
-date: 2026-01-20
+date: git Last Modified
 ---
 
 ## Stories (CSF3)
@@ -60,12 +60,12 @@ export const WithWrapper: Story = {
 
 ### Play function (interaction testing)
 
-Play functions let you simulate user interactions for testing.
+Play functions let you simulate user interactions for testing. `within`, `userEvent` and `expect` are [Testing library](/notes/testing-library/) under the hood.
 
 ```tsx
 // LoginForm.stories.tsx
 import type { Meta, StoryObj } from '@storybook/react'
-import { within, userEvent, expect } from '@storybook/test'
+import { within, userEvent, expect } from 'storybook/test'
 import { LoginForm } from './LoginForm'
 
 const meta = {

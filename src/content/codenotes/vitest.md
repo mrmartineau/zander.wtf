@@ -2,7 +2,7 @@
 title: Vitest
 tags:
   - testing
-date: 2026-01-20
+date: git Last Modified
 link: https://vitest.dev
 emoji: ⚡
 ---
@@ -42,7 +42,9 @@ The modern way to set up jest-dom matchers:
 import '@testing-library/jest-dom/vitest'
 ```
 
-That's it! The package auto-extends Vitest's `expect` when you import it.
+That's it! The package auto-extends Vitest's `expect` when you import it. See [Testing library](/notes/testing-library/#jest-dom) for the matchers.
+
+Keep `globals: true` in the config. Testing Library only cleans up after each test by itself when the runner has a global `afterEach`. Without it, call `cleanup()` in your own `afterEach`.
 
 ### Additional setup
 
@@ -137,6 +139,12 @@ describe('MyComponent', () => {
     expect(screen.getByText('Clicked!')).toBeInTheDocument()
   })
 })
+```
+
+More queries, `waitFor` and `renderHook` are in [Testing library](/notes/testing-library/). If the test uses fake timers, tell `userEvent` to move time on, or the test hangs:
+
+```tsx
+const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime })
 ```
 
 ## Inline snapshots

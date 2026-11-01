@@ -5,7 +5,7 @@ tags:
   - react
   - testing
 emoji: 🧪
-date: 2026-01-20
+date: git Last Modified
 ---
 
 > For new projects, consider using [Vitest](/notes/vitest) instead. It's faster, has better ESM support, and is compatible with most Jest APIs.
@@ -96,6 +96,29 @@ test('throws on invalid input', () => {
   )
 })
 ```
+
+## Testing React components
+
+Jest 28 and later do not ship a DOM. Install `jest-environment-jsdom` and turn it on:
+
+```sh
+npm install --save-dev jest-environment-jsdom @testing-library/react @testing-library/dom @testing-library/jest-dom @testing-library/user-event
+```
+
+```js
+// jest.config.js
+module.exports = {
+  testEnvironment: 'jsdom',
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+}
+```
+
+```js
+// jest.setup.js
+import '@testing-library/jest-dom'
+```
+
+Queries, matchers and `userEvent` are in [Testing library](/notes/testing-library/). If the test uses fake timers, pass `userEvent.setup({ advanceTimers: jest.advanceTimersByTime })`.
 
 ## Matchers cheatsheet
 
