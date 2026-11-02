@@ -3,6 +3,6 @@ allowBuilds:
   sharp: false
   workerd: true
 minimumReleaseAgeExclude:
-  - astro-git-dates@1.0.1
+  - astro-entry-meta@1.0.0
   - '@mrmartineau/lil-debugger@1.0.0 || 1.1.0'
   - astro-d1-reactions@1.0.0
