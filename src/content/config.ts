@@ -1,15 +1,43 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
-import { gitDates } from 'astro-git-dates';
+import {
+  type EntryMetaOptions,
+  entryMeta,
+  type GitInfo,
+  gitInfo,
+  readingTime,
+  wordCount,
+} from 'astro-entry-meta';
+
+// Computed for the blog and the code notes. They are in the schemas below too,
+// or the schema would remove them.
+const computed: EntryMetaOptions['computed'] = {
+  readingTime: ({ body }) => readingTime(body ?? ''),
+  wordCount: ({ body }) => wordCount(body ?? ''),
+  // One commit is enough: only `editUrl` is shown
+  git: ({ filePath }) =>
+    filePath &&
+    gitInfo(filePath, {
+      editUrl: 'https://github.com/mrmartineau/zander.wtf/edit/main/',
+      historyLimit: 1,
+    }),
+};
+const computedSchema = {
+  readingTime: z.number(),
+  wordCount: z.number(),
+  git: z.custom<GitInfo>().optional(),
+};
 
 const blog = defineCollection({
   // `_` folders and files (drafts, templates) stay out, as with the old
   // `type: 'content'` collections
-  loader: gitDates(
+  loader: entryMeta(
     glob({
       pattern: ['**/*.{md,mdx}', '!**/_*', '!**/_*/**'],
       base: './src/content/blog',
     }),
+    // `draft: true` entries are left out of the build; dev still shows them
+    { preview: import.meta.env.DEV, computed },
   ),
   schema: z.object({
     title: z.string(),
@@ -25,12 +53,17 @@ const blog = defineCollection({
     // renders in dev so it can be previewed. Keep drafts in blog/_drafts/
     // too: the search indexer skips by directory, not frontmatter.
     draft: z.boolean().optional().default(false),
+    ...computedSchema,
   }),
 });
 
 const codenotes = defineCollection({
-  loader: gitDates(
+  loader: entryMeta(
     glob({ pattern: '**/*.md', base: './src/content/codenotes' }),
+    // `draft: true` notes are left out of the build; dev still shows them.
+    // Keep drafts in codenotes/_drafts/ too: the search indexer skips by
+    // directory, not frontmatter.
+    { preview: import.meta.env.DEV, computed },
   ),
   schema: z.object({
     title: z.string(),
@@ -38,6 +71,7 @@ const codenotes = defineCollection({
     date: z.date().optional(),
     emoji: z.string().optional(),
     link: z.string().optional(),
+    ...computedSchema,
   }),
 });
 

@@ -19,7 +19,12 @@ const searchConfig: D1SearchOptions = {
       // Worklog entries live under blog/ but are indexed as their own type
       skipDirs: ['Templates', 'worklog', '_drafts'],
     },
-    { dir: 'src/content/codenotes', type: 'note', url: '/notes/:slug' },
+    {
+      dir: 'src/content/codenotes',
+      type: 'note',
+      url: '/notes/:slug',
+      skipDirs: ['_drafts'],
+    },
     { dir: 'src/content/projects', type: 'project', url: '/projects/:slug' },
     {
       dir: 'src/content/blog/worklog',

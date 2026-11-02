@@ -1,5 +1,7 @@
 ---
+import EntryMeta from './EntryMeta.astro';
 import FormattedDate from './FormattedDate.astro';
+import MetaItem from './MetaItem.astro';
 import PageSubtitle from './PageSubtitle.astro';
 import PageTitle from './PageTitle.astro';
 import SectionTitle from './SectionTitle.astro';
@@ -14,6 +16,9 @@ type Props = {
   worklog?: boolean;
   tags?: string[];
   showType?: boolean;
+  readingTime?: number;
+  wordCount?: number;
+  editUrl?: string;
 };
 
 const {
@@ -25,6 +30,9 @@ const {
   tags,
   worklog,
   showType = true,
+  readingTime,
+  wordCount,
+  editUrl,
 } = Astro.props;
 ---
 
@@ -39,21 +47,32 @@ const {
 
   {subtitle ? <PageSubtitle transition:persist>{subtitle}</PageSubtitle> : null}
   {
-    date || tags?.length ? (
-      <div class="zm-articleMetadata my-m flex items-center gap-x-m gap-y-xs flex-wrap text-sm">
+    date || tags?.length || readingTime ? (
+      <div class="zm-articleMetadata my-m flex items-center gap-x-2xs gap-y-xs flex-wrap text-xs">
         {date ? (
-          <div>
+          <MetaItem>
             <FormattedDate date={date} />
-            {modified ? <> · Updated <FormattedDate date={modified} /></> : null}
-          </div>
+          </MetaItem>
         ) : null}
-        {showType ? <div class="uppercase">{worklog ? 'worklog' : 'article'}</div> : null}
+        {date && modified ? (
+          <MetaItem>
+            Updated <FormattedDate date={modified} />
+          </MetaItem>
+        ) : null}
+        {showType ? (
+          <MetaItem>
+            <span class="uppercase">{worklog ? 'worklog' : 'article'}</span>
+          </MetaItem>
+        ) : null}
+        <EntryMeta readingTime={readingTime} wordCount={wordCount} editUrl={editUrl} />
         {tags?.length ? (
-          <div class="flex gap-x-xs gap-y-3xs flex-wrap">
-            {tags.map((item) => {
-              return <span>#{item}</span>;
-            })}
-          </div>
+          <MetaItem>
+            <div class="flex gap-x-xs gap-y-3xs flex-wrap">
+              {tags.map((item) => {
+                return <span>#{item}</span>;
+              })}
+            </div>
+          </MetaItem>
         ) : null}
       </div>
     ) : null
