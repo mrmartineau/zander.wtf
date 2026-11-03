@@ -9,7 +9,7 @@ tags:
   - content-collections
 ---
 
-After I wrote [astro-git-dates](/blog/2026-10-01-git-dates), I made a list of what else Eleventy and Hugo do that Astro doesn't. Three of the ideas turned out to be the same idea. Each one changes a collection entry at build time, before the schema sees it. Three packages for that would be silly, so I made one: [`astro-entry-meta`](https://github.com/mrmartineau/astro-entry-meta).
+After I published [astro-git-dates](/blog/2026-10-01-git-dates), I made a list of what else Eleventy and Hugo do that Astro doesn't. These were things like drafts, scheduled posts, reading time and other Git-related information and metadata. It seemed to me that all these could be separate packages, but since they were all loosely related, I decided to create one package that covers all the features: [`astro-entry-meta`](https://github.com/mrmartineau/astro-entry-meta).
 
 **TL;DR**
 
@@ -18,7 +18,7 @@ After I wrote [astro-git-dates](/blog/2026-10-01-git-dates), I made a list of wh
 - Computed fields: reading time, word count, an excerpt, the last author, an "Edit on GitHub" link. Anything you can work out from the body or from git
 - One wrapper around your loader, no dependencies
 
-A Zod schema can't see an entry's body, but a loader can. That's why computed fields live here, and why a list page can show reading time without rendering every post. On this site it gives each post and code note a reading time, a word count and an edit link. `draft: true` posts are gone from the collection too, so `getBlog()` lost its draft filter. The site rebuilds every 12 hours, so a post with a `publishDate` appears by itself.
+An Astro content schema can't see an entry's body, but a loader can. That's why computed fields live here, and why a list page can show reading time without rendering every post. On this site it gives each post and code note a reading time, a word count and an edit link. `draft: true` posts are gone from the collection too, so `getBlog()` lost its draft filter. The site rebuilds every 12 hours, so a post with a `publishDate` appears by itself.
 
 ## Add it to your site
 
