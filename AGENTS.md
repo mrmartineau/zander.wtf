@@ -8,7 +8,7 @@ Personal website for Zander Martineau (`https://zander.wtf`). Static output depl
 
 Deploy is GitHub Actions (`.github/workflows/deploy.yml`). It runs on push to `main`, on `workflow_dispatch`, **and on a 12-hourly cron** — the cron exists because page data is fetched from external APIs at build time, so the site needs rebuilding to refresh it. The workflow pushes the search index *after* deploying, so the index never points at pages that don't exist yet.
 
-External data sources (`src/fetching/`): `otter.zander.wtf` is Zander's own bookmarking/media-tracking app; the rest is Last.fm, Spotify and Letterboxd.
+External data sources (`src/fetching/`): `otter.zander.wtf` is Zander's own bookmarking/media-tracking app; the rest is Last.fm, Spotify, Letterboxd and the GitHub REST API (`/now`'s Coding section).
 
 ### Search
 
@@ -49,6 +49,7 @@ Needed in `.env` locally and as Cloudflare Pages / GitHub Actions secrets in pro
 | `OTTER_API_KEY` | Otter media API |
 | `ZM_API` | Personal Cloudflare Worker API base URL |
 | `NOTION_TOKEN` | Notion data |
+| `GITHUB_TOKEN` | Optional; raises the GitHub API rate limit for `/now`. CI passes the built-in Actions token |
 | `REACTIONS_ADMIN_TOKEN` | Lets you delete any highlight (Cloudflare Pages secret; `.dev.vars` locally) |
 
 CI also needs `CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_ACCOUNT_ID`; the token needs **both** Pages Edit and D1 Edit scopes, or the deploy succeeds and the search index push fails.
