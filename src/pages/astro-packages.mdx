@@ -1,0 +1,100 @@
+---
+title: Astro packages
+subtitle: The Astro integrations and loaders I built for this site, then published so you can use them on yours.
+date: 2026-11-04
+layout: ../layouts/MarkdownLayout.astro
+slug: astro-packages
+reactions: true
+---
+
+import StarterCard from '~/components/StarterCard.astro';
+import StarterGrid from '~/components/StarterGrid.astro';
+
+This site is where I try things out. When something I build for it turns out useful, I move it into its own package, so the next site gets it with one install instead of a copy-paste.
+
+There are three so far. Two keep their data in Cloudflare D1. The third runs at build time and needs no database. Each one ran on this site first, so if it breaks, my site breaks before yours does.
+
+## The packages
+
+Each card links to the GitHub repo. All three install from npm.
+
+<StarterGrid>
+  <StarterCard
+    title="astro-d1-search"
+    repo="https://github.com/mrmartineau/astro-d1-search"
+    icon="ph-magnifying-glass"
+    tech="Astro · Cloudflare D1 · SQLite FTS5 · TypeScript"
+    description="Full-text site search. Build-time indexing, an injected search endpoint, and bm25 ranking with a recency boost."
+  />
+  <StarterCard
+    title="astro-d1-reactions"
+    repo="https://github.com/mrmartineau/astro-d1-reactions"
+    icon="ph-heart"
+    tech="Astro · Cloudflare D1 · CSS Custom Highlight API · TypeScript"
+    description="Hearts, unique reads and reader highlights in a pill at the bottom of the page, plus a public stats page."
+  />
+  <StarterCard
+    title="astro-entry-meta"
+    repo="https://github.com/mrmartineau/astro-entry-meta"
+    icon="ph-git-branch"
+    tech="Astro · Content collections · Git · TypeScript"
+    description="Drafts, scheduled posts, reading time and git info for content collections. It replaces astro-git-dates."
+  />
+</StarterGrid>
+
+### astro-d1-search
+
+I used to run this site's search on Algolia. Now it runs on this package, and the search page, the `⌘K` spotlight in desktop mode and my Raycast extension all call the same endpoint.
+
+One config object says which content to index and how each source maps to a type and a URL. The integration indexes that content into a D1 full-text table at build time and adds a `/api/search` route. It also exports a `searchIndex` function for search pages that render on the server. If the D1 binding is missing from `wrangler.toml`, it warns at startup and prints the snippet you need.
+
+```sh
+pnpm add astro-d1-search
+```
+
+There is a [docs site](https://astro-d1-search.zander.wtf). The [announcement post](/blog/astro-d1-search-package) covers the setup, and [How I replaced Algolia](/blog/astro-cloudflare-d1-search) covers how it works.
+
+### astro-d1-reactions
+
+This is the pill at the bottom of the page you're reading. I saw a similar bar on Gabriel Valdivia's site, loved it, and wanted one on every site I build.
+
+It gives you hearts, a count of unique reads, and reader highlights. Highlights use the CSS Custom Highlight API, so the page's DOM never changes. There are no cookies and no names. A reader is a random id kept in their browser, so each person counts once per page. The integration adds a `POST /api/reactions` route and a set of components for a public stats page, like [mine](/stats).
+
+```sh
+pnpm add astro-d1-reactions
+```
+
+Both D1 packages need the [`@astrojs/cloudflare`](https://docs.astro.build/en/guides/integrations-guide/cloudflare/) adapter. The rest of your site can stay static. Only the endpoint and the stats page run on the server. The [announcement post](/blog/astro-d1-reactions) has the full setup.
+
+### astro-entry-meta
+
+Eleventy and Hugo do a few things for content that Astro doesn't, and I missed them after I moved this site. This package adds them. You wrap a collection's loader, and it does three jobs. Each one is opt-in.
+
+- **Git dates.** Write `date: git Last Modified` in the frontmatter, and the build swaps in the date of the file's last commit.
+- **Publishing rules.** `draft: true`, a future `publishDate` or a past `expiryDate` leaves the entry out of the collection.
+- **Computed fields.** Reading time, word count, an excerpt, the last author and an "Edit on GitHub" link, worked out from the entry's body or its git history.
+
+A content schema can't see an entry's body, but a loader can. That's why these fields live in a loader wrapper. The reading time and edit link on this site's posts and code notes come from this package. It has no dependencies.
+
+It began as `astro-git-dates`, which only did the dates. [That package](https://github.com/mrmartineau/astro-git-dates) is now retired. The keywords work the same, so moving over is a new import and a new function name.
+
+```sh
+pnpm add astro-entry-meta
+```
+
+The [announcement post](/blog/astro-entry-meta) shows the setup.
+
+## What they share
+
+- **Extracted, not invented.** I only publish a package after it has worked on this site for a while.
+- **Small surface.** Each one is a single integration or a single loader wrapper, and the setup lives in one place.
+- **Ready for agents.** Each repo has a `SKILL.md` that teaches a coding agent the setup order, every file to change and the ways it can fail. You can ask your agent to install the package for you.
+- **Static first.** The site stays static. Only the pieces that need a server, like search and reactions, run as Cloudflare Workers.
+
+## Read more
+
+- [Introducing astro-d1-search](/blog/astro-d1-search-package) — search for Astro in one integration
+- [Introducing astro-d1-reactions](/blog/astro-d1-reactions) — hearts, reads and highlights
+- [Introducing astro-entry-meta](/blog/astro-entry-meta) — drafts, reading time and git info
+- [The Zed Stack](/zed-stack) — the starters I use to build everything else
+- [Projects](/projects) — everything else I've made

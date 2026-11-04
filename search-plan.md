@@ -106,12 +106,13 @@ Prereqs: `@astrojs/cloudflare` adapter with `platformProxy: { enabled: true }` i
 
 ```ts
 import type { APIRoute } from 'astro'
+import { env } from 'cloudflare:workers'
 
 export const prerender = false
 
 const MAX_LIMIT = 25
 
-export const GET: APIRoute = async ({ url, locals }) => {
+export const GET: APIRoute = async ({ url }) => {
   const q = url.searchParams.get('q')?.trim() ?? ''
   const limit = Math.min(Number(url.searchParams.get('limit') ?? 10), MAX_LIMIT)
   const offset = Math.max(Number(url.searchParams.get('offset') ?? 0), 0)
@@ -119,7 +120,7 @@ export const GET: APIRoute = async ({ url, locals }) => {
   if (q.length < 2) return json({ results: [], total: 0 })
 
   const match = toFtsQuery(q)
-  const db = locals.runtime.env.SEARCH_DB
+  const db = env.SEARCH_DB
 
   const { results } = await db
     .prepare(

@@ -16,10 +16,10 @@ const rest = projects.filter(({ data }) => !data.image);
   {
     withImage.length ? (
       <div class="cards">
-        {withImage.map(({ slug, data }) => {
+        {withImage.map(({ id, data }) => {
           const site = projectSite(data);
           return (
-            <a href={`/projects/${slug}`} class="card">
+            <a href={`/projects/${id}`} class="card">
               <img src={data.image} alt="" loading="lazy" />
               <span class="card-text">
                 <span class="card-title">{data.title}</span>
@@ -44,10 +44,10 @@ const rest = projects.filter(({ data }) => !data.image);
   {
     rest.length ? (
       <ul class="lines">
-        {rest.map(({ slug, data }) => (
+        {rest.map(({ id, data }) => (
           <li>
             <a
-              href={`/projects/${slug}`}
+              href={`/projects/${id}`}
               class:list={['line', { 'line--retired': isRetired(data.status) }]}
             >
               <span class="line-title">{data.title}</span>

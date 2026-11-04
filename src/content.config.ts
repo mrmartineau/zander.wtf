@@ -1,4 +1,5 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection } from 'astro:content';
+import { z } from 'astro/zod';
 import { glob } from 'astro/loaders';
 import {
   type EntryMetaOptions,
@@ -76,7 +77,7 @@ const codenotes = defineCollection({
 });
 
 const projects = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/*.md', base: './src/content/projects' }),
   schema: z.object({
     title: z.string(),
     subtitle: z.string().optional(),
@@ -124,7 +125,7 @@ const projects = defineCollection({
 });
 
 const cv = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/*.md', base: './src/content/cv' }),
   schema: z.object({
     company: z.string(),
     url: z.string().optional(),

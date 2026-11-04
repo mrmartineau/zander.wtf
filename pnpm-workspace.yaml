@@ -5,4 +5,16 @@ allowBuilds:
 minimumReleaseAgeExclude:
   - astro-entry-meta@1.0.0
   - '@mrmartineau/lil-debugger@1.0.0 || 1.1.0'
-  - astro-d1-reactions@1.0.0
+  - astro-d1-reactions@1.0.0 || 2.0.0 || 2.0.1
+  - '@biomejs/biome@2.6.5'
+  - '@biomejs/cli-android-arm64@2.6.5'
+  - '@biomejs/cli-android-x64@2.6.5'
+  - '@biomejs/cli-darwin-arm64@2.6.5'
+  - '@biomejs/cli-darwin-x64@2.6.5'
+  - '@biomejs/cli-linux-arm64-musl@2.6.5'
+  - '@biomejs/cli-linux-arm64@2.6.5'
+  - '@biomejs/cli-linux-x64-musl@2.6.5'
+  - '@biomejs/cli-linux-x64@2.6.5'
+  - '@biomejs/cli-win32-arm64@2.6.5'
+  - '@biomejs/cli-win32-x64@2.6.5'
+  - astro-d1-search@2.0.0

@@ -123,6 +123,7 @@ export default defineConfig({
         { url: '/cv', title: 'CV' },
         { url: '/work-with-me', title: 'Work with me' },
         { url: '/zed-stack', title: 'The Zed Stack' },
+        { url: '/astro-packages', title: 'Astro packages' },
         { url: '/colophon', title: 'Colophon' },
         { url: '/feeds', title: 'Feeds' },
         { url: '/stats', title: 'Stats' },
@@ -158,7 +159,10 @@ export default defineConfig({
   output: 'static',
   adapter: cloudflare({
     imageService: 'compile',
-    // Exposes wrangler.toml bindings (SEARCH_DB) to astro dev via Astro.locals.runtime
+    // Exposes wrangler.toml bindings (SEARCH_DB) to astro dev via `env` from cloudflare:workers
     platformProxy: { enabled: true },
+    // Prerender in Node, not workerd: the OG image route reads fonts and the
+    // resvg wasm from disk with `node:fs`, which workerd cannot do.
+    prerenderEnvironment: 'node',
   }),
 })

@@ -1,5 +1,5 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 
 const roles = (await getCollection('cv')).sort((a, b) =>
   b.data.startDate.localeCompare(a.data.startDate),
@@ -7,7 +7,7 @@ const roles = (await getCollection('cv')).sort((a, b) =>
 
 const renderedRoles = await Promise.all(
   roles.map(async (role) => {
-    const { Content } = await role.render();
+    const { Content } = await render(role);
     return { ...role, Content };
   }),
 );

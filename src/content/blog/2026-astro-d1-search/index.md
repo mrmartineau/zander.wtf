@@ -277,13 +277,14 @@ Rendering the results is where server rendering keeps things pleasingly boring. 
 ---
 export const prerender = false;
 
+import { env } from 'cloudflare:workers';
 import { searchIndex, type SearchResult } from '~/utils/search';
 
 const query = Astro.url.searchParams.get('q')?.trim() || '';
 
 let results: SearchResult[] = [];
 if (query.length >= 2) {
-  results = await searchIndex(Astro.locals.runtime.env.SEARCH_DB, {
+  results = await searchIndex(env.SEARCH_DB, {
     query,
     limit: 25,
   });
@@ -310,7 +311,7 @@ Two details worth calling out:
 The site actually has a second search page. The [code notes](/notes) section is its own little world, with a sidebar, tags and a search form of its own, and when you're in there searching, you almost certainly want notes, not blog posts from 2012. So [`/notes/search`](/notes/search) calls the same `searchIndex()` function with `type: 'note'` hard-wired:
 
 ```ts
-searchResults = await searchIndex(Astro.locals.runtime.env.SEARCH_DB, {
+searchResults = await searchIndex(env.SEARCH_DB, {
   query,
   limit: 50,
   type: 'note',

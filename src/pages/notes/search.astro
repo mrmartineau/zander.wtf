@@ -1,6 +1,7 @@
 ---
 export const prerender = false;
 
+import { env } from 'cloudflare:workers';
 import NoteList from '~/components/NoteList.astro';
 import NoteLayout from '~/layouts/NoteLayout.astro';
 import { type SearchResult, searchIndex } from '~/utils/search';
@@ -11,7 +12,7 @@ let searchError = '';
 
 if (query.length >= 2) {
   try {
-    searchResults = await searchIndex(Astro.locals.runtime.env.SEARCH_DB, {
+    searchResults = await searchIndex(env.SEARCH_DB, {
       query,
       limit: 50,
       type: 'note',

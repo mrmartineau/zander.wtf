@@ -9,7 +9,7 @@ type Props = {
   label?: string;
 };
 const { project, label } = Astro.props;
-const { slug, data } = project;
+const { id, data } = project;
 const isIosApp = data.type === 'ios-app';
 const shots = (data.screenshots ?? []).map((shot) => shot.src);
 // iOS apps fan three phone screenshots; everything else gets up to two
@@ -58,7 +58,7 @@ const eyebrow = [
           </a>
         ) : null
       }
-      <a href={`/projects/${slug}`} class="more">More info →</a>
+      <a href={`/projects/${id}`} class="more">More info →</a>
     </div>
   </div>
   <div class="visual" aria-hidden="true">

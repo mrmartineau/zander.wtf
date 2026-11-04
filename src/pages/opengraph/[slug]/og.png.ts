@@ -224,7 +224,7 @@ export async function getStaticPaths() {
   // silently overwriting.
   const allPages = [...blogPosts, ...projects, ...otherPages];
   return allPages.map((post) => ({
-    // Blog entries (glob loader) have only `id`; projects and pages have `slug`
+    // Blog and project entries have `id`; the static pages have `slug`
     params: { slug: 'slug' in post ? post.slug : post.id },
     props: { post },
   }));

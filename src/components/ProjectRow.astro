@@ -8,14 +8,14 @@ type Props = {
   project: CollectionEntry<'projects'>;
 };
 const { project } = Astro.props;
-const { slug, data } = project;
+const { id, data } = project;
 const isAppIcon = data.type === 'ios-app';
 // Most projects have no image; give them a coloured square with an initial.
 const thumbBg =
   data.bgColour ?? (data.image ? 'var(--bg)' : getColourFromString(data.title));
 ---
 
-<a href={`/projects/${slug}`} class="zm-project-row">
+<a href={`/projects/${id}`} class="zm-project-row">
   <span class="thumb" style={`background: ${thumbBg}`}>
     {
       data.image ? (

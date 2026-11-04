@@ -82,6 +82,12 @@ export const SITE_METADATA: Record<
     subtitle:
       'The starters, tools and automation I use to get from an idea to a deployed project in an afternoon',
   },
+  'astro-packages': {
+    title: 'Astro packages',
+    ogTitle: 'Astro packages',
+    subtitle:
+      'The Astro integrations and loaders I built for this site, then published so you can use them on yours',
+  },
 };
 
 // `key` is the single-letter keyboard shortcut for the page. See Shortcuts.astro.
@@ -147,6 +153,10 @@ export const SITE_FOOTER_ITEMS = [
     url: '/zed-stack',
   },
   {
+    text: 'Astro packages',
+    url: '/astro-packages',
+  },
+  {
     text: 'Lab',
     url: 'https://lab.zander.wtf',
     external: true,
@@ -157,6 +167,10 @@ export const SITE_FOOTER_ITEMS = [
     url: 'https://github.com/mrmartineau',
     external: true,
     key: 'g',
+  },
+  {
+    text: `Lil' Debugger`,
+    url: '/lil-debugger',
   },
   {
     text: 'Bluesky',

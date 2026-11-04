@@ -24,7 +24,7 @@ const pages = [
   })),
   ...projects.map((entry) => ({
     ...entry,
-    url: `/projects/${entry.slug}`,
+    url: `/projects/${entry.id}`,
     type: 'Project',
   })),
   ...notes.map((entry) => ({

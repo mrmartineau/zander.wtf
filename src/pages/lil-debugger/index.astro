@@ -4,6 +4,7 @@
 import { Code } from 'astro:components';
 import { styles } from '@mrmartineau/lil-debugger';
 import Reactions from '~/components/Reactions.astro';
+import { frameworks } from '~/utils/lilDebuggerFrameworks';
 // Only @font-face rules: the site's fonts without the site's styles.
 import '../../styles/global/font-face.css';
 
@@ -40,76 +41,6 @@ const ownJs = `lilDebugger({ injectStyles: false });`;
 
 // The default CSS, straight from the installed package, so it never drifts.
 const defaultCss = styles().trim();
-
-const frameworks: [
-  name: string,
-  lang: 'html' | 'astro' | 'tsx' | 'vue' | 'svelte',
-  code: string,
-][] = [
-  [
-    'Plain HTML',
-    'html',
-    `<!-- No build step: load it from a CDN, and only on the pages you debug -->
-<script type="module">
-  import { lilDebugger } from "https://esm.sh/@mrmartineau/lil-debugger@1";
-
-  lilDebugger();
-</script>`,
-  ],
-  [
-    'Astro',
-    'astro',
-    `<script>
-  import { lilDebugger } from "@mrmartineau/lil-debugger";
-
-  if (import.meta.env.DEV) lilDebugger();
-</script>`,
-  ],
-  [
-    'React',
-    'tsx',
-    `import { useEffect } from "react";
-import { lilDebugger } from "@mrmartineau/lil-debugger";
-
-export function LilDebugger() {
-  useEffect(() => lilDebugger().destroy, []);
-  return null;
-}`,
-  ],
-  [
-    'Vue',
-    'vue',
-    `<script setup>
-import { onMounted, onUnmounted } from "vue";
-import { lilDebugger } from "@mrmartineau/lil-debugger";
-
-let debug;
-onMounted(() => (debug = lilDebugger()));
-onUnmounted(() => debug?.destroy());
-</script>`,
-  ],
-  [
-    'Svelte',
-    'svelte',
-    `<script>
-  import { onMount } from "svelte";
-  import { lilDebugger } from "@mrmartineau/lil-debugger";
-
-  onMount(() => lilDebugger().destroy);
-</script>`,
-  ],
-  [
-    'Solid',
-    'tsx',
-    `import { onCleanup, onMount } from "solid-js";
-import { lilDebugger } from "@mrmartineau/lil-debugger";
-
-export function LilDebugger() {
-  onMount(() => onCleanup(lilDebugger().destroy));
-  return null;
-}`,
-  ],
-];
 
 // [name, accent, tint, panel background, panel text]
 const themes = [

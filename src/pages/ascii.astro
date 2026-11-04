@@ -148,7 +148,7 @@ for (let i = 0; i < projects.length; i++) {
   projLines.push(
     '  ' +
       link(
-        proj.data.link || proj.data.repo || `/projects/${proj.slug}`,
+        proj.data.link || proj.data.repo || `/projects/${proj.id}`,
         `[${shortcut(key)}] ${trunc(proj.data.title, L - 8)}`,
         '',
         key,

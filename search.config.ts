@@ -43,6 +43,7 @@ const searchConfig: D1SearchOptions = {
         'src/pages/support.md',
         'src/pages/work-with-me.md',
         'src/pages/zed-stack.mdx',
+        'src/pages/astro-packages.mdx',
       ],
       type: 'page',
       url: '/:slug',
