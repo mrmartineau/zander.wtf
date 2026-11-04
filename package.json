@@ -60,6 +60,7 @@
     "@tailwindcss/postcss": "^4.3.4",
     "@tailwindcss/typography": "^0.5.20",
     "@types/figlet": "^1.12.0",
+    "@types/node": "^26.6.6",
     "postcss": "^8.5.32",
     "postcss-import": "^17.0.1",
     "postcss-import-ext-glob": "^2.1.1",
