@@ -4,7 +4,7 @@
 
 ### Site and deployment
 
-Personal website for Zander Martineau (`https://zander.wtf`). Static output deployed to Cloudflare Pages.
+Personal website for Zander Martineau (`https://zander.wtf`). Static output plus a small server worker, deployed as a Cloudflare Worker with static assets (the Astro Cloudflare adapter no longer supports Pages).
 
 Deploy is GitHub Actions (`.github/workflows/deploy.yml`). It runs on push to `main`, on `workflow_dispatch`, **and on a 12-hourly cron** — the cron exists because page data is fetched from external APIs at build time, so the site needs rebuilding to refresh it. The workflow pushes the search index *after* deploying, so the index never points at pages that don't exist yet.
 
@@ -39,7 +39,7 @@ Tailwind v3 through PostCSS — **not** the Astro Tailwind integration. Custom C
 
 ## Environment variables
 
-Needed in `.env` locally and as Cloudflare Pages / GitHub Actions secrets in production:
+Needed in `.env` locally and as Cloudflare Worker / GitHub Actions secrets in production:
 
 | Variable | Purpose |
 |---|---|
@@ -49,9 +49,9 @@ Needed in `.env` locally and as Cloudflare Pages / GitHub Actions secrets in pro
 | `OTTER_API_KEY` | Otter media API |
 | `ZM_API` | Personal Cloudflare Worker API base URL |
 | `NOTION_TOKEN` | Notion data |
-| `REACTIONS_ADMIN_TOKEN` | Lets you delete any highlight (Cloudflare Pages secret; `.dev.vars` locally) |
+| `REACTIONS_ADMIN_TOKEN` | Lets you delete any highlight (Worker secret, set with `wrangler secret put`; `.dev.vars` locally) |
 
-CI also needs `CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_ACCOUNT_ID`; the token needs **both** Pages Edit and D1 Edit scopes, or the deploy succeeds and the search index push fails.
+CI also needs `CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_ACCOUNT_ID`; the token needs **all** of Workers Scripts Edit, Workers KV Storage Edit (the adapter auto-provisions the `SESSION` KV namespace on first deploy) and D1 Edit scopes, or the deploy succeeds and the search index push fails.
 
 ## Writing content
 
