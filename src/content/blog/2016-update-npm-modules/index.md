@@ -3,40 +3,168 @@ slug: update-npm-modules
 title: Updating npm packages
 subtitle: Exploring the myriad of options to enable you to update with ease
 date: 2016-05-21
-modified: 2022-10-11
+modified: 2026-11-05
 ---
 
-#### Update 11/10/2022
+## Update 05/11/2026
 
-If you use [PNpM](https://pnpm.io/) they also have a command similar to Yarn:
+This post is ten years old. Most of the tools in it are dead, and the rest have better replacements. Here's what's current. The original post is further down, because the `npm` commands in it still work.
+
+**TL;DR**
+
+- Every package manager can list outdated packages: `npm outdated`, `pnpm outdated`, `bun outdated`, `deno outdated`.
+- pnpm, Yarn and Bun have an interactive picker built in. npm doesn't, so use `npm-check-updates` or `taze`.
+- Set a **cooldown**, so you never install a version that's only hours old.
+- Add a malware blocker such as Aikido Safe Chain, Socket Firewall or npq.
+- To stop doing this by hand, let Renovate or Dependabot open the PRs.
+
+### npm
+
+`npm outdated` lists what's behind. `npm update` moves packages inside the ranges in your `package.json`, and leaves the file alone unless you add `--save`. To jump a major version, name the package with `@latest`.
 
 ```sh
-pnpm up --interactive --latest
+npm outdated
+npm update --save
+npm install lodash@latest
 ```
 
-## taze
+npm has no interactive picker. That's what `npm-check-updates` and `taze` are for, further down.
 
-[taze](https://github.com/antfu/taze) is new tool to update dependencies. It is interesting because by default, it will only bump versions in the ranges you specified in package.json (which is safe and the default behavior of npm install).
+### pnpm
 
 ```sh
-# check all changes and bump to the latest stable changes including majors (breaking changes)
+pnpm outdated
+
+# pick what to update, jumping past the ranges in package.json
+pnpm up --interactive --latest
+
+# the short version
+pnpm up -i -L
+```
+
+Add `-r` to cover every workspace in a monorepo.
+
+### Yarn
+
+Yarn 4 still has its interactive upgrade screen built in:
+
+```sh
+yarn upgrade-interactive
+```
+
+### Bun
+
+```sh
+bun outdated
+bun update --interactive
+```
+
+In the picker, space toggles a package and `l` switches it between the newest version your range allows and the latest. Add `--recursive` for workspaces.
+
+### Deno
+
+```sh
+deno outdated
+deno update --latest
+```
+
+### npm-check-updates
+
+[npm-check-updates](https://github.com/raineorshine/npm-check-updates) (`ncu`) is still maintained, and it works with npm, pnpm and Yarn. Run it with no flags to see what's behind. Add `-u` to write the new versions to `package.json`.
+
+```sh
+# list what's outdated
+npx npm-check-updates
+
+# pick what to update, grouped into patch, minor and major
+npx npm-check-updates --interactive --format group
+
+# minor and patch updates only, written to package.json
+npx npm-check-updates --target minor -u
+```
+
+In a monorepo, add `--deep`.
+
+### taze
+
+[taze](https://github.com/antfu-collective/taze) only bumps versions inside the ranges you set in `package.json` by default. That's safe, and it's what `npm install` does too. It also checks the GitHub Actions in your workflows.
+
+```sh
+# bump to the latest stable versions, including majors (breaking changes)
 npx taze major -w
 
-# or bump to latest minor changes within the same major version
+# or bump to the latest minor changes within the same major version
 npx taze minor -w
+
+# pick by hand
+npx taze major --interactive
 ```
 
-![](https://github.com/antfu/taze/raw/main/screenshots/default.png)
+### Wait before you update
 
-#### Update 15/05/2020
+A brand new version is the riskiest one. pnpm's docs point out that malicious releases are usually found and pulled from the registry within an hour. A **cooldown** makes your package manager ignore any version younger than a set age, so you skip most of them.
 
-The content in this post may be out-of-date. If you use Yarn, there is a very useful, built-in command `upgrade-interactive` that makes it extremely easy to update.
+| Tool | Setting | Unit |
+| --- | --- | --- |
+| npm 11.10+ | `min-release-age=7` in `.npmrc` | days |
+| pnpm | `minimumReleaseAge: 10080` in `pnpm-workspace.yaml` | minutes |
+| Yarn 4.10+ | `npmMinimalAgeGate: "1w"` in `.yarnrc.yml` | duration |
+| Bun | `minimumReleaseAge = 604800` under `[install]` in `bunfig.toml` | seconds |
+| npm-check-updates | `--cooldown 7` | days |
+| taze | `--maturity-period 7` | days |
+
+The units are easy to mix up: npm counts days, pnpm counts minutes. npm's setting is off until you set it. pnpm already defaults to one day (1440 minutes) from version 11. `ncu` reads your package manager's setting if you don't pass `--cooldown`.
+
+### Block malware at install time
+
+A cooldown skips new versions. These tools go further and check each package against a malware list before it lands on your machine. They wrap your package manager, so you keep typing the same commands.
+
+I use [Aikido Safe Chain](https://github.com/AikidoSec/safe-chain). It's free and needs no token. It sets up shell aliases for `npm`, `npx`, `yarn`, `pnpm`, `bun` and a few Python tools, then runs a local proxy that checks every download against Aikido's malware feed, deep dependencies included. It has its own cooldown too, 48 hours by default. Urgent security patches that Aikido has checked skip that wait.
+
+Run the install script from the README, restart your terminal, then check it works:
 
 ```sh
-yarn upgrade-interactive --latest
+npm safe-chain-verify
+
+# blocked on purpose, because it's a test package flagged as malware
+npm install safe-chain-test
+```
+
+Two other tools do a similar job:
+
+- [Socket Firewall Free](https://docs.socket.dev/docs/socket-firewall-overview) (`sfw`) is free for everyone and blocks known malware. You run it as a prefix, like `sfw npm install`, after `npm install -g sfw`. The paid Enterprise tier adds custom policies.
+- [npq](https://github.com/lirantal/npq) audits a package before install. It checks Snyk's vulnerability database, the package's age and download count, whether it has a README and a LICENSE, and whether it runs install scripts. Install it with `npm install -g npq` and run `npq install express`. Set `NPQ_PKG_MGR` to hand the install to pnpm or Yarn. If it only finds warnings, it waits 15 seconds and carries on, so add `--disable-auto-continue` if you want it strict.
+
+Safe Chain and Socket check a threat feed. npq uses heuristics. Its own README says a malicious package can still pass its checks. None of these catch everything, so use them with a cooldown, not instead of one.
+
+### Let a bot do it
+
+Greenkeeper shut down in 2020. [Renovate](https://docs.renovatebot.com/) and [Dependabot](https://docs.github.com/en/code-security/dependabot) do the same job: they open a PR for every new version, your tests run, and you only look at the ones that matter. Both have a cooldown too.
+
+```json
+{
+  "extends": ["config:recommended"],
+  "minimumReleaseAge": "7 days",
+  "internalChecksFilter": "strict"
+}
+```
+
+That's `renovate.json`. The `strict` filter stops Renovate from opening a PR until the version is old enough. For Dependabot, use `cooldown` in `.github/dependabot.yml`. It applies to version updates only, so security updates still arrive straight away.
+
+```yaml
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
 ```
 
 ---
+
+> Everything below is the original 2016 post. The `npm` commands still work. Most of the third-party tools don't.
 
 The [npm](http://npmjs.org) cli by itself already offers users a number of different ways to update local and global packages, and for the most part I will focus on working with local packages because that is where I often spend my time; updating and installing them.
 
@@ -91,6 +219,8 @@ You can see I used the `--save` flag, but what if some were in `devDependencies`
 As you can see, while the built-in commands are useful, there's gotta be a better way. There is/are and below I will show a few of them
 
 ### david
+
+Update: this one is dead. The last release was in 2022.
 
 david is the cli for the popular [david-dm](https://david-dm.org/) service. It offers a very simple cli for checking and updating you dependencies?
 
@@ -155,6 +285,8 @@ Run with -u to upgrade package.json
 ---
 
 ### npm-dview
+
+Update: this one is dead too. The last release was in 2022.
 
 npm-dview is a command line tool for comparing a package.json file's dependency version numbers with the latest remote version number. It compares both "dependencies" and/or "devDependencies".
 
@@ -245,6 +377,8 @@ Peer Dependencies
 
 ### npm-check
 
+Update: it still works, and the last release was in September 2025. `ncu --interactive` gives you the same picker and gets updated more often.
+
 npm-check is very similar to the others in this category, with one exception: it has an interactive interface that allows you to choose which packages you want updated. This is extremely useful if you don't want to update some packages for example. It can also be used on global packages too/
 
 - Install: `npm i -g npm-check`
@@ -273,6 +407,8 @@ $ npm-check -u
 ---
 
 ## Is there another way?
+
+Update: Greenkeeper shut down in 2020, so the advice below is out of date. Use Renovate or Dependabot, as shown at the top.
 
 Yes there is. Using services like [Greenkeeper.io](https://greenkeeper.io/), Dependabot or Renovate which tracks your dependencies and applies an update to a branch for every new version coming in. Your test suite runs behind the scenes, and only if a dependency update breaks your software, we let you know in a Pull Request, including all the information you need to make an informed decision.
 
