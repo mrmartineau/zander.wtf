@@ -1,5 +1,11 @@
 # AGENTS.md
 
+## Coding standards
+
+Follow the `coding-standards` skill (`~/code/mrmartineau/agent-skills/skills/coding-standards/`). Where this file and the skill disagree, this file wins: it describes how this repo already works. Do not rename existing files or classes to match the skill unless asked.
+
+Known differences from the skill: PascalCase component files (`MetaItem.astro`), Tailwind v3 next to the custom CSS, a `zm-` prefix on class names in scoped styles, and Solid (not React) for islands.
+
 ## Architecture
 
 ### Site and deployment
