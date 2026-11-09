@@ -1,212 +1,222 @@
 ---
 title: Coding standards
 emoji: ✅
-date: 2023-01-23
+date: git Last Modified
+tags:
+  - javascript
+  - typescript
+  - react
+  - css
 ---
 
-## Naming Conventions
+The rules I write code by, and the ones I hand to coding agents. The aim is a codebase that reads the same everywhere, so the next person (or agent) can guess a name or a path before they search for it.
 
-The objective of this document is to help when naming things and make the codebase consistent and easier to read.
+Every rule has a reason next to it. A rule without one is easy to ignore, and impossible to argue with when it's wrong.
 
-### Name Rules
+## General
 
-🥳 Names should be always be **Descriptive** & **Succinct**. 🎉
+### Match the project first
 
-😑 Names should **not** be _Obscure_ or _Abbreviated_ ❌
+Before applying any of this, look at the files next to the one you're changing. If a project already does it differently, match the project. A half-renamed codebase is worse than either scheme on its own.
 
-### File Names
+### Reuse before you write
 
-| Name               | Convention                                  | Example              |
-| :----------------- | :------------------------------------------ | -------------------- |
-| Index file         | `index.(ts/js)`                             | `index.ts`           |
-| React component    | `ComponentName.(tsx/ts/js/jsx)`             | `Button.tsx`         |
-| Test file          | `ComponentName.test.(tsx/ts/js/jsx)`        | `Button.test.tsx`    |
-| TypeScript types   | `File.models.ts`                            | `Button.models.ts`   |
-| Styles (CSS-in-JS) | `ComponentName.styles.(ts/js)`              | `Button.styles.ts`   |
-| Storybook          | `ComponentName.stories.(tsx/ts/js/jsx/mdx)` | `Button.stories.tsx` |
+Look in this order, and stop at the first one that works:
 
-### HTML
+1. **The codebase.** Search `lib/` or `utils/` for a function that already does the job. Two `formatMoney` functions drift apart, and then the UI shows two answers for the same number.
+2. **The platform.** `Intl`, `URL`, `structuredClone`, `crypto.randomUUID()`, `<dialog>`, `<details>`, CSS instead of JavaScript.
+3. **A dependency you already have.**
+4. **A new dependency**, last.
 
-| Name            | Convention   | Example                          |
-| :-------------- | :----------- | :------------------------------- |
-| Data Attributes | `kebab-case` | `data-testid="button-element"`   |
-| path            | `kebab-case` | `www.fairfx.com/this/is-a-path/` |
+### Names
 
-### TypeScript
+Descriptive and succinct, never obscure or abbreviated: `customerTotal`, not `custTot`. Well-known short forms (`id`, `url`, `i` in a loop) are fine.
 
-| Name      | Convention      | Example                                                           |
-| :-------- | :-------------- | :---------------------------------------------------------------- |
-| interface | `PascalCase`    | `interface DescriptiveInterfaceName`                              |
-| variables | `camelCase`     | `const descriptiveVariableName`                                   |
-| function  | `camelCase`     | `descriptiveFunctionName(){ ... }`                                |
-| class     | `PascalCase`    | `class DescriptiveClassName { ... }`                              |
-| type      | `PascalCase`    | `type DescriptiveTypeName`                                        |
-| enums     | `PascalCase`    | `enum DescriptiveEnumName { CONSTANT_A, CONSTANT_B, CONSTANT_C }` |
-| constant  | `CONSTANT_CASE` | `DESCRIPTIVE_CONSTANT_NAME`                                       |
+- Booleans read as a question: `isOpen`, `hasError`, `shouldRetry`.
+- Functions start with a verb: `formatPence`, `getErrorMessage`.
+- Numbers say their unit: `totalPence`, `timeoutMs`.
 
-### React
+### Files and folders
 
-| Name                      | Convention        | Example              |
-| :------------------------ | :---------------- | :------------------- |
-| Component Props Interface | `PascalCaseProps` | `ComponentNameProps` |
-| Component State Interface | `PascalCaseState` | `ComponentNameState` |
-| Component Copy Interface  | `PascalCaseCopy`  | `ComponentNameCopy`  |
+Every file and folder name is `kebab-case`, named after its main export: `line-item-table.tsx` exports `LineItemTable`. macOS ignores letter case in file names and Linux doesn't, so with mixed case a renamed file works on your Mac and then breaks on CI. File finders ignore case and hyphens, so typing `LineItemTable` still finds it.
 
-#### Function Component
+- **One thing, one file**, when someone will want to find it, test it or reuse it: a component, a hook, a table's column definitions, a formatter. A small helper that only its own file uses can stay put.
+- **Group by feature** (`components/line-items/`), not by kind (`components/buttons/`).
+- **Colocate.** Tests and styles sit next to the file they belong to. No `__tests__/` folders.
+- **Logic that isn't UI goes in `lib/`**, where it's easy to test.
+- **No barrel `index.ts` files** that only re-export. They slow the bundler and hide where code lives.
+- **Types live in the file that uses them** until a second file needs them.
 
-```jsx
-import React, { FunctionComponent } from 'react'
+### Functions
 
-const DescriptiveComponentName: FunctionComponent<IDescriptiveComponentNameProps> = (
-  props
-) => {
-  return ()
-}
+- **Return early**, then write the main path with no nesting.
+- **Prefer pure functions.** Keep side effects (fetch, storage, the clock) at the edges.
+- **Don't change arguments.** Return a new value.
+- **More than three arguments, or any boolean argument: use one options object.**
+
+```ts
+// What are true, false and 3?
+createInvoice(project, customer, true, false, 3)
+
+// Every value is named, the order can't be wrong,
+// and adding an option breaks no caller
+createInvoice({ project, customer, includeVat: true, isDraft: false, dueInDays: 3 })
 ```
 
-#### Class Component
+### Money, dates and numbers
 
-```jsx
-import React, { Component } from 'react'
+- **Money is whole pence**, never a float. `0.1 + 0.2` is `0.30000000000000004`.
+- **An instant is UTC.** Show it in the viewer's time zone.
+- **A calendar date is a `YYYY-MM-DD` string**, not midnight UTC. Midnight UTC on 8 November is still 7 November in New York.
+- **Format with `Intl` for display only.** Never store a formatted string.
 
-class DescriptiveComponentName<
-  IDescriptiveComponentNameProps,
-  IDescriptiveComponentNameState
-> extends Component {
-  render () {
-    return ()
-  }
-}
-```
+### Errors
 
-## Code Structure
+- **Throw in `lib/`, catch at the edge**, where you know how to tell the person.
+- **Say what failed in words they understand:** "Could not upload invoice.pdf: bigger than 50 MB", not "Error 413".
+- **Never swallow an error silently.** An empty `catch` needs a comment saying why.
+- **Validate at trust boundaries** (API handlers, form submits, parsed JSON). Inside the app, trust the types.
 
-The objective of this document is to help when structuring your code, to make the codebase more consistent, reusable and easy to read.
+### Logging
 
-This is a guide on how to structure your code.
+Log once, where the error is handled. Include a source tag and the IDs you'd need to find the problem. `console.error` for a bug someone must fix, `console.warn` for a problem you planned for. No stray `console.log` in a commit.
 
-## Linting and code styling 💅
+### Security
 
-- ❗️Code to be formatted using [prettier](https://prettier.io)
-- ‼️ All code should follow the `TypeScript` standard and always make use of `types`
+- Secrets stay on the server. Anything in a `VITE_` or `PUBLIC_` variable is public.
+- Check permissions on the server, every request. Hiding a button isn't a check.
+- Never load a row by ID alone; also filter by who owns it.
+- Session cookies are `HttpOnly`, `Secure` and `SameSite=Lax`.
 
-### React
+### Testing
 
-#### Composability
+- Test logic directly, through what it exports.
+- Test UI through what the person sees and does. Find elements by role first (`getByRole('button', { name: 'Save' })`) and by test ID last.
+- A bug fix starts with a test that fails because of the bug.
 
-[![react_composition_vs_inheritance](https://img.shields.io/badge/react_composition_vs_inheritance-Docs-61DAFB.svg?style=for-the-badge&logo=react)](https://reactjs.org/docs/composition-vs-inheritance.html)
+### Patterns to avoid
 
-Components should ideally be composable, this makes them more flexible and reusable.
+| Avoid | Why | Instead |
+| :---- | :-- | :------ |
+| A shared helper that grows a flag for each caller | Every caller pays for every other caller's case | Copy until the third use shows what's really shared |
+| `isLoading`, `isError` and `data` side by side | They allow states that can't happen | One status: `{ status: 'error', error } \| { status: 'ready', data }` |
+| Magic values like `setTimeout(fn, 86400000)` | Nobody knows what the number means | A named constant with its unit: `ONE_DAY_MS` |
+| `Date.now()` deep inside logic | You can't test it | Pass it in: `isOverdue(invoice, now)` |
+| `?? 0` on data that must exist | The bug shows up as a wrong total instead of an error | Fail loudly where data must exist |
+| Clever one-liners and nested ternaries | The next reader has to decode them first | Plain `if` statements and named steps |
 
-### General rules about writing new components 🚦
+## TypeScript
 
-A standard practice is to avoid having too much functionality in one page with gigantic renders.
-Each file should have 1 set of functionality.
-Everything else should be broken into a new component and be included as a child.
+- **`interface` for object shapes**, props included. It's what the TypeScript team recommends: clearer errors, faster checks. `type` for unions, tuples and mapped types.
+- **String-literal unions, not enums:** `type Pricing = 'fixed' | 'tbc' | 'weekly'`.
+- **No `any`.** Use `unknown` and narrow it.
+- **Strict mode, plus `noUncheckedIndexedAccess`**, so `items[0]` is `Item | undefined` and the empty case can't be forgotten.
+- **Avoid `as`, `!` and `@ts-ignore`.** Each one tells the compiler to stop checking, and the error turns up somewhere else.
 
-## Generic
+## JavaScript
 
-### Imports
+### Events and callbacks
 
-Avoid `* imports`, it's best to explicitly define what you want to export.
-
-### Types
-
-Avoid a type of `any` it is normally _not_ allowed.
-
-### Spread Syntax
-
-[![Spread_Syntax](https://img.shields.io/badge/Spread_Syntax-Docs-F7DF1E.svg?style=for-the-badge&logo=javascript)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax)
-
-Use nested spread syntax when appropriate. Code should be readable, don't use nested spread syntax if it becomes hard to read.
-
-#### Preferable Example ✅
+`on` names the moment; `handle` names the code that responds to it.
 
 ```tsx
-class MyComponent extends Component {
-  public render() {
-    const {
-      myProp,
-      nestedProps: { myNestedProp },
-    } = this.props
-  }
-}
+function handleSave(project: Project) { … }
+<ProjectForm onSave={handleSave} />
 ```
 
-#### Also Good ✅
+- Name `on` props after what happened, not what the parent will do: `onSave`, not `onSaveToDatabase`.
+- Never name your own function `onSomething`. It reads like a prop that was passed in.
+- An `on` callback returns nothing. If its return value is used, it's not an event: call it `getRowId` or `renderItem`.
+- `onClick={refetch}` passes the click event as `refetch`'s first argument. Wrap it: `onClick={() => refetch()}`.
+
+### Cancelling async work
+
+Every async function that does I/O takes an `AbortSignal` in its options and passes it on. The code that starts the work owns the controller. More in my [AbortController](/notes/abort-controller/) note.
+
+### Traps
+
+| Code | What goes wrong |
+| :--- | :-------------- |
+| `price \|\| 10` | A price of `0` becomes 10. Use `??` |
+| `[10, 9, 1].sort()` | Sorts as text: `[1, 10, 9]` |
+| `items.forEach(async …)` | Doesn't wait, and errors are lost |
+| `new Date(2026, 11, 8)` | Months start at 0, so that's December |
+| `array.sort()` on data you were given | Changes the caller's array. Use `toSorted()` |
+
+## React
+
+- **Function components, named exports, props typed on the parameter.** No `React.FC`.
+- **Composition before another prop.** A component with fifteen props changes every time any screen needs something new, and each change can break a screen that didn't ask for it. Let the caller pass the part in:
 
 ```tsx
-class MyComponent extends Component {
-  public render() {
-    const { myProp, nestedProps } = this.props
-    const { myNestedProp } = nestedProps
-  }
-}
+// A prop for every variation
+<Card title="Invoice 12" showIcon icon={<FileIcon />} showFooter footerText="Paid" />
+
+// The caller composes what it needs
+<Card>
+  <Card.Header><FileIcon /> Invoice 12</Card.Header>
+  <Card.Footer>Paid</Card.Footer>
+</Card>
 ```
 
-#### Ok, if it's only referenced once ✅
+- **Derive, don't sync.** Work values out during render. Don't keep a second `useState` in step with a `useEffect`.
+- **Server data lives in TanStack Query**, not `useState`, and every `queryFn` passes its `signal` on.
+- **React 19:** `ref` is a normal prop (no `forwardRef`), and defaults go in the destructuring (no `defaultProps`).
+- **Avoid:** components defined inside components, `{count && <Badge />}` (renders `0`), and `key={index}` on lists that change order.
 
-```tsx
-class MyComponent extends Component {
-  public render() {
-    return this.props.nestedProps.myNestedProp.myMoreNestedProp
-  }
-}
+## CSS
+
+I write plain CSS, so every class is global. Two things keep that safe.
+
+### Cascade layers
+
+Declare the order once, at the top of the main stylesheet, and put every rule in a layer:
+
+```css
+@layer reset, library, base, components, utilities;
 ```
 
-## File Structure rules 🚨👮
+A later layer beats an earlier one, whatever the specificity, so nobody needs `!important`. Watch out for two things: styles outside any layer beat every layer, and a layer's position is fixed the first time it appears.
 
-### Description ℹ️
+### Class names
 
-These rules **must** be followed by all team members in order to have a **consistent** and **well structured** codebase.
+Loosely based on BEM, from my old [Kickoff](https://github.com/TryKickoff/kickoff) project:
 
-#### Pages
-
-```
-/src/client/pages
-    /PageName
-        index.ts
-        PageName.tsx
-        PageName.test.tsx
-        PageName.schema.json
-    /OtherPageName
-        OtherPageName.tsx
+```css
+.amountDue { }              /* block: the component, camelCase */
+.amountDue-label { }        /* child: a single hyphen */
+.amountDue-row--total { }   /* modifier: a double hyphen, after its base rule */
 ```
 
-Components should by default be placed in `/components` directory.
+Every class in a component's stylesheet starts with its block, so two components can't clash.
 
-Components should be grouped into folders logically. If they are only used once and they are used within another component, they should be colocated with their parent component.
+### State lives in ARIA
 
-#### Example:
+Style state from the attribute that screen readers already use, so what people see and what they hear can't disagree:
 
-```js
-components/
-├─ ComponentName/
-│  ├─ __tests__/
-│  │  ├─ ComponentNameView.spec.tsx
-│  │  ├─ ComponentNameContainer.spec.tsx
-│  ├─ ComponentName.operations.middleware.gql // Graphql queries
-│  ├─ ComponentName.messages.ts // i18n content
-│  ├─ ComponentName.models.ts // TS types
-│  ├─ ComponentNameView.tsx // "dumb" React component
-│  ├─ ComponentNameView.stories.tsx // Storybook stories
-│  ├─ ComponentNameContainer.tsx // "smart" React component. fetches data etc
-│  ├─ index.ts
-│  ├─ README.md
+```css
+.tabs-tab[aria-selected="true"] { }
+.menu-trigger[aria-expanded="true"] { }
+.nav-link[aria-current="page"] { }
 ```
 
-#### 👩🏻‍🏫 **Storybook**
+Use an `.is-` class only when no ARIA or HTML state exists.
 
-Components should be built and tested with a `ComponentName.stories.tsx` and have a `README.md` file included.
+### Native nesting
 
-#### 👩🏻‍🔬 **Test**
+Fine for states and media queries. Never write `&-label`: native CSS doesn't join strings like Sass does, so it silently matches nothing.
 
-Where possible `ComponentName.test.tsx` other files like utils will need a `UtilName.test.ts`.
+### Layout
 
-#### 💁🏻‍♀️ **Styled Component**
+Space siblings with `gap`, not margins. Use logical properties (`inline-size`, `padding-block`). Use container queries inside components and media queries for the page.
 
-Separate styles from the main code, styles should live in `ComponentName.styles.ts`.
+## Accessibility
 
-#### 👷🏻‍♀️ **Models**
+- Use the native element first: `<button>` for actions, `<a href>` for navigation.
+- Every control has a name: a `<label>` for each input, an `aria-label` for icon-only buttons.
+- Everything you can click, you can reach and use with the keyboard.
+- Focus is always visible. Style `:focus-visible`.
+- A field error uses `aria-describedby`. Keep `role="alert"` for errors the person must hear right now.
 
-Separate interfaces and types from the main code, models should live in `ComponentName.models.ts`
+> [!TIP]
+> **Turn this into a skill for your coding agent.** Coding agents like Claude Code, Codex and Amp support [Agent Skills](https://agentskills.io/home): a folder with a `SKILL.md` that the agent loads when a task matches its description. Copy the parts of this note you agree with into `~/.claude/skills/coding-standards/SKILL.md`, add a `name` and a `description` in the frontmatter that says when to use it ("Use when writing, structuring or reviewing code…"), and change the rules to match how *you* work. That's what I did. Mine has the general rules in `SKILL.md` and a reference file per subject (TypeScript, React, CSS, accessibility, APIs, databases and so on), so the agent only reads what the task needs. Then add a line to each project's `AGENTS.md` pointing at the skill, and every agent working in that repo follows the same rules.
