@@ -1,6 +1,3 @@
-import { defineCollection } from 'astro:content';
-import { z } from 'astro/zod';
-import { glob } from 'astro/loaders';
 import {
   type EntryMetaOptions,
   entryMeta,
@@ -8,7 +5,10 @@ import {
   gitInfo,
   readingTime,
   wordCount,
-} from 'astro-entry-meta';
+} from 'astro-entry-meta'
+import { glob } from 'astro/loaders'
+import { z } from 'astro/zod'
+import { defineCollection } from 'astro:content'
 
 // Computed for the blog and the code notes. They are in the schemas below too,
 // or the schema would remove them.
@@ -22,12 +22,12 @@ const computed: EntryMetaOptions['computed'] = {
       editUrl: 'https://github.com/mrmartineau/zander.wtf/edit/main/',
       historyLimit: 1,
     }),
-};
+}
 const computedSchema = {
   readingTime: z.number(),
   wordCount: z.number(),
   git: z.custom<GitInfo>().optional(),
-};
+}
 
 const blog = defineCollection({
   // `_` folders and files (drafts, templates) stay out, as with the old
@@ -56,7 +56,7 @@ const blog = defineCollection({
     draft: z.boolean().optional().default(false),
     ...computedSchema,
   }),
-});
+})
 
 const codenotes = defineCollection({
   loader: entryMeta(
@@ -74,7 +74,7 @@ const codenotes = defineCollection({
     link: z.string().optional(),
     ...computedSchema,
   }),
-});
+})
 
 const projects = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/projects' }),
@@ -91,9 +91,7 @@ const projects = defineCollection({
     testFlight: z.string().optional(),
     // One line, shown above the screenshots. Omit for free things.
     pricing: z.string().optional(),
-    status: z
-      .enum(['active', 'archived', 'inactive', 'ongoing', 'unreleased'])
-      .default('active'),
+    status: z.enum(['active', 'archived', 'inactive', 'ongoing', 'unreleased']).default('active'),
     type: z.enum([
       'ios-app',
       'app',
@@ -122,7 +120,7 @@ const projects = defineCollection({
       )
       .optional(),
   }),
-});
+})
 
 const cv = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/cv' }),
@@ -136,6 +134,6 @@ const cv = defineCollection({
     type: z.enum(['employed', 'contract', 'freelance']),
     tech: z.array(z.string()).optional(),
   }),
-});
+})
 
-export const collections = { blog, codenotes, projects, cv };
+export const collections = { blog, codenotes, projects, cv }

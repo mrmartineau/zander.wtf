@@ -1,4 +1,4 @@
-import urlMerge from 'url-merge';
+import urlMerge from 'url-merge'
 
 /**
  * Joins a URL domain with a path suffix if the suffix starts with a forward slash
@@ -11,6 +11,6 @@ import urlMerge from 'url-merge';
  * fullPath('', '/path') // Returns '/path'
  */
 export const fullPath = (url: string | null, suffix: string) => {
-  const domain = url ? new URL(url).origin : null;
-  return suffix?.charAt(0) === '/' && domain ? urlMerge(domain, suffix) : suffix;
-};
+  const domain = url ? new URL(url).origin : null
+  return suffix?.charAt(0) === '/' && domain ? urlMerge(domain, suffix) : suffix
+}

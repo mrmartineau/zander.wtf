@@ -1,17 +1,19 @@
 ---
-import { getBlog } from '~/utils/blog';
-import Block from './Block.astro';
-import BlogList from './BlogList.astro';
+import { getBlog } from '~/utils/blog'
+import Block from './Block.astro'
+import BlogList from './BlogList.astro'
 
 const posts = (await getBlog())
   .filter(({ data }) => {
-    return data?.worklog !== true;
+    return data?.worklog !== true
   })
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, 3);
+  .slice(0, 3)
 ---
 
 <Block title="Blog">
   <BlogList posts={posts} worklogContent={false} />
-  <a href="/blog" class="zm-block-link">View all articles →</a>
+  <a href="/blog" class="zm-block-link">
+    View all articles →
+  </a>
 </Block>

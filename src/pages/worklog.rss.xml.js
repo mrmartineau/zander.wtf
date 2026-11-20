@@ -1,14 +1,14 @@
-import rss from '@astrojs/rss';
-import MarkdownIt from 'markdown-it';
-import sanitizeHtml from 'sanitize-html';
-import { getBlog } from '~/utils/blog';
+import rss from '@astrojs/rss'
+import MarkdownIt from 'markdown-it'
+import sanitizeHtml from 'sanitize-html'
+import { getBlog } from '~/utils/blog'
 
-const parser = new MarkdownIt();
+const parser = new MarkdownIt()
 
 export const GET = async (context) => {
   const posts = (await getBlog(({ data }) => data.worklog)).sort(
     (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
-  );
+  )
 
   return rss({
     title: `Zander's Worklog Feed`,
@@ -19,9 +19,9 @@ export const GET = async (context) => {
       link: `/blog/${post.id}/`,
       pubDate: post.data.date,
       description: post.data.subtitle ?? '',
-      content: sanitizeHtml(parser.render(post.body ?? "")),
+      content: sanitizeHtml(parser.render(post.body ?? '')),
       author: 'Zander Martineau',
     })),
     stylesheet: '/worklog.rss.xsl',
-  });
-};
+  })
+}

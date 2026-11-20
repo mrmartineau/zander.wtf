@@ -1,59 +1,45 @@
 ---
-import { fullPath } from 'src/utils/fullPath';
-import type { Bookmark } from '../fetching/links';
-import Favicon from './Favicon.astro';
-import LinkType from './LinkType.astro';
-import ShortUrl from './ShortUrl.astro';
+import { fullPath } from 'src/utils/fullPath'
+import type { Bookmark } from '../fetching/links'
+import Favicon from './Favicon.astro'
+import LinkType from './LinkType.astro'
+import ShortUrl from './ShortUrl.astro'
 
 type Props = Bookmark & {
-  isFeed?: boolean;
-};
+  isFeed?: boolean
+}
 
-const {
-  url,
-  type,
-  tags,
-  title,
-  description,
-  isFeed = false,
-  image,
-} = Astro.props;
-const imagePath = fullPath(url, image);
+const { url, type, tags, title, description, isFeed = false, image } = Astro.props
+const imagePath = fullPath(url, image)
 ---
 
 <div class:list={['zm-links-item', { 'zm-links-item--feed': isFeed }]}>
-  {isFeed && image ? <div class="zm-links-item-image">
-    <img src={imagePath} alt={title} />
-  </div> : null}
+  {isFeed && image ? (
+    <div class="zm-links-item-image">
+      <img src={imagePath} alt={title} />
+    </div>
+  ) : null}
   <a class="zm-links-item-link" href={url}>
     {title}
   </a>
-  {
-    isFeed && description ? (
-      <div class="zm-links-item-description line-clamp-3">{description}</div>
-    ) : null
-  }
+  {isFeed && description ? (
+    <div class="zm-links-item-description line-clamp-3">{description}</div>
+  ) : null}
   <div class="zm-links-item-meta">
-    {
-      url ? (
-        <>
-          <Favicon url={url} />
-          <ShortUrl url={url} />
-        </>
-      ) : null
-    }
+    {url ? (
+      <>
+        <Favicon url={url} />
+        <ShortUrl url={url} />
+      </>
+    ) : null}
     {type ? <LinkType type={type} /> : null}
-    {
-      tags?.length
-        ? tags.map((tag) => {
-            if (
-              !['IFTTT', 'TwitterLike', 'instapaper', 'public'].includes(tag)
-            ) {
-              return <div class="zm-links-item-tag">#{tag}</div>;
-            }
-          })
-        : null
-    }
+    {tags?.length
+      ? tags.map((tag) => {
+          if (!['IFTTT', 'TwitterLike', 'instapaper', 'public'].includes(tag)) {
+            return <div class="zm-links-item-tag">#{tag}</div>
+          }
+        })
+      : null}
   </div>
 </div>
 

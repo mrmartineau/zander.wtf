@@ -3,15 +3,8 @@
 // and footer, from `key` in consts.ts); pressing it follows that link, so this
 // file holds no list of its own. "/" focuses search, "?" opens this dialog.
 // Classic mode only: the desktop and terminal have their own keys.
-import {
-  Button,
-  Dialog,
-  DialogBody,
-  DialogHeader,
-  DialogTitle,
-  Kbd,
-} from '@mrmartineau/zui/astro';
-import { SITE_FOOTER_ITEMS, SITE_NAV_ITEMS } from '../consts';
+import { Button, Dialog, DialogBody, DialogHeader, DialogTitle, Kbd } from '@mrmartineau/zui/astro'
+import { SITE_FOOTER_ITEMS, SITE_NAV_ITEMS } from '../consts'
 
 const shortcuts = [
   { text: 'Home', url: '/', key: 'h' },
@@ -19,7 +12,7 @@ const shortcuts = [
     key ? [{ text, url, key }] : [],
   ),
   { text: 'Search', url: '/search', key: '/' },
-];
+]
 ---
 
 <Dialog id="shortcuts" aria-labelledby="shortcuts-title">
@@ -34,15 +27,15 @@ const shortcuts = [
   <DialogBody>
     <p class="zui-text--2 mb-2">Tap these keys to navigate to the appropriate page.</p>
     <ul class="shortcuts-list">
-      {
-        shortcuts.map(({ text, url, key }) => (
-          <li>
-            <Kbd>{key.toUpperCase()}</Kbd>
-            <a href={url}>{text}</a>
-          </li>
-        ))
-      }
-      <li><Kbd>?</Kbd> This list</li>
+      {shortcuts.map(({ text, url, key }) => (
+        <li>
+          <Kbd>{key.toUpperCase()}</Kbd>
+          <a href={url}>{text}</a>
+        </li>
+      ))}
+      <li>
+        <Kbd>?</Kbd> This list
+      </li>
     </ul>
   </DialogBody>
 </Dialog>
@@ -121,24 +114,24 @@ const shortcuts = [
 </style>
 
 <script>
-  import { uiMode } from '~/utils/uiMode';
+  import { uiMode } from '~/utils/uiMode'
 
   function isFormField(element: EventTarget | null) {
     if (!(element instanceof HTMLElement)) {
-      return false;
+      return false
     }
 
-    const name = element.nodeName.toLowerCase();
-    const type = (element.getAttribute('type') || '').toLowerCase();
+    const name = element.nodeName.toLowerCase()
+    const type = (element.getAttribute('type') || '').toLowerCase()
     return (
       name === 'select' ||
       name === 'textarea' ||
       (name === 'input' && type !== 'submit' && type !== 'reset') ||
       element.isContentEditable
-    );
+    )
   }
 
-  const dialog = document.getElementById('shortcuts') as HTMLDialogElement;
+  const dialog = document.getElementById('shortcuts') as HTMLDialogElement
 
   document.addEventListener('keydown', (event) => {
     if (
@@ -150,41 +143,41 @@ const shortcuts = [
       event.isComposing ||
       isFormField(event.target)
     ) {
-      return;
+      return
     }
 
     if (event.key === '?') {
-      event.preventDefault();
+      event.preventDefault()
       if (dialog.open) {
-        dialog.close();
+        dialog.close()
       } else {
-        dialog.showModal();
+        dialog.showModal()
       }
-      return;
+      return
     }
 
     // Focus the search input if the page has one, otherwise go to the search page
     if (event.key === '/') {
-      event.preventDefault();
-      dialog.close();
-      const input = document.querySelector<HTMLInputElement>('.search-input');
+      event.preventDefault()
+      dialog.close()
+      const input = document.querySelector<HTMLInputElement>('.search-input')
       if (input) {
-        input.focus();
+        input.focus()
       } else {
-        window.location.assign('/search');
+        window.location.assign('/search')
       }
-      return;
+      return
     }
 
     if (!/^[a-z]$/i.test(event.key)) {
-      return;
+      return
     }
     const link = document.querySelector<HTMLAnchorElement>(
       `a[aria-keyshortcuts="${event.key.toLowerCase()}"]`,
-    );
+    )
     if (link) {
-      event.preventDefault();
-      link.click();
+      event.preventDefault()
+      link.click()
     }
-  });
+  })
 </script>

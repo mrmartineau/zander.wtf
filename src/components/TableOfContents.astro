@@ -1,59 +1,54 @@
 ---
-import TableOfContentsItem from './TableOfContentsItem.astro';
+import TableOfContentsItem from './TableOfContentsItem.astro'
 
 interface Heading {
-  depth: number;
-  slug: string;
-  text: string;
+  depth: number
+  slug: string
+  text: string
 }
 
 interface TocNode {
-  heading: Heading;
-  children: TocNode[];
+  heading: Heading
+  children: TocNode[]
 }
 
 interface Props {
-  headings: Heading[];
-  minDepth?: number;
-  maxDepth?: number;
+  headings: Heading[]
+  minDepth?: number
+  maxDepth?: number
 }
 
-const { headings, minDepth = 2, maxDepth = 6 } = Astro.props;
+const { headings, minDepth = 2, maxDepth = 6 } = Astro.props
 
 // Filter headings by depth range
-const filteredHeadings = headings.filter(
-  (h) => h.depth >= minDepth && h.depth <= maxDepth,
-);
+const filteredHeadings = headings.filter((h) => h.depth >= minDepth && h.depth <= maxDepth)
 
 // Build nested structure from flat headings array
 function buildToc(headings: Heading[]): TocNode[] {
-  const result: TocNode[] = [];
-  const stack: TocNode[] = [];
+  const result: TocNode[] = []
+  const stack: TocNode[] = []
 
   for (const heading of headings) {
-    const node: TocNode = { heading, children: [] };
+    const node: TocNode = { heading, children: [] }
 
     // Pop items from stack that are same or deeper level
-    while (
-      stack.length > 0 &&
-      stack[stack.length - 1].heading.depth >= heading.depth
-    ) {
-      stack.pop();
+    while (stack.length > 0 && stack[stack.length - 1].heading.depth >= heading.depth) {
+      stack.pop()
     }
 
     if (stack.length === 0) {
-      result.push(node);
+      result.push(node)
     } else {
-      stack[stack.length - 1].children.push(node);
+      stack[stack.length - 1].children.push(node)
     }
 
-    stack.push(node);
+    stack.push(node)
   }
 
-  return result;
+  return result
 }
 
-const toc = buildToc(filteredHeadings);
+const toc = buildToc(filteredHeadings)
 ---
 
 {toc.length > 0 && (

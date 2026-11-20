@@ -1,19 +1,19 @@
-import { createSignal, For } from 'solid-js';
-import { render } from 'solid-js/web';
-import { play } from './sound';
-import { isMobile, open } from './store';
+import { createSignal, For } from 'solid-js'
+import { render } from 'solid-js/web'
+import { play } from './sound'
+import { isMobile, open } from './store'
 
 // A small pretend file system: a folder on the desktop with a few files in
 // it. Files open in windows like everything else; their URLs are `#file:…`
 // so a reload just shows the desktop again.
 
 type File = {
-  name: string;
-  icon: string;
-  kind: 'image' | 'pdf' | 'text' | 'link';
-  url?: string;
-  text?: string;
-};
+  name: string
+  icon: string
+  kind: 'image' | 'pdf' | 'text' | 'link'
+  url?: string
+  text?: string
+}
 
 const FILES: File[] = [
   {
@@ -52,42 +52,42 @@ Every page here is also at /tui (a terminal) and /txt (no styles).
 
 There is nothing here. But now we both know what kind of person you are.`,
   },
-];
+]
 
-const fileUrl = (f: File) => `/#file:${f.name}`;
+const fileUrl = (f: File) => `/#file:${f.name}`
 
 export function openFile(f: File) {
   if (f.kind === 'link') {
-    window.open(f.url, '_blank', 'noopener');
-    return;
+    window.open(f.url, '_blank', 'noopener')
+    return
   }
-  const node = document.createElement('div');
-  node.className = `desk-file desk-file-${f.kind}`;
+  const node = document.createElement('div')
+  node.className = `desk-file desk-file-${f.kind}`
   if (f.kind === 'image') {
-    node.innerHTML = `<img src="${f.url}" alt="${f.name}" />`;
+    node.innerHTML = `<img src="${f.url}" alt="${f.name}" />`
   } else if (f.kind === 'pdf') {
-    node.innerHTML = `<iframe src="${f.url}" title="${f.name}"></iframe><p><a class="zui-button zui-button-size-sm" href="${f.url}" download>Download ${f.name}</a></p>`;
+    node.innerHTML = `<iframe src="${f.url}" title="${f.name}"></iframe><p><a class="zui-button zui-button-size-sm" href="${f.url}" download>Download ${f.name}</a></p>`
   } else {
-    const pre = document.createElement('pre');
-    pre.textContent = f.text ?? 'Loading…';
-    node.appendChild(pre);
+    const pre = document.createElement('pre')
+    pre.textContent = f.text ?? 'Loading…'
+    node.appendChild(pre)
     if (f.url) {
       fetch(f.url)
         .then((r) => r.text())
         .then((t) => {
-          pre.textContent = t;
+          pre.textContent = t
         })
         .catch(() => {
-          pre.textContent = `Could not read ${f.name}.`;
-        });
+          pre.textContent = `Could not read ${f.name}.`
+        })
     }
   }
-  open(fileUrl(f), f.name, node, f.kind === 'pdf' ? 'page' : 'block');
+  open(fileUrl(f), f.name, node, f.kind === 'pdf' ? 'page' : 'block')
 }
 
 function Folder() {
-  const [selected, setSelected] = createSignal('');
-  const coarse = matchMedia('(pointer: coarse)').matches;
+  const [selected, setSelected] = createSignal('')
+  const coarse = matchMedia('(pointer: coarse)').matches
   return (
     <ul class="desk-files" aria-label="Files">
       <For each={FILES}>
@@ -98,9 +98,9 @@ function Folder() {
               class="desk-icon"
               aria-pressed={selected() === f.name}
               onClick={() => {
-                if (coarse || isMobile()) return openFile(f);
-                setSelected(f.name);
-                play('tick');
+                if (coarse || isMobile()) return openFile(f)
+                setSelected(f.name)
+                play('tick')
               }}
               onDblClick={() => openFile(f)}
               onKeyDown={(e) => e.key === 'Enter' && openFile(f)}
@@ -112,16 +112,15 @@ function Folder() {
         )}
       </For>
     </ul>
-  );
+  )
 }
 
 /** The folder window's content. */
 export function folderNode() {
-  const el = document.createElement('div');
-  el.className = 'desk-folder';
-  render(() => <Folder />, el);
-  return el;
+  const el = document.createElement('div')
+  el.className = 'desk-folder'
+  render(() => <Folder />, el)
+  return el
 }
 
-export const openFolder = () =>
-  open('/#folder', 'Files', folderNode(), 'block');
+export const openFolder = () => open('/#folder', 'Files', folderNode(), 'block')

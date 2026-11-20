@@ -1,19 +1,18 @@
-import urlMerge from 'url-merge';
+import urlMerge from 'url-merge'
 
 type FetchOtterJsonOptions<T> = {
-  endpoint: string;
-  query?: Record<string, string | number>;
-  fallback: T;
-  resourceName: string;
-};
+  endpoint: string
+  query?: Record<string, string | number>
+  fallback: T
+  resourceName: string
+}
 
-const OTTER_API_BASE =
-  import.meta.env.OTTER_API_BASE_URL || 'https://otter.zander.wtf/api';
+const OTTER_API_BASE = import.meta.env.OTTER_API_BASE_URL || 'https://otter.zander.wtf/api'
 
 const getOtterHeaders = () => ({
   Authorization: `Bearer ${import.meta.env.SUPABASE_USER_API_KEY || ''}`,
   Accept: 'application/json',
-});
+})
 
 const logOtterFailure = ({
   resourceName,
@@ -23,47 +22,43 @@ const logOtterFailure = ({
   body,
   contentType,
 }: {
-  resourceName: string;
-  url: string;
-  status?: number;
-  statusText?: string;
-  body?: string;
-  contentType?: string | null;
+  resourceName: string
+  url: string
+  status?: number
+  statusText?: string
+  body?: string
+  contentType?: string | null
 }) => {
   const isCloudflareChallenge =
     status === 403 &&
     (body?.includes('Just a moment...') ||
       body?.includes('cf-chl') ||
-      body?.includes('challenges.cloudflare.com'));
+      body?.includes('challenges.cloudflare.com'))
 
   const reason = isCloudflareChallenge
     ? 'Cloudflare challenge blocked the request before it reached Otter.'
-    : `Request failed${status ? ` with ${status}${statusText ? ` ${statusText}` : ''}` : ''}.`;
+    : `Request failed${status ? ` with ${status}${statusText ? ` ${statusText}` : ''}` : ''}.`
 
-  console.warn(
-    `[otter] Failed to fetch ${resourceName} from ${url}. ${reason}`,
-  );
+  console.warn(`[otter] Failed to fetch ${resourceName} from ${url}. ${reason}`)
 
   if (isCloudflareChallenge) {
     console.warn(
       '[otter] This commonly happens when Cloudflare Bot Fight Mode or similar bot protection is enabled for API traffic.',
-    );
-    return;
+    )
+    return
   }
 
   if (contentType && !contentType.includes('application/json')) {
-    console.warn(
-      `[otter] Expected JSON but received ${contentType}. Returning fallback data.`,
-    );
+    console.warn(`[otter] Expected JSON but received ${contentType}. Returning fallback data.`)
   }
 
   if (body) {
-    const snippet = body.replace(/\s+/g, ' ').trim().slice(0, 200);
+    const snippet = body.replace(/\s+/g, ' ').trim().slice(0, 200)
     if (snippet) {
-      console.warn(`[otter] Response snippet: ${snippet}`);
+      console.warn(`[otter] Response snippet: ${snippet}`)
     }
   }
-};
+}
 
 export const fetchOtterJson = async <T>({
   endpoint,
@@ -71,15 +66,15 @@ export const fetchOtterJson = async <T>({
   fallback,
   resourceName,
 }: FetchOtterJsonOptions<T>): Promise<T> => {
-  const url = urlMerge(OTTER_API_BASE, endpoint, query ? { query } : undefined);
+  const url = urlMerge(OTTER_API_BASE, endpoint, query ? { query } : undefined)
 
   try {
     const response = await fetch(url, {
       headers: getOtterHeaders(),
-    });
+    })
 
     if (!response.ok) {
-      const body = await response.text();
+      const body = await response.text()
       logOtterFailure({
         resourceName,
         url,
@@ -87,13 +82,13 @@ export const fetchOtterJson = async <T>({
         statusText: response.statusText,
         body,
         contentType: response.headers.get('content-type'),
-      });
-      return fallback;
+      })
+      return fallback
     }
 
-    const contentType = response.headers.get('content-type');
+    const contentType = response.headers.get('content-type')
     if (!contentType?.includes('application/json')) {
-      const body = await response.text();
+      const body = await response.text()
       logOtterFailure({
         resourceName,
         url,
@@ -101,16 +96,16 @@ export const fetchOtterJson = async <T>({
         statusText: response.statusText,
         body,
         contentType,
-      });
-      return fallback;
+      })
+      return fallback
     }
 
-    return (await response.json()) as T;
+    return (await response.json()) as T
   } catch (error) {
     console.warn(
       `[otter] Network error while fetching ${resourceName} from ${url}. Returning fallback data.`,
       error,
-    );
-    return fallback;
+    )
+    return fallback
   }
-};
+}

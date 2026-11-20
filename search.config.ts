@@ -1,4 +1,4 @@
-import type { D1SearchOptions } from 'astro-d1-search';
+import type { D1SearchOptions } from 'astro-d1-search'
 
 /**
  * Site search configuration, consumed by:
@@ -53,6 +53,6 @@ const searchConfig: D1SearchOptions = {
     boost: 0.35, // a doc published today gets relevance × 1.35
     windowDays: 1095, // falling linearly to ×1 at 3 years old
   },
-};
+}
 
-export default searchConfig;
+export default searchConfig

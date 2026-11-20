@@ -17,14 +17,7 @@
  *   const html = box.toString();
  */
 
-export { Box, BORDERS, type BorderStyle } from './box';
-export {
-  banner,
-  paddedBanner,
-  bannerWidth,
-  type BannerOptions,
-  type FigletFont,
-} from './figlet';
-export { span, link, accent, dim, bright, shortcut } from './html';
-export { stripTags, visLen, trunc, pad, padLeft, center, repeat } from './text';
-
+export { Box, BORDERS, type BorderStyle } from './box'
+export { banner, paddedBanner, bannerWidth, type BannerOptions, type FigletFont } from './figlet'
+export { span, link, accent, dim, bright, shortcut } from './html'
+export { stripTags, visLen, trunc, pad, padLeft, center, repeat } from './text'

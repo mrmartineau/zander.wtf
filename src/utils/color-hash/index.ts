@@ -1,48 +1,45 @@
-import BKDRHash from './lib/bkdr-hash.ts';
-import { HSL2RGB, RGB2HEX } from './lib/colors.ts';
+import BKDRHash from './lib/bkdr-hash.ts'
+import { HSL2RGB, RGB2HEX } from './lib/colors.ts'
 
 class ColorHash {
-  L: number[];
-  S: number[];
-  hueRanges: { max: number; min: number }[];
-  hash: (str: string) => number;
+  L: number[]
+  S: number[]
+  hueRanges: { max: number; min: number }[]
+  hash: (str: string) => number
 
   constructor(
     options: {
-      lightness?: number | number[];
-      saturation?: number | number[];
-      hue?:
-        | number
-        | { max: number; min: number }
-        | { max: number; min: number }[];
-      hash?: string | ((str: string) => number);
+      lightness?: number | number[]
+      saturation?: number | number[]
+      hue?: number | { max: number; min: number } | { max: number; min: number }[]
+      hash?: string | ((str: string) => number)
     } = {},
   ) {
     const [L, S] = [options.lightness, options.saturation].map((param) => {
-      param = param !== undefined ? param : [0.35, 0.5, 0.65]; // note that 3 is a prime
-      return Array.isArray(param) ? param.concat() : [param];
-    });
+      param = param !== undefined ? param : [0.35, 0.5, 0.65] // note that 3 is a prime
+      return Array.isArray(param) ? param.concat() : [param]
+    })
 
-    this.L = L;
-    this.S = S;
+    this.L = L
+    this.S = S
 
     if (typeof options.hue === 'number') {
-      options.hue = { min: options.hue, max: options.hue };
+      options.hue = { min: options.hue, max: options.hue }
     }
     if (typeof options.hue === 'object' && !Array.isArray(options.hue)) {
-      options.hue = [options.hue];
+      options.hue = [options.hue]
     }
     if (typeof options.hue === 'undefined') {
-      options.hue = [];
+      options.hue = []
     }
     this.hueRanges = options.hue.map((range) => ({
       min: typeof range.min === 'undefined' ? 0 : range.min,
       max: typeof range.max === 'undefined' ? 360 : range.max,
-    }));
+    }))
 
-    this.hash = BKDRHash; // Default hash function
+    this.hash = BKDRHash // Default hash function
     if (typeof options.hash === 'function') {
-      this.hash = options.hash;
+      this.hash = options.hash
     }
   }
 
@@ -54,26 +51,25 @@ class ColorHash {
    * @returns {Array} [h, s, l]
    */
   hsl(str: string): [number, number, number] {
-    var H: number, S: number, L: number;
-    var hash: number = this.hash(str);
-    var hueResolution: number = 727; // note that 727 is a prime
+    var H: number, S: number, L: number
+    var hash: number = this.hash(str)
+    var hueResolution: number = 727 // note that 727 is a prime
 
     if (this.hueRanges.length) {
-      const range = this.hueRanges[hash % this.hueRanges.length];
+      const range = this.hueRanges[hash % this.hueRanges.length]
       H =
-        (((hash / this.hueRanges.length) % hueResolution) *
-          (range.max - range.min)) /
+        (((hash / this.hueRanges.length) % hueResolution) * (range.max - range.min)) /
           hueResolution +
-        range.min;
+        range.min
     } else {
-      H = hash % 359; // note that 359 is a prime
+      H = hash % 359 // note that 359 is a prime
     }
-    hash = Math.ceil(hash / 360);
-    S = this.S[hash % this.S.length];
-    hash = Math.ceil(hash / this.S.length);
-    L = this.L[hash % this.L.length];
+    hash = Math.ceil(hash / 360)
+    S = this.S[hash % this.S.length]
+    hash = Math.ceil(hash / this.S.length)
+    L = this.L[hash % this.L.length]
 
-    return [H, S, L];
+    return [H, S, L]
   }
 
   /**
@@ -84,8 +80,8 @@ class ColorHash {
    * @returns {Array} [r, g, b]
    */
   rgb(str: string) {
-    var hsl = this.hsl(str);
-    return HSL2RGB.apply(this, hsl);
+    var hsl = this.hsl(str)
+    return HSL2RGB.apply(this, hsl)
   }
 
   /**
@@ -95,9 +91,9 @@ class ColorHash {
    * @returns {String} hex with #
    */
   hex(str: string) {
-    var rgb = this.rgb(str);
-    return RGB2HEX(rgb);
+    var rgb = this.rgb(str)
+    return RGB2HEX(rgb)
   }
 }
 
-export default ColorHash;
+export default ColorHash

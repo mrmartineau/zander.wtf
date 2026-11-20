@@ -1,65 +1,60 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { getCollection, render } from 'astro:content'
 
 const roles = (await getCollection('cv')).sort((a, b) =>
   b.data.startDate.localeCompare(a.data.startDate),
-);
+)
 
 const renderedRoles = await Promise.all(
   roles.map(async (role) => {
-    const { Content } = await render(role);
-    return { ...role, Content };
+    const { Content } = await render(role)
+    return { ...role, Content }
   }),
-);
+)
 
 function formatDate(date: string): string {
-  if (date === 'present') return 'Present';
-  const [year, month] = date.split('-');
-  if (!month) return year;
-  const d = new Date(Number(year), Number(month) - 1);
-  return d.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
+  if (date === 'present') return 'Present'
+  const [year, month] = date.split('-')
+  if (!month) return year
+  const d = new Date(Number(year), Number(month) - 1)
+  return d.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' })
 }
 ---
 
 <div class="cv-experience">
-  {
-    renderedRoles.map((role) => (
-      <div class="cv-role">
-        <div class="cv-role-header">
-          <div class="cv-role-identity">
-            <div class="cv-company">
-              {role.data.url ? (
-                <a href={role.data.url} target="_blank" rel="noopener noreferrer">
-                  {role.data.company}
-                </a>
-              ) : (
-                role.data.company
-              )}
-              •
-              <span class="cv-industry">{role.data.industry}</span>
-            </div>
-            <p class="cv-title">{role.data.title}</p>
+  {renderedRoles.map((role) => (
+    <div class="cv-role">
+      <div class="cv-role-header">
+        <div class="cv-role-identity">
+          <div class="cv-company">
+            {role.data.url ? (
+              <a href={role.data.url} target="_blank" rel="noopener noreferrer">
+                {role.data.company}
+              </a>
+            ) : (
+              role.data.company
+            )}
+            •<span class="cv-industry">{role.data.industry}</span>
           </div>
-          <div class="cv-role-meta">
-            <span class="cv-dates">
-              {formatDate(role.data.startDate)}–{formatDate(role.data.endDate)}
-            </span>
-            •
-            <span class="cv-type">{role.data.type}</span>
-          </div>
+          <p class="cv-title">{role.data.title}</p>
         </div>
-        <div class="cv-description">
-          <role.Content />
+        <div class="cv-role-meta">
+          <span class="cv-dates">
+            {formatDate(role.data.startDate)}–{formatDate(role.data.endDate)}
+          </span>
+          •<span class="cv-type">{role.data.type}</span>
         </div>
-        {role.data.tech && role.data.tech.length > 0 && (
-          <p class="cv-tech">
-            <span class="cv-tech-label">Stack:</span>{' '}
-            {role.data.tech.join(', ')}
-          </p>
-        )}
       </div>
-    ))
-  }
+      <div class="cv-description">
+        <role.Content />
+      </div>
+      {role.data.tech && role.data.tech.length > 0 && (
+        <p class="cv-tech">
+          <span class="cv-tech-label">Stack:</span> {role.data.tech.join(', ')}
+        </p>
+      )}
+    </div>
+  ))}
 </div>
 
 <style>

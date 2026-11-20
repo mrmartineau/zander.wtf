@@ -12,29 +12,29 @@ const ROTATING_WORDS = [
   'design systems',
   'npm packages',
   'Raycast extensions',
-];
+]
 
 const introSegments = [
   { text: 'Hi! I’m ' },
   { text: 'Zander', name: true },
   { text: ', I make ' },
   { text: ROTATING_WORDS[0], rotates: true },
-];
+]
 
 // Read out in full, so the sentence doesn't depend on which word is showing.
-const introLabel = `Hi! I’m Zander, I make ${ROTATING_WORDS.join(' and ')}`;
+const introLabel = `Hi! I’m Zander, I make ${ROTATING_WORDS.join(' and ')}`
 
-const toLetters = (text: string) => [...text];
+const toLetters = (text: string) => [...text]
 
 // The greeting is in the DOM on every page but only shown on the home page, so
 // only there is it the page's heading. Elsewhere it is letter art: `role="img"`
 // lets the aria-label read as one phrase without claiming to be an <h1>.
 interface Props {
-  isHome?: boolean;
+  isHome?: boolean
 }
 
-const { isHome = false } = Astro.props;
-const Intro = isHome ? 'h1' : 'div';
+const { isHome = false } = Astro.props
+const Intro = isHome ? 'h1' : 'div'
 ---
 
 <!-- prettier-ignore -->
@@ -71,129 +71,128 @@ const Intro = isHome ? 'h1' : 'div';
   // Cycles the intro's rotating word, glitching through Alpha Lyrae's
   // stylistic sets on the way. The word swap happens at the midpoint, while
   // the text is maximally scrambled, so the reflow lands under cover.
-  const GLITCH_SETS = ['ss01', 'ss02', 'ss03', 'ss04', 'ss05'];
-  const DWELL_MS = 4000;
-  const GLITCH_MS = 400;
-  const FRAME_MS = 55;
+  const GLITCH_SETS = ['ss01', 'ss02', 'ss03', 'ss04', 'ss05']
+  const DWELL_MS = 4000
+  const GLITCH_MS = 400
+  const FRAME_MS = 55
 
-  const rotator = document.querySelector<HTMLElement>('.rotator');
-  const live = document.querySelector<HTMLElement>('#greeting [data-live]');
-  const pause = document.querySelector<HTMLButtonElement>('.zm-intro-pause');
-  const words: string[] = JSON.parse(rotator?.dataset.words ?? '[]');
+  const rotator = document.querySelector<HTMLElement>('.rotator')
+  const live = document.querySelector<HTMLElement>('#greeting [data-live]')
+  const pause = document.querySelector<HTMLButtonElement>('.zm-intro-pause')
+  const words: string[] = JSON.parse(rotator?.dataset.words ?? '[]')
 
   // Shuffle every word after the first (Fisher-Yates). words[0] is already
   // on screen, so it stays put and the rest cycle in a random order.
   for (let i = words.length - 1; i > 1; i--) {
-    const j = 1 + Math.floor(Math.random() * i);
-    [words[i], words[j]] = [words[j], words[i]];
+    const j = 1 + Math.floor(Math.random() * i)
+    ;[words[i], words[j]] = [words[j], words[i]]
   }
 
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)')
 
   if (rotator && words.length > 1) {
-    let index = 0;
-    let onScreen = true;
-    let paused = false;
-    let timer: number | undefined;
+    let index = 0
+    let onScreen = true
+    let paused = false
+    let timer: number | undefined
 
-    const letters = () => [...rotator.children] as HTMLElement[];
+    const letters = () => [...rotator.children] as HTMLElement[]
 
     const render = (word: string) => {
       rotator.replaceChildren(
         ...[...word].map((char) => {
-          const span = document.createElement('span');
-          span.className = 'letter';
-          span.setAttribute('aria-hidden', 'true');
-          span.textContent = char;
-          return span;
+          const span = document.createElement('span')
+          span.className = 'letter'
+          span.setAttribute('aria-hidden', 'true')
+          span.textContent = char
+          return span
         }),
-      );
-    };
+      )
+    }
 
     // Scramble most letters, leave a few alone — a uniform swap reads as a
     // second font rather than as breakage.
     const scramble = () => {
       for (const letter of letters()) {
-        const set = GLITCH_SETS[Math.floor(Math.random() * GLITCH_SETS.length)];
-        letter.style.fontFeatureSettings =
-          Math.random() < 0.7 ? `'${set}' 1` : '';
+        const set = GLITCH_SETS[Math.floor(Math.random() * GLITCH_SETS.length)]
+        letter.style.fontFeatureSettings = Math.random() < 0.7 ? `'${set}' 1` : ''
       }
-    };
+    }
 
     const settle = () => {
-      for (const letter of letters()) letter.style.fontFeatureSettings = '';
-    };
+      for (const letter of letters()) letter.style.fontFeatureSettings = ''
+    }
 
     const advance = () => {
-      const started = performance.now();
-      let swapped = false;
+      const started = performance.now()
+      let swapped = false
 
       const step = () => {
-        const elapsed = performance.now() - started;
+        const elapsed = performance.now() - started
 
         if (elapsed >= GLITCH_MS) {
-          settle();
-          schedule(DWELL_MS);
-          return;
+          settle()
+          schedule(DWELL_MS)
+          return
         }
 
         if (!swapped && elapsed >= GLITCH_MS / 2) {
-          index = (index + 1) % words.length;
-          render(words[index]);
-          if (live) live.textContent = `I make ${words[index]}`;
-          swapped = true;
+          index = (index + 1) % words.length
+          render(words[index])
+          if (live) live.textContent = `I make ${words[index]}`
+          swapped = true
         }
 
-        scramble();
-        timer = window.setTimeout(step, FRAME_MS);
-      };
+        scramble()
+        timer = window.setTimeout(step, FRAME_MS)
+      }
 
-      step();
-    };
+      step()
+    }
 
     const schedule = (delay: number) => {
-      window.clearTimeout(timer);
-      if (!onScreen || document.hidden || reduced.matches || paused) return;
-      timer = window.setTimeout(advance, delay);
-    };
+      window.clearTimeout(timer)
+      if (!onScreen || document.hidden || reduced.matches || paused) return
+      timer = window.setTimeout(advance, delay)
+    }
 
     const stop = () => {
-      window.clearTimeout(timer);
-      settle();
-    };
+      window.clearTimeout(timer)
+      settle()
+    }
 
     const sync = () => {
       if (onScreen && !document.hidden && !reduced.matches && !paused) {
-        schedule(DWELL_MS);
+        schedule(DWELL_MS)
       } else {
-        stop();
+        stop()
       }
-    };
+    }
 
     // Don't animate in the corner of someone's eye while they read the page.
     new IntersectionObserver(([entry]) => {
-      onScreen = entry.isIntersecting;
-      sync();
-    }).observe(rotator);
+      onScreen = entry.isIntersecting
+      sync()
+    }).observe(rotator)
 
-    document.addEventListener('visibilitychange', sync);
-    reduced.addEventListener('change', sync);
+    document.addEventListener('visibilitychange', sync)
+    reduced.addEventListener('change', sync)
 
     // WCAG 2.2.2: anything that moves for more than five seconds needs a
     // way to stop it. The button only appears when the words actually cycle.
     if (pause) {
-      pause.hidden = false;
+      pause.hidden = false
       pause.addEventListener('click', () => {
-        paused = !paused;
-        pause.setAttribute('aria-pressed', String(paused));
+        paused = !paused
+        pause.setAttribute('aria-pressed', String(paused))
         pause.setAttribute(
           'aria-label',
           paused ? 'Play the rotating words' : 'Pause the rotating words',
-        );
-        pause.querySelector('i')?.classList.toggle('ph-pause', !paused);
-        pause.querySelector('i')?.classList.toggle('ph-play', paused);
-        sync();
-      });
+        )
+        pause.querySelector('i')?.classList.toggle('ph-pause', !paused)
+        pause.querySelector('i')?.classList.toggle('ph-play', paused)
+        sync()
+      })
     }
   }
 </script>

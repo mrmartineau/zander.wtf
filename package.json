@@ -1,7 +1,7 @@
 {
   "name": "zander.wtf-astro",
-  "type": "module",
   "version": "0.0.1",
+  "type": "module",
   "scripts": {
     "dev": "wrangler types && portless zander astro dev",
     "start": "wrangler types && astro dev",

@@ -12,14 +12,14 @@ export const excerpt = (body: string, max = 155): string => {
     .replace(/^\s*(?:#{1,6}|>|[-*+]|\d+\.)\s+/gm, '') // heading, quote, list markers
     .replace(/[*_`~]/g, '')
     .replace(/\s+/g, ' ')
-    .trim();
+    .trim()
 
   if (text.length <= max) {
-    return text;
+    return text
   }
 
   // Cut on a word boundary so the snippet doesn't end mid-word. A body with no
   // space inside the limit falls back to a hard cut.
-  const boundary = text.lastIndexOf(' ', max);
-  return `${text.slice(0, boundary > 0 ? boundary : max)}…`;
-};
+  const boundary = text.lastIndexOf(' ', max)
+  return `${text.slice(0, boundary > 0 ? boundary : max)}…`
+}

@@ -2,13 +2,13 @@
 // Public dashboard of the reactions data (astro-d1-reactions). Rendered on
 // request like /search, so the numbers are always current. Which pages it
 // lists is the `pages` option in astro.config.mjs.
-export const prerender = false;
+export const prerender = false
 
-import { Stats as Dashboard } from 'astro-d1-reactions/components';
-import { SITE_METADATA } from 'src/consts';
-import ContentLayout from '~/layouts/ContentLayout.astro';
+import { Stats as Dashboard } from 'astro-d1-reactions/components'
+import { SITE_METADATA } from 'src/consts'
+import ContentLayout from '~/layouts/ContentLayout.astro'
 
-const slug = 'stats';
+const slug = 'stats'
 ---
 
 <ContentLayout
@@ -19,10 +19,9 @@ const slug = 'stats';
 >
   <div class="flow">
     <p>
-      Every post, note and project here counts its readers and lets them leave
-      a heart. Posts and notes also let you highlight the bits you like. This
-      is all of it. No cookies and no names: a reader is a random id kept in
-      their browser, so each person counts once per page.
+      Every post, note and project here counts its readers and lets them leave a heart. Posts and
+      notes also let you highlight the bits you like. This is all of it. No cookies and no names: a
+      reader is a random id kept in their browser, so each person counts once per page.
     </p>
 
     <Dashboard locale="en-GB" />

@@ -1,64 +1,54 @@
 ---
-import { getCollection } from 'astro:content';
-import { getBlog } from '~/utils/blog';
-import { ABOUT_ME, JOBS, SITE_FOOTER_ITEMS } from '../consts';
-import { fetchLinks } from '../fetching/links';
-import {
-  accent,
-  Box,
-  banner,
-  bright,
-  dim,
-  link,
-  shortcut,
-  span,
-  trunc,
-} from '../utils/ascii';
+import { getCollection } from 'astro:content'
+import { getBlog } from '~/utils/blog'
+import { ABOUT_ME, JOBS, SITE_FOOTER_ITEMS } from '../consts'
+import { fetchLinks } from '../fetching/links'
+import { accent, Box, banner, bright, dim, link, shortcut, span, trunc } from '../utils/ascii'
 
 // ── Fetch data ────────────────────────────────────────────
 
 const posts = (await getBlog())
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, 5);
+  .slice(0, 5)
 
-let links: { title: string | null; url: string | null }[] = [];
+let links: { title: string | null; url: string | null }[] = []
 try {
-  links = (await fetchLinks(4)).filter((l) => l.title);
+  links = (await fetchLinks(4)).filter((l) => l.title)
 } catch {
   // If links API is unavailable at build time, show empty
 }
 
 const projects = (await getCollection('projects'))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, 4);
-const previousJobs = JOBS.previous.map((j) => j.name);
+  .slice(0, 4)
+const previousJobs = JOBS.previous.map((j) => j.name)
 
 function fmtDate(d: Date) {
   return d.toLocaleDateString('en-GB', {
     year: 'numeric',
     month: 'short',
     day: 'numeric',
-  });
+  })
 }
 
 // ── Layout constants ──────────────────────────────────────
 
-const W = 72; // total inner width (between outer ║ chars)
-const L = 35; // left column width
-const R = W - L - 1; // right column width (36) — minus 1 for the middle ║
+const W = 72 // total inner width (between outer ║ chars)
+const L = 35 // left column width
+const R = W - L - 1 // right column width (36) — minus 1 for the middle ║
 
 // ── Build the layout ──────────────────────────────────────
 
-const box = new Box(W);
+const box = new Box(W)
 
 // Top border
-box.top();
+box.top()
 
 // Figlet banner
-box.empty();
-const art = banner('ZANDER');
-box.rows(art.map((line) => '  ' + accent(line)));
-box.empty();
+box.empty()
+const art = banner('ZANDER')
+box.rows(art.map((line) => '  ' + accent(line)))
+box.empty()
 
 // Navigation
 const navItems = [
@@ -67,84 +57,76 @@ const navItems = [
   link('/links', 'LINKS', 'nav-link'),
   link('/about', 'ABOUT', 'nav-link'),
   link('/notes', 'NOTES', 'nav-link'),
-];
+]
 
 // Color theme swatches
 const swatches = [
   `<span class="swatch swatch--green" data-theme="green" title="Green">■</span>`,
   `<span class="swatch swatch--blue" data-theme="blue" title="Blue">■</span>`,
   `<span class="swatch swatch--red" data-theme="red" title="Red">■</span>`,
-];
+]
 
-box.row('   ' + navItems.join('   ') + '        ' + swatches.join(' '));
+box.row('   ' + navItems.join('   ') + '        ' + swatches.join(' '))
 
 // Intro
-box.divider();
-box.empty();
-box.row('  ' + bright(`Hi! I'm ${accent('ZANDER')}, I make websites`));
-box.empty();
+box.divider()
+box.empty()
+box.row('  ' + bright(`Hi! I'm ${accent('ZANDER')}, I make websites`))
+box.empty()
 
 // ── About / Blog split ────────────────────────────────────
 
-box.splitDivider('╦', L);
-box.splitRow('  ' + bright('ABOUT ME'), '  ' + bright('BLOG'), L);
-box.splitRow('  ' + '─'.repeat(L - 4), '  ' + '─'.repeat(R - 4), L);
+box.splitDivider('╦', L)
+box.splitRow('  ' + bright('ABOUT ME'), '  ' + bright('BLOG'), L)
+box.splitRow('  ' + '─'.repeat(L - 4), '  ' + '─'.repeat(R - 4), L)
 
 // About column lines
-const aboutLines: string[] = ['  ' + dim(trunc(ABOUT_ME.bio, L - 4)), ''];
+const aboutLines: string[] = ['  ' + dim(trunc(ABOUT_ME.bio, L - 4)), '']
 if (JOBS.current) {
-  aboutLines.push(
-    '  ' + bright('Current:') + ' ' + link(JOBS.current.url, JOBS.current.name),
-  );
+  aboutLines.push('  ' + bright('Current:') + ' ' + link(JOBS.current.url, JOBS.current.name))
 }
 if (JOBS.current?.description) {
-  aboutLines.push('  ' + dim(JOBS.current.description));
+  aboutLines.push('  ' + dim(JOBS.current.description))
 }
-aboutLines.push('');
-aboutLines.push('  ' + bright('Previous:'));
-aboutLines.push('  ' + dim(trunc(previousJobs.slice(0, 5).join(' · '), L - 4)));
-aboutLines.push('  ' + dim(trunc(previousJobs.slice(5).join(' · '), L - 4)));
-aboutLines.push('');
-aboutLines.push('  ' + link('/about', 'More info →'));
+aboutLines.push('')
+aboutLines.push('  ' + bright('Previous:'))
+aboutLines.push('  ' + dim(trunc(previousJobs.slice(0, 5).join(' · '), L - 4)))
+aboutLines.push('  ' + dim(trunc(previousJobs.slice(5).join(' · '), L - 4)))
+aboutLines.push('')
+aboutLines.push('  ' + link('/about', 'More info →'))
 
 // Blog column lines
-const blogLines: string[] = [''];
+const blogLines: string[] = ['']
 for (let i = 0; i < 5; i++) {
-  const post = posts[i];
-  if (!post) break;
-  const num = String(i + 1);
+  const post = posts[i]
+  if (!post) break
+  const num = String(i + 1)
   blogLines.push(
-    '  ' +
-      link(
-        `/blog/${post.id}`,
-        `[${shortcut(num)}] ${trunc(post.data.title, R - 8)}`,
-        '',
-        num,
-      ),
-  );
-  blogLines.push('      ' + dim(fmtDate(post.data.date)));
+    '  ' + link(`/blog/${post.id}`, `[${shortcut(num)}] ${trunc(post.data.title, R - 8)}`, '', num),
+  )
+  blogLines.push('      ' + dim(fmtDate(post.data.date)))
 }
-blogLines.push('');
-blogLines.push('  ' + link('/blog', 'View all articles →'));
+blogLines.push('')
+blogLines.push('  ' + link('/blog', 'View all articles →'))
 
-box.splitRows(aboutLines, blogLines, L);
+box.splitRows(aboutLines, blogLines, L)
 
 // ── Projects / Links split ────────────────────────────────
 
-box.splitDivider('╬', L);
-box.splitRow('  ' + bright('SIDE PROJECTS'), '  ' + bright('LINKS'), L);
-box.splitRow('  ' + '─'.repeat(L - 4), '  ' + '─'.repeat(R - 4), L);
+box.splitDivider('╬', L)
+box.splitRow('  ' + bright('SIDE PROJECTS'), '  ' + bright('LINKS'), L)
+box.splitRow('  ' + '─'.repeat(L - 4), '  ' + '─'.repeat(R - 4), L)
 
-const projLines: string[] = [];
-const linkLines: string[] = ['  ' + dim('Recent bookmarks from Otter:')];
+const projLines: string[] = []
+const linkLines: string[] = ['  ' + dim('Recent bookmarks from Otter:')]
 
-const keys = 'efgh';
+const keys = 'efgh'
 for (let i = 0; i < projects.length; i++) {
-  const proj = projects[i];
-  const key = keys[i];
-  const bookmark = links[i];
+  const proj = projects[i]
+  const key = keys[i]
+  const bookmark = links[i]
 
-  projLines.push('');
+  projLines.push('')
   projLines.push(
     '  ' +
       link(
@@ -153,37 +135,35 @@ for (let i = 0; i < projects.length; i++) {
         '',
         key,
       ),
-  );
+  )
   if (proj.data.subtitle) {
-    projLines.push('  ' + dim(trunc(proj.data.subtitle, L - 4)));
+    projLines.push('  ' + dim(trunc(proj.data.subtitle, L - 4)))
   }
   if (proj.data.tech) {
-    projLines.push('  ' + span('dim tech', trunc(proj.data.tech, L - 4)));
+    projLines.push('  ' + span('dim tech', trunc(proj.data.tech, L - 4)))
   }
 
-  linkLines.push('');
+  linkLines.push('')
   if (bookmark?.title) {
-    linkLines.push(
-      '  ' + link(bookmark.url || '#', trunc(bookmark.title, R - 4)),
-    );
+    linkLines.push('  ' + link(bookmark.url || '#', trunc(bookmark.title, R - 4)))
   } else {
-    linkLines.push('');
+    linkLines.push('')
   }
 }
 
-projLines.push('');
-projLines.push('  ' + link('/projects', 'View all projects →'));
+projLines.push('')
+projLines.push('  ' + link('/projects', 'View all projects →'))
 
-linkLines.push('');
-linkLines.push('  ' + link('/links', 'View all links →'));
+linkLines.push('')
+linkLines.push('  ' + link('/links', 'View all links →'))
 
-box.splitRows(projLines, linkLines, L);
+box.splitRows(projLines, linkLines, L)
 
 // ── Footer ────────────────────────────────────────────────
 
-box.splitDivider('╩', L);
-box.empty();
-box.row('  ' + dim('Keyboard shortcuts:'));
+box.splitDivider('╩', L)
+box.empty()
+box.row('  ' + dim('Keyboard shortcuts:'))
 box.row(
   '  ' +
     shortcut('[1-5]') +
@@ -194,22 +174,19 @@ box.row(
     ' home  ' +
     shortcut('[q]') +
     ' exit ascii',
-);
-box.empty();
+)
+box.empty()
 
 const footerLinks = SITE_FOOTER_ITEMS.filter((i) => !i.external)
   .map((i) => i.text)
-  .join(' · ');
-box.row('  ' + dim(footerLinks));
-box.row(
-  '  ' +
-    dim('© 2026 Zander Martineau · This site is always under construction.'),
-);
-box.empty();
-box.row('  ' + span('cursor-blink', '█'));
-box.bottom();
+  .join(' · ')
+box.row('  ' + dim(footerLinks))
+box.row('  ' + dim('© 2026 Zander Martineau · This site is always under construction.'))
+box.empty()
+box.row('  ' + span('cursor-blink', '█'))
+box.bottom()
 
-const asciiOutput = box.toString();
+const asciiOutput = box.toString()
 ---
 
 <html lang="en">
@@ -278,7 +255,8 @@ const asciiOutput = box.toString();
       body {
         background: var(--color-bg);
         color: var(--color-base);
-        font-family: 'Berkeley Mono', 'SF Mono', 'Fira Code', 'Cascadia Code', 'JetBrains Mono', monospace;
+        font-family:
+          'Berkeley Mono', 'SF Mono', 'Fira Code', 'Cascadia Code', 'JetBrains Mono', monospace;
         font-size: clamp(9px, 1.35vw, 15px);
         line-height: 1.3;
         min-width: 650px;
@@ -311,17 +289,15 @@ const asciiOutput = box.toString();
         content: '';
         position: fixed;
         inset: 0;
-        background: radial-gradient(
-          ellipse at center,
-          transparent 60%,
-          rgba(0, 0, 0, 0.45) 100%
-        );
+        background: radial-gradient(ellipse at center, transparent 60%, rgba(0, 0, 0, 0.45) 100%);
         pointer-events: none;
         z-index: 99;
       }
 
       .terminal {
-        text-shadow: 0 0 8px var(--color-glow), 0 0 2px var(--color-glow);
+        text-shadow:
+          0 0 8px var(--color-glow),
+          0 0 2px var(--color-glow);
         max-width: 100%;
         position: relative;
         font-family: inherit;
@@ -333,7 +309,9 @@ const asciiOutput = box.toString();
         color: var(--color-bright);
         text-decoration: none;
         cursor: pointer;
-        transition: color 0.1s, background 0.1s;
+        transition:
+          color 0.1s,
+          background 0.1s;
       }
 
       a:hover,
@@ -389,17 +367,28 @@ const asciiOutput = box.toString();
         opacity: 1;
       }
 
-      .swatch--green { color: oklch(0.82 0.3 142); }
-      .swatch--blue  { color: oklch(0.75 0.2 250); }
-      .swatch--red   { color: oklch(0.7 0.25 25); }
+      .swatch--green {
+        color: oklch(0.82 0.3 142);
+      }
+      .swatch--blue {
+        color: oklch(0.75 0.2 250);
+      }
+      .swatch--red {
+        color: oklch(0.7 0.25 25);
+      }
 
       .cursor-blink {
         animation: blink 1s step-end infinite;
       }
 
       @keyframes blink {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0; }
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0;
+        }
       }
 
       .status-bar {
@@ -425,89 +414,91 @@ const asciiOutput = box.toString();
       // ── Color theme switching ──────────────────────────────
       const themes: Record<string, { l: number; c: number; h: number }> = {
         green: { l: 0.82, c: 0.3, h: 142 },
-        blue:  { l: 0.75, c: 0.2, h: 250 },
-        red:   { l: 0.7, c: 0.25, h: 25 },
-      };
+        blue: { l: 0.75, c: 0.2, h: 250 },
+        red: { l: 0.7, c: 0.25, h: 25 },
+      }
 
       function applyTheme(name: string) {
-        const t = themes[name];
-        if (!t) return;
-        const root = document.documentElement;
-        root.style.setProperty('--base-l', String(t.l));
-        root.style.setProperty('--base-c', String(t.c));
-        root.style.setProperty('--base-h', String(t.h));
-        localStorage.setItem('ascii-theme', name);
+        const t = themes[name]
+        if (!t) return
+        const root = document.documentElement
+        root.style.setProperty('--base-l', String(t.l))
+        root.style.setProperty('--base-c', String(t.c))
+        root.style.setProperty('--base-h', String(t.h))
+        localStorage.setItem('ascii-theme', name)
 
         // Update active swatch
         document.querySelectorAll('.swatch').forEach((el) => {
-          el.classList.toggle('active', (el as HTMLElement).dataset.theme === name);
-        });
+          el.classList.toggle('active', (el as HTMLElement).dataset.theme === name)
+        })
       }
 
       // Restore saved theme
-      const saved = localStorage.getItem('ascii-theme');
+      const saved = localStorage.getItem('ascii-theme')
       if (saved && themes[saved]) {
-        applyTheme(saved);
+        applyTheme(saved)
       } else {
         // Mark green as active by default
-        document.querySelector('.swatch--green')?.classList.add('active');
+        document.querySelector('.swatch--green')?.classList.add('active')
       }
 
       // Swatch click handlers
       document.querySelectorAll('.swatch').forEach((el) => {
         el.addEventListener('click', () => {
-          applyTheme((el as HTMLElement).dataset.theme ?? 'green');
-        });
-      });
+          applyTheme((el as HTMLElement).dataset.theme ?? 'green')
+        })
+      })
 
       // ── Keyboard navigation ────────────────────────────────
       document.addEventListener('keydown', (e) => {
-        if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
-        if (e.metaKey || e.ctrlKey || e.altKey) return;
+        if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return
+        if (e.metaKey || e.ctrlKey || e.altKey) return
 
-        const key = e.key.toLowerCase();
+        const key = e.key.toLowerCase()
 
         // Shortcut keys for blog posts (1-5) and projects (e-h)
-        const el = document.querySelector(`a[data-key="${key}"]`);
+        const el = document.querySelector(`a[data-key="${key}"]`)
         if (el instanceof HTMLAnchorElement) {
-          e.preventDefault();
-          el.style.color = getComputedStyle(document.documentElement).getPropertyValue('--color-bg');
-          el.style.background = getComputedStyle(document.documentElement).getPropertyValue('--color-base');
+          e.preventDefault()
+          el.style.color = getComputedStyle(document.documentElement).getPropertyValue('--color-bg')
+          el.style.background = getComputedStyle(document.documentElement).getPropertyValue(
+            '--color-base',
+          )
           setTimeout(() => {
-            window.location.href = el.href;
-          }, 120);
-          return;
+            window.location.href = el.href
+          }, 120)
+          return
         }
 
         // Navigation shortcuts
         const navMap: Record<string, string> = {
           '/': '/',
-          'q': '/',
-        };
+          q: '/',
+        }
 
         if (navMap[key]) {
-          e.preventDefault();
-          window.location.href = navMap[key];
-          return;
+          e.preventDefault()
+          window.location.href = navMap[key]
+          return
         }
-      });
+      })
 
       // Power-on flicker effect
-      const terminal = document.getElementById('terminal');
+      const terminal = document.getElementById('terminal')
       if (terminal) {
-        terminal.style.opacity = '0';
+        terminal.style.opacity = '0'
         requestAnimationFrame(() => {
           setTimeout(() => {
-            terminal.style.transition = 'opacity 0.15s ease-in';
-            terminal.style.opacity = '1';
-          }, 80);
+            terminal.style.transition = 'opacity 0.15s ease-in'
+            terminal.style.opacity = '1'
+          }, 80)
           setTimeout(() => {
-            terminal.style.opacity = '0.92';
+            terminal.style.opacity = '0.92'
             setTimeout(() => {
-              terminal.style.opacity = '1';
-            }, 60);
-          }, 350);
-        });
+              terminal.style.opacity = '1'
+            }, 60)
+          }, 350)
+        })
       }
     </script>
   </body>

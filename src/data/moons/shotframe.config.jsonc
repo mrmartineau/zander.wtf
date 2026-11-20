@@ -40,35 +40,35 @@
       "source": "orbit.png",
       "eyebrow": "The orbit",
       "heading": "One glance tells you who is due",
-      "body": "Twelve people, one screen. They drift outward as the weeks pass, and their colour follows."
+      "body": "Twelve people, one screen. They drift outward as the weeks pass, and their colour follows.",
     },
     {
       "slug": "02-groups",
       "source": "overview.png",
       "eyebrow": "Groups",
       "heading": "A client, a team, the school run",
-      "body": "Up to four groups, each its own orbit of twelve. Pinch in to see them all around you at once."
+      "body": "Up to four groups, each its own orbit of twelve. Pinch in to see them all around you at once.",
     },
     {
       "slug": "03-dates",
       "source": "dates.png",
       "eyebrow": "Dates",
       "heading": "The dates worth remembering",
-      "body": "Anniversaries, the day you met, whatever matters. Each gets a quiet nudge a week before."
+      "body": "Anniversaries, the day you met, whatever matters. Each gets a quiet nudge a week before.",
     },
     {
       "slug": "04-swipe",
       "source": "work.png",
       "eyebrow": "Between groups",
       "heading": "Swipe sideways to spin to the next",
-      "body": "Everyone stays where they were. The widget can show whichever group you choose."
+      "body": "Everyone stays where they were. The widget can show whichever group you choose.",
     },
     {
       "slug": "05-person",
       "source": "person.png",
       "eyebrow": "One tap",
       "heading": "Reaching out logs the catch-up",
-      "body": "Call, FaceTime, message, email or WhatsApp. Moons opens the right app and records it for you."
-    }
-  ]
+      "body": "Call, FaceTime, message, email or WhatsApp. Moons opens the right app and records it for you.",
+    },
+  ],
 }

@@ -1,20 +1,20 @@
 ---
 interface Heading {
-  depth: number;
-  slug: string;
-  text: string;
+  depth: number
+  slug: string
+  text: string
 }
 
 interface TocNode {
-  heading: Heading;
-  children: TocNode[];
+  heading: Heading
+  children: TocNode[]
 }
 
 interface Props {
-  items: TocNode[];
+  items: TocNode[]
 }
 
-const { items } = Astro.props;
+const { items } = Astro.props
 ---
 
 {items.length > 0 && (
@@ -22,9 +22,7 @@ const { items } = Astro.props;
     {items.map((item) => (
       <li>
         <a href={`#${item.heading.slug}`}>{item.heading.text}</a>
-        {item.children.length > 0 && (
-          <Astro.self items={item.children} />
-        )}
+        {item.children.length > 0 && <Astro.self items={item.children} />}
       </li>
     ))}
   </ol>
@@ -47,4 +45,3 @@ const { items } = Astro.props;
     line-height: 1.6;
   }
 </style>
-

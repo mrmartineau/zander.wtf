@@ -57,7 +57,7 @@ html.tui #status-banner {
 
 /* faint scanlines for the CRT feel */
 .tui-crt::after {
-  content: "";
+  content: '';
   position: fixed;
   inset: 0;
   pointer-events: none;
@@ -221,13 +221,13 @@ html.tui #status-banner {
 .tui-body h1::before,
 .tui-body h2::before,
 .tui-body h3::before {
-  content: "# ";
+  content: '# ';
 }
 .tui-body h2::before {
-  content: "## ";
+  content: '## ';
 }
 .tui-body h3::before {
-  content: "### ";
+  content: '### ';
 }
 
 .tui-body p,
@@ -314,15 +314,14 @@ html.tui #status-banner {
 }
 
 /* Icon fonts do not survive the mono override; a text UI has no icons. */
-.tui-body i[class*="ph-"],
+.tui-body i[class*='ph-'],
 .tui-body .ph {
   display: none !important;
 }
 
 /* Emoji keep the system emoji font */
 .tui-body .emoji {
-  font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji",
-    sans-serif !important;
+  font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif !important;
 }
 
 /* Form fields inside pages (the notes search): a plain boxed field with a
@@ -346,7 +345,7 @@ html.tui #status-banner {
 .tui-body .note-main,
 .tui-body .zm-block-grid,
 .tui-body .zm-promoted,
-.tui-body [class*="grid"] {
+.tui-body [class*='grid'] {
   display: block !important;
   width: 100% !important;
   max-width: none !important;

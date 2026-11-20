@@ -1,49 +1,40 @@
 ---
-import type { CollectionEntry } from 'astro:content';
-import { projectKind, showProjectStatus } from '~/utils/projects';
-import ShortUrl from './ShortUrl.astro';
+import type { CollectionEntry } from 'astro:content'
+import { projectKind, showProjectStatus } from '~/utils/projects'
+import ShortUrl from './ShortUrl.astro'
 
 type Props = {
-  project: CollectionEntry<'projects'>;
+  project: CollectionEntry<'projects'>
   /** Shown before the kind, e.g. "New" → "New · iPhone app" */
-  label?: string;
-};
-const { project, label } = Astro.props;
-const { id, data } = project;
-const isIosApp = data.type === 'ios-app';
-const shots = (data.screenshots ?? []).map((shot) => shot.src);
+  label?: string
+}
+const { project, label } = Astro.props
+const { id, data } = project
+const isIosApp = data.type === 'ios-app'
+const shots = (data.screenshots ?? []).map((shot) => shot.src)
 // iOS apps fan three phone screenshots; everything else gets up to two
 // browser windows, from its screenshots first, then its preview image.
-const pages = [...shots, data.image]
-  .filter((src) => src !== undefined)
-  .slice(0, 2);
-const site = [data.link, data.repo].find((url) => url?.startsWith('http'));
-const eyebrow = [
-  label,
-  projectKind(data.type),
-  showProjectStatus(data.status) ? data.status : null,
-]
+const pages = [...shots, data.image].filter((src) => src !== undefined).slice(0, 2)
+const site = [data.link, data.repo].find((url) => url?.startsWith('http'))
+const eyebrow = [label, projectKind(data.type), showProjectStatus(data.status) ? data.status : null]
   .filter(Boolean)
-  .join(' · ');
+  .join(' · ')
 ---
 
 <article class="zm-spotlight">
   <div class="inner">
-  <div>
-    <span class="kind">{eyebrow}</span>
-    <div class="title">
-      {
-        isIosApp && data.image ? (
+    <div>
+      <span class="kind">{eyebrow}</span>
+      <div class="title">
+        {isIosApp && data.image ? (
           <img src={data.image} alt="" width="64" height="64" class="icon" />
-        ) : null
-      }
-      <h3>{data.title}</h3>
-    </div>
-    {data.subtitle ? <p class="subtitle">{data.subtitle}</p> : null}
-    {data.pricing ? <p class="pricing">{data.pricing}</p> : null}
-    <div class="actions">
-      {
-        data.appStore ? (
+        ) : null}
+        <h3>{data.title}</h3>
+      </div>
+      {data.subtitle ? <p class="subtitle">{data.subtitle}</p> : null}
+      {data.pricing ? <p class="pricing">{data.pricing}</p> : null}
+      <div class="actions">
+        {data.appStore ? (
           <a href={data.appStore} target="_blank" rel="noopener noreferrer" class="badge">
             <img
               src="/images/download-on-the-app-store.svg"
@@ -56,36 +47,33 @@ const eyebrow = [
           <a href={data.link} class="button">
             Visit {data.link.startsWith('http') ? <ShortUrl url={data.link} /> : data.title}
           </a>
-        ) : null
-      }
-      <a href={`/projects/${id}`} class="more">More info →</a>
+        ) : null}
+        <a href={`/projects/${id}`} class="more">
+          More info →
+        </a>
+      </div>
     </div>
-  </div>
-  <div class="visual" aria-hidden="true">
-    {
-      isIosApp ? (
-        shots
-          .slice(0, 3)
-          .map((src, i) => <img src={src} alt="" class={`shot shot-${i}`} loading="lazy" />)
-      ) : (
-        pages.map((src, i) => (
-          <div class:list={['browser', `browser-${i}`, { 'browser--solo': pages.length === 1 }]}>
-            <div class="browser-bar">
-              <i />
-              <i />
-              <i />
-              {site ? (
-                <span class="browser-url">
-                  <ShortUrl url={site} />
-                </span>
-              ) : null}
+    <div class="visual" aria-hidden="true">
+      {isIosApp
+        ? shots
+            .slice(0, 3)
+            .map((src, i) => <img src={src} alt="" class={`shot shot-${i}`} loading="lazy" />)
+        : pages.map((src, i) => (
+            <div class:list={['browser', `browser-${i}`, { 'browser--solo': pages.length === 1 }]}>
+              <div class="browser-bar">
+                <i />
+                <i />
+                <i />
+                {site ? (
+                  <span class="browser-url">
+                    <ShortUrl url={site} />
+                  </span>
+                ) : null}
+              </div>
+              <img src={src} alt="" loading="lazy" />
             </div>
-            <img src={src} alt="" loading="lazy" />
-          </div>
-        ))
-      )
-    }
-  </div>
+          ))}
+    </div>
   </div>
 </article>
 
@@ -222,7 +210,9 @@ const eyebrow = [
     overflow: hidden;
     border-radius: 12px;
     background: var(--bg);
-    box-shadow: 0 0 0 1px var(--border), 0 20px 40px -12px rgb(0 0 0 / 0.6);
+    box-shadow:
+      0 0 0 1px var(--border),
+      0 20px 40px -12px rgb(0 0 0 / 0.6);
     transition: transform 300ms ease;
 
     img {

@@ -1,31 +1,22 @@
-import {
-  Menu,
-  MenuContent,
-  MenuItem,
-  MenuTrigger,
-} from '@mrmartineau/zui/solid';
-import { createSignal, For, onCleanup, Show } from 'solid-js';
-import { setUiMode } from '~/utils/uiMode';
-import { setSound, soundOn } from './sound';
-import { close, closeAll, focus, open, state, tile, topWin } from './store';
+import { Menu, MenuContent, MenuItem, MenuTrigger } from '@mrmartineau/zui/solid'
+import { createSignal, For, onCleanup, Show } from 'solid-js'
+import { setUiMode } from '~/utils/uiMode'
+import { setSound, soundOn } from './sound'
+import { close, closeAll, focus, open, state, tile, topWin } from './store'
 
-export type NavItem = { text: string; url: string; external?: boolean };
+export type NavItem = { text: string; url: string; external?: boolean }
 
 function clock() {
   return new Date().toLocaleTimeString('en-GB', {
     hour: '2-digit',
     minute: '2-digit',
-  });
+  })
 }
 
-export function MenuBar(props: {
-  nav: NavItem[];
-  more: NavItem[];
-  onSearch: () => void;
-}) {
-  const [time, setTime] = createSignal(clock());
-  const timer = window.setInterval(() => setTime(clock()), 15_000);
-  onCleanup(() => clearInterval(timer));
+export function MenuBar(props: { nav: NavItem[]; more: NavItem[]; onSearch: () => void }) {
+  const [time, setTime] = createSignal(clock())
+  const timer = window.setInterval(() => setTime(clock()), 15_000)
+  onCleanup(() => clearInterval(timer))
 
   const item = (n: NavItem) =>
     n.external ? (
@@ -34,7 +25,7 @@ export function MenuBar(props: {
       </MenuItem>
     ) : (
       <MenuItem onClick={() => open(n.url, n.text)}>{n.text}</MenuItem>
-    );
+    )
 
   return (
     <nav class="desk-menubar" aria-label="Menu bar">
@@ -46,11 +37,7 @@ export function MenuBar(props: {
           <Show when={state.recent.length}>
             <div class="desk-menu-label">Recent</div>
             <For each={state.recent}>
-              {(r) => (
-                <MenuItem onClick={() => open(r.url, r.title)}>
-                  {r.title}
-                </MenuItem>
-              )}
+              {(r) => <MenuItem onClick={() => open(r.url, r.title)}>{r.title}</MenuItem>}
             </For>
             <hr class="desk-menu-rule" />
           </Show>
@@ -77,9 +64,7 @@ export function MenuBar(props: {
         </MenuTrigger>
         <MenuContent>
           <For each={props.nav}>{item}</For>
-          <MenuItem onClick={() => open('/notes', 'Code Notes')}>
-            Code Notes
-          </MenuItem>
+          <MenuItem onClick={() => open('/notes', 'Code Notes')}>Code Notes</MenuItem>
           <MenuItem onClick={() => open('/search', 'Search')}>Search</MenuItem>
         </MenuContent>
       </Menu>
@@ -118,8 +103,7 @@ export function MenuBar(props: {
       <span class="desk-menubar-spacer" />
 
       <a class="desk-menubar-hire" href="mailto:hi+enquiry@zander.wtf">
-        <i class="ph ph-paper-plane-right" aria-hidden="true" /> Available for
-        work
+        <i class="ph ph-paper-plane-right" aria-hidden="true" /> Available for work
       </a>
 
       <button
@@ -130,10 +114,7 @@ export function MenuBar(props: {
         title={soundOn() ? 'Sound on' : 'Sound off'}
         onClick={() => setSound(!soundOn())}
       >
-        <i
-          class={soundOn() ? 'ph ph-speaker-high' : 'ph ph-speaker-slash'}
-          aria-hidden="true"
-        />
+        <i class={soundOn() ? 'ph ph-speaker-high' : 'ph ph-speaker-slash'} aria-hidden="true" />
       </button>
 
       <button
@@ -148,5 +129,5 @@ export function MenuBar(props: {
 
       <time class="desk-menubar-clock">{time()}</time>
     </nav>
-  );
+  )
 }

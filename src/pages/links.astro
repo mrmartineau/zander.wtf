@@ -1,18 +1,18 @@
 ---
-import { SITE_METADATA } from 'src/consts';
-import { LinkFeed } from '~/components/solid/LinkFeed';
-import ContentLayout from '~/layouts/ContentLayout.astro';
-import { type Bookmark, fetchLinks } from '../fetching/links';
+import { SITE_METADATA } from 'src/consts'
+import { LinkFeed } from '~/components/solid/LinkFeed'
+import ContentLayout from '~/layouts/ContentLayout.astro'
+import { type Bookmark, fetchLinks } from '../fetching/links'
 
-let links: Bookmark[];
+let links: Bookmark[]
 try {
-  links = await fetchLinks();
-  console.log(`[links] fetched ${links.length} bookmarks`);
+  links = await fetchLinks()
+  console.log(`[links] fetched ${links.length} bookmarks`)
 } catch (err) {
-  console.warn('[links] fetchLinks threw; rendering an empty page', err);
-  links = [];
+  console.warn('[links] fetchLinks threw; rendering an empty page', err)
+  links = []
 }
-const slug = 'links';
+const slug = 'links'
 ---
 
 <ContentLayout
@@ -23,15 +23,12 @@ const slug = 'links';
     slug: '/links',
     frontmatter: {
       reactions: true,
-    }
+    },
   }}
 >
   <div>
-    Otter is a self-hosted personal bookmarking app I made, find out more about it <a
-      href="/blog/otter-v2"
-    >
-      here
-    </a>
+    Otter is a self-hosted personal bookmarking app I made, find out more about it{' '}
+    <a href="/blog/otter-v2">here</a>
   </div>
 
   <LinkFeed links={links} client:only="solid">

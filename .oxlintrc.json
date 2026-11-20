@@ -1,13 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/oxc-project/oxc/main/npm/oxlint/configuration_schema.json",
-  "extends": [
-    "./node_modules/@mrmartineau/kit/src/oxlint/.oxlintrc.json"
-  ],
-  "ignorePatterns": [
-    "**/dist",
-    "raycast-extension/**",
-    "worker-configuration.d.ts"
-  ],
+  "extends": ["./node_modules/@mrmartineau/kit/src/oxlint/.oxlintrc.json"],
+  "ignorePatterns": ["**/dist", "raycast-extension/**", "worker-configuration.d.ts"],
   "rules": {
     "react/jsx-key": "warn",
     "react/refs": "warn",

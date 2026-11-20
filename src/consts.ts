@@ -1,94 +1,91 @@
-export const SITE_TITLE = `Hi! I'm Zander, I make web things`;
+export const SITE_TITLE = `Hi! I'm Zander, I make web things`
 
 // shows the available for work banner at the bottom of the site
-export const SHOW_STATUS = false;
+export const SHOW_STATUS = false
 
-export const SITE_METADATA: Record<
-  string,
-  { title: string; subtitle?: string; ogTitle?: string }
-> = {
-  home: {
-    title: `Zander Martineau | Front-end, design systems, SEO and AEO`,
-    subtitle: `Zander Martineau is a product engineer in London. Front-end, design systems, SEO, AEO, GEO and iOS apps. 18 years of experience.`,
-  },
-  blog: {
-    title: 'Blog',
-    ogTitle: 'My blog',
-    subtitle:
-      'Writing about web development, AI tools, self-hosting and side projects, with a worklog of what I have shipped in between',
-  },
-  about: {
-    title: 'About',
-    subtitle: 'My name is Zander, I live in London, UK',
-  },
-  'work-with-me': {
-    title: 'Work with me',
-    subtitle:
-      'Websites and web apps, design systems, SEO, AEO, GEO and iPhone apps from a London product engineer',
-  },
-  colophon: {
-    title: 'Colophon',
-    subtitle: `What's up with this site?`,
-  },
-  feeds: {
-    title: 'Feeds',
-    subtitle: 'RSS',
-  },
-  links: {
-    title: 'Links',
-    subtitle: `Hand-picked hyperlinks, all saved in my Otter bookmarking app`,
-  },
-  uses: {
-    title: 'My setup',
-    subtitle: `An overview of my hardware and software setup`,
-  },
-  now: {
-    title: 'Now',
-    subtitle: `Films, TV, books, podcasts…and other things I'm currently enjoying`,
-  },
-  notes: {
-    title: 'Code Notes',
-    ogTitle: 'Code Notes',
-    subtitle: 'TILs, snippets—my digital code garden',
-  },
-  stats: {
-    title: 'Stats',
-    subtitle: 'Views, hearts and highlights for every page, live',
-  },
-  search: {
-    title: 'Search',
-    subtitle: 'Search blog posts, code notes, projects and more',
-  },
-  projects: {
-    title: 'Projects',
-    subtitle:
-      'Side-projects, packages and other things I have made or am making',
-  },
-  privacy: {
-    title: 'Privacy policy',
-    subtitle: 'How my iOS apps handle your data',
-  },
-  terms: {
-    title: 'Terms & conditions',
-    subtitle: 'The terms for using my iOS apps',
-  },
-  support: {
-    title: 'Support',
-    subtitle: 'Help with my iOS apps',
-  },
-  'zed-stack': {
-    title: 'The Zed Stack',
-    ogTitle: 'The Zed Stack',
-    subtitle:
-      'The starters, tools and automation I use to get from an idea to a deployed project in an afternoon',
-  },
-  'astro-packages': {
-    title: 'Astro packages',
-    ogTitle: 'Astro packages',
-    subtitle:
-      'The Astro integrations and loaders I built for this site, then published so you can use them on yours',
-  },
-};
+export const SITE_METADATA: Record<string, { title: string; subtitle?: string; ogTitle?: string }> =
+  {
+    home: {
+      title: `Zander Martineau | Front-end, design systems, SEO and AEO`,
+      subtitle: `Zander Martineau is a product engineer in London. Front-end, design systems, SEO, AEO, GEO and iOS apps. 18 years of experience.`,
+    },
+    blog: {
+      title: 'Blog',
+      ogTitle: 'My blog',
+      subtitle:
+        'Writing about web development, AI tools, self-hosting and side projects, with a worklog of what I have shipped in between',
+    },
+    about: {
+      title: 'About',
+      subtitle: 'My name is Zander, I live in London, UK',
+    },
+    'work-with-me': {
+      title: 'Work with me',
+      subtitle:
+        'Websites and web apps, design systems, SEO, AEO, GEO and iPhone apps from a London product engineer',
+    },
+    colophon: {
+      title: 'Colophon',
+      subtitle: `What's up with this site?`,
+    },
+    feeds: {
+      title: 'Feeds',
+      subtitle: 'RSS',
+    },
+    links: {
+      title: 'Links',
+      subtitle: `Hand-picked hyperlinks, all saved in my Otter bookmarking app`,
+    },
+    uses: {
+      title: 'My setup',
+      subtitle: `An overview of my hardware and software setup`,
+    },
+    now: {
+      title: 'Now',
+      subtitle: `Films, TV, books, podcasts…and other things I'm currently enjoying`,
+    },
+    notes: {
+      title: 'Code Notes',
+      ogTitle: 'Code Notes',
+      subtitle: 'TILs, snippets—my digital code garden',
+    },
+    stats: {
+      title: 'Stats',
+      subtitle: 'Views, hearts and highlights for every page, live',
+    },
+    search: {
+      title: 'Search',
+      subtitle: 'Search blog posts, code notes, projects and more',
+    },
+    projects: {
+      title: 'Projects',
+      subtitle: 'Side-projects, packages and other things I have made or am making',
+    },
+    privacy: {
+      title: 'Privacy policy',
+      subtitle: 'How my iOS apps handle your data',
+    },
+    terms: {
+      title: 'Terms & conditions',
+      subtitle: 'The terms for using my iOS apps',
+    },
+    support: {
+      title: 'Support',
+      subtitle: 'Help with my iOS apps',
+    },
+    'zed-stack': {
+      title: 'The Zed Stack',
+      ogTitle: 'The Zed Stack',
+      subtitle:
+        'The starters, tools and automation I use to get from an idea to a deployed project in an afternoon',
+    },
+    'astro-packages': {
+      title: 'Astro packages',
+      ogTitle: 'Astro packages',
+      subtitle:
+        'The Astro integrations and loaders I built for this site, then published so you can use them on yours',
+    },
+  }
 
 // `key` is the single-letter keyboard shortcut for the page. See Shortcuts.astro.
 export const SITE_NAV_ITEMS = [
@@ -107,7 +104,7 @@ export const SITE_NAV_ITEMS = [
     key: 'l',
     url: '/links',
   },
-];
+]
 
 export const SITE_FOOTER_ITEMS = [
   {
@@ -178,28 +175,28 @@ export const SITE_FOOTER_ITEMS = [
     rel: 'me',
     external: true,
   },
-];
+]
 
 export const ABOUT_ME = {
   bio: `Product engineer specialising in front-end web development, with 18 years of experience. I also work on design systems, SEO, AEO, GEO and iOS apps - building products that work well for the people who use them.`,
   email: 'mailto:hi+enquiry@zander.wtf',
-};
+}
 
 type Job = {
-  url: string;
-  name: string;
-  description?: string;
-  type?: 'contract' | 'employed';
+  url: string
+  name: string
+  description?: string
+  type?: 'contract' | 'employed'
   projects?: {
-    name: string;
-    description: string;
-    link?: string;
-  }[];
-};
+    name: string
+    description: string
+    link?: string
+  }[]
+}
 
 interface Jobs {
-  current?: Job;
-  previous: Job[];
+  current?: Job
+  previous: Job[]
 }
 export const JOBS: Jobs = {
   current: {
@@ -266,8 +263,7 @@ export const JOBS: Jobs = {
       projects: [
         {
           name: 'Samsung Pay Card integration',
-          description:
-            'The web-based onboarding flow for Samsung Pay Card and the Curve app',
+          description: 'The web-based onboarding flow for Samsung Pay Card and the Curve app',
         },
         {
           name: `Curve's design-system (private)`,
@@ -317,4 +313,4 @@ export const JOBS: Jobs = {
       url: 'https://neverbland.com',
     },
   ],
-};
+}

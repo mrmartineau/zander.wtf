@@ -32,7 +32,7 @@
  *   const output = box.toString();
  */
 
-import { center, pad, repeat } from './text';
+import { center, pad, repeat } from './text'
 
 /** Box-drawing character sets */
 export const BORDERS = {
@@ -75,13 +75,13 @@ export const BORDERS = {
     bm: '┴',
     cross: '┼',
   },
-} as const;
+} as const
 
-export type BorderStyle = keyof typeof BORDERS;
+export type BorderStyle = keyof typeof BORDERS
 
 export class Box {
-  private lines: string[] = [];
-  private b: (typeof BORDERS)[BorderStyle];
+  private lines: string[] = []
+  private b: (typeof BORDERS)[BorderStyle]
 
   /**
    * @param width       Total inner width (between the left and right border chars).
@@ -92,7 +92,7 @@ export class Box {
     public readonly width: number,
     borderStyle: BorderStyle = 'double',
   ) {
-    this.b = BORDERS[borderStyle];
+    this.b = BORDERS[borderStyle]
   }
 
   /**
@@ -100,49 +100,49 @@ export class Box {
    * Accounts for the middle border character.
    */
   rightWidth(leftWidth: number): number {
-    return this.width - leftWidth - 1;
+    return this.width - leftWidth - 1
   }
 
   /** Get the accumulated lines */
   getLines(): string[] {
-    return this.lines;
+    return this.lines
   }
 
   /** Render all lines as a single string */
   toString(): string {
-    return this.lines.join('\n');
+    return this.lines.join('\n')
   }
 
   /** Add a raw pre-built line */
   push(line: string): this {
-    this.lines.push(line);
-    return this;
+    this.lines.push(line)
+    return this
   }
 
   /** Add multiple raw lines */
   pushAll(newLines: string[]): this {
-    this.lines.push(...newLines);
-    return this;
+    this.lines.push(...newLines)
+    return this
   }
 
   // ── Borders ──────────────────────────────────────────────
 
   /** Top border: ╔════...════╗ */
   top(): this {
-    this.lines.push(this.b.tl + repeat(this.b.h, this.width) + this.b.tr);
-    return this;
+    this.lines.push(this.b.tl + repeat(this.b.h, this.width) + this.b.tr)
+    return this
   }
 
   /** Bottom border: ╚════...════╝ */
   bottom(): this {
-    this.lines.push(this.b.bl + repeat(this.b.h, this.width) + this.b.br);
-    return this;
+    this.lines.push(this.b.bl + repeat(this.b.h, this.width) + this.b.br)
+    return this
   }
 
   /** Full-width horizontal divider: ╠════...════╣ */
   divider(): this {
-    this.lines.push(this.b.ml + repeat(this.b.h, this.width) + this.b.mr);
-    return this;
+    this.lines.push(this.b.ml + repeat(this.b.h, this.width) + this.b.mr)
+    return this
   }
 
   /**
@@ -152,39 +152,32 @@ export class Box {
    * @param junction  The middle character — typically '╦', '╬', or '╩'
    * @param leftWidth Width of the left column
    */
-  splitDivider(
-    junction: '╦' | '╬' | '╩' | '┬' | '┼' | '┴' | string,
-    leftWidth: number,
-  ): this {
-    const rw = this.rightWidth(leftWidth);
+  splitDivider(junction: '╦' | '╬' | '╩' | '┬' | '┼' | '┴' | string, leftWidth: number): this {
+    const rw = this.rightWidth(leftWidth)
     this.lines.push(
-      this.b.ml +
-        repeat(this.b.h, leftWidth) +
-        junction +
-        repeat(this.b.h, rw) +
-        this.b.mr,
-    );
-    return this;
+      this.b.ml + repeat(this.b.h, leftWidth) + junction + repeat(this.b.h, rw) + this.b.mr,
+    )
+    return this
   }
 
   // ── Rows ─────────────────────────────────────────────────
 
   /** Full-width content row: ║ content ...padding... ║ */
   row(content: string): this {
-    this.lines.push(this.b.v + pad(content, this.width) + this.b.v);
-    return this;
+    this.lines.push(this.b.v + pad(content, this.width) + this.b.v)
+    return this
   }
 
   /** Empty full-width row */
   empty(): this {
-    this.lines.push(this.b.v + ' '.repeat(this.width) + this.b.v);
-    return this;
+    this.lines.push(this.b.v + ' '.repeat(this.width) + this.b.v)
+    return this
   }
 
   /** Full-width row with centered content */
   centeredRow(content: string): this {
-    this.lines.push(this.b.v + center(content, this.width) + this.b.v);
-    return this;
+    this.lines.push(this.b.v + center(content, this.width) + this.b.v)
+    return this
   }
 
   /**
@@ -198,28 +191,16 @@ export class Box {
    * @param leftWidth Width of the left column
    */
   splitRow(left: string, right: string, leftWidth: number): this {
-    const rw = this.rightWidth(leftWidth);
-    this.lines.push(
-      this.b.v +
-        pad(left, leftWidth) +
-        this.b.v +
-        pad(right, rw) +
-        this.b.v,
-    );
-    return this;
+    const rw = this.rightWidth(leftWidth)
+    this.lines.push(this.b.v + pad(left, leftWidth) + this.b.v + pad(right, rw) + this.b.v)
+    return this
   }
 
   /** Empty split row */
   emptySplit(leftWidth: number): this {
-    const rw = this.rightWidth(leftWidth);
-    this.lines.push(
-      this.b.v +
-        ' '.repeat(leftWidth) +
-        this.b.v +
-        ' '.repeat(rw) +
-        this.b.v,
-    );
-    return this;
+    const rw = this.rightWidth(leftWidth)
+    this.lines.push(this.b.v + ' '.repeat(leftWidth) + this.b.v + ' '.repeat(rw) + this.b.v)
+    return this
   }
 
   // ── Bulk helpers ─────────────────────────────────────────
@@ -230,9 +211,9 @@ export class Box {
    */
   rows(contents: string[]): this {
     for (const c of contents) {
-      this.row(c);
+      this.row(c)
     }
-    return this;
+    return this
   }
 
   /**
@@ -243,15 +224,11 @@ export class Box {
    * @param rightLines Array of right-column content strings
    * @param leftWidth  Width of the left column
    */
-  splitRows(
-    leftLines: string[],
-    rightLines: string[],
-    leftWidth: number,
-  ): this {
-    const max = Math.max(leftLines.length, rightLines.length);
+  splitRows(leftLines: string[], rightLines: string[], leftWidth: number): this {
+    const max = Math.max(leftLines.length, rightLines.length)
     for (let i = 0; i < max; i++) {
-      this.splitRow(leftLines[i] ?? '', rightLines[i] ?? '', leftWidth);
+      this.splitRow(leftLines[i] ?? '', rightLines[i] ?? '', leftWidth)
     }
-    return this;
+    return this
   }
 }

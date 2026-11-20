@@ -4,9 +4,9 @@ import cloudflare from '@astrojs/cloudflare'
 import mdx from '@astrojs/mdx'
 import sitemap from '@astrojs/sitemap'
 import solidJs from '@astrojs/solid-js'
-import { defineConfig } from 'astro/config'
 import d1Reactions from 'astro-d1-reactions'
 import d1Search from 'astro-d1-search'
+import { defineConfig } from 'astro/config'
 import rehypeExternalLinks from 'rehype-external-links'
 import searchConfig from './search.config.ts'
 
@@ -60,16 +60,7 @@ const uiModeRewrites = {
 // ponytail: tags only the first plain HTML element in the template; a
 // component whose first element is <meta>, <style> etc. or another component
 // is skipped. Swap for a compiler-level transform if that ever matters.
-const skipTags = new Set([
-  'html',
-  'head',
-  'meta',
-  'link',
-  'title',
-  'style',
-  'script',
-  'slot',
-])
+const skipTags = new Set(['html', 'head', 'meta', 'link', 'title', 'style', 'script', 'slot'])
 const lilDebugTags = {
   name: 'lil-debug-tags',
   enforce: 'pre',
@@ -98,8 +89,7 @@ export default defineConfig({
     mdx(),
     sitemap({
       // Test fixtures, the styleguide and search result pages aren't content
-      filter: (page) =>
-        !/\/(scraper-test|styleguide|search|notes\/search)\/$/.test(page),
+      filter: (page) => !/\/(scraper-test|styleguide|search|notes\/search)\/$/.test(page),
     }),
     solidJs(),
     d1Search(searchConfig),

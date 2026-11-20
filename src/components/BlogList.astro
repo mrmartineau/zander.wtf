@@ -1,16 +1,16 @@
 ---
-import { type CollectionEntry, render } from 'astro:content';
-import FormattedDate from './FormattedDate.astro';
+import { type CollectionEntry, render } from 'astro:content'
+import FormattedDate from './FormattedDate.astro'
 
 type Props = {
-  posts: CollectionEntry<'blog'>[];
+  posts: CollectionEntry<'blog'>[]
   /**
    * Render worklog entries in full. True on /blog, false in the compact
    * homepage/search cards, where they fall back to a subtitle like any post.
    */
-  worklogContent?: boolean;
-};
-const { posts, worklogContent = true } = Astro.props;
+  worklogContent?: boolean
+}
+const { posts, worklogContent = true } = Astro.props
 
 /**
  * A slight tilt for article cards, seeded from the slug rather than
@@ -22,68 +22,61 @@ const { posts, worklogContent = true } = Astro.props;
  * --space-l gap.
  */
 const tilt = (slug: string) => {
-  let hash = 0;
+  let hash = 0
   for (const char of slug) {
-    hash = (hash * 31 + char.charCodeAt(0)) >>> 0;
+    hash = (hash * 31 + char.charCodeAt(0)) >>> 0
   }
-  const degrees = 1 + (hash % 6) / 10; // 1.0° – 1.5°
+  const degrees = 1 + (hash % 6) / 10 // 1.0° – 1.5°
   // Sign comes off a different part of the hash to the magnitude, otherwise the
   // two correlate and only half the twelve possible angles ever appear
-  const leansRight = ((hash >>> 3) & 1) === 1;
-  return `${leansRight ? degrees : -degrees}deg`;
-};
+  const leansRight = ((hash >>> 3) & 1) === 1
+  return `${leansRight ? degrees : -degrees}deg`
+}
 
 // Worklog entries render in full on the listing, so their content has to be
 // rendered up front — render(post) is async and can't be awaited inside JSX.
 const items = await Promise.all(
   posts.map(async (post) => ({
     post,
-    Content:
-      post.data.worklog && worklogContent
-        ? (await render(post)).Content
-        : null,
+    Content: post.data.worklog && worklogContent ? (await render(post)).Content : null,
   })),
-);
+)
 ---
 
 <div class="zm-blog-items">
-  {
-    items.map(({ post, Content }) => (
-      <div
-        class:list={[
-          'zm-blog-item',
-          {
-            'is-worklog': Content,
-            // Only on /blog, where worklog entries render in full — the compact
-            // homepage and search cards stay unstyled
-            'is-article': worklogContent && !post.data.worklog,
-          },
-        ]}
-        id={Content ? post.id : undefined}
-      >
-        <div class="info">
-          <a href={`/blog/${post.id}`} class="title" transition:persist>
-            {post.data.title}
-          </a>
-          {Content ? (
-            <div class="flow">
-              <Content />
-            </div>
-          ) : post.data?.subtitle ? (
-            <p class="subtitle" transition:persist>
-              {post.data.subtitle}
-            </p>
-          ) : null}
-        </div>
-        <div class="date" transition:persist>
-          <FormattedDate date={post.data.date} />
-          <span class="label">
-            {post.data.worklog ? 'worklog' : 'article'}
-          </span>
-        </div>
+  {items.map(({ post, Content }) => (
+    <div
+      class:list={[
+        'zm-blog-item',
+        {
+          'is-worklog': Content,
+          // Only on /blog, where worklog entries render in full — the compact
+          // homepage and search cards stay unstyled
+          'is-article': worklogContent && !post.data.worklog,
+        },
+      ]}
+      id={Content ? post.id : undefined}
+    >
+      <div class="info">
+        <a href={`/blog/${post.id}`} class="title" transition:persist>
+          {post.data.title}
+        </a>
+        {Content ? (
+          <div class="flow">
+            <Content />
+          </div>
+        ) : post.data?.subtitle ? (
+          <p class="subtitle" transition:persist>
+            {post.data.subtitle}
+          </p>
+        ) : null}
       </div>
-    ))
-  }
+      <div class="date" transition:persist>
+        <FormattedDate date={post.data.date} />
+        <span class="label">{post.data.worklog ? 'worklog' : 'article'}</span>
+      </div>
+    </div>
+  ))}
 </div>
 
 <style>

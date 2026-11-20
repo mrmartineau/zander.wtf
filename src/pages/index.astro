@@ -1,13 +1,13 @@
 ---
-import BlockAbout from '~/components/BlockAbout.astro';
-import BlockBlog from '~/components/BlockBlog.astro';
-import BlockLinks from '~/components/BlockLinks.astro';
-import BlockNotes from '~/components/BlockNotes.astro';
-import PromotedProjects from '~/components/PromotedProjects.astro';
-import BaseLayout from '~/layouts/BaseLayout.astro';
-import { SITE_METADATA } from '../consts';
+import BlockAbout from '~/components/BlockAbout.astro'
+import BlockBlog from '~/components/BlockBlog.astro'
+import BlockLinks from '~/components/BlockLinks.astro'
+import BlockNotes from '~/components/BlockNotes.astro'
+import PromotedProjects from '~/components/PromotedProjects.astro'
+import BaseLayout from '~/layouts/BaseLayout.astro'
+import { SITE_METADATA } from '../consts'
 
-const slug = 'home';
+const slug = 'home'
 ---
 
 <!-- Each [data-window] section becomes its own window on the desktop. The
@@ -20,7 +20,7 @@ const slug = 'home';
     slug: '/',
     frontmatter: {
       reactions: true,
-    }
+    },
   }}
 >
   <div class="zm-mainContainer zm-home">

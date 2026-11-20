@@ -1,9 +1,9 @@
 interface Props {
-  url: string;
+  url: string
 }
 
 export function ShortUrl({ url }: Props) {
-  const domain = new URL(url).host.replace('www.', '');
+  const domain = new URL(url).host.replace('www.', '')
 
-  return <>{domain}</>;
+  return <>{domain}</>
 }

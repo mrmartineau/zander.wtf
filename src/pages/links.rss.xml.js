@@ -1,12 +1,12 @@
-import rss from '@astrojs/rss';
-import { fetchLinks } from '../fetching/links';
+import rss from '@astrojs/rss'
+import { fetchLinks } from '../fetching/links'
 
 export const GET = async (context) => {
-  let links;
+  let links
   try {
-    links = await fetchLinks(50);
+    links = await fetchLinks(50)
   } catch (_err) {
-    links = [];
+    links = []
   }
 
   return rss({
@@ -16,7 +16,7 @@ export const GET = async (context) => {
     site: `${context.site}/links`,
     items: links.map((item) => {
       if (!item?.title) {
-        return null;
+        return null
       }
 
       return {
@@ -25,8 +25,8 @@ export const GET = async (context) => {
         link: item.url ?? '',
         pubDate: new Date(item.created_at),
         categories: item.tags ?? [],
-      };
+      }
     }),
     stylesheet: '/links.rss.xsl',
-  });
-};
+  })
+}

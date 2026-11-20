@@ -1,29 +1,31 @@
 ---
-import { SITE_NAV_ITEMS } from '../consts';
-import BigName from './BigName.astro';
+import { SITE_NAV_ITEMS } from '../consts'
+import BigName from './BigName.astro'
 
-const pathname = new URL(Astro.request.url).pathname;
-const currentPath = pathname.slice(1); // remove the first "/"
+const pathname = new URL(Astro.request.url).pathname
+const currentPath = pathname.slice(1) // remove the first "/"
 ---
 
 <header class="site-header">
   <BigName />
   <nav>
     <ul>
-      <li><a href="/" class:list={[{ active: pathname === '/' }]} aria-keyshortcuts="h">Home</a></li>
-      {
-        SITE_NAV_ITEMS.map((item) => {
-          const itemPath = item.url.slice(1);
-          const isActive = currentPath.startsWith(itemPath);
-          return (
-            <li>
-              <a href={item.url} class:list={[{ active: isActive }]} aria-keyshortcuts={item.key}>
-                {item.text}
-              </a>
-            </li>
-          );
-        })
-      }
+      <li>
+        <a href="/" class:list={[{ active: pathname === '/' }]} aria-keyshortcuts="h">
+          Home
+        </a>
+      </li>
+      {SITE_NAV_ITEMS.map((item) => {
+        const itemPath = item.url.slice(1)
+        const isActive = currentPath.startsWith(itemPath)
+        return (
+          <li>
+            <a href={item.url} class:list={[{ active: isActive }]} aria-keyshortcuts={item.key}>
+              {item.text}
+            </a>
+          </li>
+        )
+      })}
       <li>
         <a
           href="/search"
@@ -80,7 +82,7 @@ const currentPath = pathname.slice(1); // remove the first "/"
     &:hover,
     &.active {
       color: var(--colour-accent);
-      font-feature-settings: "ss02" 1;
+      font-feature-settings: 'ss02' 1;
     }
 
     &.active::before {

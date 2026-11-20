@@ -22,19 +22,19 @@
   --muted: #a6a8b8;
   --line: rgb(255 255 255 / 0.08);
   --font:
-    ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI",
-    system-ui, sans-serif;
+    ui-rounded, 'SF Pro Rounded', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui,
+    sans-serif;
 }
 
-[data-s="fresh"] {
+[data-s='fresh'] {
   --fill: var(--fresh-fill);
   --tint: var(--fresh);
 }
-[data-s="drifting"] {
+[data-s='drifting'] {
   --fill: var(--drifting-fill);
   --tint: var(--drifting);
 }
-[data-s="due"] {
+[data-s='due'] {
   --fill: var(--due-fill);
   --tint: var(--due);
 }

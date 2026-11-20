@@ -1,13 +1,11 @@
 ---
-const { title, subtitle, class: className } = Astro.props;
+const { title, subtitle, class: className } = Astro.props
 ---
 
 <div class:list={['zm-block', className]}>
   <header>
     <h3 class="zm-block-title">{title}</h3>
-    <p class="zm-block-subtitle">
-      {subtitle}
-    </p>
+    <p class="zm-block-subtitle">{subtitle}</p>
   </header>
 
   <slot />
