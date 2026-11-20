@@ -1,29 +1,28 @@
 ---
-import type { CollectionEntry } from 'astro:content';
-import { getColourFromString } from '~/utils/getColourFromString';
-import { projectKind, showProjectStatus } from '~/utils/projects';
-import ShortUrl from './ShortUrl.astro';
+import type { CollectionEntry } from 'astro:content'
+import { getColourFromString } from '~/utils/getColourFromString'
+import { projectKind, showProjectStatus } from '~/utils/projects'
+import ShortUrl from './ShortUrl.astro'
 
 type Props = {
-  project: CollectionEntry<'projects'>;
-};
-const { project } = Astro.props;
-const { id, data } = project;
-const isAppIcon = data.type === 'ios-app';
+  project: CollectionEntry<'projects'>
+}
+const { project } = Astro.props
+const { id, data } = project
+const isAppIcon = data.type === 'ios-app'
 // Most projects have no image; give them a coloured square with an initial.
-const thumbBg =
-  data.bgColour ?? (data.image ? 'var(--bg)' : getColourFromString(data.title));
+const thumbBg = data.bgColour ?? (data.image ? 'var(--bg)' : getColourFromString(data.title))
 ---
 
 <a href={`/projects/${id}`} class="zm-project-row">
   <span class="thumb" style={`background: ${thumbBg}`}>
-    {
-      data.image ? (
-        <img src={data.image} alt="" loading="lazy" class:list={{ cover: !isAppIcon }} />
-      ) : (
-        <span class="initial" aria-hidden="true">{data.title.charAt(0)}</span>
-      )
-    }
+    {data.image ? (
+      <img src={data.image} alt="" loading="lazy" class:list={{ cover: !isAppIcon }} />
+    ) : (
+      <span class="initial" aria-hidden="true">
+        {data.title.charAt(0)}
+      </span>
+    )}
   </span>
   <span class="text">
     <span class="title">
@@ -32,14 +31,12 @@ const thumbBg =
     </span>
     <span class="meta">
       {projectKind(data.type)}
-      {
-        data.link?.startsWith('http') ? (
-          <>
-            {' · '}
-            <ShortUrl url={data.link} />
-          </>
-        ) : null
-      }
+      {data.link?.startsWith('http') ? (
+        <>
+          {' · '}
+          <ShortUrl url={data.link} />
+        </>
+      ) : null}
     </span>
   </span>
 </a>
@@ -59,7 +56,6 @@ const thumbBg =
       background: var(--bg);
     }
   }
-
 
   .thumb {
     flex: 0 0 var(--thumb);
@@ -104,7 +100,6 @@ const thumbBg =
     color: var(--colour-text-bright);
   }
 
-
   .zm-project-row:hover .title {
     color: var(--colour-accent);
   }
@@ -118,7 +113,6 @@ const thumbBg =
     background-color: color-mix(in srgb, var(--colour-text) 10%, transparent);
     color: var(--colour-text);
   }
-
 
   .meta {
     font-size: var(--step--2);

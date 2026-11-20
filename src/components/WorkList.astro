@@ -1,46 +1,42 @@
 ---
-import { JOBS } from '../consts';
+import { JOBS } from '../consts'
 
 type Props = {
-  limit?: number;
-  showDetail?: boolean;
-};
-const { limit } = Astro.props;
+  limit?: number
+  showDetail?: boolean
+}
+const { limit } = Astro.props
 
-const workList = limit ? JOBS.previous.slice(0, limit) : JOBS.previous;
+const workList = limit ? JOBS.previous.slice(0, limit) : JOBS.previous
 ---
 
 <div class="zm-work-items">
-  {
-    JOBS.current?.name ? (
-      <div class="zm-work-item">
-        <span class="zm-work-item-label">Current</span>
-        <div>
-          <a href={JOBS.current.url}>{JOBS.current.name}</a>
-          {JOBS.current?.description ? (
-            <div class="zm-work-description">{JOBS.current.description}</div>
-          ) : null}
-        </div>
+  {JOBS.current?.name ? (
+    <div class="zm-work-item">
+      <span class="zm-work-item-label">Current</span>
+      <div>
+        <a href={JOBS.current.url}>{JOBS.current.name}</a>
+        {JOBS.current?.description ? (
+          <div class="zm-work-description">{JOBS.current.description}</div>
+        ) : null}
       </div>
-    ) : null
-  }
-  {
-    JOBS.previous?.length ? (
-      <div class="zm-work-item">
-        <span class="zm-work-item-label">Previous</span>
-        <div>
-          {workList.map((job, index) => {
-            return (
-              <>
-                <a href={job.url}>{job.name}</a>
-                {index < JOBS.previous.length - 1 ? <> · </> : null}
-              </>
-            );
-          })}
-        </div>
+    </div>
+  ) : null}
+  {JOBS.previous?.length ? (
+    <div class="zm-work-item">
+      <span class="zm-work-item-label">Previous</span>
+      <div>
+        {workList.map((job, index) => {
+          return (
+            <>
+              <a href={job.url}>{job.name}</a>
+              {index < JOBS.previous.length - 1 ? <> · </> : null}
+            </>
+          )
+        })}
       </div>
-    ) : null
-  }
+    </div>
+  ) : null}
 </div>
 
 <style>

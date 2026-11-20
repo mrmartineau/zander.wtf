@@ -1,0 +1,18 @@
+{
+  "$schema": "https://raw.githubusercontent.com/oxc-project/oxc/main/npm/oxlint/configuration_schema.json",
+  "extends": ["./node_modules/@mrmartineau/kit/src/oxlint/.oxlintrc.json"],
+  "ignorePatterns": ["**/dist", "raycast-extension/**", "worker-configuration.d.ts"],
+  "rules": {
+    "react/jsx-key": "warn",
+    "react/refs": "warn",
+    "no-unassigned-vars": "warn",
+    "unicorn/no-invalid-remove-event-listener": "warn",
+    "no-unused-expressions": "warn",
+    "react/immutability": "warn",
+    "jsx-a11y/prefer-tag-over-role": "warn",
+    "no-unused-vars": "warn",
+    "typescript/triple-slash-reference": "warn",
+    "typescript/consistent-type-imports": "warn",
+    "jsx-a11y/no-static-element-interactions": "warn"
+  }
+}

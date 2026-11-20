@@ -1,40 +1,40 @@
 ---
-import { getCollection } from 'astro:content';
-import NoteList from '~/components/NoteList.astro';
-import NoteTagDot from '~/components/NoteTagDot.astro';
-import PageTitle from '~/components/PageTitle.astro';
-import SearchForm from '~/components/SearchForm.astro';
-import BaseLayout from '~/layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content'
+import NoteList from '~/components/NoteList.astro'
+import NoteTagDot from '~/components/NoteTagDot.astro'
+import PageTitle from '~/components/PageTitle.astro'
+import SearchForm from '~/components/SearchForm.astro'
+import BaseLayout from '~/layouts/BaseLayout.astro'
 
-const tag = Astro.params.tag;
+const tag = Astro.params.tag
 const notes = (await getCollection('codenotes'))
   .sort((a, b) => {
     // Sort by date descending, notes without dates go to the end
-    const dateA = a.data.date?.valueOf() ?? 0;
-    const dateB = b.data.date?.valueOf() ?? 0;
-    return dateB - dateA;
+    const dateA = a.data.date?.valueOf() ?? 0
+    const dateB = b.data.date?.valueOf() ?? 0
+    return dateB - dateA
   })
-  .filter((note) => note.data.tags?.includes(tag));
+  .filter((note) => note.data.tags?.includes(tag))
 
 export async function getStaticPaths() {
-  const notes = await getCollection('codenotes');
-  const allTags = new Set<string>();
+  const notes = await getCollection('codenotes')
+  const allTags = new Set<string>()
 
   for (const note of notes) {
     for (const tag of note.data.tags ?? []) {
-      allTags.add(tag);
+      allTags.add(tag)
     }
   }
 
   return [...allTags].map((tag) => ({
     params: { tag },
-  }));
+  }))
 }
 
 // Every tag page used to be titled "Code Notes", so all 45 of them looked like
 // one duplicated page. The tag is what makes each one distinct.
-const title = `Notes tagged “${tag}”`;
-const subtitle = `${notes.length} code note${notes.length === 1 ? '' : 's'} tagged “${tag}” — TILs and snippets from my digital code garden.`;
+const title = `Notes tagged “${tag}”`
+const subtitle = `${notes.length} code note${notes.length === 1 ? '' : 's'} tagged “${tag}” — TILs and snippets from my digital code garden.`
 ---
 
 <BaseLayout title={title} subtitle={subtitle} slug="notes">

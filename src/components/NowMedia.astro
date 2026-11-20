@@ -1,44 +1,39 @@
 ---
-import type { NowMediaItem } from 'src/types';
+import type { NowMediaItem } from 'src/types'
 
 interface Props {
-  title: string;
-  description?: string;
-  items: Array<NowMediaItem>;
-  showInfo?: boolean;
-  square?: boolean;
+  title: string
+  description?: string
+  items: Array<NowMediaItem>
+  showInfo?: boolean
+  square?: boolean
 }
 
-const { title, items, showInfo, square } = Astro.props;
+const { title, items, showInfo, square } = Astro.props
 ---
 
 <div class="my-l">
   <h3>{title}</h3>
   <div class="overflow-x-auto">
     <div class="nowItems mt-s">
-      {
-        items?.map((item) => (
-          <div class="nowItem">
-            <a href={item.link} class:list={[
-              'image',
-              { square },
-            ]}>
-              <img src={item.image} alt={item.title} />
-              {item?.rating ? (
-                <div class="rating">
-                  {item.rating}
-                </div>
+      {items?.map((item) => (
+        <div class="nowItem">
+          <a href={item.link} class:list={['image', { square }]}>
+            <img src={item.image} alt={item.title} />
+            {item?.rating ? <div class="rating">{item.rating}</div> : null}
+          </a>
+          {showInfo ? (
+            <a href={item.link} class="meta">
+              {item.title}
+              {item?.description ? (
+                <>
+                  {' – '} {item.description}
+                </>
               ) : null}
             </a>
-            {showInfo ? (
-              <a href={item.link} class="meta">
-                {item.title}
-                {item?.description ? <>{' – '} {item.description}</> : null}
-              </a>
-            ) : null}
-          </div>
-        ))
-      }
+          ) : null}
+        </div>
+      ))}
     </div>
   </div>
 </div>
@@ -75,7 +70,6 @@ const { title, items, showInfo, square } = Astro.props;
       font-size: var(--step--1);
     }
   }
-
 
   img {
     width: 100%;

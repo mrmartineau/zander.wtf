@@ -1,9 +1,9 @@
 ---
 interface Props {
-  query?: string;
-  placeholder?: string;
-  autofocus?: boolean;
-  action?: string;
+  query?: string
+  placeholder?: string
+  autofocus?: boolean
+  action?: string
 }
 
 const {
@@ -11,9 +11,8 @@ const {
   placeholder = 'Search notes...',
   autofocus = false,
   action = '/notes/search',
-} = Astro.props;
+} = Astro.props
 ---
-
 
 <!-- The site-wide "/" shortcut (see Header.astro) focuses this input when present -->
 <form action={action} method="GET" class="search-form">
@@ -28,7 +27,9 @@ const {
     autofocus={autofocus}
     autocomplete="off"
   />
-  <button type="submit" class="visually-hidden">Search</button>
+  <button type="submit" class="visually-hidden">
+    Search
+  </button>
 </form>
 
 <style>

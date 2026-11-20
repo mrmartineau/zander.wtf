@@ -1,43 +1,41 @@
-import { type CollectionEntry, getCollection } from 'astro:content';
-import { readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
-import { initWasm, Resvg } from '@resvg/resvg-wasm';
-import satori from 'satori';
-import { SITE_METADATA } from 'src/consts';
-import { getBlog } from '~/utils/blog';
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
+import { initWasm, Resvg } from '@resvg/resvg-wasm'
+import { type CollectionEntry, getCollection } from 'astro:content'
+import satori from 'satori'
+import { SITE_METADATA } from 'src/consts'
+import { getBlog } from '~/utils/blog'
 
-export const prerender = true;
+export const prerender = true
 
 // Initialize WASM once
-let wasmInitialized = false;
+let wasmInitialized = false
 
 interface Props {
-  params: { slug: string };
-  props: { post: CollectionEntry<'blog'> | CollectionEntry<'projects'> };
+  params: { slug: string }
+  props: { post: CollectionEntry<'blog'> | CollectionEntry<'projects'> }
 }
 
 export const GET = async ({ props }: Props) => {
-  const { post } = props;
+  const { post } = props
 
   // Initialize WASM if not already done
   if (!wasmInitialized) {
-    const wasmPath = resolve('./node_modules/@resvg/resvg-wasm/index_bg.wasm');
-    const wasmBuffer = readFileSync(wasmPath);
-    await initWasm(wasmBuffer);
-    wasmInitialized = true;
+    const wasmPath = resolve('./node_modules/@resvg/resvg-wasm/index_bg.wasm')
+    const wasmBuffer = readFileSync(wasmPath)
+    await initWasm(wasmBuffer)
+    wasmInitialized = true
   }
 
   const MonaSansBoldItalic = readFileSync(
     resolve('./public/fonts/MonaSansExpanded-ExtraBoldItalic.ttf'),
-  );
-  const MonaSansLight = readFileSync(
-    resolve('./public/fonts/MonaSansExpanded-Light.ttf'),
-  );
+  )
+  const MonaSansLight = readFileSync(resolve('./public/fonts/MonaSansExpanded-Light.ttf'))
 
-  const title = post.data.title ?? '';
-  const subtitle = post.data.subtitle ?? '';
-  const rawDate = post.data.date;
-  const date = rawDate instanceof Date ? rawDate : null;
+  const title = post.data.title ?? ''
+  const subtitle = post.data.subtitle ?? ''
+  const rawDate = post.data.date
+  const date = rawDate instanceof Date ? rawDate : null
 
   // Astro doesn't support .tsx endpoints so using React-element objects
   const html = {
@@ -168,7 +166,7 @@ export const GET = async ({ props }: Props) => {
         color: 'rgba(255, 255, 255, 0.75)',
       },
     },
-  };
+  }
 
   const svg = await satori(html, {
     width: 1200,
@@ -187,28 +185,28 @@ export const GET = async ({ props }: Props) => {
         weight: 300,
       },
     ],
-  });
+  })
 
   const resvg = new Resvg(svg, {
     fitTo: {
       mode: 'width',
       value: 1200,
     },
-  });
+  })
 
-  const pngData = resvg.render();
-  const pngBuffer = pngData.asPng();
+  const pngData = resvg.render()
+  const pngBuffer = pngData.asPng()
 
   return new Response(pngBuffer.buffer as ArrayBuffer, {
     headers: {
       'Content-Type': 'image/png',
     },
-  });
-};
+  })
+}
 
 export async function getStaticPaths() {
-  const blogPosts = await getBlog();
-  const projects = await getCollection('projects');
+  const blogPosts = await getBlog()
+  const projects = await getCollection('projects')
   const otherPages = Object.keys(SITE_METADATA).map((item) => {
     return {
       slug: item,
@@ -216,16 +214,16 @@ export async function getStaticPaths() {
         title: SITE_METADATA[item].ogTitle ?? SITE_METADATA[item].title,
         subtitle: SITE_METADATA[item].subtitle,
       },
-    };
-  });
+    }
+  })
 
   // Blog, projects and static pages share this single-segment route, so their
   // slugs live in one namespace — a duplicate fails the build rather than
   // silently overwriting.
-  const allPages = [...blogPosts, ...projects, ...otherPages];
+  const allPages = [...blogPosts, ...projects, ...otherPages]
   return allPages.map((post) => ({
     // Blog and project entries have `id`; the static pages have `slug`
     params: { slug: 'slug' in post ? post.slug : post.id },
     props: { post },
-  }));
+  }))
 }

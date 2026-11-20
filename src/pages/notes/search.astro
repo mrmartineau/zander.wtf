@@ -1,14 +1,14 @@
 ---
-export const prerender = false;
+export const prerender = false
 
-import { env } from 'cloudflare:workers';
-import NoteList from '~/components/NoteList.astro';
-import NoteLayout from '~/layouts/NoteLayout.astro';
-import { type SearchResult, searchIndex } from '~/utils/search';
+import { env } from 'cloudflare:workers'
+import NoteList from '~/components/NoteList.astro'
+import NoteLayout from '~/layouts/NoteLayout.astro'
+import { type SearchResult, searchIndex } from '~/utils/search'
 
-const query = Astro.url.searchParams.get('q')?.trim() || '';
-let searchResults: SearchResult[] = [];
-let searchError = '';
+const query = Astro.url.searchParams.get('q')?.trim() || ''
+let searchResults: SearchResult[] = []
+let searchError = ''
 
 if (query.length >= 2) {
   try {
@@ -16,10 +16,10 @@ if (query.length >= 2) {
       query,
       limit: 50,
       type: 'note',
-    });
+    })
   } catch (error) {
-    console.error('Search error:', error);
-    searchError = `An error occurred while searching for "${query}". Please try again.`;
+    console.error('Search error:', error)
+    searchError = `An error occurred while searching for "${query}". Please try again.`
   }
 }
 
@@ -29,34 +29,34 @@ const formattedResults = searchResults.map((result) => ({
   date: result.date ? new Date(result.date) : undefined,
   tags: result.tags ? result.tags.split(' ').filter(Boolean) : undefined,
   emoji: result.emoji || undefined,
-}));
+}))
 ---
 
 <NoteLayout title="Search Notes" subtitle="Search through all code notes" slug="search">
-  {
-    query ? (
-      <div class="search-results">
-        <p class="search-summary">
-          {searchResults.length > 0 ? (
-            <>
-              Found <strong>{searchResults.length}</strong> result{searchResults.length !== 1 ? 's' : ''} for "{query}"
-            </>
-          ) : searchError ? (
-            <span class="error">{searchError}</span>
-          ) : (
-            <>No results found for "{query}"</>
-          )}
-        </p>
+  {query ? (
+    <div class="search-results">
+      <p class="search-summary">
+        {searchResults.length > 0 ? (
+          <>
+            Found <strong>{searchResults.length}</strong> result
+            {searchResults.length !== 1 ? 's' : ''} for "{query}"
+          </>
+        ) : searchError ? (
+          <span class="error">{searchError}</span>
+        ) : (
+          <>No results found for "{query}"</>
+        )}
+      </p>
 
-        {searchResults.length > 0 ? <NoteList searchResults={formattedResults} /> : null}
-      </div>
-    ) : (
-      <p class="search-prompt">Enter a search term to find notes.</p>
-    )
-  }
+      {searchResults.length > 0 ? <NoteList searchResults={formattedResults} /> : null}
+    </div>
+  ) : (
+    <p class="search-prompt">Enter a search term to find notes.</p>
+  )}
 
   <p class="all-site-search">
-    Searching everything? Try the <a href={`/search${query ? `?q=${encodeURIComponent(query)}` : ''}`}>site-wide search</a>.
+    Searching everything? Try the{' '}
+    <a href={`/search${query ? `?q=${encodeURIComponent(query)}` : ''}`}>site-wide search</a>.
   </p>
 
   <div class="back-link">

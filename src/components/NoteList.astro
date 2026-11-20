@@ -1,22 +1,22 @@
 ---
-import type { CollectionEntry } from 'astro:content';
-import FormattedDate from './FormattedDate.astro';
-import NoteTag from './NoteTag.astro';
+import type { CollectionEntry } from 'astro:content'
+import FormattedDate from './FormattedDate.astro'
+import NoteTag from './NoteTag.astro'
 
 type NoteItem = {
-  slug: string;
-  title: string;
-  date?: Date;
-  tags?: string[];
-  emoji?: string;
-};
+  slug: string
+  title: string
+  date?: Date
+  tags?: string[]
+  emoji?: string
+}
 
 type Props = {
-  notes?: CollectionEntry<'codenotes'>[];
-  searchResults?: NoteItem[];
-};
+  notes?: CollectionEntry<'codenotes'>[]
+  searchResults?: NoteItem[]
+}
 
-const { notes, searchResults } = Astro.props;
+const { notes, searchResults } = Astro.props
 
 // Normalize data from either collection entries or search results
 const items: NoteItem[] = notes
@@ -27,34 +27,32 @@ const items: NoteItem[] = notes
       tags: note.data.tags,
       emoji: note.data.emoji,
     }))
-  : searchResults || [];
+  : searchResults || []
 ---
 
 <div class="zm-note-items">
-  {
-    items.map((item) => (
-      <a href={`/notes/${item.slug}`} class="zm-note-item">
-          <span class="title">
-            {item.emoji ? <span class="emoji">{item.emoji}</span> : null}
-            {item.title}
-          </span>
-          <div class="flex gap-2 items-center">
-          {item.tags && item.tags.length > 0 ? (
-            <div class="tags">
-              {item.tags.map((tag) => (
-                <NoteTag tag={tag} />
-              ))}
-            </div>
-          ) : null}
-          {item.date ? (
-            <div class="date">
-              <FormattedDate date={item.date} />
-            </div>
-          ) : null}
-        </div>
-      </a>
-    ))
-  }
+  {items.map((item) => (
+    <a href={`/notes/${item.slug}`} class="zm-note-item">
+      <span class="title">
+        {item.emoji ? <span class="emoji">{item.emoji}</span> : null}
+        {item.title}
+      </span>
+      <div class="flex gap-2 items-center">
+        {item.tags && item.tags.length > 0 ? (
+          <div class="tags">
+            {item.tags.map((tag) => (
+              <NoteTag tag={tag} />
+            ))}
+          </div>
+        ) : null}
+        {item.date ? (
+          <div class="date">
+            <FormattedDate date={item.date} />
+          </div>
+        ) : null}
+      </div>
+    </a>
+  ))}
 </div>
 
 <style>
@@ -99,7 +97,6 @@ const items: NoteItem[] = notes
     @apply flex items-center gap-1 truncate;
   }
 
-
   .date {
     @apply truncate;
     opacity: 0.7;
@@ -122,7 +119,6 @@ const items: NoteItem[] = notes
       align-items: flex-start;
       gap: var(--space-s);
     } */
-
 
     .date {
       flex-shrink: 0;

@@ -1,13 +1,11 @@
 ---
-import { SITE_METADATA } from 'src/consts';
-import BlogList from '~/components/BlogList.astro';
-import ContentLayout from '~/layouts/ContentLayout.astro';
-import { getBlog } from '~/utils/blog';
+import { SITE_METADATA } from 'src/consts'
+import BlogList from '~/components/BlogList.astro'
+import ContentLayout from '~/layouts/ContentLayout.astro'
+import { getBlog } from '~/utils/blog'
 
-const posts = (await getBlog()).sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
-);
-const slug = 'blog';
+const posts = (await getBlog()).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+const slug = 'blog'
 ---
 
 <ContentLayout
@@ -18,7 +16,7 @@ const slug = 'blog';
     slug: '/blog',
     frontmatter: {
       reactions: true,
-    }
+    },
   }}
 >
   <BlogList posts={posts} />

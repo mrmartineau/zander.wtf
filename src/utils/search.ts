@@ -5,31 +5,22 @@ import {
   resolveConfig,
   type SearchOptions,
   toFtsQuery,
-} from 'astro-d1-search/core';
-import searchConfig from '../../search.config';
+} from 'astro-d1-search/core'
+import searchConfig from '../../search.config'
 
-const config = resolveConfig(searchConfig);
+const config = resolveConfig(searchConfig)
 
-export const SEARCH_TYPES = [
-  'blog',
-  'note',
-  'project',
-  'worklog',
-  'page',
-] as const;
+export const SEARCH_TYPES = ['blog', 'note', 'project', 'worklog', 'page'] as const
 
-export type SearchType = (typeof SEARCH_TYPES)[number];
+export type SearchType = (typeof SEARCH_TYPES)[number]
 
 export type SearchResult = Omit<CoreSearchResult, 'type'> & {
-  type: SearchType;
-};
+  type: SearchType
+}
 
-export { toFtsQuery };
+export { toFtsQuery }
 
 /** Site-configured search: the package core bound to this site's ranking. */
-export function searchIndex(
-  db: D1Like,
-  options: SearchOptions,
-): Promise<SearchResult[]> {
-  return coreSearchIndex(db, options, config) as Promise<SearchResult[]>;
+export function searchIndex(db: D1Like, options: SearchOptions): Promise<SearchResult[]> {
+  return coreSearchIndex(db, options, config) as Promise<SearchResult[]>
 }

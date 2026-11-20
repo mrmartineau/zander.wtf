@@ -21,9 +21,7 @@
   );
 
   --colour-reallyFuckingDark: hsl(214 14% 15%);
-  --colour-notQuiteSoFuckingDark: hsl(
-    214 14% var(--notQuiteSoFuckingDarkLightness)
-  );
+  --colour-notQuiteSoFuckingDark: hsl(214 14% var(--notQuiteSoFuckingDarkLightness));
   --colour-reallyFuckingBright: 214 14% 100%;
   --colour-notQuiteSoFuckingBright: hsl(214 14% 85%);
   --colour-accent: hsl(var(--colour-reallyFuckingBright));
@@ -68,9 +66,8 @@
   --font-alphaLyrae: Alpha Lyrae, var(--font-mona);
   --font-mozillaText: Mozilla Text, system-ui, sans-serif;
   --font-mono:
-    Geist Mono, Recursive Mono Casual Static, Recursive Mono Casual,
-    Recursive Mono, Comic Code, JetBrains Mono, SF Mono, Menlo, Monaco,
-    Courier New, monospace;
+    Geist Mono, Recursive Mono Casual Static, Recursive Mono Casual, Recursive Mono, Comic Code,
+    JetBrains Mono, SF Mono, Menlo, Monaco, Courier New, monospace;
   --font-headings: var(--font-alphaLyrae);
   --font-body: var(--font-mozillaText);
 }

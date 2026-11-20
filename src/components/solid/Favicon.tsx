@@ -1,9 +1,9 @@
 interface Props {
-  url: string;
+  url: string
 }
 
 export function Favicon({ url }: Props) {
-  const domain = new URL(url).host.replace('www.', '');
+  const domain = new URL(url).host.replace('www.', '')
 
   return (
     <img
@@ -14,5 +14,5 @@ export function Favicon({ url }: Props) {
       loading="lazy"
       alt={`Favicon for ${domain}`}
     />
-  );
+  )
 }

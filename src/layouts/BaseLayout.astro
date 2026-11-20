@@ -1,22 +1,22 @@
 ---
-import '@phosphor-icons/web/regular';
-import '@phosphor-icons/web/duotone';
-import '@phosphor-icons/web/fill';
-import BaseHead from '~/components/BaseHead.astro';
-import Footer from '~/components/Footer.astro';
-import Greeting from '~/components/Greeting.astro';
-import Header from '~/components/Header.astro';
-import Reactions from '~/components/Reactions.astro';
-import Shortcuts from '~/components/Shortcuts.astro';
-import Desktop from '~/components/solid/desktop/Desktop';
-import Tui from '~/components/solid/tui/Tui';
-import { SITE_FOOTER_ITEMS, SITE_NAV_ITEMS } from '../consts';
+import '@phosphor-icons/web/regular'
+import '@phosphor-icons/web/duotone'
+import '@phosphor-icons/web/fill'
+import BaseHead from '~/components/BaseHead.astro'
+import Footer from '~/components/Footer.astro'
+import Greeting from '~/components/Greeting.astro'
+import Header from '~/components/Header.astro'
+import Reactions from '~/components/Reactions.astro'
+import Shortcuts from '~/components/Shortcuts.astro'
+import Desktop from '~/components/solid/desktop/Desktop'
+import Tui from '~/components/solid/tui/Tui'
+import { SITE_FOOTER_ITEMS, SITE_NAV_ITEMS } from '../consts'
 
 // `subtitle` is the visible strapline and doubles as the meta description;
 // `description` overrides it where a page needs the two to differ.
 // `reactions` turns on hearts and reads (and marks) in the bottom pill, which
 // every page gets for its flavour switch. See Reactions.astro.
-const { title, subtitle, description, image, slug, reactions, article } = Astro.props;
+const { title, subtitle, description, image, slug, reactions, article } = Astro.props
 ---
 
 <html lang="en">
@@ -30,59 +30,65 @@ const { title, subtitle, description, image, slug, reactions, article } = Astro.
     />
     <script is:inline>
       // The URL prefix picks the front end. Keep in sync with src/utils/uiMode.ts
-      var zmMode = (location.pathname.match(/^\/(desktop|tui|txt)(?=\/|$)/) || [])[1];
-      document.documentElement.classList.add(zmMode || 'classic');
+      var zmMode = (location.pathname.match(/^\/(desktop|tui|txt)(?=\/|$)/) || [])[1]
+      document.documentElement.classList.add(zmMode || 'classic')
       if (zmMode === 'txt') {
         // Plain text: no stylesheets, ever — the browser's own styles only.
         var zmStrip = function (root) {
           root.querySelectorAll('link[rel="stylesheet"], style').forEach(function (el) {
-            el.remove();
-          });
-        };
-        zmStrip(document);
+            el.remove()
+          })
+        }
+        zmStrip(document)
         new MutationObserver(function (records) {
           records.forEach(function (r) {
             r.addedNodes.forEach(function (n) {
-              if (n.nodeType !== 1) return;
-              if (n.matches('link[rel="stylesheet"], style')) n.remove();
-              else zmStrip(n);
-            });
-          });
-        }).observe(document.documentElement, { childList: true, subtree: true });
+              if (n.nodeType !== 1) return
+              if (n.matches('link[rel="stylesheet"], style')) n.remove()
+              else zmStrip(n)
+            })
+          })
+        }).observe(document.documentElement, { childList: true, subtree: true })
         document.addEventListener('DOMContentLoaded', function () {
           // The greeting belongs to the home page only
-          if (document.body.dataset.slug !== 'home') document.getElementById('greeting')?.remove();
+          if (document.body.dataset.slug !== 'home') document.getElementById('greeting')?.remove()
           // The big name is a full-width SVG; without CSS it swallows the page
-          document.querySelectorAll('.zm-bigname').forEach(function (el) { el.remove(); });
+          document.querySelectorAll('.zm-bigname').forEach(function (el) {
+            el.remove()
+          })
           // Stay in plain text: site links get the prefix
           document.querySelectorAll('a[href^="/"]').forEach(function (a) {
-            var href = a.getAttribute('href');
-            if (/^\/(desktop|tui|txt)(\/|$)/.test(href) || /\.[a-z0-9]+$/i.test(href.split(/[?#]/)[0])) return;
-            a.setAttribute('href', '/txt' + (href === '/' ? '/' : href));
-          });
+            var href = a.getAttribute('href')
+            if (
+              /^\/(desktop|tui|txt)(\/|$)/.test(href) ||
+              /\.[a-z0-9]+$/i.test(href.split(/[?#]/)[0])
+            )
+              return
+            a.setAttribute('href', '/txt' + (href === '/' ? '/' : href))
+          })
           // The flavour switch lives in the bottom pill, which needs styles.
           // Show its list on its own instead: plain text is current here, and
           // the website is a link back
-          var plain = location.pathname.replace(/^\/txt(?=\/|$)/, '') || '/';
-          var pill = document.querySelector('.reactions');
-          var menu = document.getElementById('reactions-flavours');
+          var plain = location.pathname.replace(/^\/txt(?=\/|$)/, '') || '/'
+          var pill = document.querySelector('.reactions')
+          var menu = document.getElementById('reactions-flavours')
           if (pill && menu) {
-            pill.querySelector('.reactions-dock')?.remove();
-            menu.removeAttribute('popover');
-            pill.hidden = false;
+            pill.querySelector('.reactions-dock')?.remove()
+            menu.removeAttribute('popover')
+            pill.hidden = false
             menu.querySelectorAll('a[data-mode]').forEach(function (a) {
-              var blurb = a.querySelector('[data-blurb]');
+              var blurb = a.querySelector('[data-blurb]')
               if (a.dataset.mode === 'classic') {
-                a.href = plain;
-                a.removeAttribute('aria-current');
-                blurb.textContent = blurb.dataset.blurb;
+                a.href = plain
+                a.removeAttribute('aria-current')
+                blurb.textContent = blurb.dataset.blurb
               } else if (a.dataset.mode === 'txt') {
-                a.setAttribute('aria-current', 'page');
-                blurb.textContent = 'You are here';
+                a.setAttribute('aria-current', 'page')
+                blurb.textContent = 'You are here'
               }
-            });
+            })
           }
-        });
+        })
       }
     </script>
   </head>
@@ -90,8 +96,12 @@ const { title, subtitle, description, image, slug, reactions, article } = Astro.
     <noscript>
       <nav class="nojs-nav">
         <a href="/">Home</a>
-        {SITE_NAV_ITEMS.map((item) => <a href={item.url}>{item.text}</a>)}
-        {SITE_FOOTER_ITEMS.map((item) => <a href={item.url}>{item.text}</a>)}
+        {SITE_NAV_ITEMS.map((item) => (
+          <a href={item.url}>{item.text}</a>
+        ))}
+        {SITE_FOOTER_ITEMS.map((item) => (
+          <a href={item.url}>{item.text}</a>
+        ))}
       </nav>
     </noscript>
     <Header />
@@ -107,9 +117,9 @@ const { title, subtitle, description, image, slug, reactions, article } = Astro.
     <script>
       // Hold Ctrl+Shift to see the data-debug value of any element. The
       // lil-debug-tags plugin in astro.config.mjs tags every component.
-      import { lilDebugger } from '@mrmartineau/lil-debugger';
+      import { lilDebugger } from '@mrmartineau/lil-debugger'
 
-      lilDebugger();
+      lilDebugger()
     </script>
   </body>
 </html>

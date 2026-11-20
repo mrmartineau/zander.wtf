@@ -1,15 +1,13 @@
-import rss from '@astrojs/rss';
-import MarkdownIt from 'markdown-it';
-import sanitizeHtml from 'sanitize-html';
-import { getBlog } from '~/utils/blog';
-import { SITE_METADATA, SITE_TITLE } from '../consts';
+import rss from '@astrojs/rss'
+import MarkdownIt from 'markdown-it'
+import sanitizeHtml from 'sanitize-html'
+import { getBlog } from '~/utils/blog'
+import { SITE_METADATA, SITE_TITLE } from '../consts'
 
-const parser = new MarkdownIt();
+const parser = new MarkdownIt()
 
 export const GET = async (context) => {
-  const posts = (await getBlog()).sort(
-    (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
-  );
+  const posts = (await getBlog()).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
 
   return rss({
     title: SITE_TITLE,
@@ -21,9 +19,9 @@ export const GET = async (context) => {
       pubDate: post.data.date,
       description: post.data.subtitle ?? '',
       categories: post.data.worklog ? ['worklog'] : ['post'],
-      content: sanitizeHtml(parser.render(post.body ?? "")),
+      content: sanitizeHtml(parser.render(post.body ?? '')),
       author: 'Zander Martineau',
     })),
     stylesheet: '/blog.rss.xsl',
-  });
-};
+  })
+}

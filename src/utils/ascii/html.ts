@@ -14,7 +14,7 @@
  *   span('dim tech', 'hello')   // <span class="dim tech">hello</span>
  */
 export function span(cls: string, text: string): string {
-  return `<span class="${cls}">${text}</span>`;
+  return `<span class="${cls}">${text}</span>`
 }
 
 /**
@@ -30,42 +30,36 @@ export function span(cls: string, text: string): string {
  *   link('/blog', '[1] Post title', '', '1')
  *   link('/', '● HOME', 'nav-link active')
  */
-export function link(
-  href: string,
-  text: string,
-  cls = '',
-  dataKey = '',
-): string {
-  const classes = cls ? ` class="${cls}"` : '';
-  const dk = dataKey ? ` data-key="${dataKey}"` : '';
-  return `<a href="${href}"${classes}${dk}>${text}</a>`;
+export function link(href: string, text: string, cls = '', dataKey = ''): string {
+  const classes = cls ? ` class="${cls}"` : ''
+  const dk = dataKey ? ` data-key="${dataKey}"` : ''
+  return `<a href="${href}"${classes}${dk}>${text}</a>`
 }
 
 /**
  * Shorthand: wrap text in an accent-colored span.
  */
 export function accent(text: string): string {
-  return span('accent', text);
+  return span('accent', text)
 }
 
 /**
  * Shorthand: wrap text in a dim span.
  */
 export function dim(text: string): string {
-  return span('dim', text);
+  return span('dim', text)
 }
 
 /**
  * Shorthand: wrap text in a bright span.
  */
 export function bright(text: string): string {
-  return span('bright', text);
+  return span('bright', text)
 }
 
 /**
  * Shorthand: wrap a keyboard shortcut key in the shortcut style.
  */
 export function shortcut(key: string): string {
-  return span('shortcut', key);
+  return span('shortcut', key)
 }
-

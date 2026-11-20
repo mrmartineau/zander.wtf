@@ -1,37 +1,38 @@
 ---
-import { type CollectionEntry, getCollection, render } from 'astro:content';
-import EntryMeta from '~/components/EntryMeta.astro';
-import FormattedDate from '~/components/FormattedDate.astro';
-import HeadingMinimap from '~/components/HeadingMinimap.astro';
-import NoteTagLink from '~/components/NoteTagLink.astro';
-import PageTitle from '~/components/PageTitle.astro';
-import RelatedLinks from '~/components/RelatedLinks.astro';
-import SearchForm from '~/components/SearchForm.astro';
-import TableOfContents from '~/components/TableOfContents.astro';
-import BaseLayout from '~/layouts/BaseLayout.astro';
-import { excerpt } from '~/utils/excerpt';
+import { type CollectionEntry, getCollection, render } from 'astro:content'
+import EntryMeta from '~/components/EntryMeta.astro'
+import FormattedDate from '~/components/FormattedDate.astro'
+import HeadingMinimap from '~/components/HeadingMinimap.astro'
+import NoteTagLink from '~/components/NoteTagLink.astro'
+import PageTitle from '~/components/PageTitle.astro'
+import RelatedLinks from '~/components/RelatedLinks.astro'
+import SearchForm from '~/components/SearchForm.astro'
+import TableOfContents from '~/components/TableOfContents.astro'
+import BaseLayout from '~/layouts/BaseLayout.astro'
+import { excerpt } from '~/utils/excerpt'
 
 export async function getStaticPaths() {
-  const notes = await getCollection('codenotes');
+  const notes = await getCollection('codenotes')
   return notes.map((note) => ({
     params: { slug: note.id },
     props: note,
-  }));
+  }))
 }
 
-type Props = CollectionEntry<'codenotes'>;
+type Props = CollectionEntry<'codenotes'>
 
-const note = Astro.props;
-const { Content, headings } = await render(note);
-const { title, date, tags, emoji, link, readingTime, wordCount, git } = note.data;
+const note = Astro.props
+const { Content, headings } = await render(note)
+const { title, date, tags, emoji, link, readingTime, wordCount, git } = note.data
 
 // The note's own title and an excerpt of its body: every note used to share
 // the section's title and carry no description at all. Notes that are pure
 // code have no prose to excerpt, so the title and tags stand in.
 const description =
   excerpt(note.body ?? '') ||
-  `A code snippet${tags?.length ? ` for ${tags.join(', ')}` : ''}: ${title}.`;
+  `A code snippet${tags?.length ? ` for ${tags.join(', ')}` : ''}: ${title}.`
 ---
+
 <BaseLayout
   title={title}
   subtitle={description}
@@ -40,75 +41,70 @@ const description =
   reactions={{ slug: `/notes/${note.id}` }}
 >
   <div class="zm-contentContainer">
-  <div class="note-main">
-    <nav class="note-back" aria-label="Back to all notes">
-      <a href="/notes"><span aria-hidden="true">←</span> All notes</a>
-    </nav>
-    <div class="mb-6">
-      <SearchForm placeholder="Search notes..." />
-    </div>
-    <article class="article">
-      <header class="note-header">
-        <PageTitle transition:persist>
-          {emoji ? <span class="emoji">{emoji}</span> : null}
-          {title}
-        </PageTitle>
+    <div class="note-main">
+      <nav class="note-back" aria-label="Back to all notes">
+        <a href="/notes">
+          <span aria-hidden="true">←</span> All notes
+        </a>
+      </nav>
+      <div class="mb-6">
+        <SearchForm placeholder="Search notes..." />
+      </div>
+      <article class="article">
+        <header class="note-header">
+          <PageTitle transition:persist>
+            {emoji ? <span class="emoji">{emoji}</span> : null}
+            {title}
+          </PageTitle>
 
-        <div class="note-metadata mb-2 flex items-center gap-2">
-          {
-            link ? (
+          <div class="note-metadata mb-2 flex items-center gap-2">
+            {link ? (
               <div class="flex items-center gap-2">
                 <i class="ph-duotone ph-link" />
                 <a href={link} target="_blank" rel="noopener noreferrer" class="note-link">
                   {link}
                 </a>
               </div>
-            ) : null
-          }
-          {
-            date ? (
+            ) : null}
+            {date ? (
               <div class="note-date flex items-center gap-2">
                 <i class="ph-duotone ph-calendar" />
                 <FormattedDate date={date} />
               </div>
-            ) : null
-          }
-          <EntryMeta
-            readingTime={readingTime}
-            wordCount={wordCount}
-            editUrl={git?.editUrl}
-            icons
-          />
-        </div>
+            ) : null}
+            <EntryMeta
+              readingTime={readingTime}
+              wordCount={wordCount}
+              editUrl={git?.editUrl}
+              icons
+            />
+          </div>
 
-        {
-          tags && tags.length > 0 ? (
+          {tags && tags.length > 0 ? (
             <div class="note-tags flex items-center gap-2">
               <i class="ph-duotone ph-tag" />
               {tags.map((tag) => (
                 <NoteTagLink tag={tag} />
               ))}
             </div>
-          ) : null
-        }
-      </header>
+          ) : null}
+        </header>
 
-      <div class="flow" data-highlightable>
-        <TableOfContents headings={headings} />
+        <div class="flow" data-highlightable>
+          <TableOfContents headings={headings} />
 
-        <Content />
-      </div>
+          <Content />
+        </div>
 
-      <HeadingMinimap headings={headings} />
+        <HeadingMinimap headings={headings} />
 
-      <RelatedLinks href={`/notes/${note.id}`} />
+        <RelatedLinks href={`/notes/${note.id}`} />
 
-      <footer class="note-footer">
-        <span class="mono">&gt;</span>{' '}
-        <a href="/notes">cd ..</a>
-      </footer>
-    </article>
-  </div>
+        <footer class="note-footer">
+          <span class="mono">&gt;</span> <a href="/notes">cd ..</a>
+        </footer>
+      </article>
+    </div>
   </div>
 </BaseLayout>
 
@@ -180,7 +176,4 @@ const description =
   .mono {
     font-family: var(--font-mono);
   }
-
-
 </style>
-

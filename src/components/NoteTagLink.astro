@@ -1,18 +1,20 @@
 ---
-import slugify from '@alexcarpenter/slugify';
-import { getColourFromString } from '~/utils/getColourFromString';
+import slugify from '@alexcarpenter/slugify'
+import { getColourFromString } from '~/utils/getColourFromString'
 
 type Props = {
-  tag: string;
-};
+  tag: string
+}
 
-const { tag } = Astro.props;
+const { tag } = Astro.props
 
-const tagName = slugify(tag);
-const tagColor = getColourFromString(tagName);
+const tagName = slugify(tag)
+const tagColor = getColourFromString(tagName)
 ---
 
-<a href={`/notes/tags/${tagName}`} class="badge" style={`background-color: ${tagColor};`}>{tag}</a>
+<a href={`/notes/tags/${tagName}`} class="badge" style={`background-color: ${tagColor};`}>
+  {tag}
+</a>
 
 <style>
   .badge {
@@ -29,5 +31,4 @@ const tagColor = getColourFromString(tagName);
     color: currentColor;
     opacity: 0.6;
   }
-
 </style>

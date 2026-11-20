@@ -1,25 +1,25 @@
 ---
-import EntryMeta from './EntryMeta.astro';
-import FormattedDate from './FormattedDate.astro';
-import MetaItem from './MetaItem.astro';
-import PageSubtitle from './PageSubtitle.astro';
-import PageTitle from './PageTitle.astro';
-import SectionTitle from './SectionTitle.astro';
+import EntryMeta from './EntryMeta.astro'
+import FormattedDate from './FormattedDate.astro'
+import MetaItem from './MetaItem.astro'
+import PageSubtitle from './PageSubtitle.astro'
+import PageTitle from './PageTitle.astro'
+import SectionTitle from './SectionTitle.astro'
 
 type Props = {
-  title: string;
-  subtitle?: string;
-  date?: Date;
-  modified?: Date;
-  class?: string;
-  isSection?: boolean;
-  worklog?: boolean;
-  tags?: string[];
-  showType?: boolean;
-  readingTime?: number;
-  wordCount?: number;
-  editUrl?: string;
-};
+  title: string
+  subtitle?: string
+  date?: Date
+  modified?: Date
+  class?: string
+  isSection?: boolean
+  worklog?: boolean
+  tags?: string[]
+  showType?: boolean
+  readingTime?: number
+  wordCount?: number
+  editUrl?: string
+}
 
 const {
   title,
@@ -33,50 +33,46 @@ const {
   readingTime,
   wordCount,
   editUrl,
-} = Astro.props;
+} = Astro.props
 ---
 
 <header>
-  {
-    isSection ? (
-      <SectionTitle>{title}</SectionTitle>
-    ) : (
-      <PageTitle transition:persist>{title}</PageTitle>
-    )
-  }
+  {isSection ? (
+    <SectionTitle>{title}</SectionTitle>
+  ) : (
+    <PageTitle transition:persist>{title}</PageTitle>
+  )}
 
   {subtitle ? <PageSubtitle transition:persist>{subtitle}</PageSubtitle> : null}
-  {
-    date || tags?.length || readingTime ? (
-      <div class="zm-articleMetadata my-m flex items-center gap-x-2xs gap-y-xs flex-wrap text-xs">
-        {date ? (
-          <MetaItem>
-            <FormattedDate date={date} />
-          </MetaItem>
-        ) : null}
-        {date && modified ? (
-          <MetaItem>
-            Updated <FormattedDate date={modified} />
-          </MetaItem>
-        ) : null}
-        {showType ? (
-          <MetaItem>
-            <span class="uppercase">{worklog ? 'worklog' : 'article'}</span>
-          </MetaItem>
-        ) : null}
-        <EntryMeta readingTime={readingTime} wordCount={wordCount} editUrl={editUrl} />
-        {tags?.length ? (
-          <MetaItem>
-            <div class="flex gap-x-xs gap-y-3xs flex-wrap">
-              {tags.map((item) => {
-                return <span>#{item}</span>;
-              })}
-            </div>
-          </MetaItem>
-        ) : null}
-      </div>
-    ) : null
-  }
+  {date || tags?.length || readingTime ? (
+    <div class="zm-articleMetadata my-m flex items-center gap-x-2xs gap-y-xs flex-wrap text-xs">
+      {date ? (
+        <MetaItem>
+          <FormattedDate date={date} />
+        </MetaItem>
+      ) : null}
+      {date && modified ? (
+        <MetaItem>
+          Updated <FormattedDate date={modified} />
+        </MetaItem>
+      ) : null}
+      {showType ? (
+        <MetaItem>
+          <span class="uppercase">{worklog ? 'worklog' : 'article'}</span>
+        </MetaItem>
+      ) : null}
+      <EntryMeta readingTime={readingTime} wordCount={wordCount} editUrl={editUrl} />
+      {tags?.length ? (
+        <MetaItem>
+          <div class="flex gap-x-xs gap-y-3xs flex-wrap">
+            {tags.map((item) => {
+              return <span>#{item}</span>
+            })}
+          </div>
+        </MetaItem>
+      ) : null}
+    </div>
+  ) : null}
 </header>
 
 <style>

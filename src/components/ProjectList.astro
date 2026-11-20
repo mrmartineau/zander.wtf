@@ -1,67 +1,63 @@
 ---
-import type { CollectionEntry } from 'astro:content';
-import { isRetired, projectSite } from '~/utils/projects';
-import ShortUrl from './ShortUrl.astro';
+import type { CollectionEntry } from 'astro:content'
+import { isRetired, projectSite } from '~/utils/projects'
+import ShortUrl from './ShortUrl.astro'
 
 type Props = {
-  projects: CollectionEntry<'projects'>[];
-};
-const { projects } = Astro.props;
+  projects: CollectionEntry<'projects'>[]
+}
+const { projects } = Astro.props
 // Projects with a picture get a card; the rest get one line each, below.
-const withImage = projects.filter(({ data }) => data.image);
-const rest = projects.filter(({ data }) => !data.image);
+const withImage = projects.filter(({ data }) => data.image)
+const rest = projects.filter(({ data }) => !data.image)
 ---
 
 <div class="zm-project-list">
-  {
-    withImage.length ? (
-      <div class="cards">
-        {withImage.map(({ id, data }) => {
-          const site = projectSite(data);
-          return (
-            <a href={`/projects/${id}`} class="card">
-              <img src={data.image} alt="" loading="lazy" />
-              <span class="card-text">
-                <span class="card-title">{data.title}</span>
-                {data.subtitle ? <span class="card-sub">{data.subtitle}</span> : null}
-                <span class="meta">
-                  {data.date.getFullYear()}
-                  {site ? (
-                    <>
-                      {' · '}
-                      <ShortUrl url={site} />
-                    </>
-                  ) : null}
-                </span>
-              </span>
-            </a>
-          );
-        })}
-      </div>
-    ) : null
-  }
-
-  {
-    rest.length ? (
-      <ul class="lines">
-        {rest.map(({ id, data }) => (
-          <li>
-            <a
-              href={`/projects/${id}`}
-              class:list={['line', { 'line--retired': isRetired(data.status) }]}
-            >
-              <span class="line-title">{data.title}</span>
-              <span class="line-sub">{data.subtitle}</span>
+  {withImage.length ? (
+    <div class="cards">
+      {withImage.map(({ id, data }) => {
+        const site = projectSite(data)
+        return (
+          <a href={`/projects/${id}`} class="card">
+            <img src={data.image} alt="" loading="lazy" />
+            <span class="card-text">
+              <span class="card-title">{data.title}</span>
+              {data.subtitle ? <span class="card-sub">{data.subtitle}</span> : null}
               <span class="meta">
-                {isRetired(data.status) ? `${data.status} · ` : ''}
                 {data.date.getFullYear()}
+                {site ? (
+                  <>
+                    {' · '}
+                    <ShortUrl url={site} />
+                  </>
+                ) : null}
               </span>
-            </a>
-          </li>
-        ))}
-      </ul>
-    ) : null
-  }
+            </span>
+          </a>
+        )
+      })}
+    </div>
+  ) : null}
+
+  {rest.length ? (
+    <ul class="lines">
+      {rest.map(({ id, data }) => (
+        <li>
+          <a
+            href={`/projects/${id}`}
+            class:list={['line', { 'line--retired': isRetired(data.status) }]}
+          >
+            <span class="line-title">{data.title}</span>
+            <span class="line-sub">{data.subtitle}</span>
+            <span class="meta">
+              {isRetired(data.status) ? `${data.status} · ` : ''}
+              {data.date.getFullYear()}
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  ) : null}
 </div>
 
 <style>

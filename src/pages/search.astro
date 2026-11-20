@@ -1,32 +1,25 @@
 ---
-export const prerender = false;
+export const prerender = false
 
-import { getCollection } from 'astro:content';
-import { env } from 'cloudflare:workers';
-import { SITE_METADATA } from 'src/consts';
-import Block from '~/components/Block.astro';
-import BlogList from '~/components/BlogList.astro';
-import FormattedDate from '~/components/FormattedDate.astro';
-import NoteListBlock from '~/components/NoteListBlock.astro';
-import NoteTag from '~/components/NoteTag.astro';
-import SearchForm from '~/components/SearchForm.astro';
-import ContentLayout from '~/layouts/ContentLayout.astro';
-import { getBlog } from '~/utils/blog';
-import {
-  SEARCH_TYPES,
-  type SearchResult,
-  type SearchType,
-  searchIndex,
-} from '~/utils/search';
+import { getCollection } from 'astro:content'
+import { env } from 'cloudflare:workers'
+import { SITE_METADATA } from 'src/consts'
+import Block from '~/components/Block.astro'
+import BlogList from '~/components/BlogList.astro'
+import FormattedDate from '~/components/FormattedDate.astro'
+import NoteListBlock from '~/components/NoteListBlock.astro'
+import NoteTag from '~/components/NoteTag.astro'
+import SearchForm from '~/components/SearchForm.astro'
+import ContentLayout from '~/layouts/ContentLayout.astro'
+import { getBlog } from '~/utils/blog'
+import { SEARCH_TYPES, type SearchResult, type SearchType, searchIndex } from '~/utils/search'
 
-const query = Astro.url.searchParams.get('q')?.trim() || '';
-const typeParam = Astro.url.searchParams.get('type') || '';
-const type = SEARCH_TYPES.includes(typeParam as SearchType)
-  ? (typeParam as SearchType)
-  : undefined;
+const query = Astro.url.searchParams.get('q')?.trim() || ''
+const typeParam = Astro.url.searchParams.get('type') || ''
+const type = SEARCH_TYPES.includes(typeParam as SearchType) ? (typeParam as SearchType) : undefined
 
-let results: SearchResult[] = [];
-let searchError = '';
+let results: SearchResult[] = []
+let searchError = ''
 
 if (query.length >= 2) {
   try {
@@ -34,10 +27,10 @@ if (query.length >= 2) {
       query,
       limit: 25,
       type,
-    });
+    })
   } catch (error) {
-    console.error('Search error:', error);
-    searchError = `An error occurred while searching for "${query}". Please try again.`;
+    console.error('Search error:', error)
+    searchError = `An error occurred while searching for "${query}". Please try again.`
   }
 }
 
@@ -47,28 +40,24 @@ const typeLabels: Record<SearchType, string> = {
   project: 'Project',
   worklog: 'Worklog',
   page: 'Page',
-};
+}
 
 const filterUrl = (t?: SearchType) => {
-  const params = new URLSearchParams({ q: query });
-  if (t) params.set('type', t);
-  return `/search?${params.toString()}`;
-};
+  const params = new URLSearchParams({ q: query })
+  if (t) params.set('type', t)
+  return `/search?${params.toString()}`
+}
 
 // Empty state: latest posts + notes
-const hasQuery = query.length >= 2;
+const hasQuery = query.length >= 2
 const latestPosts = hasQuery
   ? []
-  : (await getBlog())
-      .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-      .slice(0, 2);
+  : (await getBlog()).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0, 2)
 const latestNotes = hasQuery
   ? []
   : (await getCollection('codenotes'))
-      .sort(
-        (a, b) => (b.data.date?.valueOf() ?? 0) - (a.data.date?.valueOf() ?? 0),
-      )
-      .slice(0, 3);
+      .sort((a, b) => (b.data.date?.valueOf() ?? 0) - (a.data.date?.valueOf() ?? 0))
+      .slice(0, 3)
 ---
 
 <ContentLayout
@@ -79,76 +68,81 @@ const latestNotes = hasQuery
     slug: '/search',
     frontmatter: {
       reactions: true,
-    }
+    },
   }}
 >
   <div class="search-page">
     <SearchForm query={query} action="/search" placeholder="Search the site..." autofocus />
 
-    {
-      hasQuery ? (
-        <>
-          <nav class="filters" aria-label="Filter results by type">
-            <a href={filterUrl()} class:list={['filter', { active: !type }]}>
-              All
+    {hasQuery ? (
+      <>
+        <nav class="filters" aria-label="Filter results by type">
+          <a href={filterUrl()} class:list={['filter', { active: !type }]}>
+            All
+          </a>
+          {SEARCH_TYPES.map((t) => (
+            <a href={filterUrl(t)} class:list={['filter', { active: type === t }]}>
+              {typeLabels[t]}
             </a>
-            {SEARCH_TYPES.map((t) => (
-              <a href={filterUrl(t)} class:list={['filter', { active: type === t }]}>
-                {typeLabels[t]}
-              </a>
-            ))}
-          </nav>
+          ))}
+        </nav>
 
-          <p class="search-summary">
-            {searchError ? (
-              <span class="error">{searchError}</span>
-            ) : results.length > 0 ? (
-              <>
-                Found <strong>{results.length}</strong> result{results.length !== 1 ? 's' : ''} for "{query}"
-              </>
-            ) : (
-              <>No results found for "{query}"</>
-            )}
-          </p>
+        <p class="search-summary">
+          {searchError ? (
+            <span class="error">{searchError}</span>
+          ) : results.length > 0 ? (
+            <>
+              Found <strong>{results.length}</strong> result{results.length !== 1 ? 's' : ''} for "
+              {query}"
+            </>
+          ) : (
+            <>No results found for "{query}"</>
+          )}
+        </p>
 
-          <div class="zm-search-items">
-            {results.map((result) => (
-              <div class="zm-search-item">
-                <div class="info">
-                  <a href={result.url} class="title">
-                    {result.emoji ? <span class="emoji">{result.emoji}</span> : null}
-                    {result.title}
-                  </a>
-                  {result.snippet ? <div class="snippet" set:html={result.snippet} /> : null}
-                </div>
-                <div class="meta">
-                  <NoteTag tag={typeLabels[result.type]} />
-                  {result.date ? (
-                    <span class="date">
-                      <FormattedDate date={new Date(result.date)} />
-                    </span>
-                  ) : null}
-                </div>
+        <div class="zm-search-items">
+          {results.map((result) => (
+            <div class="zm-search-item">
+              <div class="info">
+                <a href={result.url} class="title">
+                  {result.emoji ? <span class="emoji">{result.emoji}</span> : null}
+                  {result.title}
+                </a>
+                {result.snippet ? <div class="snippet" set:html={result.snippet} /> : null}
               </div>
-            ))}
-          </div>
-        </>
-      ) : (
-        <>
-          <p class="search-prompt">Search blog posts, code notes, projects and more. In the meantime, here's the latest:</p>
-          <div class="empty-state">
-            <Block title="Blog">
-              <BlogList posts={latestPosts} worklogContent={false} />
-              <a href="/blog" class="zm-block-link">View all articles →</a>
-            </Block>
-            <Block title="Code Notes">
-              <NoteListBlock notes={latestNotes} />
-              <a href="/notes" class="zm-block-link">View all notes →</a>
-            </Block>
-          </div>
-        </>
-      )
-    }
+              <div class="meta">
+                <NoteTag tag={typeLabels[result.type]} />
+                {result.date ? (
+                  <span class="date">
+                    <FormattedDate date={new Date(result.date)} />
+                  </span>
+                ) : null}
+              </div>
+            </div>
+          ))}
+        </div>
+      </>
+    ) : (
+      <>
+        <p class="search-prompt">
+          Search blog posts, code notes, projects and more. In the meantime, here's the latest:
+        </p>
+        <div class="empty-state">
+          <Block title="Blog">
+            <BlogList posts={latestPosts} worklogContent={false} />
+            <a href="/blog" class="zm-block-link">
+              View all articles →
+            </a>
+          </Block>
+          <Block title="Code Notes">
+            <NoteListBlock notes={latestNotes} />
+            <a href="/notes" class="zm-block-link">
+              View all notes →
+            </a>
+          </Block>
+        </div>
+      </>
+    )}
   </div>
 </ContentLayout>
 

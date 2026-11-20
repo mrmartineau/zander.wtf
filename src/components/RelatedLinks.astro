@@ -1,20 +1,20 @@
 ---
-import { getCollection } from 'astro:content';
-import { getBlog } from '~/utils/blog';
+import { getCollection } from 'astro:content'
+import { getBlog } from '~/utils/blog'
 
 interface Props {
   /** The URL of the current page, e.g. `/projects/moons` */
-  href: string;
+  href: string
 }
-const { href } = Astro.props;
+const { href } = Astro.props
 // Code notes mostly link to each other, so a note's links skip the label there
-const onNote = href.startsWith('/notes/');
+const onNote = href.startsWith('/notes/')
 
 const [posts, projects, notes] = await Promise.all([
   getBlog(),
   getCollection('projects'),
   getCollection('codenotes'),
-]);
+])
 
 const pages = [
   ...posts.map((entry) => ({
@@ -32,57 +32,51 @@ const pages = [
     url: `/notes/${entry.id}`,
     type: 'Code note',
   })),
-];
+]
 
 // An entry with no date sorts last.
 const byDate = (a: (typeof pages)[number], b: (typeof pages)[number]) =>
-  (b.data.date?.valueOf() ?? 0) - (a.data.date?.valueOf() ?? 0);
+  (b.data.date?.valueOf() ?? 0) - (a.data.date?.valueOf() ?? 0)
 
 // Pages that link to this one. `/blog/moons` must not match `/blog/moons-2`.
-const mentionsThisPage = new RegExp(`${href}(?![\\w-])`);
+const mentionsThisPage = new RegExp(`${href}(?![\\w-])`)
 const backlinks = pages
-  .filter((entry) => entry.url !== href && mentionsThisPage.test(entry.body ?? ""))
-  .sort(byDate);
+  .filter((entry) => entry.url !== href && mentionsThisPage.test(entry.body ?? ''))
+  .sort(byDate)
 
 // Pages this one links to. Matches `](/blog/slug)` and `](/projects/slug#bit)`.
-const body = pages.find((entry) => entry.url === href)?.body ?? '';
+const body = pages.find((entry) => entry.url === href)?.body ?? ''
 const linked = new Set(
-  [...body.matchAll(/\]\((\/(?:blog|projects|notes)\/[\w-]+)[^)]*\)/g)].map(
-    (match) => match[1],
-  ),
-);
-const mentions = pages
-  .filter((entry) => entry.url !== href && linked.has(entry.url))
-  .sort(byDate);
+  [...body.matchAll(/\]\((\/(?:blog|projects|notes)\/[\w-]+)[^)]*\)/g)].map((match) => match[1]),
+)
+const mentions = pages.filter((entry) => entry.url !== href && linked.has(entry.url)).sort(byDate)
 
 // A mutual link belongs in one list only, so it is not named twice.
 const lists = [
   { title: 'Mentions', items: mentions },
   { title: 'Mentioned in', items: backlinks.filter((e) => !linked.has(e.url)) },
-].filter((list) => list.items.length);
+].filter((list) => list.items.length)
 ---
 
-{
-  lists.length ? (
-    <aside class="related">
-      {lists.map((list) => (
-        <section>
-          <h2 class="related-title">{list.title}</h2>
-          <ul class="related-list">
-            {list.items.map((entry) => (
-              <li>
-                <a href={entry.url}>{entry.data.title}</a>
-                {onNote && entry.type === 'Code note' ? null : (
-                  <span class="related-type"> • {entry.type}</span>
-                )}
-              </li>
-            ))}
-          </ul>
-        </section>
-      ))}
-    </aside>
-  ) : null
-}
+{lists.length ? (
+  <aside class="related">
+    {lists.map((list) => (
+      <section>
+        <h2 class="related-title">{list.title}</h2>
+        <ul class="related-list">
+          {list.items.map((entry) => (
+            <li>
+              <a href={entry.url}>{entry.data.title}</a>
+              {onNote && entry.type === 'Code note' ? null : (
+                <span class="related-type"> • {entry.type}</span>
+              )}
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </aside>
+) : null}
 
 <style lang="postcss">
   .related {

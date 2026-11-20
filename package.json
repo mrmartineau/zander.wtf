@@ -1,7 +1,7 @@
 {
   "name": "zander.wtf-astro",
-  "type": "module",
   "version": "0.0.1",
+  "type": "module",
   "scripts": {
     "dev": "wrangler types && portless zander astro dev",
     "start": "wrangler types && astro dev",
@@ -10,10 +10,10 @@
     "preview:cf": "wrangler dev",
     "astro": "astro",
     "check": "astro check",
-    "format": "biome format --write .",
-    "lint": "biome lint",
-    "lint:fix": "biome lint --write .",
-    "lint:check": "biome check --write .",
+    "format": "oxfmt",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "lint:check": "oxlint --fix && oxfmt",
     "test": "vitest run",
     "search:index": "tsx scripts/build-search-index.ts",
     "search:push": "tsx scripts/build-search-index.ts --target=remote"
@@ -56,10 +56,13 @@
     "url-merge": "^0.2.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.6.7",
+    "@astrojs/compiler-rs": "^0.5.3",
+    "@mrmartineau/kit": "^1.1.0",
     "@tailwindcss/postcss": "^4.3.5",
     "@tailwindcss/typography": "^0.5.20",
     "@types/node": "^26.6.6",
+    "oxfmt": "^0.79.0",
+    "oxlint": "^1.94.0",
     "postcss": "^8.5.32",
     "postcss-import": "^17.0.1",
     "postcss-import-ext-glob": "^2.1.1",

@@ -1,99 +1,89 @@
-import { Button, Dialog, Input } from '@mrmartineau/zui/solid';
-import { createEffect, createSignal, For, on } from 'solid-js';
-import type { NavItem } from './MenuBar';
-import { play } from './sound';
-import { open } from './store';
+import { Button, Dialog, Input } from '@mrmartineau/zui/solid'
+import { createEffect, createSignal, For, on } from 'solid-js'
+import type { NavItem } from './MenuBar'
+import { play } from './sound'
+import { open } from './store'
 
-type Hit = { title: string; url: string; type: string; emoji?: string };
+type Hit = { title: string; url: string; type: string; emoji?: string }
 
-export function Spotlight(props: {
-  open: boolean;
-  onClose: () => void;
-  apps: NavItem[];
-}) {
-  let input!: HTMLInputElement;
-  const [q, setQ] = createSignal('');
-  const [hits, setHits] = createSignal<Hit[]>([]);
-  const [cursor, setCursor] = createSignal(0);
-  let timer: number | undefined;
-  let ctrl: AbortController | undefined;
+export function Spotlight(props: { open: boolean; onClose: () => void; apps: NavItem[] }) {
+  let input!: HTMLInputElement
+  const [q, setQ] = createSignal('')
+  const [hits, setHits] = createSignal<Hit[]>([])
+  const [cursor, setCursor] = createSignal(0)
+  let timer: number | undefined
+  let ctrl: AbortController | undefined
 
   const apps = () =>
     props.apps
       .filter((a) => a.text.toLowerCase().includes(q().toLowerCase()))
-      .map<Hit>((a) => ({ title: a.text, url: a.url, type: 'app' }));
+      .map<Hit>((a) => ({ title: a.text, url: a.url, type: 'app' }))
 
-  const results = () => [...apps(), ...hits()];
+  const results = () => [...apps(), ...hits()]
 
   createEffect(
     on(q, (query) => {
-      clearTimeout(timer);
-      ctrl?.abort();
-      setCursor(0);
-      if (query.trim().length < 2) return setHits([]);
+      clearTimeout(timer)
+      ctrl?.abort()
+      setCursor(0)
+      if (query.trim().length < 2) return setHits([])
       timer = window.setTimeout(async () => {
-        ctrl = new AbortController();
+        ctrl = new AbortController()
         try {
-          const res = await fetch(
-            `/api/search?q=${encodeURIComponent(query)}&limit=8`,
-            { signal: ctrl.signal },
-          );
-          const data = (await res.json()) as { results?: Hit[] };
+          const res = await fetch(`/api/search?q=${encodeURIComponent(query)}&limit=8`, {
+            signal: ctrl.signal,
+          })
+          const data = (await res.json()) as { results?: Hit[] }
           setHits(
             (data.results ?? []).map((r: Hit) => ({
               ...r,
               url: new URL(r.url).pathname,
             })),
-          );
+          )
         } catch {
           /* aborted or offline */
         }
-      }, 150);
+      }, 150)
     }),
-  );
+  )
 
   createEffect(() => {
     if (props.open) {
-      setQ('');
-      setHits([]);
-      queueMicrotask(() => input.focus());
+      setQ('')
+      setHits([])
+      queueMicrotask(() => input.focus())
     }
-  });
+  })
 
   const pick = (hit: Hit) => {
-    open(hit.url, hit.title);
-    props.onClose();
-  };
+    open(hit.url, hit.title)
+    props.onClose()
+  }
 
   const onKey = (e: KeyboardEvent) => {
-    const n = results().length;
+    const n = results().length
     if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      setCursor((c) => (c + 1) % Math.max(n, 1));
-      play('tick');
+      e.preventDefault()
+      setCursor((c) => (c + 1) % Math.max(n, 1))
+      play('tick')
     } else if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      setCursor((c) => (c - 1 + n) % Math.max(n, 1));
-      play('tick');
+      e.preventDefault()
+      setCursor((c) => (c - 1 + n) % Math.max(n, 1))
+      play('tick')
     } else if (e.key === 'Enter') {
-      const hit = results()[cursor()];
-      if (hit) pick(hit);
+      const hit = results()[cursor()]
+      if (hit) pick(hit)
       else if (q().trim())
         pick({
           title: `Search: ${q()}`,
           url: `/search?q=${encodeURIComponent(q())}`,
           type: 'page',
-        });
+        })
     }
-  };
+  }
 
   return (
-    <Dialog
-      class="desk-spotlight"
-      open={props.open}
-      onClose={props.onClose}
-      closedby="any"
-    >
+    <Dialog class="desk-spotlight" open={props.open} onClose={props.onClose} closedby="any">
       <div class="desk-spotlight-field">
         <i class="ph ph-magnifying-glass" aria-hidden="true" />
         <Input
@@ -138,5 +128,5 @@ export function Spotlight(props: {
         </For>
       </ul>
     </Dialog>
-  );
+  )
 }

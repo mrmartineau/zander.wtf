@@ -9,28 +9,28 @@
 // BaseLayout's inline script shows the flavour list on its own, unstyled. It
 // imports its own CSS and icons, so it also works on the pages that skip
 // BaseLayout (/moons, /lil-debugger). Styles: src/styles/components/reactions.css.
-import { Reactions as Pill } from 'astro-d1-reactions/components';
-import appWindowIcon from '~/assets/icons/reactions/app-window.svg?raw';
-import browserIcon from '~/assets/icons/reactions/browser.svg?raw';
-import terminalIcon from '~/assets/icons/reactions/terminal-window.svg?raw';
-import textIcon from '~/assets/icons/reactions/text-aa.svg?raw';
-import { modeUrl } from '~/utils/uiMode';
-import '../styles/components/reactions.css';
+import { Reactions as Pill } from 'astro-d1-reactions/components'
+import appWindowIcon from '~/assets/icons/reactions/app-window.svg?raw'
+import browserIcon from '~/assets/icons/reactions/browser.svg?raw'
+import terminalIcon from '~/assets/icons/reactions/terminal-window.svg?raw'
+import textIcon from '~/assets/icons/reactions/text-aa.svg?raw'
+import { modeUrl } from '~/utils/uiMode'
+import '../styles/components/reactions.css'
 
 interface Props {
   /** The page path, e.g. /blog/my-post. Without one: the flavour switch only. */
-  slug?: string;
+  slug?: string
   /** Marks (highlights) as well as hearts and reads. */
-  highlights?: boolean;
+  highlights?: boolean
   /** The flavour switch. Off on pages that skip BaseLayout. */
-  flavours?: boolean;
+  flavours?: boolean
 }
 
-const { slug, highlights = true, flavours = true } = Astro.props;
-const icon = (svg: string) => svg.replace('<svg ', '<svg aria-hidden="true" ');
+const { slug, highlights = true, flavours = true } = Astro.props
+const icon = (svg: string) => svg.replace('<svg ', '<svg aria-hidden="true" ')
 
 // Same page, other front end. See src/utils/uiMode.ts.
-const here = Astro.url.pathname;
+const here = Astro.url.pathname
 const flavourList = [
   {
     mode: 'classic',
@@ -56,8 +56,9 @@ const flavourList = [
     icon: textIcon,
     blurb: 'No styles at all, just the browser',
   },
-] as const;
+] as const
 ---
+
 <Pill slug={slug ?? false} highlights={highlights} when="html.classic">
   {flavours && (
     <button
@@ -90,9 +91,7 @@ const flavourList = [
               <Fragment set:html={icon(f.icon)} />
               <span>
                 <strong>{f.label}</strong>
-                <span data-blurb={f.blurb}>
-                  {f.mode === 'classic' ? 'You are here' : f.blurb}
-                </span>
+                <span data-blurb={f.blurb}>{f.mode === 'classic' ? 'You are here' : f.blurb}</span>
               </span>
             </a>
           </li>

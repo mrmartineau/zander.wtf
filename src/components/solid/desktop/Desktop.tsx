@@ -1,21 +1,21 @@
-import { createSignal, For, onCleanup, onMount } from 'solid-js';
-import { isDesktop, servedPageMatches, stripPrefix } from '~/utils/uiMode';
-import { openFolder } from './Files';
-import { MenuBar, type NavItem } from './MenuBar';
-import { adopt, cleanTitle, isPageLink, seedHead, split } from './page';
-import { Spotlight } from './Spotlight';
-import { play } from './sound';
-import { close, isMobile, open, type Size, state, tile, topWin } from './store';
-import { Window } from './Window';
+import { createSignal, For, onCleanup, onMount } from 'solid-js'
+import { isDesktop, servedPageMatches, stripPrefix } from '~/utils/uiMode'
+import { openFolder } from './Files'
+import { MenuBar, type NavItem } from './MenuBar'
+import { adopt, cleanTitle, isPageLink, seedHead, split } from './page'
+import { play } from './sound'
+import { Spotlight } from './Spotlight'
+import { close, isMobile, open, type Size, state, tile, topWin } from './store'
+import { Window } from './Window'
 
 /** `size` overrides the window size the URL would otherwise get; `action`
  * replaces opening the URL. */
 type Icon = NavItem & {
-  icon: string;
-  img?: string;
-  size?: Size;
-  action?: () => void;
-};
+  icon: string
+  img?: string
+  size?: Size
+  action?: () => void
+}
 
 const ICONS: Icon[] = [
   { text: 'Blog', url: '/blog', icon: 'ph-article' },
@@ -31,117 +31,104 @@ const ICONS: Icon[] = [
   },
   { text: 'CV', url: '/cv', icon: 'ph-file-text' },
   { text: 'Files', url: '/#folder', icon: 'ph-folder', action: openFolder },
-];
+]
 
 export default function Desktop(props: { nav: NavItem[]; more: NavItem[] }) {
-  if (!isDesktop()) return null;
-  const [search, setSearch] = createSignal(false);
-  const [selected, setSelected] = createSignal('');
-  const coarse = matchMedia('(pointer: coarse)').matches;
-  const greeting = document.getElementById('greeting');
+  if (!isDesktop()) return null
+  const [search, setSearch] = createSignal(false)
+  const [selected, setSelected] = createSignal('')
+  const coarse = matchMedia('(pointer: coarse)').matches
+  const greeting = document.getElementById('greeting')
 
   // The page Astro rendered becomes the first window(s).
-  const page = document.getElementById('page');
+  const page = document.getElementById('page')
   if (page) {
-    seedHead();
-    const url = stripPrefix(
-      location.pathname + location.search + location.hash,
-    );
+    seedHead()
+    const url = stripPrefix(location.pathname + location.search + location.hash)
     if (!servedPageMatches(url)) {
       // The host handed us the home page for this URL; fetch the real one.
-      page.remove();
-      open(url);
+      page.remove()
+      open(url)
     } else {
-      const main = adopt(page);
-      const parts = split(main, url);
+      const main = adopt(page)
+      const parts = split(main, url)
       if (parts) {
-        for (const p of parts) open(p.url, p.title, p.node);
+        for (const p of parts) open(p.url, p.title, p.node)
       } else {
-        open(url, cleanTitle(document.title), main);
+        open(url, cleanTitle(document.title), main)
       }
     }
   }
 
   const onClick = (e: MouseEvent) => {
-    if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.button)
-      return;
-    const a = (e.target as Element).closest('a');
-    if (!a || !isPageLink(a)) return;
-    const url = new URL(a.href);
+    if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.button) return
+    const a = (e.target as Element).closest('a')
+    if (!a || !isPageLink(a)) return
+    const url = new URL(a.href)
     // Relative links resolve under /desktop/…; window URLs never carry it.
-    const path = stripPrefix(url.pathname + url.search);
+    const path = stripPrefix(url.pathname + url.search)
     // Same-page anchors scroll inside the window they live in.
     if (url.hash && path === topWin()?.url) {
-      e.preventDefault();
-      a.closest('.desk-win-body')
-        ?.querySelector(url.hash)
-        ?.scrollIntoView({ block: 'start' });
-      return;
+      e.preventDefault()
+      a.closest('.desk-win-body')?.querySelector(url.hash)?.scrollIntoView({ block: 'start' })
+      return
     }
-    e.preventDefault();
-    open(path, a.textContent?.trim() || path);
-  };
+    e.preventDefault()
+    open(path, a.textContent?.trim() || path)
+  }
 
   // GET forms (the search page) open their results in a window too.
   const onSubmit = (e: SubmitEvent) => {
-    const form = e.target as HTMLFormElement;
-    if (form.method.toLowerCase() !== 'get' || !form.closest('.desk-win')) return;
-    const url = new URL(form.action, location.href);
-    if (url.origin !== location.origin) return;
-    e.preventDefault();
-    url.search = new URLSearchParams(new FormData(form) as never).toString();
-    open(url.pathname + url.search, 'Search');
-  };
+    const form = e.target as HTMLFormElement
+    if (form.method.toLowerCase() !== 'get' || !form.closest('.desk-win')) return
+    const url = new URL(form.action, location.href)
+    if (url.origin !== location.origin) return
+    e.preventDefault()
+    url.search = new URLSearchParams(new FormData(form) as never).toString()
+    open(url.pathname + url.search, 'Search')
+  }
 
   const onKey = (e: KeyboardEvent) => {
-    const mod = e.metaKey || e.ctrlKey;
+    const mod = e.metaKey || e.ctrlKey
     if (mod && e.key === 'k') {
-      e.preventDefault();
-      setSearch((s) => !s);
+      e.preventDefault()
+      setSearch((s) => !s)
     } else if (mod && e.key === 'w') {
-      const top = topWin();
+      const top = topWin()
       if (top) {
-        e.preventDefault();
-        close(top.id);
+        e.preventDefault()
+        close(top.id)
       }
     } else if (mod && e.key === 't') {
-      e.preventDefault();
-      tile();
+      e.preventDefault()
+      tile()
     }
-  };
+  }
 
-  const onPop = () =>
-    open(stripPrefix(location.pathname + location.search + location.hash));
+  const onPop = () => open(stripPrefix(location.pathname + location.search + location.hash))
 
   onMount(() => {
-    document.addEventListener('click', onClick);
-    document.addEventListener('submit', onSubmit);
-    document.addEventListener('keydown', onKey);
-    addEventListener('popstate', onPop);
-  });
+    document.addEventListener('click', onClick)
+    document.addEventListener('submit', onSubmit)
+    document.addEventListener('keydown', onKey)
+    addEventListener('popstate', onPop)
+  })
   onCleanup(() => {
-    document.removeEventListener('click', onClick);
-    document.removeEventListener('submit', onSubmit);
-    document.removeEventListener('keydown', onKey);
-    removeEventListener('popstate', onPop);
-  });
+    document.removeEventListener('click', onClick)
+    document.removeEventListener('submit', onSubmit)
+    document.removeEventListener('keydown', onKey)
+    removeEventListener('popstate', onPop)
+  })
 
   const launch = (i: Icon) => {
-    if (i.action) i.action();
-    else open(i.url, i.text, null, i.size);
-    setSelected('');
-  };
+    if (i.action) i.action()
+    else open(i.url, i.text, null, i.size)
+    setSelected('')
+  }
 
   return (
-    <div
-      class="desk-root"
-      onPointerDown={(e) => e.target === e.currentTarget && setSelected('')}
-    >
-      <MenuBar
-        nav={props.nav}
-        more={props.more}
-        onSearch={() => setSearch(true)}
-      />
+    <div class="desk-root" onPointerDown={(e) => e.target === e.currentTarget && setSelected('')}>
+      <MenuBar nav={props.nav} more={props.more} onSearch={() => setSearch(true)} />
 
       <ul class="desk-icons" aria-label="Desktop">
         <For each={ICONS}>
@@ -152,9 +139,9 @@ export default function Desktop(props: { nav: NavItem[]; more: NavItem[] }) {
                 class="desk-icon"
                 aria-pressed={selected() === i.url}
                 onClick={() => {
-                  if (coarse || isMobile()) return launch(i);
-                  setSelected(i.url);
-                  play('tick');
+                  if (coarse || isMobile()) return launch(i)
+                  setSelected(i.url)
+                  play('tick')
                 }}
                 onDblClick={() => launch(i)}
                 onKeyDown={(e) => e.key === 'Enter' && launch(i)}
@@ -171,10 +158,7 @@ export default function Desktop(props: { nav: NavItem[]; more: NavItem[] }) {
         </For>
       </ul>
 
-      <div
-        class="desk-greeting"
-        ref={(el) => greeting && el.appendChild(greeting)}
-      />
+      <div class="desk-greeting" ref={(el) => greeting && el.appendChild(greeting)} />
 
       <div class="desk-wins">
         <For each={state.wins}>{(w) => <Window win={w} />}</For>
@@ -186,5 +170,5 @@ export default function Desktop(props: { nav: NavItem[]; more: NavItem[] }) {
         apps={ICONS.filter((i) => !i.action)}
       />
     </div>
-  );
+  )
 }

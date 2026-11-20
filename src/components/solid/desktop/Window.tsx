@@ -1,6 +1,6 @@
-import { createEffect, onMount, Show } from 'solid-js';
-import { fetchPage, split } from './page';
-import { play } from './sound';
+import { createEffect, onMount, Show } from 'solid-js'
+import { fetchPage, split } from './page'
+import { play } from './sound'
 import {
   close,
   focus,
@@ -13,100 +13,99 @@ import {
   state,
   toggleMax,
   type Win,
-} from './store';
+} from './store'
 
-const GLITCH_SETS = ['ss01', 'ss02', 'ss03', 'ss04', 'ss05'];
+const GLITCH_SETS = ['ss01', 'ss02', 'ss03', 'ss04', 'ss05']
 
 /** Flicker the title through Alpha Lyrae's stylistic sets for a moment. */
 function glitch(el: HTMLElement) {
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  let frames = 6;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return
+  let frames = 6
   const step = () => {
-    const set = GLITCH_SETS[Math.floor(Math.random() * GLITCH_SETS.length)];
-    el.style.fontFeatureSettings = frames-- > 0 ? `'${set}' 1` : '';
-    if (frames >= 0) setTimeout(step, 50);
-  };
-  step();
+    const set = GLITCH_SETS[Math.floor(Math.random() * GLITCH_SETS.length)]
+    el.style.fontFeatureSettings = frames-- > 0 ? `'${set}' 1` : ''
+    if (frames >= 0) setTimeout(step, 50)
+  }
+  step()
 }
 
-type Drag = { onMove: (dx: number, dy: number) => void };
+type Drag = { onMove: (dx: number, dy: number) => void }
 
 function drag(e: PointerEvent, d: Drag) {
-  if (e.button !== 0 || isMobile()) return;
-  e.preventDefault();
-  const sx = e.clientX;
-  const sy = e.clientY;
-  const el = e.currentTarget as HTMLElement;
-  el.setPointerCapture(e.pointerId);
-  const onMove = (ev: PointerEvent) =>
-    d.onMove(ev.clientX - sx, ev.clientY - sy);
+  if (e.button !== 0 || isMobile()) return
+  e.preventDefault()
+  const sx = e.clientX
+  const sy = e.clientY
+  const el = e.currentTarget as HTMLElement
+  el.setPointerCapture(e.pointerId)
+  const onMove = (ev: PointerEvent) => d.onMove(ev.clientX - sx, ev.clientY - sy)
   const onUp = () => {
-    el.removeEventListener('pointermove', onMove);
-    el.removeEventListener('pointerup', onUp);
-  };
-  el.addEventListener('pointermove', onMove);
-  el.addEventListener('pointerup', onUp);
+    el.removeEventListener('pointermove', onMove)
+    el.removeEventListener('pointerup', onUp)
+  }
+  el.addEventListener('pointermove', onMove)
+  el.addEventListener('pointerup', onUp)
 }
 
 export function Window(props: { win: Win }) {
-  let body!: HTMLDivElement;
-  let title!: HTMLSpanElement;
-  let lastScroll = 0;
+  let body!: HTMLDivElement
+  let title!: HTMLSpanElement
+  let lastScroll = 0
 
-  const isTop = () => state.wins.every((w) => w.min || w.z <= props.win.z);
+  const isTop = () => state.wins.every((w) => w.min || w.z <= props.win.z)
 
   onMount(async () => {
-    glitch(title);
-    if (props.win.content) return;
+    glitch(title)
+    if (props.win.content) return
     try {
-      const page = await fetchPage(props.win.url);
-      const parts = split(page.main, props.win.url);
+      const page = await fetchPage(props.win.url)
+      const parts = split(page.main, props.win.url)
       if (parts?.length === 1 && parts[0].url === props.win.url) {
         // One section, already sized for it: keep this window.
-        setContent(props.win.id, parts[0].title, parts[0].node);
+        setContent(props.win.id, parts[0].title, parts[0].node)
       } else if (parts) {
         // This placeholder becomes one window per section (or none).
-        close(props.win.id, true);
-        for (const p of parts) open(p.url, p.title, p.node);
+        close(props.win.id, true)
+        for (const p of parts) open(p.url, p.title, p.node)
       } else {
-        setContent(props.win.id, page.title, page.main);
+        setContent(props.win.id, page.title, page.main)
       }
-      for (const s of page.scripts) document.head.appendChild(s);
+      for (const s of page.scripts) document.head.appendChild(s)
     } catch {
-      const err = document.createElement('main');
-      err.className = 'desk-page';
-      err.innerHTML = `<p>Could not load <code>${props.win.url}</code>.</p>`;
-      setContent(props.win.id, 'Error', err);
+      const err = document.createElement('main')
+      err.className = 'desk-page'
+      err.innerHTML = `<p>Could not load <code>${props.win.url}</code>.</p>`
+      setContent(props.win.id, 'Error', err)
     }
-  });
+  })
 
   createEffect(() => {
-    const node = props.win.content;
-    if (node && node.parentElement !== body) body.replaceChildren(node);
-  });
+    const node = props.win.content
+    if (node && node.parentElement !== body) body.replaceChildren(node)
+  })
 
   const onScroll = () => {
-    const y = body.scrollTop;
+    const y = body.scrollTop
     if (Math.abs(y - lastScroll) >= 24) {
-      lastScroll = y;
-      play('scroll');
+      lastScroll = y
+      play('scroll')
     }
-  };
+  }
 
-  const onButton = (e: Event) => !!(e.target as Element).closest('button');
+  const onButton = (e: Event) => !!(e.target as Element).closest('button')
 
   const startMove = (e: PointerEvent) => {
-    if (props.win.max || onButton(e)) return;
-    const { x, y } = props.win;
+    if (props.win.max || onButton(e)) return
+    const { x, y } = props.win
     drag(e, {
       onMove: (dx, dy) => move(props.win.id, x + dx, Math.max(0, y + dy)),
-    });
-  };
+    })
+  }
 
   const startResize = (e: PointerEvent) => {
-    const { w, h } = props.win;
-    drag(e, { onMove: (dx, dy) => resize(props.win.id, w + dx, h + dy) });
-  };
+    const { w, h } = props.win
+    drag(e, { onMove: (dx, dy) => resize(props.win.id, w + dx, h + dy) })
+  }
 
   return (
     <section
@@ -128,7 +127,7 @@ export function Window(props: { win: Win }) {
       aria-label={props.win.title}
       onPointerDown={() => !isTop() && focus(props.win.id)}
     >
-      {/* biome-ignore lint/a11y/noStaticElementInteractions: drag handle; the buttons inside stay keyboard-reachable */}
+      {/* drag handle; the buttons inside stay keyboard-reachable */}
       <header
         class="desk-win-bar"
         onPointerDown={startMove}
@@ -184,5 +183,5 @@ export function Window(props: { win: Win }) {
       </Show>
       <span class="desk-win-resize" onPointerDown={startResize} aria-hidden="true" />
     </section>
-  );
+  )
 }

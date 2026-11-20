@@ -1,9 +1,9 @@
 ---
-import Status from '~/components/Status.astro';
-import { SITE_FOOTER_ITEMS } from '../consts';
-import BigName from './BigName.astro';
+import Status from '~/components/Status.astro'
+import { SITE_FOOTER_ITEMS } from '../consts'
+import BigName from './BigName.astro'
 
-const today = new Date();
+const today = new Date()
 ---
 
 <Status />
@@ -12,26 +12,33 @@ const today = new Date();
   <div class="grid gap-l">
     <nav>
       <ul class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2xs">
-        {
-          SITE_FOOTER_ITEMS.map((item) => {
-            return (
-              <li>
-                <a href={item.url} rel={item.rel} aria-keyshortcuts={item.key} target={item.external ? '_blank' : '_self'}>
-                  {item.text}
-                  {item.external ? <i class="ph-duotone ph-arrow-up-right" /> : null}
-                </a>
-              </li>
-            );
-          })
-        }
+        {SITE_FOOTER_ITEMS.map((item) => {
+          return (
+            <li>
+              <a
+                href={item.url}
+                rel={item.rel}
+                aria-keyshortcuts={item.key}
+                target={item.external ? '_blank' : '_self'}
+              >
+                {item.text}
+                {item.external ? <i class="ph-duotone ph-arrow-up-right" /> : null}
+              </a>
+            </li>
+          )
+        })}
       </ul>
     </nav>
     <div>
       <p>
-        &copy; {today.getFullYear()} Zander Martineau • <a
+        &copy; {today.getFullYear()} Zander Martineau •{' '}
+        <a
           href={`https://github.com/mrmartineau/zander.wtf/commit/${__COMMIT_HASH__}`}
           class="commit-hash"
-        >#{__COMMIT_HASH__}</a> • This site is always under construction. 🚧
+        >
+          #{__COMMIT_HASH__}
+        </a>{' '}
+        • This site is always under construction. 🚧
       </p>
     </div>
   </div>

@@ -1,14 +1,14 @@
 ---
-import type { CollectionEntry } from 'astro:content';
-import GithubReadme from '~/components/GithubReadme.astro';
-import PageHeader from '~/components/PageHeader.astro';
-import ProjectScreenshots from '~/components/ProjectScreenshots.astro';
-import RelatedLinks from '~/components/RelatedLinks.astro';
-import ShortUrl from '~/components/ShortUrl.astro';
-import BaseLayout from './BaseLayout.astro';
+import type { CollectionEntry } from 'astro:content'
+import GithubReadme from '~/components/GithubReadme.astro'
+import PageHeader from '~/components/PageHeader.astro'
+import ProjectScreenshots from '~/components/ProjectScreenshots.astro'
+import RelatedLinks from '~/components/RelatedLinks.astro'
+import ShortUrl from '~/components/ShortUrl.astro'
+import BaseLayout from './BaseLayout.astro'
 
-type Props = CollectionEntry<'projects'>;
-const { data, id: slug } = Astro.props;
+type Props = CollectionEntry<'projects'>
+const { data, id: slug } = Astro.props
 const {
   title,
   date,
@@ -23,12 +23,12 @@ const {
   pricing,
   image,
   type,
-} = data;
+} = data
 
 // Parse "https://github.com/user/repo" → { user, repo }
-const githubMatch = repo?.match(/github\.com\/([^/]+)\/([^/]+)/);
-const githubUser = githubMatch?.[1];
-const githubRepo = githubMatch?.[2];
+const githubMatch = repo?.match(/github\.com\/([^/]+)\/([^/]+)/)
+const githubUser = githubMatch?.[1]
+const githubRepo = githubMatch?.[2]
 ---
 
 <BaseLayout
@@ -38,75 +38,57 @@ const githubRepo = githubMatch?.[2];
   reactions={{ slug: `/projects/${slug}`, highlights: false }}
 >
   <article class="zm-contentContainer">
-    {
-      type === 'ios-app' && image ? (
-        <img src={image} alt="" class="tool-icon" width="96" height="96" />
-      ) : null
-    }
+    {type === 'ios-app' && image ? (
+      <img src={image} alt="" class="tool-icon" width="96" height="96" />
+    ) : null}
     <PageHeader title={title} subtitle={subtitle} date={date} showType={false} />
 
     <div class="tool-meta">
-      {
-        link?.startsWith('/') ? (
-          <a href={link} class="tool-link">zander.wtf{link}</a>
-        ) : link ? (
-          <a href={link} target="_blank" rel="noopener noreferrer" class="tool-link">
-            <ShortUrl url={link} />
-          </a>
-        ) : null
-      }
-      {
-        appStore ? (
-          <a
-            href={appStore}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="tool-badge"
-          >
-            <img
-              src="/images/download-on-the-app-store.svg"
-              alt="Download on the App Store"
-              width="120"
-              height="40"
-            />
-          </a>
-        ) : null
-      }
-      {
-        testFlight ? (
-          <a
-            href={testFlight}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="tool-link"
-          >
-            <i class="ph-duotone ph-paper-plane-tilt" />
-            TestFlight
-          </a>
-        ) : null
-      }
-      {
-        repo ? (
-          <a href={repo} target="_blank" rel="noopener noreferrer" class="tool-link">
-            <i class="ph-duotone ph-github-logo" />
-            Repo
-          </a>
-        ) : null
-      }
+      {link?.startsWith('/') ? (
+        <a href={link} class="tool-link">
+          zander.wtf{link}
+        </a>
+      ) : link ? (
+        <a href={link} target="_blank" rel="noopener noreferrer" class="tool-link">
+          <ShortUrl url={link} />
+        </a>
+      ) : null}
+      {appStore ? (
+        <a href={appStore} target="_blank" rel="noopener noreferrer" class="tool-badge">
+          <img
+            src="/images/download-on-the-app-store.svg"
+            alt="Download on the App Store"
+            width="120"
+            height="40"
+          />
+        </a>
+      ) : null}
+      {testFlight ? (
+        <a href={testFlight} target="_blank" rel="noopener noreferrer" class="tool-link">
+          <i class="ph-duotone ph-paper-plane-tilt" />
+          TestFlight
+        </a>
+      ) : null}
+      {repo ? (
+        <a href={repo} target="_blank" rel="noopener noreferrer" class="tool-link">
+          <i class="ph-duotone ph-github-logo" />
+          Repo
+        </a>
+      ) : null}
       {tech ? <span class="tool-tech">{tech}</span> : null}
     </div>
 
-    {
-      screenshots?.length ? (
-        <ProjectScreenshots screenshots={screenshots} title={title} />
-      ) : null
-    }
+    {screenshots?.length ? <ProjectScreenshots screenshots={screenshots} title={title} /> : null}
 
     <div class="article flow">
       <slot />
     </div>
 
-    {pricing ? <p class="tool-pricing my-m"><b>Pricing:</b> {pricing}</p> : null}
+    {pricing ? (
+      <p class="tool-pricing my-m">
+        <b>Pricing:</b> {pricing}
+      </p>
+    ) : null}
 
     {showReadme && githubUser && githubRepo ? (
       <details class="collapsible mt-l">
@@ -120,8 +102,7 @@ const githubRepo = githubMatch?.[2];
     <RelatedLinks href={`/projects/${slug}`} />
 
     <footer class="tool-footer">
-      <span class="mono">&gt;</span>{' '}
-      <a href="/projects">cd ..</a>
+      <span class="mono">&gt;</span> <a href="/projects">cd ..</a>
     </footer>
   </article>
 </BaseLayout>

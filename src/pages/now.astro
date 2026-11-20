@@ -1,46 +1,43 @@
 ---
-import { SITE_METADATA } from 'src/consts';
-import { fetchMedia, transformMediaToNow } from 'src/fetching/media';
-import { fetchMovies, transformMoviesToNow } from 'src/fetching/movies';
-import { fetchMusic, transformMusicToNow } from 'src/fetching/music';
-import { fetchShows } from 'src/fetching/shows';
-import type { NowMediaItem } from 'src/types';
-import NowMedia from '~/components/NowMedia.astro';
-import ContentLayout from '~/layouts/ContentLayout.astro';
+import { SITE_METADATA } from 'src/consts'
+import { fetchMedia, transformMediaToNow } from 'src/fetching/media'
+import { fetchMovies, transformMoviesToNow } from 'src/fetching/movies'
+import { fetchMusic, transformMusicToNow } from 'src/fetching/music'
+import { fetchShows } from 'src/fetching/shows'
+import type { NowMediaItem } from 'src/types'
+import NowMedia from '~/components/NowMedia.astro'
+import ContentLayout from '~/layouts/ContentLayout.astro'
 
-const slug = 'now';
+const slug = 'now'
 
-let transformedMovies: NowMediaItem[] = [];
-let tv: NowMediaItem[] = [];
-let transformedMusicArtists: NowMediaItem[] = [];
-let transformedMusicAlbums: NowMediaItem[] = [];
-let podcasts: NowMediaItem[] = [];
-let books: NowMediaItem[] = [];
+let transformedMovies: NowMediaItem[] = []
+let tv: NowMediaItem[] = []
+let transformedMusicArtists: NowMediaItem[] = []
+let transformedMusicAlbums: NowMediaItem[] = []
+let podcasts: NowMediaItem[] = []
+let books: NowMediaItem[] = []
 
 try {
-  const media = await fetchMedia();
-  books = transformMediaToNow(media.book);
-  podcasts = transformMediaToNow(media.podcast);
+  const media = await fetchMedia()
+  books = transformMediaToNow(media.book)
+  podcasts = transformMediaToNow(media.podcast)
 } catch (err) {
-  console.error(err);
+  console.error(err)
 }
-tv = await fetchShows();
+tv = await fetchShows()
 try {
-  const movies = await fetchMovies(5);
-  transformedMovies = transformMoviesToNow(movies);
+  const movies = await fetchMovies(5)
+  transformedMovies = transformMoviesToNow(movies)
 } catch (err) {
-  console.error(err);
+  console.error(err)
 }
 
 try {
-  const music = await fetchMusic();
-  transformedMusicArtists = await transformMusicToNow(
-    music.topArtists,
-    'artist',
-  );
-  transformedMusicAlbums = await transformMusicToNow(music.topAlbums, 'album');
+  const music = await fetchMusic()
+  transformedMusicArtists = await transformMusicToNow(music.topArtists, 'artist')
+  transformedMusicAlbums = await transformMusicToNow(music.topAlbums, 'album')
 } catch (err) {
-  console.error(err);
+  console.error(err)
 }
 ---
 
@@ -52,17 +49,21 @@ try {
 >
   <div class="flow">
     <p>
-      This is a <a href="https://nownownow.com/about">now</a> page, and if you have
-      your own site, you should make one, too.
+      This is a <a href="https://nownownow.com/about">now</a> page, and if you have your own site,
+      you should make one, too.
     </p>
     <h2>Watching</h2>
-    {transformedMovies?.length ? (<NowMedia title="Movies" items={transformedMovies} />) : null}
-    {tv?.length ? (<NowMedia title="TV Shows" items={tv} />) : null}
+    {transformedMovies?.length ? <NowMedia title="Movies" items={transformedMovies} /> : null}
+    {tv?.length ? <NowMedia title="TV Shows" items={tv} /> : null}
     <h2>Listening</h2>
-    {transformedMusicAlbums?.length ? (<NowMedia title="Top albums" items={transformedMusicAlbums} square />) : null}
-    {transformedMusicArtists?.length ? (<NowMedia title="Top artists" items={transformedMusicArtists} square />) : null}
-    {podcasts?.length ? (<NowMedia title="Podcasts" items={podcasts} square />) : null}
+    {transformedMusicAlbums?.length ? (
+      <NowMedia title="Top albums" items={transformedMusicAlbums} square />
+    ) : null}
+    {transformedMusicArtists?.length ? (
+      <NowMedia title="Top artists" items={transformedMusicArtists} square />
+    ) : null}
+    {podcasts?.length ? <NowMedia title="Podcasts" items={podcasts} square /> : null}
     <h2>Reading</h2>
-    {books?.length ? (<NowMedia title="Books" items={books} />) : null}
+    {books?.length ? <NowMedia title="Books" items={books} /> : null}
   </div>
 </ContentLayout>

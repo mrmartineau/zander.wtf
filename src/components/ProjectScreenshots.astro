@@ -1,36 +1,24 @@
 ---
 type Screenshot = {
-  src: string;
-  alt?: string;
-};
+  src: string
+  alt?: string
+}
 
 type Props = {
-  screenshots: Screenshot[];
-  title: string;
-};
+  screenshots: Screenshot[]
+  title: string
+}
 
-const { screenshots, title } = Astro.props;
+const { screenshots, title } = Astro.props
 ---
 
-{
-  screenshots?.length ? (
-    <div
-      class="zm-screenshots"
-      role="group"
-      aria-label={`${title} screenshots`}
-      tabindex="0"
-    >
-      {screenshots.map(({ src, alt }, i) => (
-        <img
-          src={src}
-          alt={alt ?? `${title} screenshot ${i + 1}`}
-          loading="lazy"
-          decoding="async"
-        />
-      ))}
-    </div>
-  ) : null
-}
+{screenshots?.length ? (
+  <div class="zm-screenshots" role="group" aria-label={`${title} screenshots`} tabindex="0">
+    {screenshots.map(({ src, alt }, i) => (
+      <img src={src} alt={alt ?? `${title} screenshot ${i + 1}`} loading="lazy" decoding="async" />
+    ))}
+  </div>
+) : null}
 
 <style>
   .zm-screenshots {

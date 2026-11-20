@@ -8,7 +8,7 @@
  *   pnpm search:push             # build + push to remote D1 (CI/prod)
  *   npx tsx scripts/build-search-index.ts --dry-run  # write SQL only
  */
-import { runCli } from 'astro-d1-search/indexer';
-import searchConfig from '../search.config';
+import { runCli } from 'astro-d1-search/indexer'
+import searchConfig from '../search.config'
 
-runCli(searchConfig);
+runCli(searchConfig)

@@ -1,23 +1,22 @@
 ---
-import { fetchLinks } from '../fetching/links';
-import Block from './Block.astro';
-import LinkFeedItem from './LinkFeedItem.astro';
+import { fetchLinks } from '../fetching/links'
+import Block from './Block.astro'
+import LinkFeedItem from './LinkFeedItem.astro'
 
-const links = await fetchLinks(4);
+const links = await fetchLinks(4)
 ---
 
 <Block title="Links" subtitle="Hand-picked hyperlinks, all saved in my Otter bookmarking app">
   <div class="zm-links flex flex-col gap-xs">
-    {
-      links.map((item) => {
-        if (!item?.title) {
-          return null;
-        }
+    {links.map((item) => {
+      if (!item?.title) {
+        return null
+      }
 
-        return <LinkFeedItem {...item} isFeed={false} />;
-      })
-    }
+      return <LinkFeedItem {...item} isFeed={false} />
+    })}
   </div>
-  <a href="/links" class="zm-block-link">View all links →</a>
+  <a href="/links" class="zm-block-link">
+    View all links →
+  </a>
 </Block>
-

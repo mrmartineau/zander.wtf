@@ -24,7 +24,7 @@ Site-wide full-text search on Cloudflare D1 (SQLite FTS5), bound as `SEARCH_DB`.
 - The integration injects the `/api/search` route from the package and passes config through a Vite virtual module (`virtual:astro-d1-search-config`). It also validates the `wrangler.toml` D1 binding at startup.
 - Index builds emit `search-index.sql` and execute it via `wrangler d1 execute`. There's no migration step — `migrations/0001_search_index.sql` is historical. Rebuild the index after adding or editing content; CI does it automatically after each deploy.
 - `/api/search` is an open endpoint with CORS `*` — the Raycast extension consumes it too, so don't tighten it without updating that.
-- `raycast-extension/` is a standalone npm package: **not** in the pnpm workspace, excluded from the root tsconfig and Biome. Use `npm` inside it, not `pnpm`.
+- `raycast-extension/` is a standalone npm package: **not** in the pnpm workspace, excluded from the root tsconfig, oxlint and oxfmt. Use `npm` inside it, not `pnpm`.
 - Local dev gets the D1 binding from the adapter's `platformProxy`; local data lives in `.wrangler/state/v3/d1`.
 
 ### Reactions

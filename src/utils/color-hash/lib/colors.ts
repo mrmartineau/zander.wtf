@@ -5,15 +5,15 @@
  * @returns {String} 6 digits hex starting with #
  */
 const RGB2HEX = (RGBArray: number[]) => {
-  var hex = '#';
+  var hex = '#'
   RGBArray.forEach((value) => {
     if (value < 16) {
-      hex += 0;
+      hex += 0
     }
-    hex += value.toString(16);
-  });
-  return hex;
-};
+    hex += value.toString(16)
+  })
+  return hex
+}
 
 /**
  * Convert HSL to RGB
@@ -25,29 +25,29 @@ const RGB2HEX = (RGBArray: number[]) => {
  * @returns {Array} R, G, B ∈ [0, 255]
  */
 const HSL2RGB = (H: number, S: number, L: number) => {
-  H /= 360;
+  H /= 360
 
-  var q = L < 0.5 ? L * (1 + S) : L + S - L * S;
-  var p = 2 * L - q;
+  var q = L < 0.5 ? L * (1 + S) : L + S - L * S
+  var p = 2 * L - q
 
   return [H + 1 / 3, H, H - 1 / 3].map((color) => {
     if (color < 0) {
-      color++;
+      color++
     }
     if (color > 1) {
-      color--;
+      color--
     }
     if (color < 1 / 6) {
-      color = p + (q - p) * 6 * color;
+      color = p + (q - p) * 6 * color
     } else if (color < 0.5) {
-      color = q;
+      color = q
     } else if (color < 2 / 3) {
-      color = p + (q - p) * 6 * (2 / 3 - color);
+      color = p + (q - p) * 6 * (2 / 3 - color)
     } else {
-      color = p;
+      color = p
     }
-    return Math.round(color * 255);
-  });
-};
+    return Math.round(color * 255)
+  })
+}
 
-export { RGB2HEX, HSL2RGB };
+export { RGB2HEX, HSL2RGB }

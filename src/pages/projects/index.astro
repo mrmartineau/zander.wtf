@@ -1,15 +1,15 @@
 ---
-import { getCollection } from 'astro:content';
-import { SITE_METADATA } from 'src/consts';
-import ProjectList from '~/components/ProjectList.astro';
-import ProjectSpotlight from '~/components/ProjectSpotlight.astro';
-import ContentLayout from '~/layouts/ContentLayout.astro';
+import { getCollection } from 'astro:content'
+import { SITE_METADATA } from 'src/consts'
+import ProjectList from '~/components/ProjectList.astro'
+import ProjectSpotlight from '~/components/ProjectSpotlight.astro'
+import ContentLayout from '~/layouts/ContentLayout.astro'
 
 const projects = (await getCollection('projects')).sort(
   (a, b) =>
     Number(b.data.promote) - Number(a.data.promote) ||
     b.data.date.valueOf() - a.data.date.valueOf(),
-);
+)
 
 const sections = [
   { type: 'ios-app', label: 'iOS apps' },
@@ -26,9 +26,9 @@ const sections = [
     ...section,
     projects: projects.filter((project) => project.data.type === section.type),
   }))
-  .filter((section) => section.projects.length > 0);
+  .filter((section) => section.projects.length > 0)
 
-const slug = 'projects';
+const slug = 'projects'
 ---
 
 <ContentLayout
@@ -39,37 +39,33 @@ const slug = 'projects';
     slug: '/projects',
     frontmatter: {
       reactions: true,
-    }
+    },
   }}
 >
   <nav class="zm-project-nav" aria-label="Jump to a section">
-    {
-      sections.map(({ type, label, projects }) => (
-        <a href={`#${type}`}>
-          {label}
-          <span class="zm-project-nav__count">{projects.length}</span>
-        </a>
-      ))
-    }
+    {sections.map(({ type, label, projects }) => (
+      <a href={`#${type}`}>
+        {label}
+        <span class="zm-project-nav__count">{projects.length}</span>
+      </a>
+    ))}
   </nav>
 
   <div class="zm-project-sections">
-    {
-      sections.map(({ type, label, projects }) => (
-        <section class="zm-project-section" id={type}>
-          <h2>{label}</h2>
-          {type === 'ios-app' ? (
-            <div class="zm-project-spotlights">
-              {projects.map((project) => (
-                <ProjectSpotlight project={project} />
-              ))}
-            </div>
-          ) : (
-            <ProjectList projects={projects} />
-          )}
-        </section>
-      ))
-    }
+    {sections.map(({ type, label, projects }) => (
+      <section class="zm-project-section" id={type}>
+        <h2>{label}</h2>
+        {type === 'ios-app' ? (
+          <div class="zm-project-spotlights">
+            {projects.map((project) => (
+              <ProjectSpotlight project={project} />
+            ))}
+          </div>
+        ) : (
+          <ProjectList projects={projects} />
+        )}
+      </section>
+    ))}
   </div>
 </ContentLayout>
 
@@ -125,5 +121,4 @@ const slug = 'projects';
     gap: var(--space-m);
     margin-block-start: var(--space-s);
   }
-
 </style>

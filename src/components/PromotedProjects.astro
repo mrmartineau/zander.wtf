@@ -1,34 +1,32 @@
 ---
-import { getCollection } from 'astro:content';
-import ProjectRow from './ProjectRow.astro';
-import ProjectSpotlight from './ProjectSpotlight.astro';
+import { getCollection } from 'astro:content'
+import ProjectRow from './ProjectRow.astro'
+import ProjectSpotlight from './ProjectSpotlight.astro'
 
 // The newest promoted project gets the spotlight; the rest are listed beside it.
 const [newest, ...rest] = (await getCollection('projects'))
   .filter((project) => project.data?.promote)
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
 ---
 
-{
-  newest ? (
-    <div class="zm-promoted">
-      <ProjectSpotlight project={newest} label="New" />
-      <aside class="zm-promoted-rest">
-        <h4>Also building</h4>
-        <ul>
-          {rest.map((project) => (
-            <li>
-              <ProjectRow project={project} />
-            </li>
-          ))}
-        </ul>
-        <a href="/projects" class="zm-promoted-all">
-          View all projects →
-        </a>
-      </aside>
-    </div>
-  ) : null
-}
+{newest ? (
+  <div class="zm-promoted">
+    <ProjectSpotlight project={newest} label="New" />
+    <aside class="zm-promoted-rest">
+      <h4>Also building</h4>
+      <ul>
+        {rest.map((project) => (
+          <li>
+            <ProjectRow project={project} />
+          </li>
+        ))}
+      </ul>
+      <a href="/projects" class="zm-promoted-all">
+        View all projects →
+      </a>
+    </aside>
+  </div>
+) : null}
 
 <style>
   .zm-promoted {
