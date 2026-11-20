@@ -128,7 +128,7 @@ export function Window(props: { win: Win }) {
       aria-label={props.win.title}
       onPointerDown={() => !isTop() && focus(props.win.id)}
     >
-      {/* biome-ignore lint/a11y/noStaticElementInteractions: drag handle; the buttons inside stay keyboard-reachable */}
+      {/* drag handle; the buttons inside stay keyboard-reachable */}
       <header
         class="desk-win-bar"
         onPointerDown={startMove}
