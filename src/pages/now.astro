@@ -3,6 +3,7 @@ import { SITE_METADATA } from 'src/consts';
 import { fetchMedia, transformMediaToNow } from 'src/fetching/media';
 import { fetchMovies, transformMoviesToNow } from 'src/fetching/movies';
 import { fetchMusic, transformMusicToNow } from 'src/fetching/music';
+import { fetchShows } from 'src/fetching/shows';
 import type { NowMediaItem } from 'src/types';
 import NowMedia from '~/components/NowMedia.astro';
 import ContentLayout from '~/layouts/ContentLayout.astro';
@@ -19,11 +20,11 @@ let books: NowMediaItem[] = [];
 try {
   const media = await fetchMedia();
   books = transformMediaToNow(media.book);
-  tv = transformMediaToNow(media.tv);
   podcasts = transformMediaToNow(media.podcast);
 } catch (err) {
   console.error(err);
 }
+tv = await fetchShows();
 try {
   const movies = await fetchMovies(5);
   transformedMovies = transformMoviesToNow(movies);
